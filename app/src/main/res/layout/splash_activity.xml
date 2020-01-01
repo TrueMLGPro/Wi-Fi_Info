@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:gravity="center">
+
+	<ImageView
+		android:layout_width="300dp"
+		android:layout_height="300dp"
+		android:src="@drawable/splash_screen_icon"
+		android:padding="25dp"
+		android:layout_marginBottom="16dp"
+		android:id="@+id/splash_logo"/>
+
+	<TextView
+		android:id="@+id/splash_text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Wi-Fi Info"
+		android:textColor="#FFFFFF"
+		android:textSize="30sp"
+		android:elevation="20dp"/>
+
+</LinearLayout>
+

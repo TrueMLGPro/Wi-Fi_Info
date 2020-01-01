@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+	<item
+		android:id="@+id/dev_info"
+		android:title="Developer Info" />
+	
+	<item
+		android:id="@+id/discord_servers"
+		android:title="Discord Servers" />
+	
+	<item
+		android:id="@+id/supporters"
+		android:title="Supporters (WIP)" />
+	
+	<item
+		android:id="@+id/settings"
+		android:enabled="false"
+		android:title="Settings (Coming Soon)" />
+    
+</menu>

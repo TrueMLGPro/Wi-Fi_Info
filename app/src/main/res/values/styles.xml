@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
+		<item name="colorPrimary">#343434</item>
+		<item name="colorPrimaryDark">#272727</item>
+		<item name="colorAccent">#2087DF</item>
+		<item name="android:navigationBarColor">#343434</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+	</style>
+
+	<style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="colorPrimary">#FAFAFA</item>
+		<item name="colorPrimaryDark">#C2C2C2</item>
+		<item name="colorAccent">#2087DF</item>
+		<item name="android:navigationBarColor">#FFFFFF</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+	</style>
+	
+	<style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/rounded_shape</item>
+	</style>
+</resources>
