@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
-		<item name="colorPrimary">#343434</item>
-		<item name="colorPrimaryDark">#272727</item>
+		<item name="colorPrimary">#303030</item>
+		<item name="colorPrimaryDark">#242424</item>
 		<item name="colorAccent">#2087DF</item>
-		<item name="android:navigationBarColor">#343434</item>
+		<item name="android:navigationBarColor">#303030</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
 	</style>

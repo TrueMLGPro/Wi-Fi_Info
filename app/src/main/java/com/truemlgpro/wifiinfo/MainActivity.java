@@ -69,14 +69,15 @@ public class MainActivity extends AppCompatActivity
 			ActivityCompat.requestPermissions(this, Permissions, Permission_All);
 		}
 		
-		if(android.os.Build.VERSION.SDK_INT > 25) {
+		if(android.os.Build.VERSION.SDK_INT > 25 && android.os.Build.VERSION.SDK_INT < 29) {
 			// Notify User if GPS is disabled
 			isLocationEnabled();
 			if(!isLocationEnabled()) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 				builder.setTitle("Location is Disabled")
 				.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) on Android 8+ \n\nClick Enable to grant Wi-Fi Info permission to show SSID and BSSID")
-					.setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+				.setIcon(R.drawable.location)
+				.setPositiveButton("Enable", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					showToastOnEnable();
 					startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
@@ -94,6 +95,31 @@ public class MainActivity extends AppCompatActivity
 			}
 		}
 		
+		if(android.os.Build.VERSION.SDK_INT == 29) {
+			// Notify User if GPS is disabled
+			isLocationEnabled();
+			if(!isLocationEnabled()) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				builder.setTitle("Location is Disabled")
+					.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) and Network ID on Android 10 \n\nClick Enable to grant Wi-Fi Info permission to show SSID, BSSID and Network ID")
+					.setIcon(R.drawable.location)
+					.setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							showToastOnEnableAPI29();
+							startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+						}
+					})
+					.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							showToastOnCancelAPI29();
+							dialog.cancel();
+						}
+					});
+				builder.setCancelable(false);
+				AlertDialog alert = builder.create();
+				alert.show();
+			}
+		}
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		calligrapher.setFont(this, "fonts/GoogleSans-Medium.ttf", true);
@@ -101,7 +127,7 @@ public class MainActivity extends AppCompatActivity
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(false);
-		actionbar.setSubtitle("Release v1.3_debug");
+		actionbar.setSubtitle("Release v1.3_b");
 		actionbar.setElevation(20);
 	    }
 	
@@ -110,7 +136,7 @@ public class MainActivity extends AppCompatActivity
 		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		
         if (!WiFiCheck.isConnected()) {
-			Toast.makeText(this, "No Connection", Toast.LENGTH_LONG).show();
+			textview.setText("No Connection");
 			Intent ServiceIntent = new Intent(MainActivity.this, NotificationService.class);
 			stopService(ServiceIntent);
         } else {
@@ -142,6 +168,16 @@ public class MainActivity extends AppCompatActivity
 	
 	public void showToastOnCancel() {
 		Toast toast = Toast.makeText(this, "SSID and BSSID of current network won't be shown", Toast.LENGTH_LONG);
+		toast.show();
+	}
+	
+	public void showToastOnEnableAPI29() {
+		Toast toast = Toast.makeText(this, "Enable Location to show SSID, BSSID and Network ID of current network", Toast.LENGTH_LONG);
+		toast.show();
+	}
+	
+	public void showToastOnCancelAPI29() {
+		Toast toast = Toast.makeText(this, "SSID, BSSID and Network ID of current network won't be shown", Toast.LENGTH_LONG);
 		toast.show();
 	}
 	
@@ -210,7 +246,6 @@ public class MainActivity extends AppCompatActivity
 	@Override
 	protected void onStart()
 	{
- 		// TODO: Implement this method
 		super.onStart();
 		handler.post(runnable);
 	}
@@ -219,14 +254,33 @@ public class MainActivity extends AppCompatActivity
 	@Override
 	protected void onStop()
 	{
-		// TODO: Implement this method
 		super.onStop();
 		handler.removeCallbacks(runnable);
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		builder.setTitle("Are you sure?")
+			.setMessage("Do you want to exit?")
+			.setIcon(R.drawable.exit)
+			.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					Toast toast = Toast.makeText(MainActivity.this, "See you next time!", Toast.LENGTH_LONG);
+					toast.show();
+					finish();
+				}
+			})
+			.setNegativeButton("Cancel", null);
+		builder.setCancelable(false);
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 	
 	@Override 
 	public boolean onCreateOptionsMenu(Menu menu) {
-	// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.action_bar_menu, menu);
 		return true;
 	}

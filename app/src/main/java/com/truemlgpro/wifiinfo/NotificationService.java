@@ -73,14 +73,14 @@ public class NotificationService extends Service
 		int ipAddress = wInfo.getIpAddress();
 		int network_id = wInfo.getNetworkId();
 		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
-		String normalInfo = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
+		// String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
 		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + rssi + "dBm" + "\n" + 
 		"Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
 
 		builder.setContentIntent(content_intent)
 			.setSmallIcon(R.drawable.notification_icon)
 			.setContentTitle("IP: " + ip)
-			.setContentText(normalInfo)
+				.setContentText("SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm")
 			.setWhen(System.currentTimeMillis())
 			.setPriority(5)
 			.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))

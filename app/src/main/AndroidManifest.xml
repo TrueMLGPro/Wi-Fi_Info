@@ -30,8 +30,8 @@
         </activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.MainActivity"
-			android:screenOrientation="portrait"
-			android:label="@string/app_name">
+			android:label="@string/app_name"
+			android:screenOrientation="portrait">
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.DevInfoActivity"

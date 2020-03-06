@@ -4,8 +4,8 @@
 	<color name="primaryTextColorLight">#000000</color>
 	<color name="secondaryTextColorDark">#FFFFFF</color>
 	<color name="secondaryTextColorLight">#000000</color>
-	<color name="backgroundColorDark">#282828</color>
-	<color name="backgroundColorLight">#FFFFFF</color>
+	<color name="backgroundColorDark">#202020</color>
+	<color name="backgroundColorLight">#F3F3F3</color>
 	<color name="buttonColor">#2087DF</color>
 
 </resources>
