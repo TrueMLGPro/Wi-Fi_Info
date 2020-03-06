@@ -154,8 +154,8 @@ public class MainActivity extends AppCompatActivity
 			String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
 			SupplicantState supState = wInfo.getSupplicantState();
 			int network_id = wInfo.getNetworkId();
-			String info = "MAC Address: " + macAdd + "\n" + "BSSID: " + bssd + "\n" + "SSID: " + ssid + "\n" + "IP Address: " + ip + "\n" +
-				"RSSI (Signal Strength): " + rssi + "dBm" + "\n" + "Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "Network ID: " + network_id + "\n" + "Supplicant State: " + supState;
+			String info = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "IP Address: " + ip + "\n" +
+				"RSSI (Signal Strength): " + rssi + "dBm" + "\n" + "Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "Network ID: " + network_id + "\n" + "MAC Address: " + macAdd + "\n" + "Supplicant State: " + supState;
 			textview.setText(info);
 		}
 
