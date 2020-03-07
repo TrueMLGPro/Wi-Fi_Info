@@ -12,3 +12,5 @@
 * Network ID
 * MAC Address
 * Supplicant State
+
+Go to **Releases** to get the *latest* app version! (1.3_b)
