@@ -1,4 +1,4 @@
-# Wi-Fi_Info
+# Wi-Fi Info
 Wi-Fi Info Android Project
 
 Shows information about network you are connected to.
