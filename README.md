@@ -10,4 +10,5 @@ Shows information about network you are connected to.
 * Frequency
 * Network Speed
 * Network ID
+* MAC Address
 * Supplicant State
