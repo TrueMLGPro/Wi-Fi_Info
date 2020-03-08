@@ -35,7 +35,7 @@ Go to **Releases** to get the latest app version! **(1.3_b)**
 - [ ] • Add SettingsActivity and add NotificationService stop method **(1.3)**
 - [ ] • Add Notification Settings on SettingsActivity to change notification priority and update frequency **(1.3)**
 - [ ] • Add Total TX (Sent Packets) and Total RX (Received Packets) to info string **(1.4)**
-- [ ] • Add Notification Layout Customizer "*(1.4) (maybe)*"
+- [ ] • Add Notification Layout Customizer **(1.4) (maybe)**
 - [ ] • Add Wi-Fi password manager **(1.4) (maybe)**
 - [ ] • Create a home screen widget with network info **(1.4) (maybe)**
 - [ ] • Add download/upload monitoring **(1.4)**
