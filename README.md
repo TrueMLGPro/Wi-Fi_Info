@@ -21,6 +21,8 @@
 
 Go to **Releases** to get the latest app version! **(1.3_b)**
 
+[Discord Server](https://discord.gg/qXE2DFr)
+
 # TODO List
 
 - [x] • Remake "No Connection" method, show dialog on app start if there is no Wi-Fi connection **(1.3)**
