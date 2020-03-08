@@ -19,7 +19,7 @@
 * __Network Speed__
 * __Network ID__
 * __MAC Address__
-* __Supplicant State__
+* __WPA Supplicant State__
 
 Go to **Releases** to get the latest app version! **(1.3_b)**
 
