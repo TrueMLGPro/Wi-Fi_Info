@@ -6,7 +6,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/TrueMLGPro/Wi-Fi_Info.svg)](https://github.com/TrueMLGPro/Wi-Fi_Info/issues/)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/TrueMLGPro/Wi-Fi_Info.svg)](https://GitHub.com/TrueMLGPro/Wi-Fi_Info/issues?q=is%3Aissue+is%3Aclosed)
 [![Website truemlgpro.github.io](https://img.shields.io/website-up-down-green-red/https/truemlgpro.github.io/Wi-Fi_Info.svg)](https://truemlgpro.github.io/Wi-Fi_Info/)
-[![Discord](https://img.shields.io/discord/601107291915419658.svg)](https://discord.gg/qXE2DFr)
+[![Discord](https://img.shields.io/discord/601107291915419658.svg)](https://discord.gg/qxE2DFr)
 ### Wi-Fi Info Android Project
 
 ***Shows information about network you are connected to.***
@@ -23,7 +23,7 @@
 
 Go to **Releases** to get the latest app version! **(1.3_b)**
 
-[Discord Server](https://discord.gg/qXE2DFr)
+[Discord Server](https://discord.gg/qxE2DFr)
 
 # TODO List
 
