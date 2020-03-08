@@ -1,6 +1,10 @@
 # Wi-Fi Info
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![GitHub release](https://img.shields.io/github/release/TrueMLGPro/Wi-Fi_Info.svg)](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)
-## Wi-Fi Info Android Project
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+[![GitHub release](https://img.shields.io/github/release/TrueMLGPro/Wi-Fi_Info.svg)](https://GitHub.com/TrueMLGPro/Wi-Fi_Info/releases/)
+[![Github all releases](https://img.shields.io/github/downloads/TrueMLGPro/Wi-Fi_Info/total.svg)](https://GitHub.com/TrueMLGPro/Wi-Fi_Info/releases/)
+[![GitHub contributors](https://img.shields.io/github/contributors/TrueMLGPro/Wi-Fi_Info.svg)](https://GitHub.com/TrueMLGPro/Wi-Fi_Info/graphs/contributors/)
+[![Website truemlgpro.github.io](https://img.shields.io/website-up-down-green-red/https/truemlgpro.github.io/Wi-Fi_Info.svg)](https://truemlgpro.github.io/Wi-Fi_Info/)
+### Wi-Fi Info Android Project
 
 ***Shows information about network you are connected to.***
 
