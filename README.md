@@ -1,5 +1,6 @@
 # Wi-Fi Info
-### Wi-Fi Info Android Project
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![GitHub release](https://img.shields.io/github/release/TrueMLGPro/Wi-Fi_Info.svg)](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)
+## Wi-Fi Info Android Project
 
 ***Shows information about network you are connected to.***
 
