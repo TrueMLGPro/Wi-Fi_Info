@@ -3,14 +3,34 @@
 
 ***Shows information about network you are connected to.***
 
-* SSID
-* BSSID
-* IP
-* RSSI
-* Frequency
-* Network Speed
-* Network ID
-* MAC Address
-* Supplicant State
+* __SSID__
+* __BSSID__
+* __IP__
+* __RSSI__
+* __Frequency__
+* __Network Speed__
+* __Network ID__
+* __MAC Address__
+* __Supplicant State__
 
 Go to **Releases** to get the *latest* app version! (1.3_b)
+
+# TODO List
+
+- [x] Remake "No Connection" method, show dialog on app start if there is no Wi-Fi connection (1.3)
+- [x] Revamp DiscordServersActivity (1.3)
+- [x] Rename servers on DiscordServersActivity (1.3)
+- [x] Add Developers/Supporters activity (1.3)
+- [ ] Redesign the whole app, move Toolbar menu items to NavigationDrawer, change app font style (1.3)
+- [ ] Add animations on activity start (text fade in, moving text) (1.3)
+- [ ] Rename "IP Address" to "Local IP" (1.3)
+- [ ] Add IPv6 and rename "IP" to "IPv4" (1.3)
+- [ ] Add names, avatars and descriptions on SupportersActivity (1.3)
+- [ ] Add AppShortcuts (home screen activity shortcuts) for intents (1.3)
+- [ ] Add SettingsActivity and add NotificationService stop method (1.3)
+- [ ] Add Notification Settings on SettingsActivity to change notification priority and update frequency (1.3)
+- [ ] Add Total TX (Sent Packets) and Total RX (Received Packets) to info string (1.4)
+- [ ] Add Notification Layout Customizer (1.4) (maybe)
+- [ ] Add Wi-Fi password manager (1.4) (maybe)
+- [ ] Create a home screen widget with network info (1.4) (maybe)
+- [ ] Add download/upload monitoring (1.4)
