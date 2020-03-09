@@ -27,7 +27,7 @@ Go to **Releases** to get the latest app version! **(1.3_b)**
 
 # TODO List
 
-- [x] • Remake "No Connection" method, show dialog on app start if there is no Wi-Fi connection **(1.3)**
+- [x] • Remake "No Connection" detection method **(1.3)**
 - [x] • Revamp DiscordServersActivity **(1.3)**
 - [x] • Rename servers on DiscordServersActivity **(1.3)**
 - [x] • Add Developers/Supporters activity **(1.3)**
