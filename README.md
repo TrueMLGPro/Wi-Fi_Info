@@ -32,7 +32,7 @@ Go to **Releases** to get the latest app version! **(1.3_b)**
 - [x] • Rename servers on DiscordServersActivity **(1.3)**
 - [x] • Add Developers/Supporters activity **(1.3)**
 - [x] • Add name at the bottom of SplashActivity **(1.3)**
-- [ ] • Redesign the whole app, move Toolbar menu items to NavigationDrawer, change app font style **(1.3)**
+- [ ] • Redesign the whole app, move Toolbar menu items to NavigationDrawer **(1.3)**
 - [ ] • Add animations on activity start (text fade in, moving text) **(1.3)**
 - [ ] • Rename "IP Address" to "Local IP" **(1.3)**
 - [ ] • Add IPv6 and rename "IP" to "IPv4" **(1.3)**
