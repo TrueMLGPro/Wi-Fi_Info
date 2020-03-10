@@ -3,4 +3,8 @@ show_downloads: true
 title: Wi-Fi Info
 description: Simple but powerful!
 markdown: kramdown
+<<<<<<< HEAD
 highlighter: rouge
+=======
+highlighter: rouge
+>>>>>>> 95f1ee1955d30153f0baee0cde88a7308002fd29
