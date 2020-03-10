@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 theme: jekyll-theme-cayman
 show_downloads: true
 title: Wi-Fi Info
@@ -6,5 +7,14 @@ markdown: kramdown
 <<<<<<< HEAD
 highlighter: rouge
 =======
+highlighter: rouge
+>>>>>>> 95f1ee1955d30153f0baee0cde88a7308002fd29
+||||||| 78d8418
+=======
+theme: jekyll-theme-cayman
+show_downloads: true
+title: Wi-Fi Info
+description: Simple but powerful!
+markdown: kramdown
 highlighter: rouge
 >>>>>>> 95f1ee1955d30153f0baee0cde88a7308002fd29
