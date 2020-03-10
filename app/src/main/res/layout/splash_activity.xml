@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical"
-	android:gravity="center">
+	android:layout_height="fill_parent">
 
 	<ImageView
-		android:layout_width="300dp"
-		android:layout_height="300dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
 		android:src="@drawable/splash_screen_icon"
-		android:padding="25dp"
-		android:layout_marginBottom="16dp"
-		android:id="@+id/splash_logo"/>
+		android:id="@+id/splash_logo"
+		android:layout_centerHorizontal="true"
+		android:layout_centerVertical="true"
+		android:padding="8dp"
+		android:adjustViewBounds="true"/>
 
 	<TextView
 		android:id="@+id/splash_text"
@@ -20,8 +20,33 @@
 		android:layout_height="wrap_content"
 		android:text="Wi-Fi Info"
 		android:textColor="#FFFFFF"
-		android:textSize="30sp"
-		android:elevation="20dp"/>
+		android:textSize="32sp"
+		android:elevation="20dp"
+		android:layout_gravity="center"
+		android:layout_marginTop="8dp"
+		android:layout_marginBottom="100dp"
+		android:layout_below="@id/splash_logo"
+		android:layout_centerHorizontal="true"/>
 
-</LinearLayout>
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:layout_marginBottom="16dp"
+		android:layout_alignParentBottom="true">
+
+		<TextView
+			android:id="@+id/dev_name"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="TrueMLGPro • 2020"
+			android:textColor="#FFFFFF"
+			android:textSize="16sp"
+			android:elevation="20dp"
+			android:layout_gravity="center"/>
+
+	</LinearLayout>
+
+</RelativeLayout>
 

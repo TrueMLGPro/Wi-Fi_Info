@@ -16,9 +16,9 @@ public class SupportersActivity extends AppCompatActivity
 {
 	
 	private Toolbar toolbar;
-	private DrawerLayout mDrawerLayout;
+	private ScrollView scrollView;
 	private TextView supporters_textview;
-	private TextView supporters_list;
+	private TextView anyx_text;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -29,9 +29,9 @@ public class SupportersActivity extends AppCompatActivity
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		scrollView = (ScrollView) findViewById(R.id.scrollView);
 		supporters_textview = (TextView) findViewById(R.id.supporters_textview);
-		supporters_list = (TextView) findViewById(R.id.supporters_list);
+		anyx_text = (TextView) findViewById(R.id.anyx_text);
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		calligrapher.setFont(this, "fonts/GoogleSans-Medium.ttf", true);
@@ -49,6 +49,6 @@ public class SupportersActivity extends AppCompatActivity
 					finish();
 				}
 			});
-
+		
 	}
 }

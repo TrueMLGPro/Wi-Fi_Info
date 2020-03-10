@@ -1,52 +1,309 @@
-<android.support.v4.widget.DrawerLayout
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:id="@+id/drawer_layout"
+	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:fitsSystemWindows="true">
+	android:orientation="vertical"
+	android:background="@color/backgroundColorDark">
 
-	<FrameLayout
-		android:id="@+id/content_frame"
+	<android.support.v7.widget.Toolbar
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+		app:navigationIcon="?attr/homeAsUpIndicator"
+		app:titleTextColor="#FFFFFF"
+		app:subtitleTextColor="#FFFFFF"/>
+
+	<ScrollView
+		android:id="@+id/scrollView"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:orientation="vertical"
-		android:background="@color/backgroundColorDark">
-
-		<android.support.v7.widget.Toolbar
-			android:id="@+id/toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			android:background="?attr/colorPrimary"
-			android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-			app:navigationIcon="?attr/homeAsUpIndicator"
-			app:titleTextColor="#FFFFFF"
-			app:subtitleTextColor="#FFFFFF"/>
+		android:fillViewport="true">
 
 		<LinearLayout
-			android:id="@+id/linearlayout1"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical"
-			android:gravity="center">
-			
+			android:layout_height="match_parent">
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
 				<TextView
 					android:id="@+id/supporters_textview"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textSize="30sp"
+					android:textSize="32sp"
 					android:textColor="#FFFFFF"
-					android:layout_marginBottom="16dp"
-					android:text="Supporters" />
-				
+					android:text="Supporters"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="72dp"/>
+
+				<com.mikhaellopez.circularimageview.CircularImageView
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/anyx_pfp"
+					android:layout_width="64dp"
+					android:layout_height="64dp"
+					android:src="@drawable/Anyx"
+					app:civ_border_color="#EEEEEE"
+					app:civ_border_width="1dp"
+					app:civ_shadow="true"
+					app:civ_shadow_radius="4"
+					app:civ_shadow_color="#151515"
+					android:layout_centerHorizontal="true"
+					android:layout_below="@id/supporters_textview"
+					android:layout_marginTop="16dp"/>
+
 				<TextView
-					android:id="@+id/supporters_list"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textSize="18sp"
+					android:textSize="24sp"
 					android:textColor="#FFFFFF"
-					android:text="Supporters List"/>
-		
-			</LinearLayout>
-	</FrameLayout>
-</android.support.v4.widget.DrawerLayout>
+					android:text="Anyx#0951"
+					android:layout_below="@+id/anyx_pfp"
+					android:layout_gravity="center"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:id="@+id/anyx_text"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• App Tester"
+					android:layout_below="@id/anyx_text"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textColor="#FFFFFF"
+					android:textSize="16sp"
+					android:id="@+id/anyx_tester"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• Contributor"
+					android:layout_below="@id/anyx_tester"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textSize="16sp"
+					android:textColor="#FFFFFF"
+					android:id="@+id/anyx_contributor"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• Idea Provider"
+					android:layout_below="@id/anyx_contributor"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textSize="16sp"
+					android:textColor="#FFFFFF"
+					android:id="@+id/anyx_idea"/>
+
+				<com.mikhaellopez.circularimageview.CircularImageView
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/andrew_pfp"
+					android:layout_width="64dp"
+					android:layout_height="64dp"
+					android:src="@drawable/GW_Andrew"
+					app:civ_border_color="#EEEEEE"
+					app:civ_border_width="1dp"
+					app:civ_shadow="true"
+					app:civ_shadow_radius="4"
+					app:civ_shadow_color="#151515"
+					android:layout_centerHorizontal="true"
+					android:layout_below="@id/anyx_idea"
+					android:layout_marginTop="16dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="24sp"
+					android:textColor="#FFFFFF"
+					android:text="GW Andrew#6457"
+					android:layout_below="@+id/andrew_pfp"
+					android:layout_gravity="center"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:id="@+id/andrew_text"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• App Tester"
+					android:layout_below="@id/andrew_text"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textColor="#FFFFFF"
+					android:textSize="16sp"
+					android:id="@+id/andrew_tester"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• Contributor"
+					android:layout_below="@id/andrew_tester"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textSize="16sp"
+					android:textColor="#FFFFFF"
+					android:id="@+id/andrew_contributor"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• Idea Provider"
+					android:layout_below="@id/andrew_contributor"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textSize="16sp"
+					android:textColor="#FFFFFF"
+					android:id="@+id/andrew_idea"/>
+
+				<com.mikhaellopez.circularimageview.CircularImageView
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/never_pfp"
+					android:layout_width="64dp"
+					android:layout_height="64dp"
+					android:src="@drawable/NeverAltNutsss"
+					app:civ_border_color="#EEEEEE"
+					app:civ_border_width="1dp"
+					app:civ_shadow="true"
+					app:civ_shadow_radius="4"
+					app:civ_shadow_color="#151515"
+					android:layout_centerHorizontal="true"
+					android:layout_below="@id/andrew_idea"
+					android:layout_marginTop="16dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="24sp"
+					android:textColor="#FFFFFF"
+					android:text="NeverAltNutsss#0141"
+					android:layout_below="@+id/never_pfp"
+					android:layout_gravity="center"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:id="@+id/never_text"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• App Tester"
+					android:layout_below="@id/never_text"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textColor="#FFFFFF"
+					android:textSize="16sp"
+					android:id="@+id/never_tester"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• Idea Provider"
+					android:layout_below="@id/never_tester"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textSize="16sp"
+					android:textColor="#FFFFFF"
+					android:id="@+id/never_idea"/>
+
+				<com.mikhaellopez.circularimageview.CircularImageView
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/torneix_pfp"
+					android:layout_width="64dp"
+					android:layout_height="64dp"
+					android:src="@drawable/Torneix"
+					app:civ_border_color="#EEEEEE"
+					app:civ_border_width="1dp"
+					app:civ_shadow="true"
+					app:civ_shadow_radius="4"
+					app:civ_shadow_color="#151515"
+					android:layout_centerHorizontal="true"
+					android:layout_below="@id/never_idea"
+					android:layout_marginTop="16dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="24sp"
+					android:textColor="#FFFFFF"
+					android:text="Torneix#8754"
+					android:layout_below="@+id/torneix_pfp"
+					android:layout_gravity="center"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:id="@+id/torneix_text"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• App Tester"
+					android:layout_below="@id/torneix_text"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textColor="#FFFFFF"
+					android:textSize="16sp"
+					android:id="@+id/torneix_tester"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• Idea Provider"
+					android:layout_below="@id/torneix_tester"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textSize="16sp"
+					android:textColor="#FFFFFF"
+					android:id="@+id/torneix_idea"/>
+
+				<com.mikhaellopez.circularimageview.CircularImageView
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/terrin_pfp"
+					android:layout_width="64dp"
+					android:layout_height="64dp"
+					android:src="@drawable/Terrin_Tin"
+					app:civ_border_color="#EEEEEE"
+					app:civ_border_width="1dp"
+					app:civ_shadow="true"
+					app:civ_shadow_radius="4"
+					app:civ_shadow_color="#151515"
+					android:layout_centerHorizontal="true"
+					android:layout_below="@id/torneix_idea"
+					android:layout_marginTop="16dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="24sp"
+					android:textColor="#FFFFFF"
+					android:text="Terrin Tin#5462"
+					android:layout_below="@+id/terrin_pfp"
+					android:layout_gravity="center"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:id="@+id/terrin_text"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• App Tester"
+					android:layout_below="@id/terrin_text"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textColor="#FFFFFF"
+					android:textSize="16sp"
+					android:id="@+id/terrin_tester"
+					android:layout_marginBottom="24dp"/>
+
+			</RelativeLayout>
+
+		</LinearLayout>
+
+	</ScrollView>
+
+</FrameLayout>
+

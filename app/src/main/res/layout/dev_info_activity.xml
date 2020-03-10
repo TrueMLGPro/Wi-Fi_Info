@@ -36,11 +36,11 @@
 				android:layout_width="wrap_content"
 				android:textColor="@android:color/white"
 				android:text="Developer Info"
-				android:textSize="25sp"
+				android:textSize="30sp"
 				android:layout_marginBottom="8dp"/>
 			
 			<br.com.bloder.magic.view.MagicButton
-				android:layout_marginTop="10dp"
+				android:layout_marginTop="8dp"
 				android:id="@+id/magic_button1"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -48,14 +48,14 @@
 				app:button_icon="@drawable/discord"
 				app:button_icon_width="40dp"
 				app:button_icon_height="40dp"
-				app:hide_text="❄️TrueMLGPro⛄#0709"
+				app:hide_text="🐱️TrueMLGPro🌟#0001"
 				app:hide_text_size="12px"
 				app:hide_text_color="@android:color/white"
-				app:icon_button_color="#738ADB"
-				app:expandable_area_color="#738ADB" />
+				app:icon_button_color="#7690F5"
+				app:expandable_area_color="#9BA2FB" />
 			
 			<br.com.bloder.magic.view.MagicButton
-				android:layout_marginTop="10dp"
+				android:layout_marginTop="12dp"
 				android:id="@+id/magic_button2"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -69,13 +69,28 @@
 				app:icon_button_color="#FFFFFF"
 				app:expandable_area_color="#FF0000" />
 			
+			<br.com.bloder.magic.view.MagicButton
+				android:layout_marginTop="12dp"
+				android:id="@+id/magic_button3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				app:magic_button_size="65dp"
+				app:button_icon="@drawable/github"
+				app:button_icon_width="40dp"
+				app:button_icon_height="40dp"
+				app:hide_text="TrueMLGPro/Wi-Fi_Info"
+				app:hide_text_size="12px"
+				app:hide_text_color="@android:color/white"
+				app:icon_button_color="#000000"
+				app:expandable_area_color="#151515" />
+			
 		</LinearLayout>
 		
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="bottom"
-			android:layout_marginBottom="8dp"
+			android:layout_marginBottom="16dp"
 			android:orientation="vertical">
 			
 			<TextView
@@ -84,7 +99,7 @@
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
 				android:layout_marginBottom="4dp"
-				android:text="App Version: Release 1.3"
+				android:text="App Version: Release 1.3_b"
 				android:textSize="16sp"
 				android:textColor="#FFFFFF" />
 		

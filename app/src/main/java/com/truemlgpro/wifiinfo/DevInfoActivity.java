@@ -27,7 +27,7 @@ public class DevInfoActivity extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dev_info_main);
+		setContentView(R.layout.dev_info_activity);
 		
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
