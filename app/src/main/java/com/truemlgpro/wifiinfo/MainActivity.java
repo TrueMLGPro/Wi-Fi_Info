@@ -206,7 +206,8 @@ public class MainActivity extends AppCompatActivity
 		try {
 			List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
 			for (NetworkInterface nif : all) {
-				if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+				if (!nif.getName().equalsIgnoreCase("wlan0"))
+					continue;
 				
 				byte[] macBytes = nif.getHardwareAddress();
 				if (macBytes == null) {
@@ -214,9 +215,8 @@ public class MainActivity extends AppCompatActivity
 				}
 				
 				StringBuilder res1 = new StringBuilder();
-				for (byte b : macBytes) { 
-					// res1.append(Integer.toHexString(b & 0xFF) + ":"); 
-					res1.append(String.format("%02X:",b));
+				for (byte b : macBytes) {  
+					res1.append(String.format("%02X:", b));
 				}
 				
 				if (res1.length() > 0) {

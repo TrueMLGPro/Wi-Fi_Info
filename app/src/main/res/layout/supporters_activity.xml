@@ -54,7 +54,7 @@
 					app:civ_shadow_radius="4"
 					app:civ_shadow_color="#151515"
 					android:layout_centerHorizontal="true"
-					android:layout_below="@id/supporters_textview"
+					android:layout_below="@+id/supporters_textview"
 					android:layout_marginTop="16dp"/>
 
 				<TextView
@@ -73,7 +73,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• App Tester"
-					android:layout_below="@id/anyx_text"
+					android:layout_below="@+id/anyx_text"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textColor="#FFFFFF"
@@ -84,7 +84,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• Contributor"
-					android:layout_below="@id/anyx_tester"
+					android:layout_below="@+id/anyx_tester"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textSize="16sp"
@@ -95,7 +95,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• Idea Provider"
-					android:layout_below="@id/anyx_contributor"
+					android:layout_below="@+id/anyx_contributor"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textSize="16sp"
@@ -114,7 +114,7 @@
 					app:civ_shadow_radius="4"
 					app:civ_shadow_color="#151515"
 					android:layout_centerHorizontal="true"
-					android:layout_below="@id/anyx_idea"
+					android:layout_below="@+id/anyx_idea"
 					android:layout_marginTop="16dp"/>
 
 				<TextView
@@ -133,7 +133,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• App Tester"
-					android:layout_below="@id/andrew_text"
+					android:layout_below="@+id/andrew_text"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textColor="#FFFFFF"
@@ -144,7 +144,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• Contributor"
-					android:layout_below="@id/andrew_tester"
+					android:layout_below="@+id/andrew_tester"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textSize="16sp"
@@ -155,7 +155,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• Idea Provider"
-					android:layout_below="@id/andrew_contributor"
+					android:layout_below="@+id/andrew_contributor"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textSize="16sp"
@@ -174,7 +174,7 @@
 					app:civ_shadow_radius="4"
 					app:civ_shadow_color="#151515"
 					android:layout_centerHorizontal="true"
-					android:layout_below="@id/andrew_idea"
+					android:layout_below="@+id/andrew_idea"
 					android:layout_marginTop="16dp"/>
 
 				<TextView
@@ -193,7 +193,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• App Tester"
-					android:layout_below="@id/never_text"
+					android:layout_below="@+id/never_text"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textColor="#FFFFFF"
@@ -204,12 +204,61 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• Idea Provider"
-					android:layout_below="@id/never_tester"
+					android:layout_below="@+id/never_tester"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textSize="16sp"
 					android:textColor="#FFFFFF"
 					android:id="@+id/never_idea"/>
+				
+				<com.mikhaellopez.circularimageview.CircularImageView
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/rouge_pfp"
+					android:layout_width="64dp"
+					android:layout_height="64dp"
+					android:src="@drawable/Rouge"
+					app:civ_border_color="#EEEEEE"
+					app:civ_border_width="1dp"
+					app:civ_shadow="true"
+					app:civ_shadow_radius="4"
+					app:civ_shadow_color="#151515"
+					android:layout_centerHorizontal="true"
+					android:layout_below="@+id/never_idea"
+					android:layout_marginTop="16dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="24sp"
+					android:textColor="#FFFFFF"
+					android:text="Rouge#4556"
+					android:layout_below="@+id/rouge_pfp"
+					android:layout_gravity="center"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:id="@+id/rouge_text"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• App Tester"
+					android:layout_below="@+id/rouge_text"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textColor="#FFFFFF"
+					android:textSize="16sp"
+					android:id="@+id/rouge_tester"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• Idea Provider"
+					android:layout_below="@+id/rouge_tester"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textSize="16sp"
+					android:textColor="#FFFFFF"
+					android:id="@+id/rouge_idea"/>
 
 				<com.mikhaellopez.circularimageview.CircularImageView
 					xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -223,7 +272,7 @@
 					app:civ_shadow_radius="4"
 					app:civ_shadow_color="#151515"
 					android:layout_centerHorizontal="true"
-					android:layout_below="@id/never_idea"
+					android:layout_below="@+id/rouge_idea"
 					android:layout_marginTop="16dp"/>
 
 				<TextView
@@ -242,7 +291,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• App Tester"
-					android:layout_below="@id/torneix_text"
+					android:layout_below="@+id/torneix_text"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textColor="#FFFFFF"
@@ -253,7 +302,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• Idea Provider"
-					android:layout_below="@id/torneix_tester"
+					android:layout_below="@+id/torneix_tester"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textSize="16sp"
@@ -272,7 +321,7 @@
 					app:civ_shadow_radius="4"
 					app:civ_shadow_color="#151515"
 					android:layout_centerHorizontal="true"
-					android:layout_below="@id/torneix_idea"
+					android:layout_below="@+id/torneix_idea"
 					android:layout_marginTop="16dp"/>
 
 				<TextView
@@ -291,7 +340,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• App Tester"
-					android:layout_below="@id/terrin_text"
+					android:layout_below="@+id/terrin_text"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textColor="#FFFFFF"

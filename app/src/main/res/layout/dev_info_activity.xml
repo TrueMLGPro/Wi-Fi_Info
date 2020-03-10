@@ -1,159 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:id="@+id/drawer_layout"
+	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:fitsSystemWindows="true">
+	android:background="@color/backgroundColorDark">
 
-	<FrameLayout
-        android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-		android:orientation="vertical"
-		android:background="@color/backgroundColorDark">
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+		app:navigationIcon="?attr/homeAsUpIndicator"
+		app:titleTextColor="#FFFFFF"
+		app:subtitleTextColor="#FFFFFF"/>
 
-		<android.support.v7.widget.Toolbar
-			android:id="@+id/toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			android:background="?attr/colorPrimary"
-			android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-			app:navigationIcon="?attr/homeAsUpIndicator"
-			app:titleTextColor="#FFFFFF" 
-			app:subtitleTextColor="#FFFFFF" />
-		
-		<LinearLayout
-			android:id="@+id/linearlayout1"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical"
-			android:gravity="center">
-			
-			<TextView
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:textColor="@android:color/white"
-				android:text="Developer Info"
-				android:textSize="30sp"
-				android:layout_marginBottom="8dp"/>
-			
-			<br.com.bloder.magic.view.MagicButton
-				android:layout_marginTop="8dp"
-				android:id="@+id/magic_button1"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				app:magic_button_size="65dp"
-				app:button_icon="@drawable/discord"
-				app:button_icon_width="40dp"
-				app:button_icon_height="40dp"
-				app:hide_text="🐱️TrueMLGPro🌟#0001"
-				app:hide_text_size="12px"
-				app:hide_text_color="@android:color/white"
-				app:icon_button_color="#7690F5"
-				app:expandable_area_color="#9BA2FB" />
-			
-			<br.com.bloder.magic.view.MagicButton
-				android:layout_marginTop="12dp"
-				android:id="@+id/magic_button2"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				app:magic_button_size="65dp"
-				app:button_icon="@drawable/youtube"
-				app:button_icon_width="40dp"
-				app:button_icon_height="40dp"
-				app:hide_text="TheAwesomePlay :D"
-				app:hide_text_size="12px"
-				app:hide_text_color="@android:color/white"
-				app:icon_button_color="#FFFFFF"
-				app:expandable_area_color="#FF0000" />
-			
-			<br.com.bloder.magic.view.MagicButton
-				android:layout_marginTop="12dp"
-				android:id="@+id/magic_button3"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				app:magic_button_size="65dp"
-				app:button_icon="@drawable/github"
-				app:button_icon_width="40dp"
-				app:button_icon_height="40dp"
-				app:hide_text="TrueMLGPro/Wi-Fi_Info"
-				app:hide_text_size="12px"
-				app:hide_text_color="@android:color/white"
-				app:icon_button_color="#000000"
-				app:expandable_area_color="#151515" />
-			
-		</LinearLayout>
-		
-		<LinearLayout
-			android:layout_width="match_parent"
+	<RelativeLayout
+		android:id="@+id/relative_layout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center">
+
+		<TextView
+			android:id="@+id/dev_info_text"
 			android:layout_height="wrap_content"
-			android:layout_gravity="bottom"
-			android:layout_marginBottom="16dp"
-			android:orientation="vertical">
-			
-			<TextView
-				android:id="@+id/txt_app_ver"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:layout_marginBottom="4dp"
-				android:text="App Version: Release 1.3_b"
-				android:textSize="16sp"
-				android:textColor="#FFFFFF" />
-		
-			<TextView
-				android:id="@+id/txt_android_ver"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:layout_marginBottom="4dp"
-				android:text="android_ver"
-				android:textSize="16sp"
-				android:textColor="#FFFFFF" />
-		
-			<TextView
-				android:id="@+id/txt_sdk_ver"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:layout_marginBottom="4dp"
-				android:text="android_sdk"
-				android:textSize="16sp"
-				android:textColor="#FFFFFF" />
-			
-			<TextView
-				android:id="@+id/txt_device_brand"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:layout_marginBottom="4dp"
-				android:text="device_brand"
-				android:textSize="16sp"
-				android:textColor="#FFFFFF" />
-		
-			<TextView
-				android:id="@+id/txt_product_name"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:layout_marginBottom="4dp"
-				android:text="product_name"
-				android:textSize="16sp"
-				android:textColor="#FFFFFF" />
-		
-			<TextView
-				android:id="@+id/txt_device_model"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:layout_marginBottom="4dp"
-				android:text="device_model"
-				android:textSize="16sp"
-				android:textColor="#FFFFFF" />
-		</LinearLayout>
-		
-	</FrameLayout>
-</android.support.v4.widget.DrawerLayout>
+			android:layout_width="wrap_content"
+			android:textColor="@android:color/white"
+			android:text="Developer Info"
+			android:textSize="30sp"
+			android:layout_marginBottom="24dp"
+			android:layout_centerHorizontal="true"/>
+
+		<br.com.bloder.magic.view.MagicButton
+			android:id="@+id/magic_button1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:magic_button_size="65dp"
+			app:button_icon="@drawable/discord"
+			app:button_icon_width="40dp"
+			app:button_icon_height="40dp"
+			app:hide_text="🐱️TrueMLGPro🌟#0001"
+			app:hide_text_size="12px"
+			app:hide_text_color="@android:color/white"
+			app:icon_button_color="#7690F5"
+			app:expandable_area_color="#9BA2FB"
+			android:layout_below="@+id/dev_info_text"
+			android:layout_centerHorizontal="true"/>
+
+		<br.com.bloder.magic.view.MagicButton
+			android:id="@+id/magic_button2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp"
+			app:magic_button_size="65dp"
+			app:button_icon="@drawable/youtube"
+			app:button_icon_width="40dp"
+			app:button_icon_height="40dp"
+			app:hide_text="TheAwesomePlay :D"
+			app:hide_text_size="12px"
+			app:hide_text_color="@android:color/white"
+			app:icon_button_color="#FFFFFF"
+			app:expandable_area_color="#FF0000"
+			android:layout_below="@id/magic_button1"
+			android:layout_centerInParent="true"/>
+
+		<br.com.bloder.magic.view.MagicButton
+			android:id="@+id/magic_button3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp"
+			app:magic_button_size="65dp"
+			app:button_icon="@drawable/github"
+			app:button_icon_width="40dp"
+			app:button_icon_height="40dp"
+			app:hide_text="TrueMLGPro/Wi-Fi_Info"
+			app:hide_text_size="12px"
+			app:hide_text_color="@android:color/white"
+			app:icon_button_color="#000000"
+			app:expandable_area_color="#151515"
+			android:layout_below="@id/magic_button2"
+			android:layout_centerHorizontal="true"/>
+
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom"
+		android:layout_marginBottom="8dp">
+
+		<TextView
+			android:id="@+id/txt_app_ver"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_marginBottom="4dp"
+			android:text="App Version: Release 1.3_b"
+			android:textSize="18sp"
+			android:textColor="#FFFFFF"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="4dp"/>
+
+		<TextView
+			android:id="@+id/txt_android_ver"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_marginBottom="4dp"
+			android:text="android_ver"
+			android:textSize="18sp"
+			android:textColor="#FFFFFF"
+			android:layout_below="@+id/txt_app_ver"
+			android:layout_centerHorizontal="true"/>
+
+		<TextView
+			android:id="@+id/txt_sdk_ver"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_marginBottom="4dp"
+			android:text="android_sdk"
+			android:textSize="18sp"
+			android:textColor="#FFFFFF"
+			android:layout_below="@+id/txt_android_ver"
+			android:layout_centerHorizontal="true"/>
+
+		<TextView
+			android:id="@+id/txt_device_brand"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_marginBottom="4dp"
+			android:text="device_brand"
+			android:textSize="18sp"
+			android:textColor="#FFFFFF"
+			android:layout_below="@+id/txt_sdk_ver"
+			android:layout_centerHorizontal="true"/>
+
+		<TextView
+			android:id="@+id/txt_product_name"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_marginBottom="4dp"
+			android:text="product_name"
+			android:textSize="18sp"
+			android:textColor="#FFFFFF"
+			android:layout_below="@+id/txt_device_brand"
+			android:layout_centerHorizontal="true"/>
+
+		<TextView
+			android:id="@+id/txt_device_model"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_marginBottom="4dp"
+			android:text="device_model"
+			android:textSize="18sp"
+			android:textColor="#FFFFFF"
+			android:layout_below="@+id/txt_product_name"
+			android:layout_centerHorizontal="true"/>
+
+	</RelativeLayout>
+
+</FrameLayout>
 
