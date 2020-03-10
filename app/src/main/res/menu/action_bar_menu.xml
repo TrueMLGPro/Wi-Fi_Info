@@ -10,7 +10,7 @@
 	
 	<item
 		android:id="@+id/supporters"
-		android:title="Supporters (WIP)" />
+		android:title="Supporters" />
 	
 	<item
 		android:id="@+id/settings"
