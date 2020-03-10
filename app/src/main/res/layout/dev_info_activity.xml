@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
@@ -15,13 +15,15 @@
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 		app:navigationIcon="?attr/homeAsUpIndicator"
 		app:titleTextColor="#FFFFFF"
-		app:subtitleTextColor="#FFFFFF"/>
+		app:subtitleTextColor="#FFFFFF"
+		android:layout_alignParentTop="true"/>
 
 	<RelativeLayout
 		android:id="@+id/relative_layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_gravity="center">
+		android:layout_gravity="center"
+		android:layout_centerInParent="true">
 
 		<TextView
 			android:id="@+id/dev_info_text"
@@ -89,7 +91,10 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom"
-		android:layout_marginBottom="8dp">
+		android:layout_marginBottom="8dp"
+		android:layout_below="@id/relative_layout"
+		android:layout_alignParentBottom="true"
+		android:gravity="bottom">
 
 		<TextView
 			android:id="@+id/txt_app_ver"
@@ -165,5 +170,5 @@
 
 	</RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>
 
