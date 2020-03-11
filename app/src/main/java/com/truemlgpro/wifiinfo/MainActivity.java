@@ -23,8 +23,9 @@ import android.location.*;
 import android.provider.*;
 import android.Manifest;
 import java.util.*;
-import me.anwarshahriar.calligrapher.*;
 import java.net.*;
+import java.io.*;
+import me.anwarshahriar.calligrapher.*;
 
 public class MainActivity extends AppCompatActivity 
 {
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity
 	
 	private LocationManager locationManager;
 	private NetworkInfo WiFiCheck;
+	private DhcpInfo dhcp;
+	private WifiManager mainWifi;
 	private ConnectivityManager CM;
 	private Context context;
 	
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity
 		textview = (TextView) findViewById(R.id.textview1);
 		// btn = (Button) findViewById(R.id.button1);
 		
-		// Service goes here //
+		// Service startup code goes here //
 		
 		Intent ServiceIntent = new Intent(MainActivity.this, NotificationService.class);
 		startService(ServiceIntent);
@@ -140,22 +143,28 @@ public class MainActivity extends AppCompatActivity
 			Intent ServiceIntent = new Intent(MainActivity.this, NotificationService.class);
 			stopService(ServiceIntent);
         } else {
-			WifiManager mainWifi;
 			mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 			WifiInfo wInfo = mainWifi.getConnectionInfo();
+			dhcp = mainWifi.getDhcpInfo();
 			String ssid = wInfo.getSSID();
 			String macAdd = getMacAddr();
 			String bssd = wInfo.getBSSID().toUpperCase();
 			int rssi = wInfo.getRssi();
 			int freq = wInfo.getFrequency();
 			int networkSpeed = wInfo.getLinkSpeed();
-			// Check mainWifi for more info
-			int ipAddress = wInfo.getIpAddress();
-			String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
-			SupplicantState supState = wInfo.getSupplicantState();
 			int network_id = wInfo.getNetworkId();
-			String info = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "IP Address: " + ip + "\n" +
-				"RSSI (Signal Strength): " + rssi + "dBm" + "\n" + "Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "Network ID: " + network_id + "\n" + "MAC Address: " + macAdd + "\n" + "Supplicant State: " + supState;
+			// Check mainWifi for more info
+			String gatewayIP = getGatewayIP();
+			String ipv4 = getIPv4Address();
+			String ipv6 = getIPv6Address();
+			String dns1 = intToIp(dhcp.dns1);
+			String dns2 = intToIp(dhcp.dns2);
+			String leaseTime = String.valueOf(dhcp.leaseDuration);
+			String subnetMask = intToIp(dhcp.netmask);
+			SupplicantState supState = wInfo.getSupplicantState();
+			String info = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Gateway IP: " + gatewayIP + "\n" + "IPv4: " + ipv4 + "\n" + "IPv6: " + ipv6 + "\n" + "DNS (1): " + dns1 + "\n" + "DNS (2): " + dns2 + "\n" + 
+				"Subnet Mask: " + subnetMask + "\n" + "Lease Duration: " + leaseTime + "\n" + "RSSI (Signal Strength): " + rssi + "dBm" + "\n" + "Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" +
+				"Network ID: " + network_id + "\n" + "MAC Address: " + macAdd + "\n" + "Supplicant State: " + supState;
 			textview.setText(info);
 		}
 
@@ -225,13 +234,62 @@ public class MainActivity extends AppCompatActivity
 				
 				return res1.toString();
 			}
-		} catch (Exception ex) {
-			//handle exception
+		} catch (Exception e) {
+			
 		}
 		
 		return "";
 	}
 	
+	private String getGatewayIP() {
+		if (!WiFiCheck.isConnected())
+			return "0.0.0.0";
+		mainWifi = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+		DhcpInfo dhcp = mainWifi.getDhcpInfo();
+		int ip = dhcp.gateway;
+		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
+	}
+	
+	public String getIPv4Address() {
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) { 
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+						return inetAddress.getHostAddress().toString();
+					}
+				}
+			}
+		} catch (SocketException ex) {
+			Log.e("WiFi Info", ex.toString());
+		} 
+		return null;
+	}
+	
+	public String getIPv6Address() {
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) { 
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet6Address) {
+						return inetAddress.getHostAddress().toString();
+					}
+				}
+			}
+		} catch (SocketException ex) {
+			Log.e("WiFi Info", ex.toString());
+		} 
+		return null;
+	}
+	
+	public String intToIp(int i) {
+		return ((i & 0xFF) + "."
+		+ ((i >> 8) & 0xFF) + "."
+		+ ((i >> 16) & 0xFF) + "."
+		+ ((i >> 24) & 0xFF));
+	}
 	
 	private Handler handler = new Handler();
 

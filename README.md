@@ -13,7 +13,13 @@
 
 * __SSID__
 * __BSSID__
-* __IP__
+* __Gateway IP__
+* __IPv4__
+* __IPv6__
+* __DNS (1)__
+* __DNS (2)__
+* __Subnet Mask__
+* __Lease Duration__
 * __RSSI__
 * __Frequency__
 * __Network Speed__
@@ -27,21 +33,23 @@ Go to **Releases** to get the latest app version! **(1.3_b)**
 
 # TODO List
 
-- [x] • Remake "No Connection" detection method **(1.3)**
-- [x] • Revamp DiscordServersActivity **(1.3)**
-- [x] • Rename servers on DiscordServersActivity **(1.3)**
-- [x] • Add Developers/Supporters activity **(1.3)**
-- [x] • Add name at the bottom of SplashActivity **(1.3)**
-- [x] • Add names, avatars and descriptions on SupportersActivity **(1.3)**
-- [ ] • Redesign the whole app, move Toolbar menu items to NavigationDrawer, change app font style **(1.3)**
-- [ ] • Add animations on activity start (text fade in, moving text) **(1.3)**
-- [ ] • Rename "IP Address" to "Local IP" **(1.3)**
-- [ ] • Add IPv6 and rename "IP" to "IPv4" **(1.3)**
-- [ ] • Add AppShortcuts (home screen activity shortcuts) for intents **(1.3)**
-- [ ] • Add SettingsActivity and add NotificationService stop method **(1.3)**
-- [ ] • Add Notification Settings on SettingsActivity to change notification priority and update frequency **(1.3)**
-- [ ] • Add Total TX (Sent Packets) and Total RX (Received Packets) to info string **(1.4)**
-- [ ] • Add download/upload monitoring **(1.4)**
-- [ ] • Add Notification Layout Customizer **(1.4) (maybe)**
-- [ ] • Add Wi-Fi password manager **(1.4) (maybe)**
-- [ ] • Create a home screen widget with network info **(1.4) (maybe)**
+- [x] Remake "No Connection" detection method **(1.3)**
+- [x] Revamp DiscordServersActivity **(1.3)**
+- [x] Rename servers on DiscordServersActivity **(1.3)**
+- [x] Add Developers/Supporters activity **(1.3)**
+- [x] Add name at the bottom of SplashActivity **(1.3)**
+- [x] Add names, avatars and descriptions on SupportersActivity **(1.3)**
+- [x] Implement getDhcpInfo() in MainActivity.java to get DHCP info **(1.3)**
+- [ ] Check if Wi-Fi is enabled on MainActivity start, show dialog if disabled **(1.3)**
+- [ ] Redesign the whole app, move Toolbar menu items to NavigationDrawer, change app font style **(1.3)**
+- [ ] Add animations on activity start (text fade in, moving text) **(1.3)**
+- [ ] Rename "IP Address" to "Local IP" **(1.3)**
+- [ ] Add IPv6 and rename "IP" to "IPv4" **(1.3)**
+- [ ] Add AppShortcuts (home screen activity shortcuts) for intents **(1.3)**
+- [ ] Add SettingsActivity and add NotificationService stop method **(1.3)**
+- [ ] Add Notification Settings on SettingsActivity to change notification priority and update frequency **(1.3)**
+- [ ] Add Total TX (Sent Packets) and Total RX (Received Packets) to info string **(1.4)**
+- [ ] Add download/upload monitoring **(1.4)**
+- [ ] Add Notification Layout Customizer **(1.4) (maybe)**
+- [ ] Add Wi-Fi password manager **(1.4) (maybe)**
+- [ ] Create a home screen widget with network info **(1.4) (maybe)**
