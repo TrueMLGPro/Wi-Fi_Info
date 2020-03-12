@@ -40,6 +40,7 @@ Go to **Releases** to get the latest app version! **(1.3_b)**
 - [x] Add name at the bottom of SplashActivity **(1.3)**
 - [x] Add names, avatars and descriptions on SupportersActivity **(1.3)**
 - [x] Implement getDhcpInfo() in MainActivity.java to get DHCP info **(1.3)**
+- [x] Add ConnectionStateService.java to keep BroadcastReceiver alive **(1.3)**
 - [ ] Check if Wi-Fi is enabled on MainActivity start, show dialog if disabled **(1.3)**
 - [ ] Redesign the whole app, move Toolbar menu items to NavigationDrawer, change app font style **(1.3)**
 - [ ] Add animations on activity start (text fade in, moving text) **(1.3)**
