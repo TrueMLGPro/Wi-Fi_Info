@@ -51,8 +51,6 @@ Go to **Releases** to get the latest app version! **(1.3_b)**
 - [ ] Check if Wi-Fi is enabled on MainActivity start, show dialog if disabled **(1.3)**
 - [ ] Redesign the whole app, move Toolbar menu items to NavigationDrawer, change app font style **(1.3)**
 - [ ] Add animations on activity start (text fade in, moving text) **(1.3)**
-- [ ] Rename "IP Address" to "Local IP" **(1.3)**
-- [ ] Add IPv6 and rename "IP" to "IPv4" **(1.3)**
 - [ ] Add AppShortcuts (home screen activity shortcuts) for intents **(1.3)**
 - [ ] Add SettingsActivity and add NotificationService stop method **(1.3)**
 - [ ] Add Notification Settings on SettingsActivity to change notification priority and update frequency **(1.3)**
