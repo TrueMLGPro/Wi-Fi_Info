@@ -5,13 +5,15 @@ import android.widget.*;
 import android.net.*;
 import android.app.*;
 import android.os.*;
+import android.support.annotation.*;
 
 public class ConnectionStateService extends Service 
 {
 
 	private BroadcastReceiver ConnectionStateReceiver;
+	private Notification.Builder builder;
 	
-	// Build 128
+	// Build 148
 
 public class ConnectionStateReceiver extends BroadcastReceiver
 {
@@ -26,10 +28,128 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		
 		if (isConnected) {
 			Intent ServiceIntent = new Intent(context, NotificationService.class);
-			context.startService(ServiceIntent);
+			context.startForegroundService(ServiceIntent);
+			
+			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
+				int NOTIFICATION_ID = 1304;
+
+				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				builder = new Notification.Builder(context);
+
+				Notification notification = builder.setSmallIcon(R.drawable.notification_icon)
+					.setContentTitle("ConnectionStateService — Online")
+					.setWhen(System.currentTimeMillis())
+					.setPriority(NotificationManager.IMPORTANCE_MIN)
+					.setSound(null)
+					.setColor(getResources().getColor(R.color.ntfcColor))
+					.setCategory(Notification.CATEGORY_SERVICE)
+					.setOngoing(true)
+					.setOnlyAlertOnce(true)
+					.setAutoCancel(false)
+					.build();
+				notificationManager.notify(NOTIFICATION_ID, notification);
+			} else if (android.os.Build.VERSION.SDK_INT == 29) {
+				int NOTIFICATION_ID = 1305;
+
+				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+				builder = new Notification.Builder(context, channelID);
+
+				Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+					.setContentTitle("ConnectionStateService — Online")
+					.setWhen(System.currentTimeMillis())
+					.setPriority(NotificationManager.IMPORTANCE_MIN)
+					.setSound(null)
+					.setChannelId(channelID)
+					.setColor(getResources().getColor(R.color.ntfcColor))
+					.setCategory(Notification.CATEGORY_SERVICE)
+					.setOngoing(true)
+					.setOnlyAlertOnce(true)
+					.setAutoCancel(false)
+					.build();
+				notificationManager.notify(NOTIFICATION_ID, notification);
+			} else if (android.os.Build.VERSION.SDK_INT < 26) {
+				int NOTIFICATION_ID = 1306;
+
+				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+				builder = new Notification.Builder(context, channelID);
+
+				Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+					.setContentTitle("ConnectionStateService — Online")
+					.setWhen(System.currentTimeMillis())
+					.setPriority(Notification.PRIORITY_MIN)
+					.setSound(null)
+					.setColor(getResources().getColor(R.color.ntfcColor))
+					.setCategory(Notification.CATEGORY_SERVICE)
+					.setOngoing(true)
+					.setOnlyAlertOnce(true)
+					.setAutoCancel(false)
+					.build();
+				notificationManager.notify(NOTIFICATION_ID, notification);
+			}
 		} else {
 			Intent ServiceIntent = new Intent(context, NotificationService.class);
 			context.stopService(ServiceIntent);
+			
+			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
+				int NOTIFICATION_ID = 1304;
+
+				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				builder = new Notification.Builder(context);
+
+				Notification notification = builder.setSmallIcon(R.drawable.notification_icon)
+					.setContentTitle("ConnectionStateService — Offline")
+					.setWhen(System.currentTimeMillis())
+					.setPriority(NotificationManager.IMPORTANCE_MIN)
+					.setSound(null)
+					.setColor(getResources().getColor(R.color.ntfcColor))
+					.setCategory(Notification.CATEGORY_SERVICE)
+					.setOngoing(true)
+					.setOnlyAlertOnce(true)
+					.setAutoCancel(false)
+					.build();
+				notificationManager.notify(NOTIFICATION_ID, notification);
+			} else if (android.os.Build.VERSION.SDK_INT == 29) {
+				int NOTIFICATION_ID = 1305;
+
+				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+				builder = new Notification.Builder(context, channelID);
+
+				Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+					.setContentTitle("ConnectionStateService — Offline")
+					.setWhen(System.currentTimeMillis())
+					.setPriority(NotificationManager.IMPORTANCE_MIN)
+					.setSound(null)
+					.setChannelId(channelID)
+					.setColor(getResources().getColor(R.color.ntfcColor))
+					.setCategory(Notification.CATEGORY_SERVICE)
+					.setOngoing(true)
+					.setOnlyAlertOnce(true)
+					.setAutoCancel(false)
+					.build();
+				notificationManager.notify(NOTIFICATION_ID, notification);
+			} else if (android.os.Build.VERSION.SDK_INT < 26) {
+				int NOTIFICATION_ID = 1306;
+
+				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+				builder = new Notification.Builder(context, channelID);
+
+				Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+					.setContentTitle("ConnectionStateService — Offline")
+					.setWhen(System.currentTimeMillis())
+					.setPriority(Notification.PRIORITY_MIN)
+					.setSound(null)
+					.setColor(getResources().getColor(R.color.ntfcColor))
+					.setCategory(Notification.CATEGORY_SERVICE)
+					.setOngoing(true)
+					.setOnlyAlertOnce(true)
+					.setAutoCancel(false)
+					.build();
+				notificationManager.notify(NOTIFICATION_ID, notification);
+			}
 		}
 	}
 		public ConnectionStateReceiver() {
@@ -67,7 +187,76 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			stopSelf();
 		}
 		
-		return START_NOT_STICKY;
+		if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
+			int NOTIFICATION_ID = 1304;
+			
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			builder = new Notification.Builder(this);
+			
+			Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+				.setContentTitle("ConnectionStateService — Online")
+				.setWhen(System.currentTimeMillis())
+				.setPriority(NotificationManager.IMPORTANCE_MIN)
+				.setSound(null)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+			startForeground(NOTIFICATION_ID, notification);
+		} else if (android.os.Build.VERSION.SDK_INT == 29) {
+			int NOTIFICATION_ID = 1305;
+			
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+			builder = new Notification.Builder(this, channelID);
+			
+			Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+				.setContentTitle("ConnectionStateService — Online")
+				.setWhen(System.currentTimeMillis())
+				.setPriority(NotificationManager.IMPORTANCE_MIN)
+				.setSound(null)
+				.setChannelId(channelID)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+			startForeground(NOTIFICATION_ID, notification);
+		} else if (android.os.Build.VERSION.SDK_INT < 26) {
+			int NOTIFICATION_ID = 1306;
+			
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+			builder = new Notification.Builder(this, channelID);
+			
+			Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+				.setContentTitle("ConnectionStateService — Online")
+				.setWhen(System.currentTimeMillis())
+				.setPriority(NotificationManager.IMPORTANCE_MIN)
+				.setSound(null)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+			startForeground(NOTIFICATION_ID, notification);
+		}
+		return START_STICKY;
+	}
+	
+	@RequiresApi(Build.VERSION_CODES.O)
+	private String createNotificationChannel(NotificationManager notificationManager) {
+		String channelID = "connection_state_service";
+		CharSequence channelName = "Connection State Service";
+		NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_MIN);
+		channel.setDescription("Wi-Fi Info Service Notification");
+		channel.setShowBadge(false);
+		notificationManager.createNotificationChannel(channel);
+		return channelID;
 	}
 
 }

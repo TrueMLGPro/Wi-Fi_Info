@@ -62,7 +62,8 @@
 		
 		<service
 			android:name=".ConnectionStateService"
-			android:enabled="true">
+			android:enabled="true"
+			android:process=":ConnectionStateProcess">
 		</service>
 		
 		<receiver android:name=".ConnectionStateReceiver">

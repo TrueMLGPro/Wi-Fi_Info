@@ -77,7 +77,7 @@ public class NotificationService extends Service
 					.setContentTitle("IP: " + ip)
 					.setContentText(smallInfo)
 					.setWhen(System.currentTimeMillis())
-					.setPriority(5)
+					.setPriority(NotificationManager.IMPORTANCE_LOW)
 					.addAction(R.drawable.ic_close, "Stop Service", pIntentAction)
 					.setChannelId(channelID)
 					.setColorized(true)
@@ -123,7 +123,7 @@ public class NotificationService extends Service
 					.setContentTitle("IP: " + ip)
 					.setContentText(info)
 					.setWhen(System.currentTimeMillis())
-					.setPriority(5)
+					.setPriority(NotificationManager.IMPORTANCE_LOW)
 					.addAction(R.drawable.stop_ntfc, "Stop Service", pIntentAction)
 					.setChannelId(channelID)
 					.setColorized(true)
@@ -140,7 +140,7 @@ public class NotificationService extends Service
 			startForeground(1303, new Notification());
 		}
 		
-		return START_NOT_STICKY;
+		return START_STICKY;
 	}
 	
 	private Handler handler = new Handler(Looper.getMainLooper());
@@ -203,7 +203,7 @@ public class NotificationService extends Service
 				.setContentTitle("IP: " + ip)
 				.setContentText(smallInfo)
 				.setWhen(System.currentTimeMillis())
-				.setPriority(5)
+				.setPriority(NotificationManager.IMPORTANCE_LOW)
 				.addAction(R.drawable.ic_close, "Stop Service", pIntentAction)
 				.setChannelId(channelID)
 				.setColorized(true)
@@ -263,7 +263,7 @@ public class NotificationService extends Service
 				.setContentTitle("IP: " + ip)
 				.setContentText(info)
 				.setWhen(System.currentTimeMillis())
-				.setPriority(5)
+				.setPriority(NotificationManager.IMPORTANCE_LOW)
 				.addAction(R.drawable.stop_ntfc, "Stop Service", pIntentAction)
 				.setChannelId(channelID)
 				.setColorized(true)
@@ -324,7 +324,7 @@ public class NotificationService extends Service
 				.setContentTitle("IP: " + ip)
 				.setContentText(smallInfo)
 				.setWhen(System.currentTimeMillis())
-				.setPriority(5)
+				.setPriority(Notification.PRIORITY_LOW)
 				.setColor(getResources().getColor(R.color.ntfcColor))
 				.setCategory(Notification.CATEGORY_SERVICE)
 				.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
@@ -351,8 +351,9 @@ public class NotificationService extends Service
 	private String createNotificationChannel(NotificationManager notificationManager) {
 		String channelID = "wifi_info";
 		CharSequence channelName = "Wi-Fi Info Notification Service";
-		NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
+		NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_LOW);
 		channel.setDescription("Main Wi-Fi Info Notification");
+		channel.setShowBadge(false);
 		notificationManager.createNotificationChannel(channel);
 		return channelID;
 	}
@@ -360,7 +361,6 @@ public class NotificationService extends Service
 	@Override
 	public IBinder onBind(Intent intent)
 	{
-		// TODO: Implement this method
 		return null;
 	}
 		

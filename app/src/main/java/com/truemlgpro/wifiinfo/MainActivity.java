@@ -51,10 +51,10 @@ public class MainActivity extends AppCompatActivity
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		textview = (TextView) findViewById(R.id.textview1);
 		
-		/// Service startup registration code goes here ///
+		/// Service startup code goes here ///
 		
 		Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
-		startService(ConnectionStateServiceIntent);
+		startForegroundService(ConnectionStateServiceIntent);
 		
 		/// END ///
 		
