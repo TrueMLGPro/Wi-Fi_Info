@@ -7,5 +7,6 @@
 	<color name="backgroundColorDark">#202020</color>
 	<color name="backgroundColorLight">#F3F3F3</color>
 	<color name="buttonColor">#2087DF</color>
+	<color name="ntfcColor">#2087DF</color>
 
 </resources>

@@ -5,6 +5,9 @@ import android.os.*;
 import android.content.*;
 import android.net.wifi.*;
 import android.net.*;
+import android.support.annotation.*;
+import android.support.v4.content.*;
+import android.support.v4.app.*;
 
 public class NotificationService extends Service
 {
@@ -31,10 +34,111 @@ public class NotificationService extends Service
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
-		// Start service and create notification 
-		Notification notificationS = new Notification();
+		if (intent.getAction() != null && intent.getAction().equals("ACTION_STOP")) {
+			stopSelf();
+		}
 		
-		startForeground(130, notificationS);
+		if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
+			ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+			NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+			if (WiFiCheck.isConnected()) {
+				int NOTIFICATION_ID = 1301;
+
+				Intent NotificationIntent = new Intent(this, MainActivity.class);
+				PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+				Intent intentAction = new Intent(this, ActionButtonReceiver.class);
+				intentAction.setAction("ACTION_STOP");
+				PendingIntent pIntentAction = PendingIntent.getBroadcast(this, 0, intentAction, PendingIntent.FLAG_ONE_SHOT);
+
+				NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+
+				builder = new Notification.Builder(this, channelID);
+
+				WifiManager mainWifi;
+				mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+				WifiInfo wInfo = mainWifi.getConnectionInfo();
+				String ssid = wInfo.getSSID();
+				String bssd = wInfo.getBSSID().toUpperCase();
+				int rssi = wInfo.getRssi();
+				int freq = wInfo.getFrequency();
+				int networkSpeed = wInfo.getLinkSpeed();
+				int ipAddress = wInfo.getIpAddress();
+				int network_id = wInfo.getNetworkId();
+				String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
+				String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
+				String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + rssi + "dBm" + "\n" + 
+					"Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
+
+				Notification notification = builder.setContentIntent(content_intent)
+					.setSmallIcon(R.drawable.notification_icon)
+					.setContentTitle("IP: " + ip)
+					.setContentText(smallInfo)
+					.setWhen(System.currentTimeMillis())
+					.setPriority(5)
+					.addAction(R.drawable.ic_close, "Stop Service", pIntentAction)
+					.setChannelId(channelID)
+					.setColorized(true)
+					.setColor(getResources().getColor(R.color.ntfcColor))
+					.setCategory(Notification.CATEGORY_SERVICE)
+					.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
+					.setOngoing(true)
+					.setOnlyAlertOnce(true)
+					.setAutoCancel(false)
+					.build();
+					
+				startForeground(NOTIFICATION_ID, notification);
+			}
+		} else if (android.os.Build.VERSION.SDK_INT == 29) {
+			ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+			NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+			if (WiFiCheck.isConnected()) {
+				int NOTIFICATION_ID = 1302;
+
+				Intent NotificationIntent = new Intent(this, MainActivity.class);
+				PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+				Intent intentAction = new Intent(this, ActionButtonReceiver.class);
+				intentAction.setAction("ACTION_STOP");
+				PendingIntent pIntentAction = PendingIntent.getBroadcast(this, 0, intentAction, PendingIntent.FLAG_ONE_SHOT);
+
+				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+				builder = new Notification.Builder(this, channelID);
+
+				WifiManager mainWifi;
+				mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+				WifiInfo wInfo = mainWifi.getConnectionInfo();
+				String ssid = wInfo.getSSID();
+				int rssi = wInfo.getRssi();
+				int ipAddress = wInfo.getIpAddress();
+				String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
+				String info = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
+
+				Notification notification = builder.setContentIntent(content_intent)
+					.setSmallIcon(R.drawable.notification_icon)
+					.setContentTitle("IP: " + ip)
+					.setContentText(info)
+					.setWhen(System.currentTimeMillis())
+					.setPriority(5)
+					.addAction(R.drawable.stop_ntfc, "Stop Service", pIntentAction)
+					.setChannelId(channelID)
+					.setColorized(true)
+					.setColor(getResources().getColor(R.color.ntfcColor))
+					.setCategory(Notification.CATEGORY_SERVICE)
+					.setOngoing(true)
+					.setOnlyAlertOnce(true)
+					.setAutoCancel(false)
+					.build();
+
+				startForeground(NOTIFICATION_ID, notification);
+			}
+		} else if (android.os.Build.VERSION.SDK_INT < 26) {
+			startForeground(1303, new Notification());
+		}
 		
 		return START_NOT_STICKY;
 	}
@@ -45,79 +149,105 @@ public class NotificationService extends Service
 		public void run() {
 			if (android.os.Build.VERSION.SDK_INT == 29) {
 				updateNotificationAPI29();
-			} else {
+			}
+			
+			if (android.os.Build.VERSION.SDK_INT < 26) {
+				updateNotificationAPI21_25();
+			}
+			
+			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
 				updateNotification();
 			}
 			handler.postDelayed(runnable, 1000);
 		}
 	};
 	
+	/// ANDROID 8 - ANDROID 9 ///
+	
 	public void updateNotification() {
 		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		
+
 		if (WiFiCheck.isConnected()) {
-		int NOTIFICATION_ID = 130;
+			int NOTIFICATION_ID = 1301;
 
-		Intent NotificationIntent = new Intent(this, MainActivity.class);
-		PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+			Intent NotificationIntent = new Intent(this, MainActivity.class);
+			PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-		Notification notification = new Notification();
-		
-		builder = new Notification.Builder(this);
+			Intent intentAction = new Intent(this, ActionButtonReceiver.class);
+			intentAction.setAction("ACTION_STOP");
+			PendingIntent pIntentAction = PendingIntent.getBroadcast(this, 0, intentAction, PendingIntent.FLAG_ONE_SHOT);
 
-		WifiManager mainWifi;
-		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-		WifiInfo wInfo = mainWifi.getConnectionInfo();
-		String ssid = wInfo.getSSID();
-		String bssd = wInfo.getBSSID().toUpperCase();
-		int rssi = wInfo.getRssi();
-		int freq = wInfo.getFrequency();
-		int networkSpeed = wInfo.getLinkSpeed();
-		int ipAddress = wInfo.getIpAddress();
-		int network_id = wInfo.getNetworkId();
-		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
-		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
-		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + rssi + "dBm" + "\n" + 
-		"Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
+			NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 
-		builder.setContentIntent(content_intent)
-			.setSmallIcon(R.drawable.notification_icon)
-			.setContentTitle("IP: " + ip)
-			.setContentText(smallInfo)
-			.setWhen(System.currentTimeMillis())
-			.setPriority(5)
-			.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
-			.setOngoing(true)
-			.setOnlyAlertOnce(true)
-			.setAutoCancel(false);
+			builder = new Notification.Builder(this, channelID);
 
-		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		notificationManager.notify(NOTIFICATION_ID, builder.build());
-		} else {
-			int NOTIFICATION_ID = 130;
-			
-			builder.setContentTitle("No Connection")
-			.setStyle(new Notification.BigTextStyle().bigText("Connect to Wi-Fi"));
-			
+			WifiManager mainWifi;
+			mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+			WifiInfo wInfo = mainWifi.getConnectionInfo();
+			String ssid = wInfo.getSSID();
+			String bssd = wInfo.getBSSID().toUpperCase();
+			int rssi = wInfo.getRssi();
+			int freq = wInfo.getFrequency();
+			int networkSpeed = wInfo.getLinkSpeed();
+			int ipAddress = wInfo.getIpAddress();
+			int network_id = wInfo.getNetworkId();
+			String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
+			String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
+			String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + rssi + "dBm" + "\n" + 
+				"Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
+
+			Notification notification = builder.setContentIntent(content_intent)
+				.setSmallIcon(R.drawable.notification_icon)
+				.setContentTitle("IP: " + ip)
+				.setContentText(smallInfo)
+				.setWhen(System.currentTimeMillis())
+				.setPriority(5)
+				.addAction(R.drawable.ic_close, "Stop Service", pIntentAction)
+				.setChannelId(channelID)
+				.setColorized(true)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+
 			notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			notificationManager.notify(NOTIFICATION_ID, builder.build());
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		} else {
+			int NOTIFICATION_ID = 1301;
+
+			Notification notification = builder.setContentTitle("No Connection")
+				.setStyle(new Notification.BigTextStyle().bigText("Connect to Wi-Fi"))
+				.build();
+
+			notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			notificationManager.notify(NOTIFICATION_ID, notification);
 		}
 	}
+	
+	/// ANDROID 10 ///
 	
 	public void updateNotificationAPI29() {
 		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
 		if (WiFiCheck.isConnected()) {
-			int NOTIFICATION_ID = 130;
+			int NOTIFICATION_ID = 1302;
 
 			Intent NotificationIntent = new Intent(this, MainActivity.class);
 			PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-			Notification notification = new Notification();
-
-			builder = new Notification.Builder(this);
+			
+			Intent intentAction = new Intent(this, ActionButtonReceiver.class);
+			intentAction.setAction("ACTION_STOP");
+			PendingIntent pIntentAction = PendingIntent.getBroadcast(this, 0, intentAction, PendingIntent.FLAG_ONE_SHOT);
+			
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+			builder = new Notification.Builder(this, channelID);
 
 			WifiManager mainWifi;
 			mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -128,31 +258,107 @@ public class NotificationService extends Service
 			String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
 			String info = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
 			
-			builder.setContentIntent(content_intent)
+			Notification notification = builder.setContentIntent(content_intent)
 				.setSmallIcon(R.drawable.notification_icon)
 				.setContentTitle("IP: " + ip)
 				.setContentText(info)
 				.setWhen(System.currentTimeMillis())
 				.setPriority(5)
+				.addAction(R.drawable.stop_ntfc, "Stop Service", pIntentAction)
+				.setChannelId(channelID)
+				.setColorized(true)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
 				.setOngoing(true)
 				.setOnlyAlertOnce(true)
-				.setAutoCancel(false);
+				.setAutoCancel(false)
+				.build();
 
 			notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			notificationManager.notify(NOTIFICATION_ID, builder.build());
+			notificationManager.notify(NOTIFICATION_ID, notification);
 		} else {
-			int NOTIFICATION_ID = 130;
+			int NOTIFICATION_ID = 1302;
 
-			builder.setContentTitle("No Connection")
-			.setContentText("Connect to Wi-Fi");
+			Notification notification = builder.setContentTitle("No Connection")
+			.setContentText("Connect to Wi-Fi")
+			.build();
 
 			notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			notificationManager.notify(NOTIFICATION_ID, builder.build());
+			notificationManager.notify(NOTIFICATION_ID, notification);
 		}
 	}
 	
+	/// ANDROID 5 - ANDROID 7 ///
+	
+	public void updateNotificationAPI21_25() {
+		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if (WiFiCheck.isConnected()) {
+			int NOTIFICATION_ID = 1303;
+
+			Intent NotificationIntent = new Intent(this, MainActivity.class);
+			PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+			NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			
+			builder = new Notification.Builder(this);
+
+			WifiManager mainWifi;
+			mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+			WifiInfo wInfo = mainWifi.getConnectionInfo();
+			String ssid = wInfo.getSSID();
+			String bssd = wInfo.getBSSID().toUpperCase();
+			int rssi = wInfo.getRssi();
+			int freq = wInfo.getFrequency();
+			int networkSpeed = wInfo.getLinkSpeed();
+			int ipAddress = wInfo.getIpAddress();
+			int network_id = wInfo.getNetworkId();
+			String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
+			String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
+			String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + rssi + "dBm" + "\n" + 
+				"Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
+
+			Notification notification = builder.setContentIntent(content_intent)
+				.setSmallIcon(R.drawable.notification_icon_blue)
+				.setContentTitle("IP: " + ip)
+				.setContentText(smallInfo)
+				.setWhen(System.currentTimeMillis())
+				.setPriority(5)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+
+			notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		} else {
+			int NOTIFICATION_ID = 1303;
+
+			Notification notification = builder.setContentTitle("No Connection")
+				.setStyle(new Notification.BigTextStyle().bigText("Connect to Wi-Fi"))
+				.build();
+
+			notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		}
+	}
+	
+	@RequiresApi(Build.VERSION_CODES.O)
+	private String createNotificationChannel(NotificationManager notificationManager) {
+		String channelID = "wifi_info";
+		CharSequence channelName = "Wi-Fi Info Notification Service";
+		NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
+		channel.setDescription("Main Wi-Fi Info Notification");
+		notificationManager.createNotificationChannel(channel);
+		return channelID;
+	}
+	
 	@Override
-	public IBinder onBind(Intent p1)
+	public IBinder onBind(Intent intent)
 	{
 		// TODO: Implement this method
 		return null;

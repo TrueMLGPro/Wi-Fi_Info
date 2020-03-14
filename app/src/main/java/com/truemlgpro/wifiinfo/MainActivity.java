@@ -7,14 +7,14 @@ import android.support.v7.widget.*;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.widget.*;
+import android.support.design.widget.*;
+import android.support.v4.app.*;
 import android.widget.*;
 import android.content.*;
 import android.net.wifi.*;
 import android.net.*;
 import android.view.*;
-import android.support.design.widget.*;
 import android.app.AlertDialog;
-import android.support.v4.app.*;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.pm.*;
@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity
 	private Toolbar toolbar;
 	private DrawerLayout mDrawerLayout;
 	private TextView textview;
-	// private Button btn;
 	
 	private LocationManager locationManager;
 	private NetworkInfo WiFiCheck;
@@ -51,14 +50,13 @@ public class MainActivity extends AppCompatActivity
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		textview = (TextView) findViewById(R.id.textview1);
-		// btn = (Button) findViewById(R.id.button1);
 		
-		// Service startup code goes here //
+		/// Service startup registration code goes here ///
 		
-		Intent ServiceIntent = new Intent(MainActivity.this, NotificationService.class);
-		startService(ServiceIntent);
-			
-		// END //
+		Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
+		startService(ConnectionStateServiceIntent);
+		
+		/// END ///
 		
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
@@ -140,8 +138,6 @@ public class MainActivity extends AppCompatActivity
 		
         if (!WiFiCheck.isConnected()) {
 			textview.setText("No Connection");
-			Intent ServiceIntent = new Intent(MainActivity.this, NotificationService.class);
-			stopService(ServiceIntent);
         } else {
 			mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 			WifiInfo wInfo = mainWifi.getConnectionInfo();
@@ -153,7 +149,6 @@ public class MainActivity extends AppCompatActivity
 			int freq = wInfo.getFrequency();
 			int networkSpeed = wInfo.getLinkSpeed();
 			int network_id = wInfo.getNetworkId();
-			// Check mainWifi for more info
 			String gatewayIP = getGatewayIP();
 			String ipv4 = getIPv4Address();
 			String ipv6 = getIPv6Address();

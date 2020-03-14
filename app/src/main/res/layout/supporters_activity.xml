@@ -199,7 +199,7 @@
 					android:textColor="#FFFFFF"
 					android:textSize="16sp"
 					android:id="@+id/rouge_tester"/>
-				
+
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -210,7 +210,7 @@
 					android:textSize="16sp"
 					android:textColor="#FFFFFF"
 					android:id="@+id/rouge_contributor"/>
-				
+
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -221,8 +221,7 @@
 					android:textSize="16sp"
 					android:textColor="#FFFFFF"
 					android:id="@+id/rouge_idea"/>
-				
-				
+
 				<com.mikhaellopez.circularimageview.CircularImageView
 					xmlns:app="http://schemas.android.com/apk/res-auto"
 					android:id="@+id/never_pfp"
@@ -271,7 +270,7 @@
 					android:textSize="16sp"
 					android:textColor="#FFFFFF"
 					android:id="@+id/never_idea"/>
-				
+
 				<com.mikhaellopez.circularimageview.CircularImageView
 					xmlns:app="http://schemas.android.com/apk/res-auto"
 					android:id="@+id/torneix_pfp"
@@ -357,7 +356,18 @@
 					android:layout_marginTop="8dp"
 					android:textColor="#FFFFFF"
 					android:textSize="16sp"
-					android:id="@+id/terrin_tester"
+					android:id="@+id/terrin_tester"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• Idea Provider"
+					android:layout_below="@+id/terrin_tester"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textSize="16sp"
+					android:textColor="#FFFFFF"
+					android:id="@+id/terrin_idea"
 					android:layout_marginBottom="24dp"/>
 
 			</RelativeLayout>

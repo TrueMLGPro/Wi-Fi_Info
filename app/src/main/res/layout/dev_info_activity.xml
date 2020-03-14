@@ -103,7 +103,7 @@
 			android:layout_gravity="center"
 			android:layout_marginBottom="4dp"
 			android:text="App Version: Release 1.3_b"
-			android:textSize="18sp"
+			android:textSize="16sp"
 			android:textColor="#FFFFFF"
 			android:layout_centerHorizontal="true"
 			android:layout_marginTop="4dp"/>
@@ -115,7 +115,7 @@
 			android:layout_gravity="center"
 			android:layout_marginBottom="4dp"
 			android:text="android_ver"
-			android:textSize="18sp"
+			android:textSize="16sp"
 			android:textColor="#FFFFFF"
 			android:layout_below="@+id/txt_app_ver"
 			android:layout_centerHorizontal="true"/>
@@ -127,7 +127,7 @@
 			android:layout_gravity="center"
 			android:layout_marginBottom="4dp"
 			android:text="android_sdk"
-			android:textSize="18sp"
+			android:textSize="16sp"
 			android:textColor="#FFFFFF"
 			android:layout_below="@+id/txt_android_ver"
 			android:layout_centerHorizontal="true"/>
@@ -139,7 +139,7 @@
 			android:layout_gravity="center"
 			android:layout_marginBottom="4dp"
 			android:text="device_brand"
-			android:textSize="18sp"
+			android:textSize="16sp"
 			android:textColor="#FFFFFF"
 			android:layout_below="@+id/txt_sdk_ver"
 			android:layout_centerHorizontal="true"/>
@@ -151,7 +151,7 @@
 			android:layout_gravity="center"
 			android:layout_marginBottom="4dp"
 			android:text="product_name"
-			android:textSize="18sp"
+			android:textSize="16sp"
 			android:textColor="#FFFFFF"
 			android:layout_below="@+id/txt_device_brand"
 			android:layout_centerHorizontal="true"/>
@@ -163,7 +163,7 @@
 			android:layout_gravity="center"
 			android:layout_marginBottom="4dp"
 			android:text="device_model"
-			android:textSize="18sp"
+			android:textSize="16sp"
 			android:textColor="#FFFFFF"
 			android:layout_below="@+id/txt_product_name"
 			android:layout_centerHorizontal="true"/>

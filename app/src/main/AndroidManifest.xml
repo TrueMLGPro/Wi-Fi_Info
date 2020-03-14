@@ -4,7 +4,7 @@
 	
 	<uses-sdk
 		android:minSdkVersion="21" 
-		android:targetSdkVersion="25" />
+		android:targetSdkVersion="29" />
 	
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,6 +12,7 @@
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	
     <application
         android:allowBackup="true"
@@ -53,9 +54,34 @@
 			android:label="Settings"
 			android:screenOrientation="portrait">
 		</activity>
+		
 		<service
 			android:name=".NotificationService"
 			android:enabled="true">
 		</service>
+		
+		<service
+			android:name=".ConnectionStateService"
+			android:enabled="true">
+		</service>
+		
+		<receiver android:name=".ConnectionStateReceiver">
+			<intent-filter>
+				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+			</intent-filter>
+		</receiver>
+		
+		<receiver android:name=".BootReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
+		
+		<receiver android:name=".ActionButtonReceiver">
+			<intent-filter>
+				<action android:name="ACTION_STOP" />
+			</intent-filter>
+		</receiver>
+		
     </application>
 </manifest>
