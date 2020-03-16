@@ -9,7 +9,11 @@ public class BootReceiver extends BroadcastReceiver
 	public void onReceive(Context context, Intent intent)
 	{
 		Intent ServiceIntent = new Intent(context, ConnectionStateService.class);
-		context.startForegroundService(ServiceIntent);
+		if (android.os.Build.VERSION.SDK_INT < 26) {
+			context.startService(ServiceIntent);
+		} else {
+			context.startForegroundService(ServiceIntent);
+		}
 	}
 	
 }

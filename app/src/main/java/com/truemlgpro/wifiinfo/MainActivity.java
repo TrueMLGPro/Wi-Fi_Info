@@ -54,7 +54,11 @@ public class MainActivity extends AppCompatActivity
 		/// Service startup code goes here ///
 		
 		Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
-		startForegroundService(ConnectionStateServiceIntent);
+		if (android.os.Build.VERSION.SDK_INT < 26) {
+			startService(ConnectionStateServiceIntent);
+		} else {
+			startForegroundService(ConnectionStateServiceIntent);
+		}
 		
 		/// END ///
 		

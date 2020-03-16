@@ -6,6 +6,7 @@ import android.net.*;
 import android.app.*;
 import android.os.*;
 import android.support.annotation.*;
+import android.support.v4.app.*;
 
 public class ConnectionStateService extends Service 
 {
@@ -13,7 +14,7 @@ public class ConnectionStateService extends Service
 	private BroadcastReceiver ConnectionStateReceiver;
 	private Notification.Builder builder;
 	
-	// Build 148
+	// Build 157
 
 public class ConnectionStateReceiver extends BroadcastReceiver
 {
@@ -28,19 +29,23 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		
 		if (isConnected) {
 			Intent ServiceIntent = new Intent(context, NotificationService.class);
-			context.startForegroundService(ServiceIntent);
+			if (android.os.Build.VERSION.SDK_INT < 26) {
+				context.startService(ServiceIntent);
+			} else {
+				context.startForegroundService(ServiceIntent);
+			}
 			
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
 				int NOTIFICATION_ID = 1304;
 
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				builder = new Notification.Builder(context);
+				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+				builder = new Notification.Builder(context, channelID);
 
-				Notification notification = builder.setSmallIcon(R.drawable.notification_icon)
+				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 					.setContentTitle("ConnectionStateService — Online")
 					.setWhen(System.currentTimeMillis())
-					.setPriority(NotificationManager.IMPORTANCE_MIN)
-					.setSound(null)
+					.setChannelId(channelID)
 					.setColor(getResources().getColor(R.color.ntfcColor))
 					.setCategory(Notification.CATEGORY_SERVICE)
 					.setOngoing(true)
@@ -55,11 +60,9 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 				builder = new Notification.Builder(context, channelID);
 
-				Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 					.setContentTitle("ConnectionStateService — Online")
 					.setWhen(System.currentTimeMillis())
-					.setPriority(NotificationManager.IMPORTANCE_MIN)
-					.setSound(null)
 					.setChannelId(channelID)
 					.setColor(getResources().getColor(R.color.ntfcColor))
 					.setCategory(Notification.CATEGORY_SERVICE)
@@ -72,14 +75,12 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				int NOTIFICATION_ID = 1306;
 
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
-				builder = new Notification.Builder(context, channelID);
+				builder = new Notification.Builder(context);
 
-				Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 					.setContentTitle("ConnectionStateService — Online")
 					.setWhen(System.currentTimeMillis())
 					.setPriority(Notification.PRIORITY_MIN)
-					.setSound(null)
 					.setColor(getResources().getColor(R.color.ntfcColor))
 					.setCategory(Notification.CATEGORY_SERVICE)
 					.setOngoing(true)
@@ -96,13 +97,12 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				int NOTIFICATION_ID = 1304;
 
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				builder = new Notification.Builder(context);
+				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+				builder = new Notification.Builder(context, channelID);
 
-				Notification notification = builder.setSmallIcon(R.drawable.notification_icon)
+				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 					.setContentTitle("ConnectionStateService — Offline")
 					.setWhen(System.currentTimeMillis())
-					.setPriority(NotificationManager.IMPORTANCE_MIN)
-					.setSound(null)
 					.setColor(getResources().getColor(R.color.ntfcColor))
 					.setCategory(Notification.CATEGORY_SERVICE)
 					.setOngoing(true)
@@ -117,11 +117,9 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 				builder = new Notification.Builder(context, channelID);
 
-				Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 					.setContentTitle("ConnectionStateService — Offline")
 					.setWhen(System.currentTimeMillis())
-					.setPriority(NotificationManager.IMPORTANCE_MIN)
-					.setSound(null)
 					.setChannelId(channelID)
 					.setColor(getResources().getColor(R.color.ntfcColor))
 					.setCategory(Notification.CATEGORY_SERVICE)
@@ -134,14 +132,12 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				int NOTIFICATION_ID = 1306;
 
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
-				builder = new Notification.Builder(context, channelID);
+				builder = new Notification.Builder(context);
 
-				Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 					.setContentTitle("ConnectionStateService — Offline")
 					.setWhen(System.currentTimeMillis())
 					.setPriority(Notification.PRIORITY_MIN)
-					.setSound(null)
 					.setColor(getResources().getColor(R.color.ntfcColor))
 					.setCategory(Notification.CATEGORY_SERVICE)
 					.setOngoing(true)
@@ -191,13 +187,13 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			int NOTIFICATION_ID = 1304;
 			
 			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			builder = new Notification.Builder(this);
+			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+			builder = new Notification.Builder(this, channelID);
 			
-			Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 				.setContentTitle("ConnectionStateService — Online")
 				.setWhen(System.currentTimeMillis())
-				.setPriority(NotificationManager.IMPORTANCE_MIN)
-				.setSound(null)
+				.setChannelId(channelID)
 				.setColor(getResources().getColor(R.color.ntfcColor))
 				.setCategory(Notification.CATEGORY_SERVICE)
 				.setOngoing(true)
@@ -212,11 +208,9 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 			builder = new Notification.Builder(this, channelID);
 			
-			Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 				.setContentTitle("ConnectionStateService — Online")
 				.setWhen(System.currentTimeMillis())
-				.setPriority(NotificationManager.IMPORTANCE_MIN)
-				.setSound(null)
 				.setChannelId(channelID)
 				.setColor(getResources().getColor(R.color.ntfcColor))
 				.setCategory(Notification.CATEGORY_SERVICE)
@@ -229,14 +223,12 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			int NOTIFICATION_ID = 1306;
 			
 			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
-			builder = new Notification.Builder(this, channelID);
+			builder = new Notification.Builder(this);
 			
-			Notification notification = builder.setSmallIcon(R.drawable.notification_icon_blue)
+			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 				.setContentTitle("ConnectionStateService — Online")
 				.setWhen(System.currentTimeMillis())
 				.setPriority(NotificationManager.IMPORTANCE_MIN)
-				.setSound(null)
 				.setColor(getResources().getColor(R.color.ntfcColor))
 				.setCategory(Notification.CATEGORY_SERVICE)
 				.setOngoing(true)

@@ -44,10 +44,11 @@ Go to **Releases** to get the latest app version! **(1.3_b)**
 - [x] Add BootReceiver.java to start ConnectionStateService on device boot (1.3)
 - [x] Add Notification Action Button (Android 8+) to stop services **(1.3)**
 - [x] Upgrade app to API 29 **(1.3)**
-- [x] Added Notification Channel for notification in NotificationService **(1.3)**
+- [x] Add Notification Channel for notification in NotificationService **(1.3)**
 - [x] Add IPv6 and rename "IP" to "IPv4" **(1.3)**
-- [x] Added Gateway IP, DNS (1), DNS (2) and Lease Duration and Subnet Mask to info string **(1.3)**
+- [x] Add Gateway IP, DNS (1), DNS (2) and Lease Duration and Subnet Mask to info string **(1.3)**
 - [x] Start ConnectionStateService as Foreground Service in separate process to prevent Android from stopping it **(1.3)**
+- [ ] Add DayNight theme to change app themes from SettingsActivity **(1.3)**
 - [ ] Check if Wi-Fi is enabled on MainActivity start, show dialog if disabled **(1.3)**
 - [ ] Redesign the whole app, move Toolbar menu items to NavigationDrawer, change app font style **(1.3)**
 - [ ] Add animations on activity start (text fade in, moving text) **(1.3)**

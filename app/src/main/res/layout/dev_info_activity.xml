@@ -22,8 +22,7 @@
 		android:id="@+id/relative_layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:layout_centerInParent="true">
+		android:layout_centerVertical="true">
 
 		<TextView
 			android:id="@+id/dev_info_text"
@@ -32,7 +31,7 @@
 			android:textColor="@android:color/white"
 			android:text="Developer Info"
 			android:textSize="30sp"
-			android:layout_marginBottom="24dp"
+			android:layout_marginBottom="20dp"
 			android:layout_centerHorizontal="true"/>
 
 		<br.com.bloder.magic.view.MagicButton
@@ -90,32 +89,30 @@
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_gravity="bottom"
-		android:layout_marginBottom="8dp"
-		android:layout_below="@id/relative_layout"
-		android:layout_alignParentBottom="true"
-		android:gravity="bottom">
+		android:layout_marginBottom="4dp"
+		android:layout_gravity="center"
+		android:layout_alignParentBottom="true">
 
 		<TextView
 			android:id="@+id/txt_app_ver"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
-			android:layout_marginBottom="4dp"
+			android:layout_marginBottom="2dp"
 			android:text="App Version: Release 1.3_b"
-			android:textSize="16sp"
+			android:textSize="14sp"
 			android:textColor="#FFFFFF"
 			android:layout_centerHorizontal="true"
-			android:layout_marginTop="4dp"/>
+			android:layout_marginTop="2dp"/>
 
 		<TextView
 			android:id="@+id/txt_android_ver"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
-			android:layout_marginBottom="4dp"
+			android:layout_marginBottom="2dp"
 			android:text="android_ver"
-			android:textSize="16sp"
+			android:textSize="14sp"
 			android:textColor="#FFFFFF"
 			android:layout_below="@+id/txt_app_ver"
 			android:layout_centerHorizontal="true"/>
@@ -125,9 +122,9 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
-			android:layout_marginBottom="4dp"
+			android:layout_marginBottom="2dp"
 			android:text="android_sdk"
-			android:textSize="16sp"
+			android:textSize="14sp"
 			android:textColor="#FFFFFF"
 			android:layout_below="@+id/txt_android_ver"
 			android:layout_centerHorizontal="true"/>
@@ -137,9 +134,9 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
-			android:layout_marginBottom="4dp"
+			android:layout_marginBottom="2dp"
 			android:text="device_brand"
-			android:textSize="16sp"
+			android:textSize="14sp"
 			android:textColor="#FFFFFF"
 			android:layout_below="@+id/txt_sdk_ver"
 			android:layout_centerHorizontal="true"/>
@@ -149,9 +146,9 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
-			android:layout_marginBottom="4dp"
+			android:layout_marginBottom="2dp"
 			android:text="product_name"
-			android:textSize="16sp"
+			android:textSize="14sp"
 			android:textColor="#FFFFFF"
 			android:layout_below="@+id/txt_device_brand"
 			android:layout_centerHorizontal="true"/>
@@ -161,9 +158,9 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
-			android:layout_marginBottom="4dp"
+			android:layout_marginBottom="2dp"
 			android:text="device_model"
-			android:textSize="16sp"
+			android:textSize="14sp"
 			android:textColor="#FFFFFF"
 			android:layout_below="@+id/txt_product_name"
 			android:layout_centerHorizontal="true"/>
