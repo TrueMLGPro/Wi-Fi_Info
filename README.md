@@ -48,12 +48,12 @@ Go to **Releases** to get the latest app version! **(1.3_b)**
 - [x] Add IPv6 and rename "IP" to "IPv4" **(1.3)**
 - [x] Add Gateway IP, DNS (1), DNS (2) and Lease Duration and Subnet Mask to info string **(1.3)**
 - [x] Start ConnectionStateService as Foreground Service in separate process to prevent Android from stopping it **(1.3)**
+- [x] Add AppShortcuts (home screen shortcuts) for intents **(1.3)**
 - [ ] Add "Start on Device Boot" setting in SettingsActivity **(1.3)**
 - [ ] Add DayNight theme to change app themes from SettingsActivity **(1.3)**
 - [ ] Check if Wi-Fi is enabled on MainActivity start, show dialog if disabled **(1.3)**
 - [ ] Redesign the whole app, move Toolbar menu items to NavigationDrawer, change app font style **(1.3)**
 - [ ] Add animations on activity start (text fade in, moving text) **(1.3)**
-- [ ] Add AppShortcuts (home screen activity shortcuts) for intents **(1.3)**
 - [ ] Add SettingsActivity and add NotificationService stop method **(1.3)**
 - [ ] Add Notification Settings on SettingsActivity to change notification priority and update frequency **(1.3)**
 - [ ] Add Total TX (Sent Packets) and Total RX (Received Packets) to info string **(1.4)**
