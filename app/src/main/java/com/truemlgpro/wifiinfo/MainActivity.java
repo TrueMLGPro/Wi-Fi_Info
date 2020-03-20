@@ -22,6 +22,7 @@ import android.util.*;
 import android.location.*;
 import android.provider.*;
 import android.Manifest;
+import android.graphics.drawable.*;
 import java.util.*;
 import java.net.*;
 import java.io.*;
@@ -62,12 +63,39 @@ public class MainActivity extends AppCompatActivity
 		
 		/// END ///
 		
+		/// Create dynamic shortcuts ///
+		
+		if (android.os.Build.VERSION.SDK_INT > 25) {
+			
+			ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+			
+			ShortcutInfo githubShortcut = new ShortcutInfo.Builder(this, "shortcut_github")
+			.setShortLabel("GitHub Repo")
+			.setLongLabel("Open GitHub repository")
+			.setIcon(Icon.createWithResource(this, R.drawable.ic_github))
+			.setRank(2)
+			.setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TrueMLGPro/Wi-Fi_Info/")))
+			.build();
+			
+			ShortcutInfo releasesShortcut = new ShortcutInfo.Builder(this, "shortcut_releases")
+			.setShortLabel("Releases")
+			.setLongLabel("Open GitHub releases")
+			.setRank(1)
+			.setIcon(Icon.createWithResource(this, R.drawable.ic_folder))
+			.setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TrueMLGPro/Wi-Fi_Info/releases")))
+			.build();
+			
+			shortcutManager.setDynamicShortcuts(Arrays.asList(githubShortcut, releasesShortcut));
+		}
+		
+		/// END ///
+		
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
 		int Permission_All = 1;
 		String[] Permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
 		if(!hasPermissions(this, Permissions)) {
-			Toast toast = Toast.makeText(this, "Location permission is needed to show SSID and BSSID on Android 8+, grant it to get full info", Toast.LENGTH_LONG);
+			Toast toast = Toast.makeText(this, "Location permission is needed to show SSID, BSSID and Network ID on Android 8+, grant it to get full info", Toast.LENGTH_LONG);
 			toast.setGravity(Gravity.CENTER|Gravity.FILL_HORIZONTAL, 0, 50);
 			toast.show();
 			

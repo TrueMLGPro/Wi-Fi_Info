@@ -2,5 +2,8 @@
 <resources>
 
     <string name="app_name">Wi-Fi Info</string>
+	<string name="shortcut_main_short">Start</string>
+	<string name="shortcut_main_long">Start the main activity</string>
+	<string name="shortcut_disabled">Shortcut is not available</string>
 
 </resources>
