@@ -27,7 +27,7 @@
 * __MAC Address__
 * __WPA Supplicant State__
 
-Go to **Releases** to get the latest app version! **(1.3_b)**
+Go to **[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)** to get the latest app version! **(1.3_b)**
 
 [Discord Server](https://discord.gg/qxE2DFr)
 
