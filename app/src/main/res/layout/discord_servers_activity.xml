@@ -76,7 +76,7 @@
 				android:paddingLeft="16dp"
 				android:paddingRight="16dp"
 				android:layout_gravity="center"
-				android:text="Torneix's Cozy Cabin is a good server where you can make nice friends, chat with non-toxic people and have fun too!"/>
+				android:text="Torneix's Norse Cabin is a good server where you can make nice friends, chat with non-toxic people and have fun too!"/>
 			
 			<Button
 				android:id="@+id/torneix_button"

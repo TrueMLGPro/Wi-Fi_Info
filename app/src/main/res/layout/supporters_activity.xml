@@ -122,7 +122,7 @@
 					android:layout_height="wrap_content"
 					android:textSize="24sp"
 					android:textColor="#FFFFFF"
-					android:text="GW Andrew#6457"
+					android:text="GW Andrew#0666"
 					android:layout_below="@+id/andrew_pfp"
 					android:layout_gravity="center"
 					android:layout_centerHorizontal="true"
