@@ -40,6 +40,98 @@
 				android:text="" />
 			
 		</LinearLayout>
+		
+		<com.github.clans.fab.FloatingActionMenu
+			xmlns:fab="http://schemas.android.com/apk/res-auto"
+			android:id="@+id/fam"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|right"
+			android:layout_marginBottom="8dp"
+			android:layout_marginRight="8dp"
+			fab:menu_fab_size="normal"
+			fab:menu_showShadow="true"
+			fab:menu_shadowColor="#66000000"
+			fab:menu_shadowRadius="4dp"
+			fab:menu_shadowXOffset="1dp"
+			fab:menu_shadowYOffset="3dp"
+			fab:menu_colorNormal="#303030"
+			fab:menu_colorPressed="#404040"
+			fab:menu_colorRipple="#30FFFFFF"
+			fab:menu_animationDelayPerItem="25"
+			fab:menu_icon="@drawable/ic_plus_light"
+			fab:menu_buttonSpacing="-2dp"
+			fab:menu_labels_margin="0dp"
+			fab:menu_labels_showAnimation="@anim/fab_open"
+			fab:menu_labels_hideAnimation="@anim/fab_close"
+			fab:menu_labels_paddingTop="2dp"
+			fab:menu_labels_paddingRight="4dp"
+			fab:menu_labels_paddingBottom="2dp"
+			fab:menu_labels_paddingLeft="4dp"
+			fab:menu_labels_padding="8dp"
+			fab:menu_labels_textColor="#FFFFFF"
+			fab:menu_labels_textSize="16sp"
+			fab:menu_labels_cornerRadius="4dp"
+			fab:menu_labels_colorNormal="#333333"
+			fab:menu_labels_colorPressed="#444444"
+			fab:menu_labels_colorRipple="#30FFFFFF"
+			fab:menu_labels_showShadow="true"
+			fab:menu_labels_singleLine="true"
+			fab:menu_labels_ellipsize="none"
+			fab:menu_labels_maxLines="-1"
+			fab:menu_labels_position="left"
+			fab:menu_openDirection="up"
+			fab:menu_backgroundColor="@color/android:transparent"
+			fab:menu_fab_label=""
+			fab:menu_fab_show_animation="@anim/fab_open"
+			fab:menu_fab_hide_animation="@anim/fab_close">
+			
+			<com.github.clans.fab.FloatingActionButton
+				android:id="@+id/menu_item_1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_info"
+				fab:fab_colorNormal="#303030"
+				fab:fab_colorPressed="#404040"
+				fab:fab_colorRipple="#30FFFFFF"
+				fab:fab_size="mini"
+				fab:fab_label="Developer Info" />
+			
+			<com.github.clans.fab.FloatingActionButton
+				android:id="@+id/menu_item_2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_discord"
+				fab:fab_colorNormal="#303030"
+				fab:fab_colorPressed="#404040"
+				fab:fab_colorRipple="#30FFFFFF"
+				fab:fab_size="mini"
+				fab:fab_label="Discord Servers" />
+			
+			<com.github.clans.fab.FloatingActionButton
+				android:id="@+id/menu_item_3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_people"
+				fab:fab_colorNormal="#303030"
+				fab:fab_colorPressed="#404040"
+				fab:fab_colorRipple="#30FFFFFF"
+				fab:fab_size="mini"
+				fab:fab_label="Supporters" />
+			
+			<com.github.clans.fab.FloatingActionButton
+				android:id="@+id/menu_item_4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_settings"
+				fab:fab_colorNormal="#303030"
+				fab:fab_colorPressed="#404040"
+				fab:fab_colorRipple="#30FFFFFF"
+				fab:fab_size="mini"
+				fab:fab_label="Settings" />
+		
+		</com.github.clans.fab.FloatingActionMenu>
+		
 	</FrameLayout>
 
 </android.support.v4.widget.DrawerLayout>

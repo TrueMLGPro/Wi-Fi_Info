@@ -14,7 +14,7 @@ public class ConnectionStateService extends Service
 	private BroadcastReceiver ConnectionStateReceiver;
 	private Notification.Builder builder;
 	
-	// Build 172
+	// Build 230
 
 public class ConnectionStateReceiver extends BroadcastReceiver
 {

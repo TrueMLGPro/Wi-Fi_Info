@@ -81,6 +81,7 @@
 		<receiver android:name=".ActionButtonReceiver">
 			<intent-filter>
 				<action android:name="ACTION_STOP" />
+				<action android:name="ACTION_NTFC_SETTINGS" />
 			</intent-filter>
 		</receiver>
 		

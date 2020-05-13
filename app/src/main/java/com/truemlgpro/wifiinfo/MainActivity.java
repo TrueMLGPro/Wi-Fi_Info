@@ -27,6 +27,8 @@ import java.util.*;
 import java.net.*;
 import java.io.*;
 import me.anwarshahriar.calligrapher.*;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 public class MainActivity extends AppCompatActivity 
 {
@@ -34,6 +36,11 @@ public class MainActivity extends AppCompatActivity
 	private Toolbar toolbar;
 	private DrawerLayout mDrawerLayout;
 	private TextView textview;
+	private FloatingActionMenu fam;
+	private FloatingActionButton fab_info;
+	private FloatingActionButton fab_discord;
+	private FloatingActionButton fab_supporters;
+	private FloatingActionButton fab_settings;
 	
 	private LocationManager locationManager;
 	private NetworkInfo WiFiCheck;
@@ -51,6 +58,11 @@ public class MainActivity extends AppCompatActivity
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		textview = (TextView) findViewById(R.id.textview1);
+		fam = (FloatingActionMenu) findViewById(R.id.fam);
+		fab_info = (FloatingActionButton) findViewById(R.id.menu_item_1);
+		fab_discord = (FloatingActionButton) findViewById(R.id.menu_item_2);
+		fab_supporters = (FloatingActionButton) findViewById(R.id.menu_item_3);
+		fab_settings = (FloatingActionButton) findViewById(R.id.menu_item_4);
 		
 		/// Service startup code goes here ///
 		
@@ -93,7 +105,7 @@ public class MainActivity extends AppCompatActivity
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
 		int Permission_All = 1;
-		String[] Permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
+		String[] Permissions = {Manifest.permission.ACCESS_COARSE_LOCATION};
 		if(!hasPermissions(this, Permissions)) {
 			Toast toast = Toast.makeText(this, "Location permission is needed to show SSID, BSSID and Network ID on Android 8+, grant it to get full info", Toast.LENGTH_LONG);
 			toast.setGravity(Gravity.CENTER|Gravity.FILL_HORIZONTAL, 0, 50);
@@ -102,7 +114,7 @@ public class MainActivity extends AppCompatActivity
 			ActivityCompat.requestPermissions(this, Permissions, Permission_All);
 		}
 		
-		if(android.os.Build.VERSION.SDK_INT > 25 && android.os.Build.VERSION.SDK_INT < 29) {
+		if(android.os.Build.VERSION.SDK_INT >= 25 && android.os.Build.VERSION.SDK_INT < 29) {
 			// Notify User if GPS is disabled
 			isLocationEnabled();
 			if(!isLocationEnabled()) {
@@ -153,6 +165,42 @@ public class MainActivity extends AppCompatActivity
 				alert.show();
 			}
 		}
+		
+		fab_info.setOnClickListener(new View.OnClickListener() {
+			 @Override
+			 public void onClick(View v) {
+				 Intent intent_info = new Intent(MainActivity.this, DevInfoActivity.class);
+				 startActivity(intent_info);
+				 fam.close(true);
+			 }
+		});
+		
+		fab_discord.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent_discord = new Intent(MainActivity.this, DiscordServersActivity.class);
+				startActivity(intent_discord);
+				fam.close(true);
+			}
+		});
+		
+		fab_supporters.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent_supporters = new Intent(MainActivity.this, SupportersActivity.class);
+				startActivity(intent_supporters);
+				fam.close(true);
+			}
+		});
+		
+		fab_settings.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent_settings = new Intent(MainActivity.this, SettingsActivity.class);
+				startActivity(intent_settings);
+				fam.close(true);
+			}
+		});
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		calligrapher.setFont(this, "fonts/GoogleSans-Medium.ttf", true);
@@ -364,7 +412,7 @@ public class MainActivity extends AppCompatActivity
 		alert.show();
 	}
 	
-	@Override 
+	/*@Override 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.action_bar_menu, menu);
 		return true;
@@ -392,7 +440,7 @@ public class MainActivity extends AppCompatActivity
 			startActivity(intent);
 		}
 		return true;
-    }
+    }*/
 	
 	
 }

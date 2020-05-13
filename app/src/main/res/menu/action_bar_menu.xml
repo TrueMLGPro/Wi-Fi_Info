@@ -14,7 +14,6 @@
 	
 	<item
 		android:id="@+id/settings"
-		android:enabled="false"
-		android:title="Settings (Coming Soon)" />
+		android:title="Settings" />
     
 </menu>
