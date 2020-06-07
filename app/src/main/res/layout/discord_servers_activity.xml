@@ -1,100 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:id="@+id/drawer_layout"
+	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:fitsSystemWindows="true">
+	android:orientation="vertical"
+	android:background="@color/backgroundColorDark">
 
-	<FrameLayout
-		android:id="@+id/content_frame"
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+		app:navigationIcon="?attr/homeAsUpIndicator"
+		app:titleTextColor="#FFFFFF"
+		app:subtitleTextColor="#FFFFFF"/>
+
+	<LinearLayout
+		android:id="@+id/linearlayout1"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:orientation="vertical"
-		android:background="@color/backgroundColorDark">
+		android:gravity="center">
 
-		<android.support.v7.widget.Toolbar
-			android:id="@+id/toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			android:background="?attr/colorPrimary"
-			android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-			app:navigationIcon="?attr/homeAsUpIndicator"
-			app:titleTextColor="#FFFFFF"
-			app:subtitleTextColor="#FFFFFF"/>
-
-		<LinearLayout
-			android:id="@+id/linearlayout1"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical"
-			android:gravity="center">
-
-			<TextView
-				android:id="@+id/discordServersTextView"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textSize="30sp"
-				android:textColor="#FFFFFF"
-				android:layout_marginBottom="16dp"
-				android:text="Official Discord Servers"/>
+		<TextView
+			android:id="@+id/discordServersTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="30sp"
+			android:textColor="#FFFFFF"
+			android:layout_marginBottom="16dp"
+			android:text="Official Discord Servers"/>
 			
-			<TextView
-				android:id="@+id/true_mlg_pro_TextView"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textSize="18sp"
-				android:textColor="#FFFFFF"
-				android:layout_margin="16dp"
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp"
-				android:layout_gravity="center"
-				android:text="TrueMLGPro's Dev Base is a place where you can get latest app updates, suggest cool features and have fun!"/>
+		<TextView
+			android:id="@+id/true_mlg_pro_TextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="18sp"
+			android:textColor="#FFFFFF"
+			android:layout_margin="16dp"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:layout_gravity="center"
+			android:text="TrueMLGPro's Dev Base is a place where you can get latest app updates, suggest cool features, report bugs and have fun!"/>
 			
-			<Button
-				android:id="@+id/true_mlg_pro_button"
-				android:layout_width="200dp"
-				android:layout_height="60dp"
-				android:layout_margin="8dp"
-				android:textColor="#FFFFFF"
-				android:textSize="16sp"
-				android:background="@drawable/ripple"
-				android:stateListAnimator="@null"
-				android:elevation="4dp"
-				android:translationZ="4dp"
-				android:text="Official App Server"
-				android:onClick="official_onClick"/>
+		<Button
+			android:id="@+id/true_mlg_pro_button"
+			android:layout_width="200dp"
+			android:layout_height="60dp"
+			android:layout_margin="8dp"
+			android:textColor="#FFFFFF"
+			android:textSize="16sp"
+			android:background="@drawable/ripple"
+			android:stateListAnimator="@null"
+			android:elevation="4dp"
+			android:translationZ="4dp"
+			android:text="Official App Server"
+			android:onClick="official_onClick"/>
 			
-			<TextView
-				android:id="@+id/torneix_TextView"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textSize="18sp"
-				android:textColor="#FFFFFF"
-				android:layout_margin="16dp"
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp"
-				android:layout_gravity="center"
-				android:text="Torneix's Norse Cabin is a good server where you can make nice friends, chat with non-toxic people and have fun too!"/>
+		<TextView
+			android:id="@+id/andrew_TextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="18sp"
+			android:textColor="#FFFFFF"
+			android:layout_margin="16dp"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:layout_gravity="center"
+			android:text="GW Andrew's Server is a good community where you can make nice friends, chat with non-toxic people and have fun too!"/>
 			
-			<Button
-				android:id="@+id/torneix_button"
-				android:layout_width="200dp"
-				android:layout_height="60dp"
-				android:layout_marginTop="8dp"
-				android:textColor="#FFFFFF"
-				android:textSize="16sp"
-				android:background="@drawable/ripple"
-				android:stateListAnimator="@null"
-				android:elevation="4dp"
-				android:translationZ="4dp"
-				android:text="Torneix's Server"
-				android:onClick="torneix_onClick"/>
+		<Button
+			android:id="@+id/torneix_button"
+			android:layout_width="200dp"
+			android:layout_height="60dp"
+			android:layout_marginTop="8dp"
+			android:textColor="#FFFFFF"
+			android:textSize="16sp"
+			android:background="@drawable/ripple"
+			android:stateListAnimator="@null"
+			android:elevation="4dp"
+			android:translationZ="4dp"
+			android:text="GW Andrew's Server"
+			android:onClick="andrew_onClick"/>
 
-		</LinearLayout>
+	</LinearLayout>
 
-	</FrameLayout>
-
-</android.support.v4.widget.DrawerLayout>
-
+</FrameLayout>

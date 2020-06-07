@@ -15,6 +15,7 @@ public class SplashActivity extends AppCompatActivity
 
 	private TextView splash_text;
 	private TextView dev_name;
+	private TextView version_txt;
 	private ImageView splash_logo;
 	
 	@Override
@@ -26,6 +27,7 @@ public class SplashActivity extends AppCompatActivity
 		splash_text = (TextView) findViewById(R.id.splash_text);
 		splash_logo = (ImageView) findViewById(R.id.splash_logo);
 		dev_name = (TextView) findViewById(R.id.dev_name);
+		version_txt = (TextView) findViewById(R.id.version_txt);
 		
 		ObjectAnimator.ofFloat(splash_logo, View.ALPHA, 0.0f, 1.0f).setDuration(2500).start();
 		ObjectAnimator.ofFloat(splash_logo, View.SCALE_X, 0.1f, 0.75f).setDuration(2000).start();
@@ -38,6 +40,10 @@ public class SplashActivity extends AppCompatActivity
 		ObjectAnimator.ofFloat(dev_name, View.ALPHA, 0.0f, 1.0f).setDuration(2750).start();
 		ObjectAnimator.ofFloat(dev_name, View.SCALE_X, 0.25f, 1.0f).setDuration(2250).start();
 		ObjectAnimator.ofFloat(dev_name, View.SCALE_Y, 0.25f, 1.0f).setDuration(2250).start();
+		
+		ObjectAnimator.ofFloat(version_txt, View.ALPHA, 0.0f, 1.0f).setDuration(2750).start();
+		ObjectAnimator.ofFloat(version_txt, View.SCALE_X, 0.25f, 1.0f).setDuration(2250).start();
+		ObjectAnimator.ofFloat(version_txt, View.SCALE_Y, 0.25f, 1.0f).setDuration(2250).start();
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		calligrapher.setFont(this, "fonts/GoogleSans-Medium.ttf", true);

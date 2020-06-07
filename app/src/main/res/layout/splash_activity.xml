@@ -36,6 +36,15 @@
 		android:layout_alignParentBottom="true">
 
 		<TextView
+			android:id="@+id/version_txt"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="v1.3"
+			android:textColor="#FFFFFF"
+			android:textSize="18sp"
+			android:layout_marginBottom="8dp"/>
+
+		<TextView
 			android:id="@+id/dev_name"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

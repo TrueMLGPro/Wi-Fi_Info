@@ -19,7 +19,7 @@ public class DiscordServersActivity extends AppCompatActivity
 	private Toolbar toolbar;
 	private DrawerLayout mDrawerLayout;
 	private Button true_mlg_pro_button;
-	private Button torneix_button;
+	private Button andrew_button;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -32,7 +32,7 @@ public class DiscordServersActivity extends AppCompatActivity
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		true_mlg_pro_button = (Button) findViewById(R.id.true_mlg_pro_button);
-		torneix_button = (Button) findViewById(R.id.torneix_button);
+		andrew_button = (Button) findViewById(R.id.torneix_button);
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		calligrapher.setFont(this, "fonts/GoogleSans-Medium.ttf", true);
@@ -54,14 +54,14 @@ public class DiscordServersActivity extends AppCompatActivity
 	}
 	
 	public void official_onClick(View v) {
-		String url = "https://discord.gg/qxE2DFr"; 
+		String url = "https://discord.gg/qxE2DFr";
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(url));
 		startActivity(i);
 	}
 	
-	public void torneix_onClick(View v) {
-		String url = "https://discord.gg/FK7Pwtr"; 
+	public void andrew_onClick(View v) {
+		String url = "https://discord.gg/c5GF2Ux";
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(url));
 		startActivity(i);

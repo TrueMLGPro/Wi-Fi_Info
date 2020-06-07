@@ -14,7 +14,7 @@ public class ConnectionStateService extends Service
 	private BroadcastReceiver ConnectionStateReceiver;
 	private Notification.Builder builder;
 	
-	// Build 230
+	// Build 357
 
 public class ConnectionStateReceiver extends BroadcastReceiver
 {
@@ -25,7 +25,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		ConnectivityManager CM = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo WiFi_NI = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		
-		boolean isConnected = WiFi_NI != null && WiFi_NI.isConnectedOrConnecting();
+		boolean isConnected = WiFi_NI != null && WiFi_NI.isConnected();
 		
 		if (isConnected) {
 			Intent ServiceIntent = new Intent(context, NotificationService.class);
@@ -36,121 +36,153 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			}
 			
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
-				int NOTIFICATION_ID = 1304;
-
-				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
-				builder = new Notification.Builder(context, channelID);
-
-				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Online")
-					.setWhen(System.currentTimeMillis())
-					.setChannelId(channelID)
-					.setColor(getResources().getColor(R.color.ntfcColor))
-					.setCategory(Notification.CATEGORY_SERVICE)
-					.setOngoing(true)
-					.setOnlyAlertOnce(true)
-					.setAutoCancel(false)
-					.build();
-				notificationManager.notify(NOTIFICATION_ID, notification);
+				showOnlineNotificationAPI26_28(context);
 			} else if (android.os.Build.VERSION.SDK_INT == 29) {
-				int NOTIFICATION_ID = 1305;
-
-				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
-				builder = new Notification.Builder(context, channelID);
-
-				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Online")
-					.setWhen(System.currentTimeMillis())
-					.setChannelId(channelID)
-					.setColor(getResources().getColor(R.color.ntfcColor))
-					.setCategory(Notification.CATEGORY_SERVICE)
-					.setOngoing(true)
-					.setOnlyAlertOnce(true)
-					.setAutoCancel(false)
-					.build();
-				notificationManager.notify(NOTIFICATION_ID, notification);
+				showOnlineNotificationAPI29(context);
 			} else if (android.os.Build.VERSION.SDK_INT < 26) {
-				int NOTIFICATION_ID = 1306;
-
-				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				builder = new Notification.Builder(context);
-
-				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Online")
-					.setWhen(System.currentTimeMillis())
-					.setPriority(Notification.PRIORITY_MIN)
-					.setColor(getResources().getColor(R.color.ntfcColor))
-					.setCategory(Notification.CATEGORY_SERVICE)
-					.setOngoing(true)
-					.setOnlyAlertOnce(true)
-					.setAutoCancel(false)
-					.build();
-				notificationManager.notify(NOTIFICATION_ID, notification);
+				showOnlineNotificationAPI21(context);
 			}
 		} else {
 			Intent ServiceIntent = new Intent(context, NotificationService.class);
 			context.stopService(ServiceIntent);
 			
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
-				int NOTIFICATION_ID = 1304;
-
-				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
-				builder = new Notification.Builder(context, channelID);
-
-				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Offline")
-					.setWhen(System.currentTimeMillis())
-					.setColor(getResources().getColor(R.color.ntfcColor))
-					.setCategory(Notification.CATEGORY_SERVICE)
-					.setOngoing(true)
-					.setOnlyAlertOnce(true)
-					.setAutoCancel(false)
-					.build();
-				notificationManager.notify(NOTIFICATION_ID, notification);
+				showOfflineNotificationAPI26_28(context);
 			} else if (android.os.Build.VERSION.SDK_INT == 29) {
-				int NOTIFICATION_ID = 1305;
-
-				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
-				builder = new Notification.Builder(context, channelID);
-
-				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Offline")
-					.setWhen(System.currentTimeMillis())
-					.setChannelId(channelID)
-					.setColor(getResources().getColor(R.color.ntfcColor))
-					.setCategory(Notification.CATEGORY_SERVICE)
-					.setOngoing(true)
-					.setOnlyAlertOnce(true)
-					.setAutoCancel(false)
-					.build();
-				notificationManager.notify(NOTIFICATION_ID, notification);
+				showOfflineNotificationAPI29(context);
 			} else if (android.os.Build.VERSION.SDK_INT < 26) {
-				int NOTIFICATION_ID = 1306;
-
-				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				builder = new Notification.Builder(context);
-
-				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Offline")
-					.setWhen(System.currentTimeMillis())
-					.setPriority(Notification.PRIORITY_MIN)
-					.setColor(getResources().getColor(R.color.ntfcColor))
-					.setCategory(Notification.CATEGORY_SERVICE)
-					.setOngoing(true)
-					.setOnlyAlertOnce(true)
-					.setAutoCancel(false)
-					.build();
-				notificationManager.notify(NOTIFICATION_ID, notification);
+				showOfflineNotificationAPI21(context);
 			}
 		}
 	}
 		public ConnectionStateReceiver() {
 			
 		}
+		
+		/// ONLINE NOTIFICATIONS ///
+		
+		public void showOnlineNotificationAPI26_28(Context context) {
+			int NOTIFICATION_ID = 1304;
+
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+			builder = new Notification.Builder(context, channelID);
+
+			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
+				.setContentTitle("ConnectionStateService — Online")
+				.setWhen(System.currentTimeMillis())
+				.setChannelId(channelID)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		}
+		
+		public void showOnlineNotificationAPI29(Context context) {
+			int NOTIFICATION_ID = 1305;
+
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+			builder = new Notification.Builder(context, channelID);
+
+			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
+				.setContentTitle("ConnectionStateService — Online")
+				.setWhen(System.currentTimeMillis())
+				.setChannelId(channelID)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		}
+		
+		public void showOnlineNotificationAPI21(Context context) {
+			int NOTIFICATION_ID = 1306;
+
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			builder = new Notification.Builder(context);
+
+			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
+				.setContentTitle("ConnectionStateService — Online")
+				.setWhen(System.currentTimeMillis())
+				.setPriority(Notification.PRIORITY_MIN)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		}
+		
+		/// END ///
+		
+		/// OFFLINE NOTIFICATIONS ///
+		
+		public void showOfflineNotificationAPI26_28(Context context) {
+			int NOTIFICATION_ID = 1304;
+
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+			builder = new Notification.Builder(context, channelID);
+
+			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
+				.setContentTitle("ConnectionStateService — Offline")
+				.setWhen(System.currentTimeMillis())
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		}
+		
+		public void showOfflineNotificationAPI29(Context context) {
+			int NOTIFICATION_ID = 1305;
+
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+			builder = new Notification.Builder(context, channelID);
+
+			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
+				.setContentTitle("ConnectionStateService — Offline")
+				.setWhen(System.currentTimeMillis())
+				.setChannelId(channelID)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		}
+		
+		public void showOfflineNotificationAPI21(Context context) {
+			int NOTIFICATION_ID = 1306;
+
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			builder = new Notification.Builder(context);
+
+			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
+				.setContentTitle("ConnectionStateService — Offline")
+				.setWhen(System.currentTimeMillis())
+				.setPriority(Notification.PRIORITY_MIN)
+				.setColor(getResources().getColor(R.color.ntfcColor))
+				.setCategory(Notification.CATEGORY_SERVICE)
+				.setOngoing(true)
+				.setOnlyAlertOnce(true)
+				.setAutoCancel(false)
+				.build();
+			notificationManager.notify(NOTIFICATION_ID, notification);
+		}
+		
+		/// END ///
 }
 	
 	@Override
