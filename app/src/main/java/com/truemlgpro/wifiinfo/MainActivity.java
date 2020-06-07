@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity
 	private TextView textview14;
 	private TextView textview15;
 	private TextView textview16;
-	private TextView textview17;
-	private TextView textview18;
+	//private TextView textview17;
+	//private TextView textview18;
 	private TextView textview_noconn;
 	private CardView cardview_1;
 	private CardView cardview_2;
@@ -530,8 +530,8 @@ public class MainActivity extends AppCompatActivity
 		textview14 = (TextView) findViewById(R.id.textview14);
 		textview15 = (TextView) findViewById(R.id.textview15);
 		textview16 = (TextView) findViewById(R.id.textview16);
-		textview17 = (TextView) findViewById(R.id.textview17);
-		textview18 = (TextView) findViewById(R.id.textview18);
+		//textview17 = (TextView) findViewById(R.id.textview17);
+		//textview18 = (TextView) findViewById(R.id.textview18);
 		textview_noconn = (TextView) findViewById(R.id.textview_noconn);
 		cardview_1 = (CardView) findViewById(R.id.cardview_1);
 		cardview_2 = (CardView) findViewById(R.id.cardview_2);

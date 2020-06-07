@@ -367,11 +367,12 @@
 							android:layout_marginTop="16dp"
 							android:layout_marginLeft="16dp"
 							android:layout_marginRight="16dp"
+							android:layout_marginBottom="16dp"
 							android:textSize="16sp"
 							android:textColor="@android:color/white"
 							android:text="" />
 						
-						<TextView
+						<!--<TextView
 							android:id="@+id/textview17"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
@@ -392,7 +393,7 @@
 							android:layout_marginBottom="16dp"
 							android:textSize="16sp"
 							android:textColor="@android:color/white"
-							android:text="WIP" />
+							android:text="WIP" /> -->
 
 					</LinearLayout>
 
