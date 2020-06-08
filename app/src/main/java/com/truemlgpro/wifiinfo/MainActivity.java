@@ -99,7 +99,9 @@ public class MainActivity extends AppCompatActivity
 		
 		/// Request permissions ///
 		
-		requestPermissionsOnStart();
+		if (android.os.Build.VERSION.SDK_INT > 25) {
+			requestPermissionsOnStart();
+		}
 		
 		/// END ///
 		
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(false);
-		actionbar.setSubtitle("Release v1.3");
+		actionbar.setSubtitle("Release v1.3.0.1");
 		actionbar.setElevation(20);
 		
 		/// END ///
