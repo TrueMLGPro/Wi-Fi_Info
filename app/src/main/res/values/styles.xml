@@ -7,6 +7,7 @@
 		<item name="android:navigationBarColor">#303030</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
 	</style>
 
 	<style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -16,6 +17,7 @@
 		<item name="android:navigationBarColor">#FFFFFF</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
 	</style>
 	
 	<style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">

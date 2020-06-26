@@ -71,7 +71,7 @@ public class DevInfoActivity extends AppCompatActivity
 		try {
 			PackageInfo pi = this.getPackageManager().getPackageInfo(getPackageName(), 0);
 			version = pi.versionName;
-		} catch (PackageManager.NameNotFoundException e){
+		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
 		}
 		

@@ -78,8 +78,7 @@ public class MainActivity extends AppCompatActivity
 	private String publicIPFetched;
 	private boolean siteReachable = false;
 	private Scanner scanner;
-	private ConnectivityManager CM;
-	private Context context;
+	private String version;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -140,6 +139,17 @@ public class MainActivity extends AppCompatActivity
 		
 		/// END ///
 		
+		/// Get app version ///
+		
+		try {
+			PackageInfo pi = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+			version = pi.versionName;
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		///
+		
 		/// Initialize font and ActionBar
 		
 		Calligrapher calligrapher = new Calligrapher(this);
@@ -148,7 +158,7 @@ public class MainActivity extends AppCompatActivity
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(false);
-		actionbar.setSubtitle("Release v1.3.0.1");
+		actionbar.setSubtitle("Release v" + version);
 		actionbar.setElevation(20);
 		
 		/// END ///

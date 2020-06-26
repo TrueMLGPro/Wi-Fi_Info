@@ -39,7 +39,7 @@
 			android:id="@+id/version_txt"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="v1.3.0.1"
+			android:text="Version"
 			android:textColor="#FFFFFF"
 			android:textSize="18sp"
 			android:layout_marginBottom="8dp"/>

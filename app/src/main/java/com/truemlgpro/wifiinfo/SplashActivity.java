@@ -9,6 +9,7 @@ import android.widget.*;
 import me.anwarshahriar.calligrapher.*;
 import android.animation.*;
 import android.view.*;
+import android.content.pm.*;
 
 public class SplashActivity extends AppCompatActivity
 {
@@ -17,6 +18,7 @@ public class SplashActivity extends AppCompatActivity
 	private TextView dev_name;
 	private TextView version_txt;
 	private ImageView splash_logo;
+	private String version;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -24,10 +26,19 @@ public class SplashActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash_activity);
 		
+		try {
+			PackageInfo pi = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+			version = pi.versionName;
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		splash_text = (TextView) findViewById(R.id.splash_text);
 		splash_logo = (ImageView) findViewById(R.id.splash_logo);
 		dev_name = (TextView) findViewById(R.id.dev_name);
 		version_txt = (TextView) findViewById(R.id.version_txt);
+		
+		version_txt.setText("v" + version);
 		
 		ObjectAnimator.ofFloat(splash_logo, View.ALPHA, 0.0f, 1.0f).setDuration(2500).start();
 		ObjectAnimator.ofFloat(splash_logo, View.SCALE_X, 0.1f, 0.75f).setDuration(2000).start();
