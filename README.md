@@ -34,7 +34,7 @@
 * __WPA Supplicant State__
 * __Router Setup Page__ **[Coming Soon]**
 
-Go to **[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)** to get the latest app version! **(1.3.0.1_stable)**
+Go to **[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)** to get the latest app version!
 
 [Discord Server](https://discord.gg/qxE2DFr)
 
