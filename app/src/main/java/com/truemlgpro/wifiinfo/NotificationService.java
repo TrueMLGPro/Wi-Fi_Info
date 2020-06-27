@@ -135,6 +135,12 @@ public class NotificationService extends Service
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ssid = wInfo.getSSID();
 		String bssd = wInfo.getBSSID().toUpperCase();
+		//if(String bssd = wInfo.getBSSID() != null) {
+			//String bssd = wInfo.getBSSID().toUpperCase();
+		//}
+		//else {
+			//String bssd = "ok";
+		//}
 		int rssi = wInfo.getRssi();
 		int freq = wInfo.getFrequency();
 		int networkSpeed = wInfo.getLinkSpeed();
