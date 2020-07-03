@@ -82,8 +82,6 @@ public class SplashActivity extends AppCompatActivity
 	{
 		if (android.os.Build.VERSION.SDK_INT < 29) {
 			super.onBackPressed();
-		} else {
-			
 		}
 	}
 	

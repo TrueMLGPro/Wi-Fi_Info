@@ -134,7 +134,12 @@ public class NotificationService extends Service
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ssid = wInfo.getSSID();
-		String bssd = wInfo.getBSSID().toUpperCase();
+		String bssd;
+		if (wInfo.getBSSID() != null) {
+			bssd = wInfo.getBSSID().toUpperCase();
+		} else {
+			bssd = "N/A";
+		}
 		int rssi = wInfo.getRssi();
 		int freq = wInfo.getFrequency();
 		int networkSpeed = wInfo.getLinkSpeed();
@@ -244,7 +249,12 @@ public class NotificationService extends Service
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ssid = wInfo.getSSID();
-		String bssd = wInfo.getBSSID().toUpperCase();
+		String bssd;
+		if (wInfo.getBSSID() != null) {
+			bssd = wInfo.getBSSID().toUpperCase();
+		} else {
+			bssd = "N/A";
+		}
 		int rssi = wInfo.getRssi();
 		int freq = wInfo.getFrequency();
 		int networkSpeed = wInfo.getLinkSpeed();

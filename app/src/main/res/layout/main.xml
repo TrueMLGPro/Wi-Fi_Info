@@ -90,7 +90,6 @@
 							fab:fab_colorDisabled="#1F67B1"
 							fab:fab_colorRipple="#30FFFFFF"
 							fab:fab_size="mini" />
-						<!-- TODO -->
 					
 					</LinearLayout>
 				

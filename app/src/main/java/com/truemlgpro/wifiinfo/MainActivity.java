@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 		initializeViews();
 		initializeOnClickListeners();
 		
-		/// POLICY SETTINGS (UNSTABLE) ///
+		/// POLICY SETTINGS ///
 		
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity
 			e.printStackTrace();
 		}
 		
-		///
+		/// END ///
 		
 		/// Initialize font and ActionBar
 		
@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity
 				return res1.toString();
 			}
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		
 		return "";
