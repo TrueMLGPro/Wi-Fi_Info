@@ -131,7 +131,7 @@ public class NotificationService extends Service
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ssid = wInfo.getSSID();
-		if (ssid == "<unknown ssid>") {
+		if (ssid.equals("<unknown ssid>")) {
 			ssid = "N/A";
 		}
 		String bssd;
@@ -198,7 +198,7 @@ public class NotificationService extends Service
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ssid = wInfo.getSSID();
-		if (ssid == "<unknown ssid>") {
+		if (ssid.equals("<unknown ssid>")) {
 			ssid = "N/A";
 		}
 		int rssi = wInfo.getRssi();
@@ -252,7 +252,7 @@ public class NotificationService extends Service
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ssid = wInfo.getSSID();
-		if (ssid == "<unknown ssid>") {
+		if (ssid.equals("<unknown ssid>")) {
 			ssid = "N/A";
 		}
 		String bssd;

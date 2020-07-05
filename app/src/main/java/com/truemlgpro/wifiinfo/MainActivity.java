@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity
 			String info_15 = "Lease Duration: " + leaseTime;
 			String info_16 = "Supplicant State: " + supState;
 			
-			if (ssid == "<unknown ssid>") {
+			if (ssid.equals("<unknown ssid>")) {
 				textview1.setText("SSID: N/A");
 			} else {
 				textview1.setText(info_1);
