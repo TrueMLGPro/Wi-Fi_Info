@@ -208,15 +208,37 @@ public class MainActivity extends AppCompatActivity
 			String info_14 = "Network Speed: " + networkSpeed + "MB/s";
 			String info_15 = "Lease Duration: " + leaseTime;
 			String info_16 = "Supplicant State: " + supState;
-			textview1.setText(info_1);
-			textview2.setText(info_2);
+			
+			if (ssid == "<unknown ssid>") {
+				textview1.setText("SSID: N/A");
+			} else {
+				textview1.setText(info_1);
+			}
+			
+			if (bssid.contains("02:00:00:00:00:00")) {
+				textview2.setText("BSSID: N/A");
+			} else {
+				textview2.setText(info_2);
+			}
+			
 			textview3.setText(info_3);
 			textview4.setText(info_4);
 			textview5.setText(info_5);
 			textview6.setText(info_6);
 			textview7.setText(info_7);
-			textview8.setText(info_8);
-			textview9.setText(info_9);
+			
+			if (subnetMask.contains("0.0.0.0")) {
+				textview8.setText("Subnet Mask: N/A");
+			} else {
+				textview8.setText(info_8);
+			}
+			
+			if (network_id == -1) {
+				textview9.setText("Network ID: N/A");
+			} else {
+				textview9.setText(info_9);
+			}
+			
 			textview10.setText(info_10);
 			textview11.setText(info_11);
 			textview12.setText(info_12);
