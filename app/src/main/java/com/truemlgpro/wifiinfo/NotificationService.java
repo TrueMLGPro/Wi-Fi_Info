@@ -29,9 +29,7 @@ public class NotificationService extends Service
 	@Override
 	public void onDestroy()
 	{
-		//if (handler != null) {
-			handler.removeCallbacks(runnable);
-		//}
+		handler.removeCallbacks(runnable);
 		super.onDestroy();
 	}
 
@@ -41,7 +39,6 @@ public class NotificationService extends Service
 		/// Notification Button Receivers ///
 		
 		if (intent.getAction() != null && intent.getAction().equals("ACTION_STOP")) {
-			
 			stopSelf();
 		}
 
