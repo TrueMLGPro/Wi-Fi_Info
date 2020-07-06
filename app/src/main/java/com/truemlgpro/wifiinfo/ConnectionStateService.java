@@ -220,11 +220,11 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		if (isConnected) {
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
 				int NOTIFICATION_ID = 1304;
-				
+
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 				builder = new Notification.Builder(this, channelID);
-				
+
 				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 					.setContentTitle("ConnectionStateService — Online")
 					.setWhen(System.currentTimeMillis())
