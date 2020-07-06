@@ -294,7 +294,7 @@ public class NotificationService extends Service
 	@RequiresApi(Build.VERSION_CODES.O)
 	private String createNotificationChannel(NotificationManager notificationManager) {
 		String channelID = "wifi_info";
-		CharSequence channelName = "Wi-Fi Info Notification Service";
+		CharSequence channelName = "Notification Service";
 		NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_LOW);
 		channel.setDescription("Main Wi-Fi Info Notification");
 		channel.setShowBadge(false);
