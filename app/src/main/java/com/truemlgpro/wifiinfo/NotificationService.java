@@ -94,8 +94,8 @@ public class NotificationService extends Service
 			Ntfc_Intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
 			Ntfc_Intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-			Ntfc_Intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-			Ntfc_Intent.putExtra("app_package_name", getPackageName());
+			Ntfc_Intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+			Ntfc_Intent.putExtra("app_package", getPackageName());
 			Ntfc_Intent.putExtra("app_uid", getApplicationInfo().uid);
 			Ntfc_Intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		}
