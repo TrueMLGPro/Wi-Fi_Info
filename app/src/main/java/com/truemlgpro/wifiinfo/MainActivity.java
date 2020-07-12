@@ -55,8 +55,10 @@ public class MainActivity extends AppCompatActivity
 	private TextView textview14;
 	private TextView textview15;
 	private TextView textview16;
-	//private TextView textview17;
-	//private TextView textview18;
+	private TextView textview17;
+	private TextView textview18;
+	private TextView textview19;
+	private TextView textview20;
 	private TextView textview_noconn;
 	private CardView cardview_1;
 	private CardView cardview_2;
@@ -189,9 +191,14 @@ public class MainActivity extends AppCompatActivity
 			String dns1 = intToIp(dhcp.dns1);
 			String dns2 = intToIp(dhcp.dns2);
 			String leaseTime = String.valueOf(dhcp.leaseDuration);
+			int TXLinkSpd = wInfo.getTxLinkSpeedMbps();
+			int RXLinkSpd = wInfo.getRxLinkSpeedMbps();
+			int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
 			String subnetMask = intToIp(dhcp.netmask);
 			int channel = convertFrequencyToChannel(freq);
 			SupplicantState supState = wInfo.getSupplicantState();
+			InetAddress loopbackAddr = InetAddress.getLoopbackAddress();
+			
 			String info_1 = "SSID: " + ssid;
 			String info_2 = "BSSID: " + bssid;
 			String info_3 = "IPv4: " + ipv4;
@@ -202,12 +209,15 @@ public class MainActivity extends AppCompatActivity
 			String info_8 = "Subnet Mask: " + subnetMask;
 			String info_9 = "Network ID: " + network_id;
 			String info_10 = "MAC Address: " + macAdd;
-			String info_11 = "Frequency: " + freq + "MHz";
-			String info_12 = "Network Channel: " + channel;
-			String info_13 = "RSSI (Signal Strength): " + rssi + "dBm";
-			String info_14 = "Network Speed: " + networkSpeed + "MB/s";
-			String info_15 = "Lease Duration: " + leaseTime;
-			String info_16 = "Supplicant State: " + supState;
+			String info_12 = "Loopback Address: " + loopbackAddr;
+			String info_13 = "Frequency: " + freq + "MHz";
+			String info_14 = "Network Channel: " + channel;
+			String info_15 = "RSSI (Signal Strength): " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
+			String info_16 = "Network Speed: " + networkSpeed + "MB/s";
+			String info_17 = "Transmit Link Speed: " + TXLinkSpd + "MB/s";
+			String info_18 = "Receive Link Speed: " + RXLinkSpd + "MB/s";
+			String info_19 = "Lease Duration: " + leaseTime;
+			String info_20 = "Supplicant State: " + supState;
 			
 			if (ssid.equals("<unknown ssid>")) {
 				textview1.setText("SSID: N/A");
@@ -240,12 +250,24 @@ public class MainActivity extends AppCompatActivity
 			}
 			
 			textview10.setText(info_10);
-			textview11.setText(info_11);
+			
+			for (Network network : CM.getAllNetworks()) {
+				LinkProperties linkProp = CM.getLinkProperties(network);
+				String interfc = linkProp.getInterfaceName();
+				String info_11 = "Network Interface: " + interfc;
+				textview11.setText(info_11);
+			}
+			
 			textview12.setText(info_12);
 			textview13.setText(info_13);
 			textview14.setText(info_14);
 			textview15.setText(info_15);
 			textview16.setText(info_16);
+			textview17.setText(info_17);
+			textview18.setText(info_18);
+			textview19.setText(info_19);
+			textview20.setText(info_20);
+			
 			textview_noconn.setVisibility(View.GONE);
 			showWidgets(); // Makes CardViews and TextViews visible
 		}
@@ -290,6 +312,11 @@ public class MainActivity extends AppCompatActivity
 		textview14.setVisibility(View.GONE);
 		textview15.setVisibility(View.GONE);
 		textview16.setVisibility(View.GONE);
+		textview17.setVisibility(View.GONE);
+		textview18.setVisibility(View.GONE);
+		textview19.setVisibility(View.GONE);
+		textview20.setVisibility(View.GONE);
+		//textview21.setVisibility(View.GONE);
 		cardview_1.setVisibility(View.GONE);
 		cardview_2.setVisibility(View.GONE);
 		cardview_3.setVisibility(View.GONE);
@@ -316,6 +343,11 @@ public class MainActivity extends AppCompatActivity
 		textview14.setVisibility(View.VISIBLE);
 		textview15.setVisibility(View.VISIBLE);
 		textview16.setVisibility(View.VISIBLE);
+		textview17.setVisibility(View.VISIBLE);
+		textview18.setVisibility(View.VISIBLE);
+		textview19.setVisibility(View.VISIBLE);
+		textview20.setVisibility(View.VISIBLE);
+		//textview21.setVisibility(View.VISIBLE);
 		cardview_1.setVisibility(View.VISIBLE);
 		cardview_2.setVisibility(View.VISIBLE);
 		cardview_3.setVisibility(View.VISIBLE);
@@ -564,8 +596,10 @@ public class MainActivity extends AppCompatActivity
 		textview14 = (TextView) findViewById(R.id.textview14);
 		textview15 = (TextView) findViewById(R.id.textview15);
 		textview16 = (TextView) findViewById(R.id.textview16);
-		//textview17 = (TextView) findViewById(R.id.textview17);
-		//textview18 = (TextView) findViewById(R.id.textview18);
+		textview17 = (TextView) findViewById(R.id.textview17);
+		textview18 = (TextView) findViewById(R.id.textview18);
+		textview19 = (TextView) findViewById(R.id.textview19);
+		textview20 = (TextView) findViewById(R.id.textview20);
 		textview_noconn = (TextView) findViewById(R.id.textview_noconn);
 		cardview_1 = (CardView) findViewById(R.id.cardview_1);
 		cardview_2 = (CardView) findViewById(R.id.cardview_2);

@@ -336,7 +336,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		String channelID = "connection_state_service";
 		CharSequence channelName = "Connection State Service";
 		NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_MIN);
-		channel.setDescription("Wi-Fi Info Service Notification");
+		channel.setDescription("Wi-Fi Info Watchdog Service Notification");
 		channel.setShowBadge(false);
 		notificationManager.createNotificationChannel(channel);
 		return channelID;

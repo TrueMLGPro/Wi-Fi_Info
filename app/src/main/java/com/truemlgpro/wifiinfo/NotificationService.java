@@ -141,13 +141,14 @@ public class NotificationService extends Service
 			bssd = "N/A";
 		}
 		int rssi = wInfo.getRssi();
+		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
 		int freq = wInfo.getFrequency();
 		int networkSpeed = wInfo.getLinkSpeed();
 		int ipAddress = wInfo.getIpAddress();
 		int network_id = wInfo.getNetworkId();
 		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
-		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
-		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + rssi + "dBm" + "\n" + 
+		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
+		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
 			"Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
 
 		notification26_28 = builder.setContentIntent(content_intent)
@@ -202,9 +203,10 @@ public class NotificationService extends Service
 			ssid = "N/A";
 		}
 		int rssi = wInfo.getRssi();
+		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
 		int ipAddress = wInfo.getIpAddress();
 		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
-		String info = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
+		String info = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
 			
 		notification29 = builder.setContentIntent(content_intent)
 			.setSmallIcon(R.drawable.ic_wifi)
@@ -262,13 +264,14 @@ public class NotificationService extends Service
 			bssd = "N/A";
 		}
 		int rssi = wInfo.getRssi();
+		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
 		int freq = wInfo.getFrequency();
 		int networkSpeed = wInfo.getLinkSpeed();
 		int ipAddress = wInfo.getIpAddress();
 		int network_id = wInfo.getNetworkId();
 		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
-		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + rssi + "dBm";
-		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + rssi + "dBm" + "\n" + 
+		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
+		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
 			"Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
 
 		notification21_25 = builder.setContentIntent(content_intent)

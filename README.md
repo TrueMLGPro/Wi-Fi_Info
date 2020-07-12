@@ -14,24 +14,28 @@
 
 ***Shows information about network you are connected to.***
 
+* __Public IP Address__
 * __SSID__
 * __BSSID__
-* __Gateway IP__
 * __IPv4 (Local)__
 * __IPv6 (Local)__
+* __Gateway IP__
 * __DNS (1)__
 * __DNS (2)__
 * __Subnet Mask__
-* __Lease Duration__
-* __RSSI__
-* __Frequency__
-* __Channel (2.4 GHz & 5 GHz)__
-* __Public IP Address__
-* __Network Speed__
-* __Download/Upload monitor (experimental)__ **[Coming Soon]**
 * __Network ID__
 * __MAC Address__
+* __Network Interface__
+* __Loopback Address__
+* __Frequency__
+* __Network Channel (2.4 GHz & 5 GHz)__
+* __RSSI (with percentage!)__
+* __Network Speed__
+* __Transmit Link Speed__
+* __Receive Link Speed__
+* __Lease Duration__
 * __WPA Supplicant State__
+* __Download/Upload monitor (experimental)__ **[Coming Soon]**
 * __Router Setup Page__ **[Coming Soon]**
 
 Go to **[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)** to get the latest app version!
@@ -49,4 +53,3 @@ Go to **[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)** to get 
 - [ ] Add Notification Layout Customizer **(1.4) (maybe)**
 - [ ] Add Wi-Fi password manager **(1.4) (maybe)**
 - [ ] Create a home screen widget with network info **(1.4) (maybe)**
-fo **(1.4) (maybe)**
