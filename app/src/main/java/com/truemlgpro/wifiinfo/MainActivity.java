@@ -316,7 +316,6 @@ public class MainActivity extends AppCompatActivity
 		textview18.setVisibility(View.GONE);
 		textview19.setVisibility(View.GONE);
 		textview20.setVisibility(View.GONE);
-		//textview21.setVisibility(View.GONE);
 		cardview_1.setVisibility(View.GONE);
 		cardview_2.setVisibility(View.GONE);
 		cardview_3.setVisibility(View.GONE);
@@ -347,7 +346,6 @@ public class MainActivity extends AppCompatActivity
 		textview18.setVisibility(View.VISIBLE);
 		textview19.setVisibility(View.VISIBLE);
 		textview20.setVisibility(View.VISIBLE);
-		//textview21.setVisibility(View.VISIBLE);
 		cardview_1.setVisibility(View.VISIBLE);
 		cardview_2.setVisibility(View.VISIBLE);
 		cardview_3.setVisibility(View.VISIBLE);
