@@ -263,8 +263,15 @@ public class MainActivity extends AppCompatActivity
 			textview14.setText(info_14);
 			textview15.setText(info_15);
 			textview16.setText(info_16);
-			textview17.setText(info_17);
-			textview18.setText(info_18);
+			
+			if (Build.VERSION.SDK_INT >= 29) {
+				textview17.setText(info_17);
+				textview18.setText(info_18);
+			} else {
+				textview17.setVisibility(View.GONE);
+				textview18.setVisibility(View.GONE);
+			}
+			
 			textview19.setText(info_19);
 			textview20.setText(info_20);
 			
@@ -342,8 +349,13 @@ public class MainActivity extends AppCompatActivity
 		textview14.setVisibility(View.VISIBLE);
 		textview15.setVisibility(View.VISIBLE);
 		textview16.setVisibility(View.VISIBLE);
-		textview17.setVisibility(View.VISIBLE);
-		textview18.setVisibility(View.VISIBLE);
+		if (Build.VERSION.SDK_INT < 29 && textview17.getVisibility() == View.VISIBLE && textview18.getVisibility() == View.VISIBLE) {
+			textview17.setVisibility(View.GONE);
+			textview18.setVisibility(View.GONE);
+		} else if (Build.VERSION.SDK_INT >= 29 && textview17.getVisibility() == View.GONE && textview18.getVisibility() == View.GONE) {
+			textview17.setVisibility(View.VISIBLE);
+			textview18.setVisibility(View.VISIBLE);
+		}
 		textview19.setVisibility(View.VISIBLE);
 		textview20.setVisibility(View.VISIBLE);
 		cardview_1.setVisibility(View.VISIBLE);
