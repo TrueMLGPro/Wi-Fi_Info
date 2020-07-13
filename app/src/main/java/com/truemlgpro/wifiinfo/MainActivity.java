@@ -191,8 +191,6 @@ public class MainActivity extends AppCompatActivity
 			String dns1 = intToIp(dhcp.dns1);
 			String dns2 = intToIp(dhcp.dns2);
 			String leaseTime = String.valueOf(dhcp.leaseDuration);
-			int TXLinkSpd = wInfo.getTxLinkSpeedMbps();
-			int RXLinkSpd = wInfo.getRxLinkSpeedMbps();
 			int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
 			String subnetMask = intToIp(dhcp.netmask);
 			int channel = convertFrequencyToChannel(freq);
@@ -214,8 +212,6 @@ public class MainActivity extends AppCompatActivity
 			String info_14 = "Network Channel: " + channel;
 			String info_15 = "RSSI (Signal Strength): " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
 			String info_16 = "Network Speed: " + networkSpeed + "MB/s";
-			String info_17 = "Transmit Link Speed: " + TXLinkSpd + "MB/s";
-			String info_18 = "Receive Link Speed: " + RXLinkSpd + "MB/s";
 			String info_19 = "Lease Duration: " + leaseTime;
 			String info_20 = "Supplicant State: " + supState;
 			
@@ -265,6 +261,10 @@ public class MainActivity extends AppCompatActivity
 			textview16.setText(info_16);
 			
 			if (Build.VERSION.SDK_INT >= 29) {
+				int TXLinkSpd = wInfo.getTxLinkSpeedMbps();
+				int RXLinkSpd = wInfo.getRxLinkSpeedMbps();
+				String info_17 = "Transmit Link Speed: " + TXLinkSpd + "MB/s";
+				String info_18 = "Receive Link Speed: " + RXLinkSpd + "MB/s";
 				textview17.setText(info_17);
 				textview18.setText(info_18);
 			} else {
