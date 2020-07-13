@@ -65,6 +65,28 @@
 						android:orientation="vertical"
 						android:layout_gravity="center"
 						android:gravity="center">
+						
+						<LinearLayout
+							android:id="@+id/header1"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:gravity="left"
+							android:background="#353535">
+
+							<TextView
+								android:id="@+id/textview_header1"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="8dp"
+								android:layout_marginLeft="8dp"
+								android:layout_marginRight="8dp"
+								android:layout_marginBottom="8dp"
+								android:textSize="12sp"
+								android:textColor="@android:color/white"
+								android:text="Public IP Address" />
+
+						</LinearLayout>
 
 						<TextView
 							android:id="@+id/textview_ip"
@@ -115,6 +137,28 @@
 						android:orientation="vertical"
 						android:layout_gravity="center"
 						android:gravity="center">
+					
+						<LinearLayout
+							android:id="@+id/header2"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:gravity="left"
+							android:background="#353535">
+							
+							<TextView
+								android:id="@+id/textview_header2"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="8dp"
+								android:layout_marginLeft="8dp"
+								android:layout_marginRight="8dp"
+								android:layout_marginBottom="8dp"
+								android:textSize="12sp"
+								android:textColor="@android:color/white"
+								android:text="SSID, BSSID, etc." />
+							
+						</LinearLayout>
 			
 						<TextView
 							android:id="@+id/textview1"
@@ -194,6 +238,28 @@
 						android:orientation="vertical"
 						android:layout_gravity="center"
 						android:gravity="center">
+						
+						<LinearLayout
+							android:id="@+id/header3"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:gravity="left"
+							android:background="#353535">
+
+							<TextView
+								android:id="@+id/textview_header3"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="8dp"
+								android:layout_marginLeft="8dp"
+								android:layout_marginRight="8dp"
+								android:layout_marginBottom="8dp"
+								android:textSize="12sp"
+								android:textColor="@android:color/white"
+								android:text="DNS, Subnet Mask, etc." />
+
+						</LinearLayout>
 
 						<TextView
 							android:id="@+id/textview6"
@@ -298,6 +364,28 @@
 						android:layout_gravity="center"
 						android:gravity="center">
 						
+						<LinearLayout
+							android:id="@+id/header4"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:gravity="left"
+							android:background="#353535">
+
+							<TextView
+								android:id="@+id/textview_header4"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="8dp"
+								android:layout_marginLeft="8dp"
+								android:layout_marginRight="8dp"
+								android:layout_marginBottom="8dp"
+								android:textSize="12sp"
+								android:textColor="@android:color/white"
+								android:text="Frequency, Channel, etc." />
+
+						</LinearLayout>
+						
 						<TextView
 							android:id="@+id/textview13"
 							android:layout_width="wrap_content"
@@ -401,6 +489,28 @@
 						android:orientation="vertical"
 						android:layout_gravity="center"
 						android:gravity="center">
+						
+						<LinearLayout
+							android:id="@+id/header5"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:gravity="left"
+							android:background="#353535">
+
+							<TextView
+								android:id="@+id/textview_header5"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="8dp"
+								android:layout_marginLeft="8dp"
+								android:layout_marginRight="8dp"
+								android:layout_marginBottom="8dp"
+								android:textSize="12sp"
+								android:textColor="@android:color/white"
+								android:text="WPA Supplicant State" />
+
+						</LinearLayout>
 						
 						<TextView
 							android:id="@+id/textview20"
