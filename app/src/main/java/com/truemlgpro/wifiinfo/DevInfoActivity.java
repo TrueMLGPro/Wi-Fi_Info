@@ -20,6 +20,9 @@ public class DevInfoActivity extends AppCompatActivity
 
 	private Toolbar toolbar;
 	private DrawerLayout mDrawerLayout;
+	private TextView alt_ds_txt;
+	private TextView alt_yt_txt;
+	private TextView alt_gh_txt;
 	private MagicButton magic_ds;
 	private MagicButton magic_yt;
 	private MagicButton magic_git;
@@ -41,6 +44,9 @@ public class DevInfoActivity extends AppCompatActivity
 		
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		alt_ds_txt = (TextView) findViewById(R.id.alt_ds_textview);
+		alt_yt_txt = (TextView) findViewById(R.id.alt_yt_textview);
+		alt_gh_txt = (TextView) findViewById(R.id.alt_gh_textview);
 		magic_ds = (MagicButton) findViewById(R.id.magic_button1);
 		magic_yt = (MagicButton) findViewById(R.id.magic_button2);
 		magic_git = (MagicButton) findViewById(R.id.magic_button3);
@@ -82,38 +88,91 @@ public class DevInfoActivity extends AppCompatActivity
 		txt_product_name.setText("Product Name: " + Build.PRODUCT);
 		txt_device_model.setText("Device Model: " + Build.MODEL);
 		
-		magic_ds.setMagicButtonClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-				ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#3121");
-				cbm.setPrimaryClip(clip);
-				
-				Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
-			}
-		});
+		if (android.os.Build.VERSION.SDK_INT == 22) {
+			alt_ds_txt.setVisibility(View.VISIBLE);
+			alt_yt_txt.setVisibility(View.VISIBLE);
+			alt_gh_txt.setVisibility(View.VISIBLE);
+			initializeOnClickListenersAPI22();
+		} else {
+			magic_ds.setVisibility(View.VISIBLE);
+			magic_yt.setVisibility(View.VISIBLE);
+			magic_git.setVisibility(View.VISIBLE);
+			initializeOnClickListeners();
+		}
 		
-		magic_yt.setMagicButtonClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-				ClipData clip = ClipData.newPlainText("Youtube", "TheAwesomePlay :D");
-				cbm.setPrimaryClip(clip);
-				
-				Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
-			}
-		});
-		
-		magic_git.setMagicButtonClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-				ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
-				cbm.setPrimaryClip(clip);
-				
-				Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
-			}
-		});
 	}
-	
+		
+	public void initializeOnClickListenersAPI22() {
+		alt_ds_txt.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v)
+				{
+					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+					ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#2674");
+					cbm.setPrimaryClip(clip);
+
+					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+				}
+			});
+
+		alt_yt_txt.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v)
+				{
+					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+					ClipData clip = ClipData.newPlainText("YouTube", "TheAwesomePlay");
+					cbm.setPrimaryClip(clip);
+
+					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+				}
+			});
+
+		alt_gh_txt.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v)
+				{
+					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+					ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
+					cbm.setPrimaryClip(clip);
+
+					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+				}
+			});
+	}
+
+	public void initializeOnClickListeners() {
+		magic_ds.setMagicButtonClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+					ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#2674");
+					cbm.setPrimaryClip(clip);
+
+					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+				}
+			});
+
+		magic_yt.setMagicButtonClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+					ClipData clip = ClipData.newPlainText("YouTube", "TheAwesomePlay");
+					cbm.setPrimaryClip(clip);
+
+					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+				}
+			});
+
+		magic_git.setMagicButtonClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+					ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
+					cbm.setPrimaryClip(clip);
+
+					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+				}
+			});
+	}
 }
+

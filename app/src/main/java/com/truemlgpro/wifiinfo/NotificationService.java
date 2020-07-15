@@ -143,13 +143,14 @@ public class NotificationService extends Service
 		int rssi = wInfo.getRssi();
 		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
 		int freq = wInfo.getFrequency();
+		int channel = convertFrequencyToChannel(freq);
 		int networkSpeed = wInfo.getLinkSpeed();
 		int ipAddress = wInfo.getIpAddress();
 		int network_id = wInfo.getNetworkId();
 		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
 		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
 		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
-			"Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
+			"Frequency: " + freq + "MHz" + "\n" + "Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
 
 		notification26_28 = builder.setContentIntent(content_intent)
 			.setSmallIcon(R.drawable.ic_wifi)
@@ -266,13 +267,14 @@ public class NotificationService extends Service
 		int rssi = wInfo.getRssi();
 		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
 		int freq = wInfo.getFrequency();
+		int channel = convertFrequencyToChannel(freq);
 		int networkSpeed = wInfo.getLinkSpeed();
 		int ipAddress = wInfo.getIpAddress();
 		int network_id = wInfo.getNetworkId();
 		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
 		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
 		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
-			"Frequency: " + freq + "MHz" + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
+			"Frequency: " + freq + "MHz" + "\n" + "Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
 
 		notification21_25 = builder.setContentIntent(content_intent)
 			.setSmallIcon(R.drawable.ic_wifi)
@@ -292,6 +294,16 @@ public class NotificationService extends Service
 
 		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		notificationManager.notify(NOTIFICATION_ID, notification21_25);
+	}
+	
+	public static int convertFrequencyToChannel(int freq) {
+		if (freq >= 2412 && freq <= 2484) {
+			return (freq - 2412) / 5 + 1;
+		} else if (freq >= 5170 && freq <= 5825) {
+			return (freq - 5170) / 5 + 34;
+		} else {
+			return -1;
+		}
 	}
 	
 	@RequiresApi(Build.VERSION_CODES.O)

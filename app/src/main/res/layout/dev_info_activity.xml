@@ -33,6 +33,42 @@
 			android:textSize="30sp"
 			android:layout_marginBottom="20dp"
 			android:layout_centerHorizontal="true"/>
+		
+		<TextView
+			android:id="@+id/alt_ds_textview"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Discord: 🐱️TrueMLGPro🌟#2674"
+			android:textSize="20sp"
+			android:textColor="@android:color/white"
+			android:layout_below="@id/dev_info_text"
+			android:layout_marginBottom="20dp"
+			android:layout_centerHorizontal="true"
+			android:visibility="gone"/>
+		
+		<TextView
+			android:id="@+id/alt_yt_textview"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="YouTube: TheAwesomePlay"
+			android:textSize="20sp"
+			android:textColor="@android:color/white"
+			android:layout_below="@id/alt_ds_textview"
+			android:layout_marginBottom="20dp"
+			android:layout_centerHorizontal="true"
+			android:visibility="gone"/>
+		
+		<TextView
+			android:id="@+id/alt_gh_textview"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="GitHub: TrueMLGPro/Wi-Fi_Info"
+			android:textSize="20sp"
+			android:textColor="@android:color/white"
+			android:layout_below="@id/alt_yt_textview"
+			android:layout_marginBottom="20dp"
+			android:layout_centerHorizontal="true"
+			android:visibility="gone"/>
 
 		<br.com.bloder.magic.view.MagicButton
 			android:id="@+id/magic_button1"
@@ -48,7 +84,8 @@
 			app:icon_button_color="#7690F5"
 			app:expandable_area_color="#8E91FF"
 			android:layout_below="@+id/dev_info_text"
-			android:layout_centerHorizontal="true"/>
+			android:layout_centerHorizontal="true"
+			android:visibility="gone"/>
 
 		<br.com.bloder.magic.view.MagicButton
 			android:id="@+id/magic_button2"
@@ -59,13 +96,14 @@
 			app:button_icon="@drawable/youtube"
 			app:button_icon_width="40dp"
 			app:button_icon_height="40dp"
-			app:hide_text="TheAwesomePlay :D"
+			app:hide_text="TheAwesomePlay"
 			app:hide_text_size="12px"
 			app:hide_text_color="@android:color/white"
 			app:icon_button_color="#FFFFFF"
 			app:expandable_area_color="#FF0000"
 			android:layout_below="@id/magic_button1"
-			android:layout_centerInParent="true"/>
+			android:layout_centerHorizontal="true"
+			android:visibility="gone"/>
 
 		<br.com.bloder.magic.view.MagicButton
 			android:id="@+id/magic_button3"
@@ -82,7 +120,8 @@
 			app:icon_button_color="#000000"
 			app:expandable_area_color="#151515"
 			android:layout_below="@id/magic_button2"
-			android:layout_centerHorizontal="true"/>
+			android:layout_centerHorizontal="true"
+			android:visibility="gone"/>
 
 	</RelativeLayout>
 

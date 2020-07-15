@@ -2,6 +2,7 @@ package com.truemlgpro.wifiinfo;
 
 import android.*;
 import android.app.*;
+import android.app.AlertDialog;
 import android.content.*;
 import android.content.pm.*;
 import android.graphics.drawable.*;
@@ -14,13 +15,12 @@ import android.support.v4.app.*;
 import android.support.v4.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
 import android.widget.LinearLayout.*;
-import android.app.AlertDialog;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 
 import java.net.*;
 import java.util.*;
