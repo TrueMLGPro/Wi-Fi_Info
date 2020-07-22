@@ -59,16 +59,27 @@ public class MainActivity extends AppCompatActivity
 	private TextView textview18;
 	private TextView textview19;
 	private TextView textview20;
+	private TextView textview21;
+	private TextView textview22;
+	private TextView textview23;
+	private TextView textview24;
+	private TextView textview25;
+	private TextView textview26;
+	private TextView textview27;
+	private TextView textview28;
+	private TextView textview29;
 	private TextView textview_noconn;
 	private CardView cardview_1;
 	private CardView cardview_2;
 	private CardView cardview_3;
 	private CardView cardview_4;
 	private CardView cardview_5;
+	private CardView cardview_6;
 	private FloatingActionMenu fam;
 	private FloatingActionButton fab_info;
 	private FloatingActionButton fab_discord;
 	private FloatingActionButton fab_supporters;
+	private FloatingActionButton fab_url_to_ip;
 	private FloatingActionButton fab_settings;
 	private FloatingActionButton fab_update;
 	
@@ -81,6 +92,8 @@ public class MainActivity extends AppCompatActivity
 	private boolean siteReachable = false;
 	private Scanner scanner;
 	private String version;
+	private double megabyte = 1024 * 1024;
+	private double gigabyte = 1024 * 1024 * 1024;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -196,24 +209,40 @@ public class MainActivity extends AppCompatActivity
 			int channel = convertFrequencyToChannel(freq);
 			SupplicantState supState = wInfo.getSupplicantState();
 			InetAddress loopbackAddr = InetAddress.getLoopbackAddress();
+			long totalRXBytes = TrafficStats.getTotalRxBytes();
+			long totalTXBytes = TrafficStats.getTotalTxBytes();
+			double mobileRXBytes = TrafficStats.getMobileRxBytes();
+			double mobileTXBytes = TrafficStats.getMobileTxBytes();
+			double wifiRXBytes = totalRXBytes - mobileRXBytes;
+			double wifiTXBytes = totalTXBytes - mobileTXBytes;
+			double wifiRXMegabytes = wifiRXBytes / megabyte;
+			double wifiTXMegabytes = wifiTXBytes / megabyte;
+			double wifiRXGigabytes = wifiRXBytes / gigabyte;
+			double wifiTXGigabytes = wifiTXBytes / gigabyte;
+			String wifiRXMegabytesStr = String.format(Locale.US, "%.2f", wifiRXMegabytes);
+			String wifiTXMegabytesStr = String.format(Locale.US, "%.2f", wifiTXMegabytes);
+			String wifiRXGigabytesStr = String.format(Locale.US, "%.2f", wifiRXGigabytes);
+			String wifiTXGigabytesStr = String.format(Locale.US, "%.2f", wifiTXGigabytes);
 			
 			String info_1 = "SSID: " + ssid;
-			String info_2 = "BSSID: " + bssid;
-			String info_3 = "IPv4: " + ipv4;
-			String info_4 = "IPv6: " + ipv6;
-			String info_5 = "Gateway IP: " + gatewayIP;
-			String info_6 = "DNS (1): " + dns1;
-			String info_7 = "DNS (2): " + dns2;
-			String info_8 = "Subnet Mask: " + subnetMask;
-			String info_9 = "Network ID: " + network_id;
-			String info_10 = "MAC Address: " + macAdd;
-			String info_12 = "Loopback Address: " + loopbackAddr;
-			String info_13 = "Frequency: " + freq + "MHz";
-			String info_14 = "Network Channel: " + channel;
-			String info_15 = "RSSI (Signal Strength): " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
-			String info_16 = "Network Speed: " + networkSpeed + "MB/s";
-			String info_19 = "Lease Duration: " + leaseTime;
-			String info_20 = "Supplicant State: " + supState;
+			String info_3 = "BSSID: " + bssid;
+			String info_4 = "IPv4: " + ipv4;
+			String info_5 = "IPv6: " + ipv6;
+			String info_6 = "Gateway IP: " + gatewayIP;
+			String info_8 = "DNS (1): " + dns1;
+			String info_9 = "DNS (2): " + dns2;
+			String info_10 = "Subnet Mask: " + subnetMask;
+			String info_11 = "Network ID: " + network_id;
+			String info_12 = "MAC Address: " + macAdd;
+			String info_14 = "Loopback Address: " + loopbackAddr;
+			String info_15 = "Frequency: " + freq + "MHz";
+			String info_16 = "Network Channel: " + channel;
+			String info_17 = "RSSI (Signal Strength): " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
+			String info_18 = "Lease Duration: " + leaseTime;
+			String info_19 = "Network Speed: " + networkSpeed + "MB/s";
+			String info_22 = "Transmitted MBs/GBs: " + wifiTXMegabytesStr + "MB " + "(" + wifiTXGigabytesStr + "GB" + ")";
+			String info_23 = "Received MBs/GBs: " + wifiRXMegabytesStr + "MB "  + "(" + wifiRXGigabytesStr + "GB" + ")";
+			String info_24 = "Supplicant State: " + supState;
 			
 			if (ssid.equals("<unknown ssid>")) {
 				textview1.setText("SSID: N/A");
@@ -221,59 +250,121 @@ public class MainActivity extends AppCompatActivity
 				textview1.setText(info_1);
 			}
 			
-			if (bssid.contains("02:00:00:00:00:00")) {
-				textview2.setText("BSSID: N/A");
+			if (wInfo.getHiddenSSID() == true) {
+				textview2.setText("Hidden SSID: Yes");
 			} else {
-				textview2.setText(info_2);
+				textview2.setText("Hidden SSID: No");
 			}
 			
-			textview3.setText(info_3);
+			if (bssid.contains("02:00:00:00:00:00")) {
+				textview3.setText("BSSID: N/A");
+			} else {
+				textview3.setText(info_3);
+			}
+			
 			textview4.setText(info_4);
 			textview5.setText(info_5);
 			textview6.setText(info_6);
-			textview7.setText(info_7);
+			
+			try {
+				InetAddress hostnameAddr = InetAddress.getByName(gatewayIP);
+				String info_7 = "Hostname: " + hostnameAddr.getHostName();
+				textview7.setText(info_7);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+			
+			textview8.setText(info_8);
+			textview9.setText(info_9);
 			
 			if (subnetMask.contains("0.0.0.0")) {
-				textview8.setText("Subnet Mask: N/A");
+				textview10.setText("Subnet Mask: N/A");
 			} else {
-				textview8.setText(info_8);
+				textview10.setText(info_10);
 			}
 			
 			if (network_id == -1) {
-				textview9.setText("Network ID: N/A");
+				textview11.setText("Network ID: N/A");
 			} else {
-				textview9.setText(info_9);
-			}
-			
-			textview10.setText(info_10);
-			
-			for (Network network : CM.getAllNetworks()) {
-				LinkProperties linkProp = CM.getLinkProperties(network);
-				String interfc = linkProp.getInterfaceName();
-				String info_11 = "Network Interface: " + interfc;
 				textview11.setText(info_11);
 			}
 			
 			textview12.setText(info_12);
-			textview13.setText(info_13);
+			
+			for (Network network : CM.getAllNetworks()) {
+				LinkProperties linkProp = CM.getLinkProperties(network);
+				String interfc = linkProp.getInterfaceName();
+				String info_13 = "Network Interface: " + interfc;
+				textview13.setText(info_13);
+			}
+			
 			textview14.setText(info_14);
 			textview15.setText(info_15);
 			textview16.setText(info_16);
+			textview17.setText(info_17);
+			textview18.setText(info_18);
+			textview19.setText(info_19);
 			
 			if (Build.VERSION.SDK_INT >= 29) {
 				int TXLinkSpd = wInfo.getTxLinkSpeedMbps();
 				int RXLinkSpd = wInfo.getRxLinkSpeedMbps();
-				String info_17 = "Transmit Link Speed: " + TXLinkSpd + "MB/s";
-				String info_18 = "Receive Link Speed: " + RXLinkSpd + "MB/s";
-				textview17.setText(info_17);
-				textview18.setText(info_18);
+				String info_20 = "Transmit Link Speed: " + TXLinkSpd + "MB/s";
+				String info_21 = "Receive Link Speed: " + RXLinkSpd + "MB/s";
+				textview20.setText(info_20);
+				textview21.setText(info_21);
 			} else {
-				textview17.setVisibility(View.GONE);
-				textview18.setVisibility(View.GONE);
+				textview20.setVisibility(View.GONE);
+				textview21.setVisibility(View.GONE);
 			}
 			
-			textview19.setText(info_19);
-			textview20.setText(info_20);
+			textview22.setText(info_22);
+			textview23.setText(info_23);
+			textview24.setText(info_24);
+			
+			if (mainWifi.is5GHzBandSupported()) {
+				String info_25 = "5GHz Band Support: Yes";
+				textview25.setText(info_25);
+			} else {
+				String info_25 = "5GHz Band Support: No";
+				textview25.setText(info_25);
+			}
+			
+			if (mainWifi.isP2pSupported()) {
+				String info_26 = "Wi-Fi Direct Support: Yes";
+				textview26.setText(info_26);
+			} else {
+				String info_26 = "Wi-Fi Direct Support: No";
+				textview26.setText(info_26);
+			}
+			
+			if (mainWifi.isTdlsSupported()) {
+				String info_27 = "TDLS Support: Yes";
+				textview27.setText(info_27);
+			} else {
+				String info_27 = "TDLS Support: No";
+				textview27.setText(info_27);
+			}
+			
+			if (Build.VERSION.SDK_INT >= 29) {
+				if (mainWifi.isWpa3SaeSupported()) {
+					String info_28 = "WPA3 SAE Support: Yes";
+					textview28.setText(info_28);
+				} else {
+					String info_28 = "WPA3 SAE Support: No";
+					textview28.setText(info_28);
+				}
+			
+				if (mainWifi.isWpa3SuiteBSupported()) {
+					String info_29 = "WPA3 Suite B Support: Yes";
+					textview29.setText(info_29);
+				} else {
+					String info_29 = "WPA3 Suite B Support: No";
+					textview29.setText(info_29);
+				}
+			} else {
+				textview28.setVisibility(View.GONE);
+				textview29.setVisibility(View.GONE);
+			}
 			
 			textview_noconn.setVisibility(View.GONE);
 			showWidgets(); // Makes CardViews and TextViews visible
@@ -323,11 +414,21 @@ public class MainActivity extends AppCompatActivity
 		textview18.setVisibility(View.GONE);
 		textview19.setVisibility(View.GONE);
 		textview20.setVisibility(View.GONE);
+		textview21.setVisibility(View.GONE);
+		textview22.setVisibility(View.GONE);
+		textview23.setVisibility(View.GONE);
+		textview24.setVisibility(View.GONE);
+		textview25.setVisibility(View.GONE);
+		textview26.setVisibility(View.GONE);
+		textview27.setVisibility(View.GONE);
+		textview28.setVisibility(View.GONE);
+		textview29.setVisibility(View.GONE);
 		cardview_1.setVisibility(View.GONE);
 		cardview_2.setVisibility(View.GONE);
 		cardview_3.setVisibility(View.GONE);
 		cardview_4.setVisibility(View.GONE);
 		cardview_5.setVisibility(View.GONE);
+		cardview_6.setVisibility(View.GONE);
 		fab_update.setVisibility(View.GONE);
 	}
 	
@@ -349,20 +450,35 @@ public class MainActivity extends AppCompatActivity
 		textview14.setVisibility(View.VISIBLE);
 		textview15.setVisibility(View.VISIBLE);
 		textview16.setVisibility(View.VISIBLE);
-		if (Build.VERSION.SDK_INT < 29 && textview17.getVisibility() == View.VISIBLE && textview18.getVisibility() == View.VISIBLE) {
-			textview17.setVisibility(View.GONE);
-			textview18.setVisibility(View.GONE);
-		} else if (Build.VERSION.SDK_INT >= 29 && textview17.getVisibility() == View.GONE && textview18.getVisibility() == View.GONE) {
-			textview17.setVisibility(View.VISIBLE);
-			textview18.setVisibility(View.VISIBLE);
-		}
+		textview17.setVisibility(View.VISIBLE);
+		textview18.setVisibility(View.VISIBLE);
 		textview19.setVisibility(View.VISIBLE);
-		textview20.setVisibility(View.VISIBLE);
+		if (Build.VERSION.SDK_INT < 29 && textview20.getVisibility() == View.VISIBLE && textview21.getVisibility() == View.VISIBLE) {
+			textview20.setVisibility(View.GONE);
+			textview21.setVisibility(View.GONE);
+		} else if (Build.VERSION.SDK_INT >= 29 && textview20.getVisibility() == View.GONE && textview21.getVisibility() == View.GONE) {
+			textview20.setVisibility(View.VISIBLE);
+			textview21.setVisibility(View.VISIBLE);
+		}
+		textview22.setVisibility(View.VISIBLE);
+		textview23.setVisibility(View.VISIBLE);
+		textview24.setVisibility(View.VISIBLE);
+		textview25.setVisibility(View.VISIBLE);
+		textview26.setVisibility(View.VISIBLE);
+		textview27.setVisibility(View.VISIBLE);
+		if (Build.VERSION.SDK_INT < 29 && textview28.getVisibility() == View.VISIBLE && textview29.getVisibility() == View.VISIBLE) {
+			textview28.setVisibility(View.GONE);
+			textview29.setVisibility(View.GONE);
+		} else if (Build.VERSION.SDK_INT >= 29 && textview28.getVisibility() == View.GONE && textview29.getVisibility() == View.GONE) {
+			textview28.setVisibility(View.VISIBLE);
+			textview29.setVisibility(View.VISIBLE);
+		}
 		cardview_1.setVisibility(View.VISIBLE);
 		cardview_2.setVisibility(View.VISIBLE);
 		cardview_3.setVisibility(View.VISIBLE);
 		cardview_4.setVisibility(View.VISIBLE);
 		cardview_5.setVisibility(View.VISIBLE);
+		cardview_6.setVisibility(View.VISIBLE);
 		fab_update.setVisibility(View.VISIBLE);
 	}
 	
@@ -610,17 +726,28 @@ public class MainActivity extends AppCompatActivity
 		textview18 = (TextView) findViewById(R.id.textview18);
 		textview19 = (TextView) findViewById(R.id.textview19);
 		textview20 = (TextView) findViewById(R.id.textview20);
+		textview21 = (TextView) findViewById(R.id.textview21);
+		textview22 = (TextView) findViewById(R.id.textview22);
+		textview23 = (TextView) findViewById(R.id.textview23);
+		textview24 = (TextView) findViewById(R.id.textview24);
+		textview25 = (TextView) findViewById(R.id.textview25);
+		textview26 = (TextView) findViewById(R.id.textview26);
+		textview27 = (TextView) findViewById(R.id.textview27);
+		textview28 = (TextView) findViewById(R.id.textview28);
+		textview29 = (TextView) findViewById(R.id.textview29);
 		textview_noconn = (TextView) findViewById(R.id.textview_noconn);
 		cardview_1 = (CardView) findViewById(R.id.cardview_1);
 		cardview_2 = (CardView) findViewById(R.id.cardview_2);
 		cardview_3 = (CardView) findViewById(R.id.cardview_3);
 		cardview_4 = (CardView) findViewById(R.id.cardview_4);
 		cardview_5 = (CardView) findViewById(R.id.cardview_5);
+		cardview_6 = (CardView) findViewById(R.id.cardview_6);
 		fam = (FloatingActionMenu) findViewById(R.id.fam);
 		fab_info = (FloatingActionButton) findViewById(R.id.menu_item_1);
 		fab_discord = (FloatingActionButton) findViewById(R.id.menu_item_2);
 		fab_supporters = (FloatingActionButton) findViewById(R.id.menu_item_3);
-		fab_settings = (FloatingActionButton) findViewById(R.id.menu_item_4);
+		fab_url_to_ip = (FloatingActionButton) findViewById(R.id.menu_item_4);
+		fab_settings = (FloatingActionButton) findViewById(R.id.menu_item_5);
 		fab_update = (FloatingActionButton) findViewById(R.id.fab_update_ip);
 	}
 	
@@ -648,6 +775,15 @@ public class MainActivity extends AppCompatActivity
 				public void onClick(View v) {
 					Intent intent_supporters = new Intent(MainActivity.this, SupportersActivity.class);
 					startActivity(intent_supporters);
+					fam.close(true);
+				}
+			});
+		
+		fab_url_to_ip.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent_url_to_ip = new Intent(MainActivity.this, URLtoIPActivity.class);
+					startActivity(intent_url_to_ip);
 					fam.close(true);
 				}
 			});

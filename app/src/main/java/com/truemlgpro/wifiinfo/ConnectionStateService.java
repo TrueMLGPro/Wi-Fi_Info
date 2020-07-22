@@ -128,10 +128,15 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 			builder = new Notification.Builder(context, channelID);
+			
+			Intent intentActionStop = new Intent(context, ActionButtonReceiver.class);
+			intentActionStop.setAction("ACTION_STOP");
+			PendingIntent pIntentActionStop = PendingIntent.getBroadcast(context, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
 
 			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 				.setContentTitle("ConnectionStateService — Offline")
 				.setWhen(System.currentTimeMillis())
+				.addAction(R.drawable.ic_stop, "Stop Service", pIntentActionStop)
 				.setColor(getResources().getColor(R.color.ntfcColor))
 				.setCategory(Notification.CATEGORY_SERVICE)
 				.setOngoing(true)
@@ -147,10 +152,15 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 			builder = new Notification.Builder(context, channelID);
+			
+			Intent intentActionStop = new Intent(context, ActionButtonReceiver.class);
+			intentActionStop.setAction("ACTION_STOP");
+			PendingIntent pIntentActionStop = PendingIntent.getBroadcast(context, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
 
 			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 				.setContentTitle("ConnectionStateService — Offline")
 				.setWhen(System.currentTimeMillis())
+				.addAction(R.drawable.ic_stop, "Stop Service", pIntentActionStop)
 				.setChannelId(channelID)
 				.setColor(getResources().getColor(R.color.ntfcColor))
 				.setCategory(Notification.CATEGORY_SERVICE)
@@ -166,10 +176,15 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 
 			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			builder = new Notification.Builder(context);
+			
+			Intent intentActionStop = new Intent(context, ActionButtonReceiver.class);
+			intentActionStop.setAction("ACTION_STOP");
+			PendingIntent pIntentActionStop = PendingIntent.getBroadcast(context, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
 
 			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
 				.setContentTitle("ConnectionStateService — Offline")
 				.setWhen(System.currentTimeMillis())
+				.addAction(R.drawable.ic_stop, "Stop Service", pIntentActionStop)
 				.setPriority(Notification.PRIORITY_MIN)
 				.setColor(getResources().getColor(R.color.ntfcColor))
 				.setCategory(Notification.CATEGORY_SERVICE)

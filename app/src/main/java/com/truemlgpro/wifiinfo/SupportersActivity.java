@@ -18,7 +18,6 @@ public class SupportersActivity extends AppCompatActivity
 	private Toolbar toolbar;
 	private ScrollView scrollView;
 	private TextView supporters_textview;
-	private TextView anyx_text;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -31,7 +30,6 @@ public class SupportersActivity extends AppCompatActivity
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		scrollView = (ScrollView) findViewById(R.id.scrollView);
 		supporters_textview = (TextView) findViewById(R.id.supporters_textview);
-		anyx_text = (TextView) findViewById(R.id.anyx_text);
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		calligrapher.setFont(this, "fonts/GoogleSans-Medium.ttf", true);

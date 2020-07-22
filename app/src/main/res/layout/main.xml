@@ -209,6 +209,28 @@
 							android:layout_marginTop="16dp"
 							android:layout_marginLeft="16dp"
 							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview6"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview7"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
 							android:layout_marginBottom="16dp"
 							android:textSize="16sp"
 							android:textColor="@android:color/white"
@@ -262,28 +284,6 @@
 						</LinearLayout>
 
 						<TextView
-							android:id="@+id/textview6"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
-							android:textSize="16sp"
-							android:textColor="@android:color/white"
-							android:text="" />
-
-						<TextView
-							android:id="@+id/textview7"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
-							android:textSize="16sp"
-							android:textColor="@android:color/white"
-							android:text="" />
-
-						<TextView
 							android:id="@+id/textview8"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
@@ -293,7 +293,7 @@
 							android:textSize="16sp"
 							android:textColor="@android:color/white"
 							android:text="" />
-						
+
 						<TextView
 							android:id="@+id/textview9"
 							android:layout_width="wrap_content"
@@ -329,6 +329,28 @@
 						
 						<TextView
 							android:id="@+id/textview12"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview13"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview14"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
@@ -387,28 +409,6 @@
 						</LinearLayout>
 						
 						<TextView
-							android:id="@+id/textview13"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
-							android:textSize="16sp"
-							android:textColor="@android:color/white"
-							android:text="" />
-						
-						<TextView
-							android:id="@+id/textview14"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
-							android:textSize="16sp"
-							android:textColor="@android:color/white"
-							android:text="" />
-
-						<TextView
 							android:id="@+id/textview15"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
@@ -418,7 +418,7 @@
 							android:textSize="16sp"
 							android:textColor="@android:color/white"
 							android:text="" />
-						
+
 						<TextView
 							android:id="@+id/textview16"
 							android:layout_width="wrap_content"
@@ -451,9 +451,53 @@
 							android:textSize="16sp"
 							android:textColor="@android:color/white"
 							android:text="" />
-
+						
 						<TextView
 							android:id="@+id/textview19"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+
+						<TextView
+							android:id="@+id/textview20"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview21"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview22"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview23"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
@@ -477,7 +521,6 @@
 					android:layout_marginTop="16dp"
 					android:layout_marginLeft="16dp"
 					android:layout_marginRight="16dp"
-					android:layout_marginBottom="16dp"
 					app:cardCornerRadius="8dp"
 					app:cardElevation="8dp"
 					app:cardBackgroundColor="#2F69C7">
@@ -513,7 +556,7 @@
 						</LinearLayout>
 						
 						<TextView
-							android:id="@+id/textview20"
+							android:id="@+id/textview24"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
@@ -524,6 +567,110 @@
 							android:textColor="@android:color/white"
 							android:text="" />
 
+					</LinearLayout>
+
+				</android.support.v7.widget.CardView>
+				
+				<android.support.v7.widget.CardView
+					xmlns:card_view="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/cardview_6"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:layout_marginTop="16dp"
+					android:layout_marginLeft="16dp"
+					android:layout_marginRight="16dp"
+					android:layout_marginBottom="16dp"
+					app:cardCornerRadius="8dp"
+					app:cardElevation="8dp"
+					app:cardBackgroundColor="#2F69C7">
+
+					<LinearLayout
+						android:id="@+id/linear_layout6"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						android:layout_gravity="center"
+						android:gravity="center">
+
+						<LinearLayout
+							android:id="@+id/header6"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:gravity="left"
+							android:background="#353535">
+
+							<TextView
+								android:id="@+id/textview_header6"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="8dp"
+								android:layout_marginLeft="8dp"
+								android:layout_marginRight="8dp"
+								android:layout_marginBottom="8dp"
+								android:textSize="12sp"
+								android:textColor="@android:color/white"
+								android:text="Feature Support" />
+
+						</LinearLayout>
+						
+						<TextView
+							android:id="@+id/textview25"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview26"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+
+						<TextView
+							android:id="@+id/textview27"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview28"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview29"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp"
+							android:layout_marginBottom="16dp"
+							android:textSize="16sp"
+							android:textColor="@android:color/white"
+							android:text="" />
+						
 					</LinearLayout>
 
 				</android.support.v7.widget.CardView>
@@ -612,6 +759,17 @@
 			
 			<com.github.clans.fab.FloatingActionButton
 				android:id="@+id/menu_item_4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_convert"
+				fab:fab_colorNormal="#353535"
+				fab:fab_colorPressed="#404040"
+				fab:fab_colorRipple="#30FFFFFF"
+				fab:fab_size="mini"
+				fab:fab_label="URL to IP" />
+			
+			<com.github.clans.fab.FloatingActionButton
+				android:id="@+id/menu_item_5"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:src="@drawable/ic_settings"

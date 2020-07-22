@@ -52,6 +52,11 @@
 			android:screenOrientation="portrait">
 		</activity>
 		<activity
+			android:name="com.truemlgpro.wifiinfo.URLtoIPActivity"
+			android:label="URL to IP"
+			android:screenOrientation="portrait">
+		</activity>
+		<activity
 			android:name="com.truemlgpro.wifiinfo.SettingsActivity"
 			android:label="Settings"
 			android:screenOrientation="portrait">
