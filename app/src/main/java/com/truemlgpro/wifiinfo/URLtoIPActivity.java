@@ -86,9 +86,11 @@ public class URLtoIPActivity extends AppCompatActivity
 							textview_ipFromURL.setText("IP: " + ip);
 						} catch (MalformedURLException e) {
 							e.printStackTrace();
+							textview_ipFromURL.setText("IP: N/A");
 						}
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
+						textview_ipFromURL.setText("IP: N/A");
 					}
 						hideError();
 				} else {
@@ -140,9 +142,11 @@ public class URLtoIPActivity extends AppCompatActivity
 							textview_ipFromURL.setText("IP: " + ip);
 						} catch (MalformedURLException e) {
 							e.printStackTrace();
+							textview_ipFromURL.setText("IP: N/A");
 						}
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
+						textview_ipFromURL.setText("IP: N/A");
 					}
                 }
             }
