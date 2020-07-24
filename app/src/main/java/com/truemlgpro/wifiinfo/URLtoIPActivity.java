@@ -19,7 +19,7 @@ import android.content.*;
 public class URLtoIPActivity extends AppCompatActivity
 {
 
-	private static final int MIN_TEXT_LENGTH = 8;
+	private static final int MIN_TEXT_LENGTH = 4;
     private static final String EMPTY_STRING = "";
 
     private TextInputLayout mTextInputLayout;
