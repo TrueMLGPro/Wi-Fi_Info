@@ -38,7 +38,7 @@ public class NotificationService extends Service
 	{
 		/// Notification Button Receivers ///
 		
-		if (intent.getAction() != null && intent.getAction().equals("ACTION_STOP")) {
+		if (intent != null && intent.getAction() != null && intent.getAction().equals("ACTION_STOP")) {
 			stopSelf();
 		}
 
