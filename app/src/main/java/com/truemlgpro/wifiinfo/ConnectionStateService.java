@@ -13,6 +13,14 @@ public class ConnectionStateService extends Service
 
 	private BroadcastReceiver ConnectionStateReceiver;
 	private Notification.Builder builder;
+	private String state_online = "Connection Status — Online";
+	private String state_offline = "Connection Status — Offline";
+	
+	private ScreenStateReceiver ScrStateRec;
+	private IntentFilter intentFilter;
+	private boolean isRegistered;
+	public static boolean isServiceRunning;
+	private boolean isHandlerPosted;
 
 public class ConnectionStateReceiver extends BroadcastReceiver
 {
@@ -26,11 +34,12 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		boolean isConnected = WiFi_NI != null && WiFi_NI.isConnected();
 		
 		if (isConnected) {
-			Intent ServiceIntent = new Intent(context, NotificationService.class);
+			Intent ServiceIntent = new Intent(ConnectionStateService.this, NotificationService.class);
+			
 			if (android.os.Build.VERSION.SDK_INT < 26) {
-				context.startService(ServiceIntent);
+				startService(ServiceIntent);
 			} else {
-				context.startForegroundService(ServiceIntent);
+				startForegroundService(ServiceIntent);
 			}
 			
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
@@ -40,9 +49,17 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			} else if (android.os.Build.VERSION.SDK_INT < 26) {
 				showOnlineNotificationAPI21(context);
 			}
+			
+			registerReceiver(ScrStateRec, intentFilter);
+			handler.post(runnable);
+			isHandlerPosted = true;
+			isRegistered = true;
+			isServiceRunning = true;
 		} else {
-			Intent ServiceIntent = new Intent(context, NotificationService.class);
-			context.stopService(ServiceIntent);
+			if (isServiceRunning == true) {
+				stopService(new Intent(context, NotificationService.class));
+				isServiceRunning = false;
+			}
 			
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
 				showOfflineNotificationAPI26_28(context);
@@ -50,6 +67,16 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				showOfflineNotificationAPI29(context);
 			} else if (android.os.Build.VERSION.SDK_INT < 26) {
 				showOfflineNotificationAPI21(context);
+			}
+			
+			if (isRegistered == true) {
+				unregisterReceiver(ScrStateRec);
+				isRegistered = false;
+			}
+			
+			if (isHandlerPosted == true) {
+				handler.removeCallbacks(runnable);
+				isHandlerPosted = false;
 			}
 		}
 	}
@@ -59,6 +86,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		
 		/// ONLINE NOTIFICATIONS ///
 		
+		/// ANDROID 8 - ANDROID 9 ///
+		
 		public void showOnlineNotificationAPI26_28(Context context) {
 			int NOTIFICATION_ID = 1304;
 
@@ -67,7 +96,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			builder = new Notification.Builder(context, channelID);
 
 			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-				.setContentTitle("ConnectionStateService — Online")
+				.setContentTitle(state_online)
 				.setWhen(System.currentTimeMillis())
 				.setChannelId(channelID)
 				.setColor(getResources().getColor(R.color.ntfcColor))
@@ -78,6 +107,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				.build();
 			notificationManager.notify(NOTIFICATION_ID, notification);
 		}
+		
+		/// ANDROID 10 ///
 		
 		public void showOnlineNotificationAPI29(Context context) {
 			int NOTIFICATION_ID = 1305;
@@ -87,7 +118,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			builder = new Notification.Builder(context, channelID);
 
 			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-				.setContentTitle("ConnectionStateService — Online")
+				.setContentTitle(state_online)
 				.setWhen(System.currentTimeMillis())
 				.setChannelId(channelID)
 				.setColor(getResources().getColor(R.color.ntfcColor))
@@ -99,6 +130,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			notificationManager.notify(NOTIFICATION_ID, notification);
 		}
 		
+		/// ANDROID 5 - ANDROID 7 ///
+		
 		public void showOnlineNotificationAPI21(Context context) {
 			int NOTIFICATION_ID = 1306;
 
@@ -106,7 +139,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			builder = new Notification.Builder(context);
 
 			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-				.setContentTitle("ConnectionStateService — Online")
+				.setContentTitle(state_online)
 				.setWhen(System.currentTimeMillis())
 				.setPriority(Notification.PRIORITY_MIN)
 				.setColor(getResources().getColor(R.color.ntfcColor))
@@ -122,6 +155,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		
 		/// OFFLINE NOTIFICATIONS ///
 		
+		/// ANDROID 8 - ANDROID 9 ///
+		
 		public void showOfflineNotificationAPI26_28(Context context) {
 			int NOTIFICATION_ID = 1304;
 
@@ -130,11 +165,11 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			builder = new Notification.Builder(context, channelID);
 			
 			Intent intentActionStop = new Intent(context, ActionButtonReceiver.class);
-			intentActionStop.setAction("ACTION_STOP");
+			intentActionStop.setAction("ACTION_STOP_CONN_STATE_SERVICE");
 			PendingIntent pIntentActionStop = PendingIntent.getBroadcast(context, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
 
 			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-				.setContentTitle("ConnectionStateService — Offline")
+				.setContentTitle(state_offline)
 				.setWhen(System.currentTimeMillis())
 				.addAction(R.drawable.ic_stop, "Stop Service", pIntentActionStop)
 				.setColor(getResources().getColor(R.color.ntfcColor))
@@ -146,6 +181,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			notificationManager.notify(NOTIFICATION_ID, notification);
 		}
 		
+		/// ANDROID 10 ///
+		
 		public void showOfflineNotificationAPI29(Context context) {
 			int NOTIFICATION_ID = 1305;
 
@@ -154,11 +191,11 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			builder = new Notification.Builder(context, channelID);
 			
 			Intent intentActionStop = new Intent(context, ActionButtonReceiver.class);
-			intentActionStop.setAction("ACTION_STOP");
+			intentActionStop.setAction("ACTION_STOP_CONN_STATE_SERVICE");
 			PendingIntent pIntentActionStop = PendingIntent.getBroadcast(context, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
 
 			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-				.setContentTitle("ConnectionStateService — Offline")
+				.setContentTitle(state_offline)
 				.setWhen(System.currentTimeMillis())
 				.addAction(R.drawable.ic_stop, "Stop Service", pIntentActionStop)
 				.setChannelId(channelID)
@@ -171,6 +208,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			notificationManager.notify(NOTIFICATION_ID, notification);
 		}
 		
+		/// ANDROID 5 - ANDROID 7 ///
+		
 		public void showOfflineNotificationAPI21(Context context) {
 			int NOTIFICATION_ID = 1306;
 
@@ -178,11 +217,11 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			builder = new Notification.Builder(context);
 			
 			Intent intentActionStop = new Intent(context, ActionButtonReceiver.class);
-			intentActionStop.setAction("ACTION_STOP");
+			intentActionStop.setAction("ACTION_STOP_CONN_STATE_SERVICE");
 			PendingIntent pIntentActionStop = PendingIntent.getBroadcast(context, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
 
 			Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-				.setContentTitle("ConnectionStateService — Offline")
+				.setContentTitle(state_offline)
 				.setWhen(System.currentTimeMillis())
 				.addAction(R.drawable.ic_stop, "Stop Service", pIntentActionStop)
 				.setPriority(Notification.PRIORITY_MIN)
@@ -196,13 +235,40 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		}
 		
 		/// END ///
-}
+	}
 	
 	@Override
 	public IBinder onBind(Intent intent)
 	{
 		return null;
 	}
+	
+	private Handler handler = new Handler(Looper.getMainLooper());
+	private Runnable runnable = new Runnable() {
+		@Override
+		public void run() {
+			Intent ServiceIntent = new Intent(ConnectionStateService.this, NotificationService.class);
+			if (ScreenStateReceiver.screenState == true) {
+				if (isServiceRunning == false) {
+					if (android.os.Build.VERSION.SDK_INT < 26) {
+						startService(ServiceIntent);
+						isServiceRunning = true;
+					} else {
+						startForegroundService(ServiceIntent);
+						isServiceRunning = true;
+					}
+				}
+			}
+			
+			if (ScreenStateReceiver.screenState == false) {
+				if (isServiceRunning == true) {
+					stopService(new Intent(ConnectionStateService.this, NotificationService.class));
+					isServiceRunning = false;
+				}
+			}
+			handler.postDelayed(runnable, 1000);
+		}
+	};
 
 	@Override
 	public void onCreate()
@@ -211,6 +277,11 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		ConnectionStateReceiver = new ConnectionStateReceiver();
 		registerReceiver(ConnectionStateReceiver, filter);
+		
+		intentFilter = new IntentFilter();
+		intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+		intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+		ScrStateRec = new ScreenStateReceiver();
 		super.onCreate();
 	}
 
@@ -218,22 +289,28 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 	public void onDestroy()
 	{
 		unregisterReceiver(ConnectionStateReceiver);
+		if (isRegistered == true) {
+			unregisterReceiver(ScrStateRec);
+			isRegistered = false;
+		}
+		
+		if (isHandlerPosted == true) {
+			handler.removeCallbacks(runnable);
+			isHandlerPosted = false;
+		}
 		super.onDestroy();
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
-		if (intent.getAction() != null && intent.getAction().equals("ACTION_STOP")) {
-			stopSelf();
-		}
-		
 		ConnectivityManager CM = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo WiFi_NI = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		boolean isConnected = WiFi_NI != null && WiFi_NI.isConnected();
 		
 		if (isConnected) {
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
+				/// ANDROID 8 - ANDROID 9 ///
 				int NOTIFICATION_ID = 1304;
 
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -241,7 +318,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				builder = new Notification.Builder(this, channelID);
 
 				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Online")
+					.setContentTitle(state_online)
 					.setWhen(System.currentTimeMillis())
 					.setChannelId(channelID)
 					.setColor(getResources().getColor(R.color.ntfcColor))
@@ -252,6 +329,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 					.build();
 				startForeground(NOTIFICATION_ID, notification);
 			} else if (android.os.Build.VERSION.SDK_INT == 29) {
+				/// ANDROID 10 ///
 				int NOTIFICATION_ID = 1305;
 				
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -259,7 +337,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				builder = new Notification.Builder(this, channelID);
 				
 				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Online")
+					.setContentTitle(state_online)
 					.setWhen(System.currentTimeMillis())
 					.setChannelId(channelID)
 					.setColor(getResources().getColor(R.color.ntfcColor))
@@ -270,15 +348,16 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 					.build();
 				startForeground(NOTIFICATION_ID, notification);
 			} else if (android.os.Build.VERSION.SDK_INT < 26) {
+				/// ANDROID 5 - ANDROID 7 ///
 				int NOTIFICATION_ID = 1306;
 				
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				builder = new Notification.Builder(this);
 				
 				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Online")
+					.setContentTitle(state_online)
 					.setWhen(System.currentTimeMillis())
-					.setPriority(NotificationManager.IMPORTANCE_MIN)
+					.setPriority(Notification.PRIORITY_MIN)
 					.setColor(getResources().getColor(R.color.ntfcColor))
 					.setCategory(Notification.CATEGORY_SERVICE)
 					.setOngoing(true)
@@ -289,15 +368,21 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			}
 		} else {
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
+				/// ANDROID 8 - ANDROID 9 ///
 				int NOTIFICATION_ID = 1304;
 
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 				builder = new Notification.Builder(this, channelID);
-
+				
+				Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
+				intentActionStop.setAction("ACTION_STOP_CONN_STATE_SERVICE");
+				PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
+				
 				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Offline")
+					.setContentTitle(state_offline)
 					.setWhen(System.currentTimeMillis())
+					.addAction(R.drawable.ic_stop, "Stop Service", pIntentActionStop)
 					.setChannelId(channelID)
 					.setColor(getResources().getColor(R.color.ntfcColor))
 					.setCategory(Notification.CATEGORY_SERVICE)
@@ -307,15 +392,21 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 					.build();
 				startForeground(NOTIFICATION_ID, notification);
 			} else if (android.os.Build.VERSION.SDK_INT == 29) {
+				/// ANDROID 10 ///
 				int NOTIFICATION_ID = 1305;
 
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 				builder = new Notification.Builder(this, channelID);
-
+				
+				Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
+				intentActionStop.setAction("ACTION_STOP_CONN_STATE_SERVICE");
+				PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
+				
 				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Offline")
+					.setContentTitle(state_offline)
 					.setWhen(System.currentTimeMillis())
+					.addAction(R.drawable.ic_stop, "Stop Service", pIntentActionStop)
 					.setChannelId(channelID)
 					.setColor(getResources().getColor(R.color.ntfcColor))
 					.setCategory(Notification.CATEGORY_SERVICE)
@@ -325,15 +416,21 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 					.build();
 				startForeground(NOTIFICATION_ID, notification);
 			} else if (android.os.Build.VERSION.SDK_INT < 26) {
+				/// ANDROID 5 - ANDROID 7 ///
 				int NOTIFICATION_ID = 1306;
 
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				builder = new Notification.Builder(this);
-
+				
+				Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
+				intentActionStop.setAction("ACTION_STOP_CONN_STATE_SERVICE");
+				PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
+				
 				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi)
-					.setContentTitle("ConnectionStateService — Offline")
+					.setContentTitle(state_offline)
 					.setWhen(System.currentTimeMillis())
-					.setPriority(NotificationManager.IMPORTANCE_MIN)
+					.addAction(R.drawable.ic_stop, "Stop Service", pIntentActionStop)
+					.setPriority(Notification.PRIORITY_MIN)
 					.setColor(getResources().getColor(R.color.ntfcColor))
 					.setCategory(Notification.CATEGORY_SERVICE)
 					.setOngoing(true)

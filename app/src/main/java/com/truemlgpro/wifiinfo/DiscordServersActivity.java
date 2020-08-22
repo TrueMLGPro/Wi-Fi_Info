@@ -24,6 +24,23 @@ public class DiscordServersActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
+		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
+
+		if (keyTheme == true) {
+			setTheme(R.style.DarkTheme);
+		}
+
+		if (keyAmoledTheme == true) {
+			if (keyTheme == true) {
+				setTheme(R.style.AmoledDarkTheme);
+			}
+		}
+
+		if (keyTheme == false) {
+			setTheme(R.style.LightTheme);
+		}
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.discord_servers_activity);
 		
@@ -32,10 +49,11 @@ public class DiscordServersActivity extends AppCompatActivity
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		true_mlg_pro_button = (Button) findViewById(R.id.true_mlg_pro_button);
-		andrew_button = (Button) findViewById(R.id.torneix_button);
+		andrew_button = (Button) findViewById(R.id.andrew_button);
 		
 		Calligrapher calligrapher = new Calligrapher(this);
-		calligrapher.setFont(this, "fonts/GoogleSans-Medium.ttf", true);
+		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
+		calligrapher.setFont(this, font, true);
 		
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();

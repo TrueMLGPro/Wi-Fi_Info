@@ -5,7 +5,7 @@
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/backgroundColorDark">
+	android:background="?attr/BackgroundColor">
 
 	<android.support.v7.widget.Toolbar
 		android:id="@+id/toolbar"
@@ -14,9 +14,9 @@
 		android:background="?attr/colorPrimary"
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 		app:navigationIcon="?attr/homeAsUpIndicator"
-		app:titleTextColor="#FFFFFF"
-		app:subtitleTextColor="#FFFFFF"
-		android:layout_alignParentTop="true"/>
+		app:titleTextColor="?attr/TitleTextColor"
+		app:subtitleTextColor="?attr/SubtitleTextColor"
+		android:layout_alignParentTop="true" />
 
 	<RelativeLayout
 		android:id="@+id/relative_layout"
@@ -28,11 +28,11 @@
 			android:id="@+id/dev_info_text"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:textColor="@android:color/white"
+			android:textColor="?attr/TextColor"
 			android:text="Developer Info"
 			android:textSize="30sp"
 			android:layout_marginBottom="20dp"
-			android:layout_centerHorizontal="true"/>
+			android:layout_centerHorizontal="true" />
 		
 		<TextView
 			android:id="@+id/alt_ds_textview"
@@ -40,11 +40,11 @@
 			android:layout_height="wrap_content"
 			android:text="Discord: 🐱️TrueMLGPro🌟#2674"
 			android:textSize="20sp"
-			android:textColor="@android:color/white"
+			android:textColor="?attr/TextColor"
 			android:layout_below="@id/dev_info_text"
 			android:layout_marginBottom="20dp"
 			android:layout_centerHorizontal="true"
-			android:visibility="gone"/>
+			android:visibility="gone" />
 		
 		<TextView
 			android:id="@+id/alt_yt_textview"
@@ -52,11 +52,11 @@
 			android:layout_height="wrap_content"
 			android:text="YouTube: TheAwesomePlay"
 			android:textSize="20sp"
-			android:textColor="@android:color/white"
+			android:textColor="?attr/TextColor"
 			android:layout_below="@id/alt_ds_textview"
 			android:layout_marginBottom="20dp"
 			android:layout_centerHorizontal="true"
-			android:visibility="gone"/>
+			android:visibility="gone" />
 		
 		<TextView
 			android:id="@+id/alt_gh_textview"
@@ -64,11 +64,11 @@
 			android:layout_height="wrap_content"
 			android:text="GitHub: TrueMLGPro/Wi-Fi_Info"
 			android:textSize="20sp"
-			android:textColor="@android:color/white"
+			android:textColor="?attr/TextColor"
 			android:layout_below="@id/alt_yt_textview"
 			android:layout_marginBottom="20dp"
 			android:layout_centerHorizontal="true"
-			android:visibility="gone"/>
+			android:visibility="gone" />
 
 		<br.com.bloder.magic.view.MagicButton
 			android:id="@+id/magic_button1"
@@ -82,10 +82,10 @@
 			app:hide_text_size="12px"
 			app:hide_text_color="@android:color/white"
 			app:icon_button_color="#7690F5"
-			app:expandable_area_color="#8E91FF"
+			app:expandable_area_color="#98A9FF"
 			android:layout_below="@+id/dev_info_text"
 			android:layout_centerHorizontal="true"
-			android:visibility="gone"/>
+			android:visibility="gone" />
 
 		<br.com.bloder.magic.view.MagicButton
 			android:id="@+id/magic_button2"
@@ -103,7 +103,7 @@
 			app:expandable_area_color="#FF0000"
 			android:layout_below="@id/magic_button1"
 			android:layout_centerHorizontal="true"
-			android:visibility="gone"/>
+			android:visibility="gone" />
 
 		<br.com.bloder.magic.view.MagicButton
 			android:id="@+id/magic_button3"
@@ -121,7 +121,7 @@
 			app:expandable_area_color="#151515"
 			android:layout_below="@id/magic_button2"
 			android:layout_centerHorizontal="true"
-			android:visibility="gone"/>
+			android:visibility="gone" />
 
 	</RelativeLayout>
 
@@ -140,9 +140,9 @@
 			android:layout_marginBottom="2dp"
 			android:text="app_ver"
 			android:textSize="14sp"
-			android:textColor="#FFFFFF"
+			android:textColor="?attr/TextColor"
 			android:layout_centerHorizontal="true"
-			android:layout_marginTop="2dp"/>
+			android:layout_marginTop="2dp" />
 
 		<TextView
 			android:id="@+id/txt_android_ver"
@@ -152,9 +152,9 @@
 			android:layout_marginBottom="2dp"
 			android:text="android_ver"
 			android:textSize="14sp"
-			android:textColor="#FFFFFF"
+			android:textColor="?attr/TextColor"
 			android:layout_below="@+id/txt_app_ver"
-			android:layout_centerHorizontal="true"/>
+			android:layout_centerHorizontal="true" />
 
 		<TextView
 			android:id="@+id/txt_sdk_ver"
@@ -164,9 +164,9 @@
 			android:layout_marginBottom="2dp"
 			android:text="android_sdk"
 			android:textSize="14sp"
-			android:textColor="#FFFFFF"
+			android:textColor="?attr/TextColor"
 			android:layout_below="@+id/txt_android_ver"
-			android:layout_centerHorizontal="true"/>
+			android:layout_centerHorizontal="true" />
 
 		<TextView
 			android:id="@+id/txt_device_brand"
@@ -176,9 +176,9 @@
 			android:layout_marginBottom="2dp"
 			android:text="device_brand"
 			android:textSize="14sp"
-			android:textColor="#FFFFFF"
+			android:textColor="?attr/TextColor"
 			android:layout_below="@+id/txt_sdk_ver"
-			android:layout_centerHorizontal="true"/>
+			android:layout_centerHorizontal="true" />
 
 		<TextView
 			android:id="@+id/txt_product_name"
@@ -188,9 +188,9 @@
 			android:layout_marginBottom="2dp"
 			android:text="product_name"
 			android:textSize="14sp"
-			android:textColor="#FFFFFF"
+			android:textColor="?attr/TextColor"
 			android:layout_below="@+id/txt_device_brand"
-			android:layout_centerHorizontal="true"/>
+			android:layout_centerHorizontal="true" />
 
 		<TextView
 			android:id="@+id/txt_device_model"
@@ -200,9 +200,9 @@
 			android:layout_marginBottom="2dp"
 			android:text="device_model"
 			android:textSize="14sp"
-			android:textColor="#FFFFFF"
+			android:textColor="?attr/TextColor"
 			android:layout_below="@+id/txt_product_name"
-			android:layout_centerHorizontal="true"/>
+			android:layout_centerHorizontal="true" />
 
 	</RelativeLayout>
 

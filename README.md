@@ -44,12 +44,13 @@ Go to **[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)** to get 
 
 # TODO List
 
-- [ ] Add Total TX (Sent Packets) and Total RX (Received Packets) to info string **(1.4)**
-- [ ] Add "Start on Device Boot" setting in SettingsActivity **(1.4)**
-- [ ] Add DayNight theme to change app themes from SettingsActivity **(1.4)**
-- [ ] Add animations on activity start (text fade in, moving text) **(1.4)**
-- [ ] Add Notification Settings on SettingsActivity to change notification update frequency, etc. **(1.4)**
-- [ ] Add download/upload monitoring (notification) **(1.4)**
+- [x] Add Notification Settings on SettingsActivity to change notification update frequency, etc. **(1.3.3)**
+- [x] Add "Start on Device Boot" setting in SettingsActivity **(1.3.3)**
+- [x] Add themes to change app themes from SettingsActivity **(1.3.3)**
+- [x] Add Total TX (Sent Data) and Total RX (Received Data) to info string **(1.3.3)**
+- [ ] Add download/upload monitoring (notification) **(1.4) (maybe)**
 - [ ] Add Notification Layout Customizer **(1.4) (maybe)**
 - [ ] Add Wi-Fi password manager **(1.4) (maybe)**
 - [ ] Create a home screen widget with network info **(1.4) (maybe)**
+be)**
+aybe)**

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<attr name="TextColor" format="reference|color" />
+	<attr name="TitleTextColor" format="reference|color" />
+	<attr name="SubtitleTextColor" format="reference|color" />
+	<attr name="CardTextColor" format="reference|color" />
+	<attr name="BackgroundColor" format="reference|color" />
+	<attr name="CardHeaderBackgroundColor" format="reference|color" />
+	<attr name="CardBackgroundColor" format="reference|color" />
+	<attr name="FAB_IPColorEnabled" format="reference|color" />
+	<attr name="FAB_IPColorDisabled" format="reference|color" />
+	<attr name="FAB_MainColorEnabled" format="reference|color" />
+	<attr name="FAB_MainColorDisabled" format="reference|color" />
+	<attr name="FAB_MainColorRipple" format="reference|color" />
+	<attr name="BorderColor" format="reference|color" />
+	<attr name="IconDevColor" format="reference" />
+	<attr name="IconDiscordColor" format="reference" />
+	<attr name="IconSupportersColor" format="reference" />
+	<attr name="IconConvertColor" format="reference" />
+	<attr name="IconSettingsColor" format="reference" />
+	<attr name="IconPlusColor" format="reference" />
+</resources>

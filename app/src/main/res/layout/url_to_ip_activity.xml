@@ -4,7 +4,7 @@
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/backgroundColorDark">
+	android:background="?attr/BackgroundColor">
 
 	<android.support.v7.widget.Toolbar
 		xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,8 +13,8 @@
 		android:layout_height="?attr/actionBarSize"
 		android:background="?attr/colorPrimary"
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:titleTextColor="#FFFFFF"
-		app:subtitleTextColor="#FFFFFF"/>
+		app:titleTextColor="?attr/TitleTextColor"
+		app:subtitleTextColor="?attr/SubtitleTextColor"/>
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -33,7 +33,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="URL to IP Converter"
-				android:textColor="#FFFFFF"
+				android:textColor="?attr/TextColor"
 				android:textSize="30sp"
 				android:layout_marginBottom="16dp"/>
 
@@ -42,7 +42,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="IP: N/A"
-				android:textColor="#FFFFFF"
+				android:textColor="?attr/TextColor"
 				android:textSize="24sp"
 				android:layout_marginBottom="16dp"/>
 
@@ -61,7 +61,7 @@
 				android:layout_marginRight="4dp"
 				android:layout_marginBottom="4dp"
 				android:text="https://"
-				android:textColor="#FFFFFF"
+				android:textColor="?attr/TextColor"
 				android:textSize="20sp" />
 
 			<android.support.design.widget.TextInputLayout

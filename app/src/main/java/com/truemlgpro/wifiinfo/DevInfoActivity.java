@@ -9,11 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.support.v4.widget.*;
 import android.view.*;
 import android.widget.*;
-import me.anwarshahriar.calligrapher.*;
-import br.com.bloder.magic.view.*;
 import android.view.View.*;
 import android.content.*;
 import android.content.pm.*;
+import me.anwarshahriar.calligrapher.*;
+import br.com.bloder.magic.view.*;
 
 public class DevInfoActivity extends AppCompatActivity
 {
@@ -37,6 +37,23 @@ public class DevInfoActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
+		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
+
+		if (keyTheme == true) {
+			setTheme(R.style.DarkTheme);
+		}
+
+		if (keyAmoledTheme == true) {
+			if (keyTheme == true) {
+				setTheme(R.style.AmoledDarkTheme);
+			}
+		}
+
+		if (keyTheme == false) {
+			setTheme(R.style.LightTheme);
+		}
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dev_info_activity);
 		
@@ -58,7 +75,8 @@ public class DevInfoActivity extends AppCompatActivity
 		txt_device_model = (TextView) findViewById(R.id.txt_device_model);
 		
 		Calligrapher calligrapher = new Calligrapher(this);
-		calligrapher.setFont(this, "fonts/GoogleSans-Medium.ttf", true);
+		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
+		calligrapher.setFont(this, font, true);
 		
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
@@ -111,7 +129,7 @@ public class DevInfoActivity extends AppCompatActivity
 					ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#2674");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "🐱️TrueMLGPro🌟#2674", Toast.LENGTH_SHORT).show();
 				}
 			});
 
@@ -123,7 +141,7 @@ public class DevInfoActivity extends AppCompatActivity
 					ClipData clip = ClipData.newPlainText("YouTube", "TheAwesomePlay");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TheAwesomePlay", Toast.LENGTH_SHORT).show();
 				}
 			});
 
@@ -135,7 +153,7 @@ public class DevInfoActivity extends AppCompatActivity
 					ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro/Wi-Fi_Info", Toast.LENGTH_SHORT).show();
 				}
 			});
 	}
@@ -148,7 +166,7 @@ public class DevInfoActivity extends AppCompatActivity
 					ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#2674");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "🐱️TrueMLGPro🌟#2674", Toast.LENGTH_SHORT).show();
 				}
 			});
 
@@ -159,7 +177,7 @@ public class DevInfoActivity extends AppCompatActivity
 					ClipData clip = ClipData.newPlainText("YouTube", "TheAwesomePlay");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TheAwesomePlay", Toast.LENGTH_SHORT).show();
 				}
 			});
 
@@ -170,7 +188,7 @@ public class DevInfoActivity extends AppCompatActivity
 					ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro/Wi-Fi_Info", Toast.LENGTH_SHORT).show();
 				}
 			});
 	}

@@ -11,7 +11,7 @@
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-		android:background="@color/backgroundColorDark">
+		android:background="?BackgroundColor">
 	
 		<android.support.v7.widget.Toolbar
 			android:id="@+id/toolbar"
@@ -19,8 +19,8 @@
 			android:layout_height="?attr/actionBarSize"
 			android:background="?attr/colorPrimary"
 			android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-			app:titleTextColor="#FFFFFF"
-			app:subtitleTextColor="#FFFFFF" />
+			app:titleTextColor="?attr/TitleTextColor"
+			app:subtitleTextColor="?attr/SubtitleTextColor" />
 		
 		<TextView
 			android:id="@+id/textview_noconn"
@@ -28,7 +28,7 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="16dp"
 			android:textSize="18sp"
-			android:textColor="@android:color/white"
+			android:textColor="?TextColor"
 			android:layout_gravity="center"
 			android:visibility="gone"
 			android:text="No Connection" />
@@ -56,7 +56,7 @@
 					android:layout_marginRight="16dp"
 					app:cardCornerRadius="8dp"
 					app:cardElevation="8dp"
-					app:cardBackgroundColor="#2F69C7">
+					app:cardBackgroundColor="?CardBackgroundColor">
 
 					<LinearLayout
 						android:id="@+id/linear_layout1"
@@ -72,7 +72,7 @@
 							android:layout_height="wrap_content"
 							android:orientation="horizontal"
 							android:gravity="left"
-							android:background="#353535">
+							android:background="?attr/CardHeaderBackgroundColor">
 
 							<TextView
 								android:id="@+id/textview_header1"
@@ -83,7 +83,7 @@
 								android:layout_marginRight="8dp"
 								android:layout_marginBottom="8dp"
 								android:textSize="12sp"
-								android:textColor="@android:color/white"
+								android:textColor="?attr/TextColor"
 								android:text="Public IP Address" />
 
 						</LinearLayout>
@@ -93,11 +93,9 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:layout_marginBottom="16dp"
 							android:textSize="18sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="Your IP: N/A" />
 						
 						<com.github.clans.fab.FloatingActionButton
@@ -107,9 +105,9 @@
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="16dp"
 							android:src="@drawable/ic_sync"
-							fab:fab_colorNormal="#397CEA"
-							fab:fab_colorPressed="#2789DB"
-							fab:fab_colorDisabled="#1F67B1"
+							fab:fab_colorNormal="?FAB_IPColorEnabled"
+							fab:fab_colorPressed="?FAB_IPColorDisabled"
+							fab:fab_colorDisabled="?FAB_IPColorDisabled"
 							fab:fab_colorRipple="#30FFFFFF"
 							fab:fab_size="mini" />
 					
@@ -128,7 +126,7 @@
 					android:layout_marginRight="16dp"
 					app:cardCornerRadius="8dp"
 					app:cardElevation="8dp"
-					app:cardBackgroundColor="#2F69C7">
+					app:cardBackgroundColor="?CardBackgroundColor">
 				
 					<LinearLayout
 						android:id="@+id/linear_layout2"
@@ -144,7 +142,7 @@
 							android:layout_height="wrap_content"
 							android:orientation="horizontal"
 							android:gravity="left"
-							android:background="#353535">
+							android:background="?attr/CardHeaderBackgroundColor">
 							
 							<TextView
 								android:id="@+id/textview_header2"
@@ -155,7 +153,7 @@
 								android:layout_marginRight="8dp"
 								android:layout_marginBottom="8dp"
 								android:textSize="12sp"
-								android:textColor="@android:color/white"
+								android:textColor="?attr/TextColor"
 								android:text="SSID, BSSID, etc." />
 							
 						</LinearLayout>
@@ -165,10 +163,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 					
 						<TextView
@@ -176,10 +172,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 					
 						<TextView
@@ -187,10 +181,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 					
 						<TextView
@@ -199,9 +191,7 @@
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
 							android:textSize="16sp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -210,7 +200,7 @@
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -218,10 +208,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -229,11 +217,9 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:layout_marginBottom="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 					
 					</LinearLayout>
@@ -251,7 +237,7 @@
 					android:layout_marginRight="16dp"
 					app:cardCornerRadius="8dp"
 					app:cardElevation="8dp"
-					app:cardBackgroundColor="#2F69C7">
+					app:cardBackgroundColor="?CardBackgroundColor">
 
 					<LinearLayout
 						android:id="@+id/linear_layout3"
@@ -267,7 +253,7 @@
 							android:layout_height="wrap_content"
 							android:orientation="horizontal"
 							android:gravity="left"
-							android:background="#353535">
+							android:background="?attr/CardHeaderBackgroundColor">
 
 							<TextView
 								android:id="@+id/textview_header3"
@@ -278,7 +264,7 @@
 								android:layout_marginRight="8dp"
 								android:layout_marginBottom="8dp"
 								android:textSize="12sp"
-								android:textColor="@android:color/white"
+								android:textColor="?attr/TextColor"
 								android:text="DNS, Subnet Mask, etc." />
 
 						</LinearLayout>
@@ -288,10 +274,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 
 						<TextView
@@ -299,10 +283,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -310,10 +292,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -321,10 +301,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -332,10 +310,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -343,10 +319,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -354,11 +328,18 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="?attr/CardTextColor"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview15"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
 							android:layout_marginBottom="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 
 					</LinearLayout>
@@ -376,7 +357,7 @@
 					android:layout_marginRight="16dp"
 					app:cardCornerRadius="8dp"
 					app:cardElevation="8dp"
-					app:cardBackgroundColor="#2F69C7">
+					app:cardBackgroundColor="?CardBackgroundColor">
 
 					<LinearLayout
 						android:id="@+id/linear_layout4"
@@ -392,7 +373,7 @@
 							android:layout_height="wrap_content"
 							android:orientation="horizontal"
 							android:gravity="left"
-							android:background="#353535">
+							android:background="?attr/CardHeaderBackgroundColor">
 
 							<TextView
 								android:id="@+id/textview_header4"
@@ -403,42 +384,27 @@
 								android:layout_marginRight="8dp"
 								android:layout_marginBottom="8dp"
 								android:textSize="12sp"
-								android:textColor="@android:color/white"
+								android:textColor="?attr/TextColor"
 								android:text="Frequency, Channel, etc." />
 
 						</LinearLayout>
 						
 						<TextView
-							android:id="@+id/textview15"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
-							android:textSize="16sp"
-							android:textColor="@android:color/white"
-							android:text="" />
-
-						<TextView
 							android:id="@+id/textview16"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
-						
+
 						<TextView
 							android:id="@+id/textview17"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -446,10 +412,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -457,32 +421,26 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
-
+						
 						<TextView
 							android:id="@+id/textview20"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
-						
+
 						<TextView
 							android:id="@+id/textview21"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -490,10 +448,8 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
@@ -501,11 +457,18 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
+							android:textSize="16sp"
+							android:textColor="?attr/CardTextColor"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview24"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="16dp"
 							android:layout_marginBottom="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 
 					</LinearLayout>
@@ -523,7 +486,7 @@
 					android:layout_marginRight="16dp"
 					app:cardCornerRadius="8dp"
 					app:cardElevation="8dp"
-					app:cardBackgroundColor="#2F69C7">
+					app:cardBackgroundColor="?CardBackgroundColor">
 
 					<LinearLayout
 						android:id="@+id/linear_layout5"
@@ -539,7 +502,7 @@
 							android:layout_height="wrap_content"
 							android:orientation="horizontal"
 							android:gravity="left"
-							android:background="#353535">
+							android:background="?attr/CardHeaderBackgroundColor">
 
 							<TextView
 								android:id="@+id/textview_header5"
@@ -550,21 +513,19 @@
 								android:layout_marginRight="8dp"
 								android:layout_marginBottom="8dp"
 								android:textSize="12sp"
-								android:textColor="@android:color/white"
+								android:textColor="?attr/TextColor"
 								android:text="WPA Supplicant State" />
 
 						</LinearLayout>
 						
 						<TextView
-							android:id="@+id/textview24"
+							android:id="@+id/textview25"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:layout_marginBottom="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 
 					</LinearLayout>
@@ -583,7 +544,7 @@
 					android:layout_marginBottom="16dp"
 					app:cardCornerRadius="8dp"
 					app:cardElevation="8dp"
-					app:cardBackgroundColor="#2F69C7">
+					app:cardBackgroundColor="?CardBackgroundColor">
 
 					<LinearLayout
 						android:id="@+id/linear_layout6"
@@ -599,7 +560,7 @@
 							android:layout_height="wrap_content"
 							android:orientation="horizontal"
 							android:gravity="left"
-							android:background="#353535">
+							android:background="?attr/CardHeaderBackgroundColor">
 
 							<TextView
 								android:id="@+id/textview_header6"
@@ -610,65 +571,55 @@
 								android:layout_marginRight="8dp"
 								android:layout_marginBottom="8dp"
 								android:textSize="12sp"
-								android:textColor="@android:color/white"
+								android:textColor="?attr/TextColor"
 								android:text="Feature Support" />
 
 						</LinearLayout>
-						
-						<TextView
-							android:id="@+id/textview25"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
-							android:textSize="16sp"
-							android:textColor="@android:color/white"
-							android:text="" />
 						
 						<TextView
 							android:id="@+id/textview26"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
-
+						
 						<TextView
 							android:id="@+id/textview27"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
-							android:layout_marginBottom="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
-						
+
 						<TextView
 							android:id="@+id/textview28"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
+							android:layout_marginTop="16dp"
+							android:layout_marginBottom="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 						<TextView
 							android:id="@+id/textview29"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
+							android:textSize="16sp"
+							android:textColor="?attr/CardTextColor"
+							android:text="" />
+						
+						<TextView
+							android:id="@+id/textview30"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
 							android:layout_marginTop="16dp"
-							android:layout_marginLeft="16dp"
-							android:layout_marginRight="16dp"
 							android:layout_marginBottom="16dp"
 							android:textSize="16sp"
-							android:textColor="@android:color/white"
+							android:textColor="?attr/CardTextColor"
 							android:text="" />
 						
 					</LinearLayout>
@@ -693,11 +644,11 @@
 			fab:menu_shadowRadius="4dp"
 			fab:menu_shadowXOffset="1dp"
 			fab:menu_shadowYOffset="3dp"
-			fab:menu_colorNormal="#353535"
-			fab:menu_colorPressed="#404040"
-			fab:menu_colorRipple="#30FFFFFF"
+			fab:menu_colorNormal="?FAB_MainColorEnabled"
+			fab:menu_colorPressed="?FAB_MainColorEnabled"
+			fab:menu_colorRipple="?FAB_MainColorRipple"
 			fab:menu_animationDelayPerItem="25"
-			fab:menu_icon="@drawable/ic_plus_light"
+			fab:menu_icon="?IconPlusColor"
 			fab:menu_buttonSpacing="-2dp"
 			fab:menu_labels_margin="0dp"
 			fab:menu_labels_paddingTop="2dp"
@@ -705,12 +656,12 @@
 			fab:menu_labels_paddingBottom="2dp"
 			fab:menu_labels_paddingLeft="4dp"
 			fab:menu_labels_padding="8dp"
-			fab:menu_labels_textColor="#FFFFFF"
+			fab:menu_labels_textColor="?TextColor"
 			fab:menu_labels_textSize="12sp"
 			fab:menu_labels_cornerRadius="4dp"
-			fab:menu_labels_colorNormal="#353535"
-			fab:menu_labels_colorPressed="#444444"
-			fab:menu_labels_colorRipple="#30FFFFFF"
+			fab:menu_labels_colorNormal="?FAB_MainColorEnabled"
+			fab:menu_labels_colorPressed="?FAB_MainColorEnabled"
+			fab:menu_labels_colorRipple="?FAB_MainColorRipple"
 			fab:menu_labels_showShadow="true"
 			fab:menu_labels_singleLine="true"
 			fab:menu_labels_ellipsize="none"
@@ -726,10 +677,10 @@
 				android:id="@+id/menu_item_1"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/ic_info"
-				fab:fab_colorNormal="#353535"
-				fab:fab_colorPressed="#404040"
-				fab:fab_colorRipple="#30FFFFFF"
+				android:src="?IconDevColor"
+				fab:fab_colorNormal="?FAB_MainColorEnabled"
+				fab:fab_colorPressed="?FAB_MainColorEnabled"
+				fab:fab_colorRipple="?FAB_MainColorRipple"
 				fab:fab_size="mini"
 				fab:fab_label="Developer Info" />
 			
@@ -737,10 +688,10 @@
 				android:id="@+id/menu_item_2"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/ic_discord"
-				fab:fab_colorNormal="#353535"
-				fab:fab_colorPressed="#404040"
-				fab:fab_colorRipple="#30FFFFFF"
+				android:src="?IconDiscordColor"
+				fab:fab_colorNormal="?FAB_MainColorEnabled"
+				fab:fab_colorPressed="?FAB_MainColorEnabled"
+				fab:fab_colorRipple="?FAB_MainColorRipple"
 				fab:fab_size="mini"
 				fab:fab_label="Discord Servers" />
 			
@@ -748,10 +699,10 @@
 				android:id="@+id/menu_item_3"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/ic_people"
-				fab:fab_colorNormal="#353535"
-				fab:fab_colorPressed="#404040"
-				fab:fab_colorRipple="#30FFFFFF"
+				android:src="?IconSupportersColor"
+				fab:fab_colorNormal="?FAB_MainColorEnabled"
+				fab:fab_colorPressed="?FAB_MainColorEnabled"
+				fab:fab_colorRipple="?FAB_MainColorRipple"
 				fab:fab_size="mini"
 				fab:fab_label="Supporters" />
 			
@@ -759,10 +710,10 @@
 				android:id="@+id/menu_item_4"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/ic_convert"
-				fab:fab_colorNormal="#353535"
-				fab:fab_colorPressed="#404040"
-				fab:fab_colorRipple="#30FFFFFF"
+				android:src="?IconConvertColor"
+				fab:fab_colorNormal="?FAB_MainColorEnabled"
+				fab:fab_colorPressed="?FAB_MainColorEnabled"
+				fab:fab_colorRipple="?FAB_MainColorRipple"
 				fab:fab_size="mini"
 				fab:fab_label="URL to IP" />
 			
@@ -770,10 +721,10 @@
 				android:id="@+id/menu_item_5"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/ic_settings"
-				fab:fab_colorNormal="#353535"
-				fab:fab_colorPressed="#404040"
-				fab:fab_colorRipple="#30FFFFFF"
+				android:src="?IconSettingsColor"
+				fab:fab_colorNormal="?FAB_MainColorEnabled"
+				fab:fab_colorPressed="?FAB_MainColorEnabled"
+				fab:fab_colorRipple="?FAB_MainColorRipple"
 				fab:fab_size="mini"
 				fab:fab_label="Settings" />
 		

@@ -18,11 +18,11 @@ public class NotificationService extends Service
 	private Notification notification29;
 	private Notification notification21_25;
 	private Notification.Builder builder;
-
+	
 	@Override
 	public void onCreate()
 	{
-		handler.postDelayed(runnable, 1000);
+		handler.post(runnable);
 		super.onCreate();
 	}
 
@@ -38,38 +38,42 @@ public class NotificationService extends Service
 	{
 		/// Notification Button Receivers ///
 		
-		if (intent.getAction() != null && intent.getAction().equals("ACTION_STOP")) {
-			stopSelf();
-		}
-
-		if (intent.getAction() != null && intent.getAction().equals("ACTION_NTFC_SETTINGS")) {
-			startNtfcSettingsActivity();
+		try {
+			if (intent.getAction() != null && intent.getAction().equals("ACTION_NTFC_SETTINGS")) {
+				startNtfcSettingsActivity();
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		
 		/// END ///
 		
-		if (intent.getAction() == null) {
-			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
-				/// Android 8 - Android 9 ///
-				showNotificationAPI26_28();
-				startForeground(1301, notification26_28);
-			} else if (android.os.Build.VERSION.SDK_INT == 29) {
-				/// Android 10 ///
-				showNotificationAPI29();
-				startForeground(1302, notification29);
-			} else if (android.os.Build.VERSION.SDK_INT < 26) {
-				/// Android 5 - Android 7 ///
-				showNotificationAPI21_25();
-				startForeground(1303, notification21_25);
-			}
+		if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
+			/// Android 8 - Android 9 ///
+			showNotificationAPI26_28();
+			startForeground(1301, notification26_28);
+		} else if (android.os.Build.VERSION.SDK_INT == 29) {
+			/// Android 10 ///
+			showNotificationAPI29();
+			startForeground(1302, notification29);
+		} else if (android.os.Build.VERSION.SDK_INT < 26) {
+			/// Android 5 - Android 7 ///
+			showNotificationAPI21_25();
+			startForeground(1303, notification21_25);
 		}
+		
 		return START_STICKY;
 	}
+	
+	/// Handler for Notification Updates ///
 	
 	private Handler handler = new Handler(Looper.getMainLooper());
 	private Runnable runnable = new Runnable() {
 		@Override
 		public void run() {
+			String keyNtfcFreq = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_NTFC_FREQ, MainActivity.ntfcUpdateInterval);
+			int keyNtfcFreqFormatted = Integer.parseInt(keyNtfcFreq);
+			
 			if (android.os.Build.VERSION.SDK_INT == 29) {
 				showNotificationAPI29();
 			}
@@ -81,11 +85,13 @@ public class NotificationService extends Service
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
 				showNotificationAPI26_28();
 			}
-			handler.postDelayed(runnable, 1000);
+			handler.postDelayed(runnable, keyNtfcFreqFormatted);
 		}
 	};
 	
-	/// Start Notification Settings Activity ///
+	/// END ///
+	
+	/// Notification Settings Activity ///
 	
 	public void startNtfcSettingsActivity() {
 		Intent Ntfc_Intent = new Intent();
@@ -126,6 +132,8 @@ public class NotificationService extends Service
 		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 		builder = new Notification.Builder(this, channelID);
+		
+		Boolean keyNtfcClr = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
 
 		WifiManager mainWifi;
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -158,9 +166,9 @@ public class NotificationService extends Service
 			.setContentText(smallInfo)
 			.setWhen(System.currentTimeMillis())
 			.addAction(R.drawable.ic_stop, "Stop Services", pIntentActionStop)
-			.addAction(R.drawable.ic_settings, "Notification Settings", pIntentActionSettings)
+			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
 			.setChannelId(channelID)
-			.setColorized(true)
+			.setColorized(keyNtfcClr)
 			.setColor(getResources().getColor(R.color.ntfcColor))
 			.setCategory(Notification.CATEGORY_SERVICE)
 			.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
@@ -195,7 +203,9 @@ public class NotificationService extends Service
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 		builder = new Notification.Builder(this, channelID);
-
+		
+		Boolean keyNtfcClr = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
+		
 		WifiManager mainWifi;
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
@@ -206,8 +216,10 @@ public class NotificationService extends Service
 		int rssi = wInfo.getRssi();
 		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
 		int ipAddress = wInfo.getIpAddress();
+		int freq = wInfo.getFrequency();
+		int channel = convertFrequencyToChannel(freq);
 		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
-		String info = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
+		String info = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " |" + "\n" + freq + " MHz " + "(Ch: " + channel + ")";
 			
 		notification29 = builder.setContentIntent(content_intent)
 			.setSmallIcon(R.drawable.ic_wifi)
@@ -215,11 +227,12 @@ public class NotificationService extends Service
 			.setContentText(info)
 			.setWhen(System.currentTimeMillis())
 			.addAction(R.drawable.ic_stop, "Stop Services", pIntentActionStop)
-			.addAction(R.drawable.ic_settings, "Notification Settings", pIntentActionSettings)
+			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
 			.setChannelId(channelID)
-			.setColorized(true)
+			.setColorized(keyNtfcClr)
 			.setColor(getResources().getColor(R.color.ntfcColor))
 			.setCategory(Notification.CATEGORY_SERVICE)
+			.setStyle(new Notification.BigTextStyle().bigText(info))
 			.setOngoing(true)
 			.setOnlyAlertOnce(true)
 			.setAutoCancel(false)
@@ -282,7 +295,7 @@ public class NotificationService extends Service
 			.setContentText(smallInfo)
 			.setWhen(System.currentTimeMillis())
 			.addAction(R.drawable.ic_stop, "Stop Services", pIntentActionStop)
-			.addAction(R.drawable.ic_settings, "Notification Settings", pIntentActionSettings)
+			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
 			.setPriority(Notification.PRIORITY_LOW)
 			.setColor(getResources().getColor(R.color.ntfcColor))
 			.setCategory(Notification.CATEGORY_SERVICE)
@@ -295,6 +308,8 @@ public class NotificationService extends Service
 		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		notificationManager.notify(NOTIFICATION_ID, notification21_25);
 	}
+	
+	/// END ///
 	
 	public static int convertFrequencyToChannel(int freq) {
 		if (freq >= 2412 && freq <= 2484) {

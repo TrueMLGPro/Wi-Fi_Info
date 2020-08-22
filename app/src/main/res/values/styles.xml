@@ -2,25 +2,169 @@
 <resources>
     <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
 		<item name="colorPrimary">#303030</item>
-		<item name="colorPrimaryDark">#242424</item>
+		<item name="colorPrimaryDark">#303030</item>
 		<item name="colorAccent">#2087DF</item>
 		<item name="android:navigationBarColor">#303030</item>
-		<item name="android:statusBarColor">@android:color/transparent</item>
+		<item name="android:statusBarColor">#303030</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
 		<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+		<item name="TextColor">@color/primaryTextColorDark</item>
+		<item name="TitleTextColor">@color/toolbarTitleColorDark</item>
+		<item name="SubtitleTextColor">@color/toolbarSubtitleColorDark</item>
+		<item name="CardTextColor">@color/cardTextColorDark</item>
+		<item name="BackgroundColor">@color/backgroundColorDark</item>
+		<item name="CardHeaderBackgroundColor">@color/cardHeaderBackgroundDark</item>
+		<item name="CardBackgroundColor">@color/cardBackgroundDark</item>
+		<item name="FAB_IPColorEnabled">@color/fabIPDarkEnabled</item>
+		<item name="FAB_IPColorDisabled">@color/fabIPDarkDisabled</item>
+		<item name="FAB_MainColorEnabled">@color/fabMainDarkEnabled</item>
+		<item name="FAB_MainColorDisabled">@color/fabMainDarkDisabled</item>
+		<item name="FAB_MainColorRipple">@color/fabMainDarkRipple</item>
+		<item name="BorderColor">@color/borderColorDark</item>
+		<item name="IconDevColor">@drawable/ic_info_light</item>
+		<item name="IconDiscordColor">@drawable/ic_discord_light</item>
+		<item name="IconSupportersColor">@drawable/ic_people_light</item>
+		<item name="IconConvertColor">@drawable/ic_convert_light</item>
+		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
+		<item name="IconPlusColor">@drawable/ic_plus_light</item>
+	</style>
+	
+	<style name="AmoledDarkTheme" parent="Theme.AppCompat.NoActionBar">
+		<item name="colorPrimary">#1C1C1C</item>
+		<item name="colorPrimaryDark">#1C1C1C</item>
+		<item name="colorAccent">#2087DF</item>
+		<item name="android:navigationBarColor">#1C1C1C</item>
+		<item name="android:statusBarColor">#1C1C1C</item>
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+		<item name="TextColor">@color/primaryTextColorDarkAmoled</item>
+		<item name="TitleTextColor">@color/toolbarTitleColorDarkAmoled</item>
+		<item name="SubtitleTextColor">@color/toolbarSubtitleColorDarkAmoled</item>
+		<item name="CardTextColor">@color/cardTextColorDarkAmoled</item>
+		<item name="BackgroundColor">@color/backgroundColorDarkAmoled</item>
+		<item name="CardHeaderBackgroundColor">@color/cardHeaderBackgroundDarkAmoled</item>
+		<item name="CardBackgroundColor">@color/cardBackgroundDarkAmoled</item>
+		<item name="FAB_IPColorEnabled">@color/fabIPDarkAmoledEnabled</item>
+		<item name="FAB_IPColorDisabled">@color/fabIPDarkAmoledDisabled</item>
+		<item name="FAB_MainColorEnabled">@color/fabMainDarkAmoledEnabled</item>
+		<item name="FAB_MainColorDisabled">@color/fabMainDarkAmoledDisabled</item>
+		<item name="FAB_MainColorRipple">@color/fabMainDarkAmoledRipple</item>
+		<item name="BorderColor">@color/borderColorDarkAmoled</item>
+		<item name="IconDevColor">@drawable/ic_info_light</item>
+		<item name="IconDiscordColor">@drawable/ic_discord_light</item>
+		<item name="IconSupportersColor">@drawable/ic_people_light</item>
+		<item name="IconConvertColor">@drawable/ic_convert_light</item>
+		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
+		<item name="IconPlusColor">@drawable/ic_plus_light</item>
 	</style>
 
 	<style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
 		<item name="colorPrimary">#FAFAFA</item>
-		<item name="colorPrimaryDark">#C2C2C2</item>
+		<item name="colorPrimaryDark">#FAFAFA</item>
 		<item name="colorAccent">#2087DF</item>
-		<item name="android:navigationBarColor">#FFFFFF</item>
-		<item name="android:statusBarColor">@android:color/transparent</item>
+		<item name="android:navigationBarColor">#F2F2F2</item>
+		<item name="android:statusBarColor">#FAFAFA</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="android:windowLightStatusBar">true</item>
 		<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+		<item name="TextColor">@color/primaryTextColorLight</item>
+		<item name="TitleTextColor">@color/toolbarTitleColorLight</item>
+		<item name="SubtitleTextColor">@color/toolbarSubtitleColorLight</item>
+		<item name="CardTextColor">@color/cardTextColorLight</item>
+		<item name="BackgroundColor">@color/backgroundColorLight</item>
+		<item name="CardHeaderBackgroundColor">@color/cardHeaderBackgroundLight</item>
+		<item name="CardBackgroundColor">@color/cardBackgroundLight</item>
+		<item name="FAB_IPColorEnabled">@color/fabIPLightEnabled</item>
+		<item name="FAB_IPColorDisabled">@color/fabIPLightDisabled</item>
+		<item name="FAB_MainColorEnabled">@color/fabMainLightEnabled</item>
+		<item name="FAB_MainColorDisabled">@color/fabMainLightDisabled</item>
+		<item name="FAB_MainColorRipple">@color/fabMainLightRipple</item>
+		<item name="BorderColor">@color/borderColorLight</item>
+		<item name="IconDevColor">@drawable/ic_info_dark</item>
+		<item name="IconDiscordColor">@drawable/ic_discord_dark</item>
+		<item name="IconSupportersColor">@drawable/ic_people_dark</item>
+		<item name="IconConvertColor">@drawable/ic_convert_dark</item>
+		<item name="IconSettingsColor">@drawable/ic_settings_dark</item>
+		<item name="IconPlusColor">@drawable/ic_plus_dark</item>
 	</style>
 	
 	<style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@drawable/rounded_shape</item>
+	</style>
+	
+	<style name="TextColor" parent="@android:style/TextAppearance.Medium">
+		<item name="android:textColor">?TextColor</item>
+	</style>
+	
+	<style name="TitleTextColor" parent="@android:style/TextAppearance.Medium">
+		<item name="titleTextColor">?TitleTextColor</item>
+	</style>
+	
+	<style name="SubtitleTextColor" parent="@android:style/TextAppearance.Medium">
+		<item name="subtitleTextColor">?SubtitleTextColor</item>
+	</style>
+	
+	<style name="CardTextColor" parent="@android:style/TextAppearance.Medium">
+		<item name="subtitleTextColor">?CardTextColor</item>
+	</style>
+	
+	<style name="BackgroundColor" parent="@android:style/TextAppearance.Medium">
+		<item name="android:background">?BackgroundColor</item>
+	</style>
+	
+	<style name="CardHeaderBackgroundColor" parent="@android:style/TextAppearance.Medium">
+		<item name="android:background">?CardHeaderBackgroundColor</item>
+	</style>
+	
+	<style name="CardBackgroundColor" parent="@android:style/TextAppearance.Medium">
+		<item name="cardBackgroundColor">?CardBackgroundColor</item>
+	</style>
+	
+	<style name="FAB_IPColorEnabled" parent="@android:style/TextAppearance.Medium">
+		<item name="fab_colorNormal">?FAB_IPColorEnabled</item>
+	</style>
+	
+	<style name="FAB_IPColorDisabled" parent="@android:style/TextAppearance.Medium">
+		<item name="fab_colorDisabled">?FAB_IPColorDisabled</item>
+	</style>
+
+	<style name="FAB_MainColorEnabled" parent="@android:style/TextAppearance.Medium">
+		<item name="fab_colorNormal">?FAB_MainColorEnabled</item>
+	</style>
+	
+	<style name="FAB_MainColorDisabled" parent="@android:style/TextAppearance.Medium">
+		<item name="fab_colorDisabled">?FAB_MainColorDisabled</item>
+	</style>
+	
+	<style name="FAB_MainColorRipple" parent="@android:style/TextAppearance.Medium">
+		<item name="fab_colorRipple">?FAB_MainColorRipple</item>
+	</style>
+	
+	<style name="BorderColor" parent="@android:style/TextAppearance.Medium">
+		<item name="android:background">?BorderColor</item>
+	</style>
+	
+	<style name="IconDevColor" parent="@android:style/TextAppearance.Medium">
+		<item name="menu_icon">?IconDevColor</item>
+	</style>
+	
+	<style name="IconDiscordColor" parent="@android:style/TextAppearance.Medium">
+		<item name="menu_icon">?IconDiscordColor</item>
+	</style>
+	
+	<style name="IconSupportersColor" parent="@android:style/TextAppearance.Medium">
+		<item name="menu_icon">?IconSupportersColor</item>
+	</style>
+	
+	<style name="IconConvertColor" parent="@android:style/TextAppearance.Medium">
+		<item name="menu_icon">?IconConvertColor</item>
+	</style>
+	
+	<style name="IconSettingsColor" parent="@android:style/TextAppearance.Medium">
+		<item name="menu_icon">?IconSettingsColor</item>
+	</style>
+	
+	<style name="IconPlusColor" parent="@android:style/TextAppearance.Medium">
+		<item name="menu_icon">?IconPlusColor</item>
 	</style>
 </resources>

@@ -31,6 +31,23 @@ public class URLtoIPActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
 	{
+		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
+		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
+
+		if (keyTheme == true) {
+			setTheme(R.style.DarkTheme);
+		}
+
+		if (keyAmoledTheme == true) {
+			if (keyTheme == true) {
+				setTheme(R.style.AmoledDarkTheme);
+			}
+		}
+
+		if (keyTheme == false) {
+			setTheme(R.style.LightTheme);
+		}
+		
         super.onCreate(savedInstanceState);
         setContentView(R.layout.url_to_ip_activity);
 
@@ -45,7 +62,8 @@ public class URLtoIPActivity extends AppCompatActivity
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
 		Calligrapher calligrapher = new Calligrapher(this);
-		calligrapher.setFont(this, "fonts/GoogleSans-Medium.ttf", true);
+		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
+		calligrapher.setFont(this, font, true);
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();

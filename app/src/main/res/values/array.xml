@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="ntfc_update_freq_entries">
+		<item>0.5 sec</item>
+		<item>1 sec</item>
+		<item>2 sec</item>
+		<item>3 sec</item>
+		<item>4 sec</item>
+		<item>5 sec</item>
+		<item>10 sec</item>
+	</string-array>
+	<string-array name="ntfc_update_freq_values">
+		<item>500</item>
+		<item>1000</item>
+		<item>2000</item>
+		<item>3000</item>
+		<item>4000</item>
+		<item>5000</item>
+		<item>10000</item>
+	</string-array>
+	<string-array name="card_update_freq_entries">
+		<item>0.5 sec</item>
+		<item>1 sec</item>
+		<item>2 sec</item>
+		<item>3 sec</item>
+		<item>4 sec</item>
+		<item>5 sec</item>
+		<item>10 sec</item>
+	</string-array>
+	<string-array name="card_update_freq_values">
+		<item>500</item>
+		<item>1000</item>
+		<item>2000</item>
+		<item>3000</item>
+		<item>4000</item>
+		<item>5000</item>
+		<item>10000</item>
+	</string-array>
+	<string-array name="app_font_entries">
+		<item>Google Sans</item>
+		<item>Circular Std</item>
+		<item>Comfortaa</item>
+		<item>CondellBio</item>
+		<item>Filson Pro</item>
+		<item>Hellix</item>
+		<item>Moderat</item>
+		<item>Newson</item>
+		<item>Noir Text</item>
+		<item>Poligon</item>
+		<item>Proxima Soft</item>
+		<item>Squalo</item>
+		<item>Tomkin</item>
+		<item>Urbani</item>
+	</string-array>
+	<string-array name="app_font_values">
+		<item>fonts/GoogleSans-Medium.ttf</item>
+		<item>fonts/CircularStd-Bold.ttf</item>
+		<item>fonts/Comfortaa-Regular.ttf</item>
+		<item>fonts/CondellBio-Medium.ttf</item>
+		<item>fonts/FilsonPro-Regular.ttf</item>
+		<item>fonts/Hellix-Medium.ttf</item>
+		<item>fonts/Moderat-Regular.ttf</item>
+		<item>fonts/Newson-Medium.ttf</item>
+		<item>fonts/NoirText-Bold.ttf</item>
+		<item>fonts/Poligon-Regular.ttf</item>
+		<item>fonts/ProximaSoft-Medium.ttf</item>
+		<item>fonts/Squalo-Regular.ttf</item>
+		<item>fonts/Tomkin-Regular.ttf</item>
+		<item>fonts/Urbani-Regular.ttf</item>
+	</string-array>
+</resources>

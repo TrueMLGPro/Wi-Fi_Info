@@ -59,7 +59,11 @@
 		<activity
 			android:name="com.truemlgpro.wifiinfo.SettingsActivity"
 			android:label="Settings"
-			android:screenOrientation="portrait">
+			android:screenOrientation="portrait"
+			android:parentActivityName="com.truemlgpro.wifiinfo.MainActivity">
+				<meta-data
+					android:name="android.support.PARENT_ACTIVITY"
+					android:value="com.truemlgpro.wifiinfo.MainActivity" />
 		</activity>
 		
 		<service
@@ -88,6 +92,7 @@
 		<receiver android:name=".ActionButtonReceiver">
 			<intent-filter>
 				<action android:name="ACTION_STOP" />
+				<action android:name="ACTION_STOP_CONN_STATE_SERVICE" />
 				<action android:name="ACTION_NTFC_SETTINGS" />
 			</intent-filter>
 		</receiver>

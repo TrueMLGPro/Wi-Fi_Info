@@ -1,10 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="App">
 		<android.support.v7.preference.SwitchPreferenceCompat
 			android:defaultValue="true"
-			android:key="example_switch"
-			android:title="Switch settings option"
-			android:summary="Turn this option on or off" />
-	</PreferenceScreen>
-</resources>
+			android:key="theme_switch"
+			android:title="Dark Mode"
+			android:summary="Enable or Disable dark mode" />
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="amoled_theme_checkbox"
+			android:dependency="theme_switch"
+			android:title="AMOLED Theme"
+			android:summary="Enable or Disable AMOLED theme" />
+		<ListPreference
+			android:defaultValue="fonts/GoogleSans-Medium.ttf"
+			android:key="app_font_list"
+			android:title="App Font"
+			android:summary="Choose font to be used by app"
+			android:negativeButtonText="Ok"
+			android:entries="@array/app_font_entries"
+			android:entryValues="@array/app_font_values" />
+		<ListPreference
+			android:defaultValue="1000"
+			android:key="card_update_freq"
+			android:title="Card Update Interval"
+			android:summary="Set how frequently cards will update"
+			android:negativeButtonText="Ok"
+			android:entries="@array/card_update_freq_entries"
+			android:entryValues="@array/card_update_freq_values" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Boot">
+		<android.support.v7.preference.SwitchPreferenceCompat
+			android:defaultValue="false"
+			android:key="boot_switch"
+			android:title="Start on Boot"
+			android:summary="Start services on boot" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Notification">
+		<android.support.v7.preference.SwitchPreferenceCompat
+			android:defaultValue="true"
+			android:key="notification_switch"
+			android:title="Show Notification"
+			android:summary="Show notification with network info" />
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="colorize_ntfc_checkbox"
+			android:dependency="notification_switch"
+			android:title="Colorize Notification"
+			android:summary="Fill notification using accent color" />
+		<ListPreference
+			android:defaultValue="1000"
+			android:key="notification_update_freq"
+			android:dependency="notification_switch"
+			android:title="Notification Update Interval"
+			android:summary="Set how frequently notification will update"
+			android:negativeButtonText="Ok"
+			android:entries="@array/ntfc_update_freq_entries"
+			android:entryValues="@array/ntfc_update_freq_values" />
+	</PreferenceCategory>
+</PreferenceScreen>
