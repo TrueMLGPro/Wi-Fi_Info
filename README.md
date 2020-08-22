@@ -52,5 +52,3 @@ Go to **[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)** to get 
 - [ ] Add Notification Layout Customizer **(1.4) (maybe)**
 - [ ] Add Wi-Fi password manager **(1.4) (maybe)**
 - [ ] Create a home screen widget with network info **(1.4) (maybe)**
-be)**
-aybe)**
