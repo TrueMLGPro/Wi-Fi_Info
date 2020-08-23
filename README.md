@@ -1,5 +1,5 @@
 # Wi-Fi Info
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache 2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![GitHub release](https://img.shields.io/github/release/TrueMLGPro/Wi-Fi_Info.svg)](https://GitHub.com/TrueMLGPro/Wi-Fi_Info/releases/)
 [![Github all releases](https://img.shields.io/github/downloads/TrueMLGPro/Wi-Fi_Info/total.svg)](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)
 [![GitHub contributors](https://img.shields.io/github/contributors/TrueMLGPro/Wi-Fi_Info.svg)](https://GitHub.com/TrueMLGPro/Wi-Fi_Info/graphs/contributors/)
@@ -10,8 +10,12 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/truemlgpro/wi-fi_info/badge/master)](https://www.codefactor.io/repository/github/truemlgpro/wi-fi_info/overview/master)
 
-### Wi-Fi Info Android Project
+## Downloads
+[![IzzyOnDroid](https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png)](https://apt.izzysoft.de/fdroid/index/apk/com.truemlgpro.wifiinfo)
+or
+**[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)**
 
+## Wi-Fi Info Android Project
 ***Shows information about network you are connected to.***
 
 * __Public IP Address__
@@ -39,8 +43,7 @@
 * __Download/Upload monitor (experimental)__ **[Coming Soon]**
 * __Router Setup Page__ **[Coming Soon]**
 
-Go to **[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)** to get the latest app version!
-
+## Links
 [Discord Server](https://discord.gg/qxE2DFr)
 
 # TODO List
