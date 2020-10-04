@@ -7,6 +7,7 @@
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/TrueMLGPro/Wi-Fi_Info.svg)](https://GitHub.com/TrueMLGPro/Wi-Fi_Info/issues?q=is:issue+is:closed)
 [![Website truemlgpro.github.io](https://img.shields.io/website-up-down-green-red/https/truemlgpro.github.io/Wi-Fi_Info.svg)](https://truemlgpro.github.io/Wi-Fi_Info/)
 [![Discord](https://img.shields.io/discord/601107291915419658.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/qxE2DFr)
+[![Patreon](https://img.shields.io/badge/dynamic/json?color=ff424d&logo=patreon&logoColor=ffffff&label=&labelColor=fa2530&query=data.attributes.patron_count&suffix=%20patrons&url=https%3A%2F%2Fwww.patreon.com%2Fapi%2Fcampaigns%2F5328784)](https://patreon.com/truemlgpro)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/truemlgpro/wi-fi_info/badge/master)](https://www.codefactor.io/repository/github/truemlgpro/wi-fi_info/overview/master)
 
