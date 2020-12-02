@@ -41,19 +41,17 @@ or
 * __Receive Link Speed__
 * __WPA Supplicant State__
 * __Feature Support Detection__
-* __Download/Upload monitor (experimental)__ **[Coming Soon]**
+* __URL to IP Converter__
+* __Cellular Data IP__ **[Coming Soon]**
 * __Router Setup Page__ **[Coming Soon]**
+* __Ping Tool__ **[Coming Soon]**
+* __LAN Devices Scanner__ **[Coming Soon]**
 
 ## Links
 [Discord Server](https://discord.gg/qxE2DFr)
 
 # TODO List
 
-- [x] Add Notification Settings on SettingsActivity to change notification update frequency, etc. **(1.3.3)**
-- [x] Add "Start on Device Boot" setting in SettingsActivity **(1.3.3)**
-- [x] Add themes to change app themes from SettingsActivity **(1.3.3)**
-- [x] Add Total TX (Sent Data) and Total RX (Received Data) to info string **(1.3.3)**
-- [ ] Add download/upload monitoring (notification) **(1.4) (maybe)**
 - [ ] Add Notification Layout Customizer **(1.4) (maybe)**
 - [ ] Add Wi-Fi password manager **(1.4) (maybe)**
 - [ ] Create a home screen widget with network info **(1.4) (maybe)**
