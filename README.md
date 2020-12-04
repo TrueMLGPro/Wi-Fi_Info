@@ -46,6 +46,7 @@ or
 * __Router Setup Page__ **[Coming Soon]**
 * __Ping Tool__ **[Coming Soon]**
 * __LAN Devices Scanner__ **[Coming Soon]**
+* __Port Scanner__ **[Coming Soon]**
 
 ## Links
 [Discord Server](https://discord.gg/qxE2DFr)
