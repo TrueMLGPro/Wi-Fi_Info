@@ -1,7 +1,6 @@
 package com.truemlgpro.wifiinfo;
 
 import android.content.*;
-import android.widget.*;
 
 public class ScreenStateReceiver extends BroadcastReceiver
 {

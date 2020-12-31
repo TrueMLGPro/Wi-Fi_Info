@@ -6,6 +6,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/TrueMLGPro/Wi-Fi_Info.svg)](https://github.com/TrueMLGPro/Wi-Fi_Info/issues/)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/TrueMLGPro/Wi-Fi_Info.svg)](https://GitHub.com/TrueMLGPro/Wi-Fi_Info/issues?q=is:issue+is:closed)
 [![Website truemlgpro.github.io](https://img.shields.io/website-up-down-green-red/https/truemlgpro.github.io/Wi-Fi_Info.svg)](https://truemlgpro.github.io/Wi-Fi_Info/)
+
 [![Discord](https://img.shields.io/discord/601107291915419658.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/qxE2DFr)
 [![Patreon](https://img.shields.io/badge/dynamic/json?color=ff424d&logo=patreon&logoColor=ffffff&label=&labelColor=fa2530&query=data.attributes.patron_count&suffix=%20patrons&url=https%3A%2F%2Fwww.patreon.com%2Fapi%2Fcampaigns%2F5328784)](https://patreon.com/truemlgpro)
 
@@ -42,17 +43,11 @@ or
 * __WPA Supplicant State__
 * __Feature Support Detection__
 * __URL to IP Converter__
-* __Cellular Data IP__ **[Coming Soon]**
-* __Router Setup Page__ **[Coming Soon]**
-* __Ping Tool__ **[Coming Soon]**
-* __LAN Devices Scanner__ **[Coming Soon]**
-* __Port Scanner__ **[Coming Soon]**
+* __Cellular Data IP__
+* __Router Setup Page__
+* __Ping Tool__
+* __LAN Devices Scanner__
+* __Port Scanner__ 
 
 ## Links
 [Discord Server](https://discord.gg/qxE2DFr)
-
-# TODO List
-
-- [ ] Add Notification Layout Customizer **(1.4) (maybe)**
-- [ ] Add Wi-Fi password manager **(1.4) (maybe)**
-- [ ] Create a home screen widget with network info **(1.4) (maybe)**

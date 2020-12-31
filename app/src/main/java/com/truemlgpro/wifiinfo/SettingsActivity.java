@@ -1,17 +1,14 @@
 package com.truemlgpro.wifiinfo;
 
-import android.app.*;
+import android.content.*;
 import android.os.*;
 import android.support.v7.app.*;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.*;
-import android.support.v4.widget.*;
-import android.widget.*;
 import android.view.*;
-import android.content.*;
-import android.preference.*;
+import android.widget.*;
 import me.anwarshahriar.calligrapher.*;
+
+import android.support.v7.widget.Toolbar;
 
 public class SettingsActivity extends AppCompatActivity
 {
@@ -27,6 +24,8 @@ public class SettingsActivity extends AppCompatActivity
 	public static final String KEY_PREF_BOOT_SWITCH = "boot_switch";
 	public static final String KEY_PREF_NTFC_SWITCH = "notification_switch";
 	public static final String KEY_PREF_CLR_CHECK = "colorize_ntfc_checkbox";
+	public static final String KEY_PREF_VIS_SIG_STRG_CHECK = "visualize_signal_strength_ntfc_checkbox";
+	public static final String KEY_PREF_STRT_STOP_SRVC_CHECK = "start_stop_service_screen_state_ntfc_checkbox";
 	public static final String KEY_PREF_NTFC_FREQ = "notification_update_freq";
 	
 	@Override

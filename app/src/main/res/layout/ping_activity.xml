@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/content_frame"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:background="?attr/BackgroundColor">
+
+	<android.support.v7.widget.Toolbar
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+		app:titleTextColor="?attr/TitleTextColor"
+		app:subtitleTextColor="?attr/SubtitleTextColor"/>
+
+	<TextView
+		android:id="@+id/textview_nonetworkconn"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="16dp"
+		android:textSize="18sp"
+		android:textColor="?TextColor"
+		android:layout_gravity="center"
+		android:visibility="gone"
+		android:text="No Connection"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="64dp"
+		android:layout_marginBottom="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="8dp"
+		android:orientation="vertical"
+		android:gravity="top">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:gravity="center">
+
+			<android.support.design.widget.TextInputLayout
+				xmlns:app="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/input_layout_ping"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Enter IP or URL"
+				android:layout_marginLeft="6dp"
+				android:layout_marginRight="6dp"
+				android:layout_marginTop="4dp"
+				android:layout_marginBottom="4dp">
+
+				<EditText
+					android:id="@+id/edit_text_ping"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:inputType="text"
+					android:singleLine="true"
+					android:imeOptions="actionGo"/>
+
+			</android.support.design.widget.TextInputLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<android.support.design.widget.TextInputLayout
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/input_layout_timeout"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:hint="Timeout (ms)"
+					android:layout_marginLeft="6dp"
+					android:layout_marginTop="4dp"
+					android:layout_marginBottom="4dp"
+					android:layout_weight="0.3">
+
+					<EditText
+						android:id="@+id/edit_text_timeout"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:inputType="numberDecimal"
+						android:singleLine="true"
+						android:imeOptions="actionGo"
+						android:text="3000"/>
+
+				</android.support.design.widget.TextInputLayout>
+
+				<android.support.design.widget.TextInputLayout
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/input_layout_ttl"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:hint="Time-To-Live (TTL)"
+					android:layout_marginLeft="4dp"
+					android:layout_marginTop="4dp"
+					android:layout_marginBottom="4dp"
+					android:layout_weight="0.3">
+
+					<EditText
+						android:id="@+id/edit_text_ttl"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:inputType="numberDecimal"
+						android:singleLine="true"
+						android:imeOptions="actionGo"
+						android:text="64"/>
+
+				</android.support.design.widget.TextInputLayout>
+
+				<android.support.design.widget.TextInputLayout
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/input_layout_times"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:hint="Times"
+					android:layout_marginLeft="4dp"
+					android:layout_marginRight="6dp"
+					android:layout_marginTop="4dp"
+					android:layout_marginBottom="4dp"
+					android:layout_weight="0.3">
+
+					<EditText
+						android:id="@+id/edit_text_times"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:inputType="numberDecimal"
+						android:singleLine="true"
+						android:imeOptions="actionGo"
+						android:text="5"/>
+
+				</android.support.design.widget.TextInputLayout>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:gravity="center_horizontal">
+
+				<Button
+					android:id="@+id/ping_button"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:text="Ping"
+					android:textColor="#FFFFFF"
+					style="@style/Widget.AppCompat.Button.Colored"
+					android:layout_marginLeft="4dp"
+					android:layout_marginRight="2dp"
+					android:layout_marginBottom="4dp"
+					android:layout_marginTop="4dp"
+					android:layout_weight="0.5"/>
+
+				<Button
+					android:id="@+id/ping_button_cancel"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:text="Cancel"
+					android:textColor="#FFFFFF"
+					android:enabled="false"
+					style="@style/Widget.AppCompat.Button.Colored"
+					android:layout_marginLeft="2dp"
+					android:layout_marginRight="4dp"
+					android:layout_marginBottom="4dp"
+					android:layout_marginTop="4dp"
+					android:layout_weight="0.5"/>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/layout_ping_results"
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:padding="8dp">
+
+			<ScrollView
+				android:id="@+id/ping_scroll"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:background="?EmbedBackgroundColor"
+				android:padding="8dp">
+
+				<TextView
+					android:id="@+id/ping_textview"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="?TextColor"
+					android:textIsSelectable="true"/>
+
+			</ScrollView>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</FrameLayout>
+

@@ -1,8 +1,6 @@
 package com.truemlgpro.wifiinfo;
 
-import android.app.*;
 import android.content.*;
-import android.os.*;
 
 public class ActionButtonReceiver extends BroadcastReceiver
 {

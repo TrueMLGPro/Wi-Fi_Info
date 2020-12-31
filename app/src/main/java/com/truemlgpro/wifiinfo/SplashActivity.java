@@ -1,14 +1,12 @@
 package com.truemlgpro.wifiinfo;
 
-import android.os.*;
-import android.content.*;
-import android.graphics.*;
-import android.widget.*;
 import android.animation.*;
-import android.view.*;
+import android.content.*;
 import android.content.pm.*;
+import android.os.*;
 import android.support.v7.app.*;
-import android.support.v7.app.AppCompatActivity;
+import android.view.*;
+import android.widget.*;
 import me.anwarshahriar.calligrapher.*;
 
 public class SplashActivity extends AppCompatActivity
@@ -57,21 +55,29 @@ public class SplashActivity extends AppCompatActivity
 		
 		version_txt.setText("v" + version);
 		
-		ObjectAnimator.ofFloat(splash_logo, View.ALPHA, 0.0f, 1.0f).setDuration(2500).start();
-		ObjectAnimator.ofFloat(splash_logo, View.SCALE_X, 0.0f, 0.75f).setDuration(2000).start();
-		ObjectAnimator.ofFloat(splash_logo, View.SCALE_Y, 0.0f, 0.75f).setDuration(2000).start();
+		// Logo Animation
 		
-		ObjectAnimator.ofFloat(splash_text, View.ALPHA, 0.0f, 1.0f).setDuration(2500).start();
-		ObjectAnimator.ofFloat(splash_text, View.SCALE_X, 0.25f, 1.0f).setDuration(2250).start();
-		ObjectAnimator.ofFloat(splash_text, View.SCALE_Y, 0.25f, 1.0f).setDuration(2250).start();
+		ObjectAnimator.ofFloat(splash_logo, View.ALPHA, 0.0f, 1.0f).setDuration(2250).start();
+		ObjectAnimator.ofFloat(splash_logo, View.SCALE_X, 0.0f, 0.75f).setDuration(1500).start();
+		ObjectAnimator.ofFloat(splash_logo, View.SCALE_Y, 0.0f, 0.75f).setDuration(1500).start();
 		
-		ObjectAnimator.ofFloat(dev_name, View.ALPHA, 0.0f, 1.0f).setDuration(2750).start();
-		ObjectAnimator.ofFloat(dev_name, View.SCALE_X, 0.25f, 1.0f).setDuration(2250).start();
-		ObjectAnimator.ofFloat(dev_name, View.SCALE_Y, 0.25f, 1.0f).setDuration(2250).start();
+		// App Name Animation
 		
-		ObjectAnimator.ofFloat(version_txt, View.ALPHA, 0.0f, 1.0f).setDuration(2750).start();
-		ObjectAnimator.ofFloat(version_txt, View.SCALE_X, 0.25f, 1.0f).setDuration(2250).start();
-		ObjectAnimator.ofFloat(version_txt, View.SCALE_Y, 0.25f, 1.0f).setDuration(2250).start();
+		ObjectAnimator.ofFloat(splash_text, View.ALPHA, 0.0f, 1.0f).setDuration(2250).start();
+		ObjectAnimator.ofFloat(splash_text, View.SCALE_X, 0.0f, 1.0f).setDuration(1500).start();
+		ObjectAnimator.ofFloat(splash_text, View.SCALE_Y, 0.0f, 1.0f).setDuration(1500).start();
+		
+		// Developer Name Animation
+		
+		ObjectAnimator.ofFloat(dev_name, View.ALPHA, 0.0f, 1.0f).setDuration(2250).start();
+		ObjectAnimator.ofFloat(dev_name, View.SCALE_X, 0.25f, 1.0f).setDuration(1500).start();
+		ObjectAnimator.ofFloat(dev_name, View.SCALE_Y, 0.25f, 1.0f).setDuration(1500).start();
+		
+		// App Version Animation
+		
+		ObjectAnimator.ofFloat(version_txt, View.ALPHA, 0.0f, 1.0f).setDuration(2250).start();
+		ObjectAnimator.ofFloat(version_txt, View.SCALE_X, 0.25f, 1.0f).setDuration(1500).start();
+		ObjectAnimator.ofFloat(version_txt, View.SCALE_Y, 0.25f, 1.0f).setDuration(1500).start();
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
@@ -81,7 +87,7 @@ public class SplashActivity extends AppCompatActivity
 		@Override
 			public void run() {
 				try {
-					sleep(3000);
+					sleep(2500);
 					Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 					startActivity(intent);
 					finish();

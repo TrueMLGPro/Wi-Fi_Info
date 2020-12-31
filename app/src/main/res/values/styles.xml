@@ -7,7 +7,7 @@
 		<item name="android:navigationBarColor">#303030</item>
 		<item name="android:statusBarColor">#303030</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
-		<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+		<item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 		<item name="TextColor">@color/primaryTextColorDark</item>
 		<item name="TitleTextColor">@color/toolbarTitleColorDark</item>
 		<item name="SubtitleTextColor">@color/toolbarSubtitleColorDark</item>
@@ -20,11 +20,14 @@
 		<item name="FAB_MainColorEnabled">@color/fabMainDarkEnabled</item>
 		<item name="FAB_MainColorDisabled">@color/fabMainDarkDisabled</item>
 		<item name="FAB_MainColorRipple">@color/fabMainDarkRipple</item>
+		<item name="FAB_MainTextColor">@color/fabMainDarkTextColor</item>
+		<item name="EmbedBackgroundColor">@color/embedBackgroundColorDark</item>
 		<item name="BorderColor">@color/borderColorDark</item>
+		<item name="IconIPColor">@drawable/ic_sync_light</item>
 		<item name="IconDevColor">@drawable/ic_info_light</item>
 		<item name="IconDiscordColor">@drawable/ic_discord_light</item>
 		<item name="IconSupportersColor">@drawable/ic_people_light</item>
-		<item name="IconConvertColor">@drawable/ic_convert_light</item>
+		<item name="IconToolsColor">@drawable/ic_tools_light</item>
 		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
 		<item name="IconPlusColor">@drawable/ic_plus_light</item>
 	</style>
@@ -36,7 +39,7 @@
 		<item name="android:navigationBarColor">#1C1C1C</item>
 		<item name="android:statusBarColor">#1C1C1C</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
-		<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+		<item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 		<item name="TextColor">@color/primaryTextColorDarkAmoled</item>
 		<item name="TitleTextColor">@color/toolbarTitleColorDarkAmoled</item>
 		<item name="SubtitleTextColor">@color/toolbarSubtitleColorDarkAmoled</item>
@@ -49,11 +52,14 @@
 		<item name="FAB_MainColorEnabled">@color/fabMainDarkAmoledEnabled</item>
 		<item name="FAB_MainColorDisabled">@color/fabMainDarkAmoledDisabled</item>
 		<item name="FAB_MainColorRipple">@color/fabMainDarkAmoledRipple</item>
+		<item name="FAB_MainTextColor">@color/fabMainDarkAmoledTextColor</item>
+		<item name="EmbedBackgroundColor">@color/embedBackgroundColorDarkAmoled</item>
 		<item name="BorderColor">@color/borderColorDarkAmoled</item>
+		<item name="IconIPColor">@drawable/ic_sync_light</item>
 		<item name="IconDevColor">@drawable/ic_info_light</item>
 		<item name="IconDiscordColor">@drawable/ic_discord_light</item>
 		<item name="IconSupportersColor">@drawable/ic_people_light</item>
-		<item name="IconConvertColor">@drawable/ic_convert_light</item>
+		<item name="IconToolsColor">@drawable/ic_tools_light</item>
 		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
 		<item name="IconPlusColor">@drawable/ic_plus_light</item>
 	</style>
@@ -63,10 +69,11 @@
 		<item name="colorPrimaryDark">#FAFAFA</item>
 		<item name="colorAccent">#2087DF</item>
 		<item name="android:navigationBarColor">#F2F2F2</item>
+		<item name="android:windowLightNavigationBar">true</item>
 		<item name="android:statusBarColor">#FAFAFA</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
 		<item name="android:windowLightStatusBar">true</item>
-		<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+		<item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 		<item name="TextColor">@color/primaryTextColorLight</item>
 		<item name="TitleTextColor">@color/toolbarTitleColorLight</item>
 		<item name="SubtitleTextColor">@color/toolbarSubtitleColorLight</item>
@@ -79,13 +86,16 @@
 		<item name="FAB_MainColorEnabled">@color/fabMainLightEnabled</item>
 		<item name="FAB_MainColorDisabled">@color/fabMainLightDisabled</item>
 		<item name="FAB_MainColorRipple">@color/fabMainLightRipple</item>
+		<item name="FAB_MainTextColor">@color/fabMainLightTextColor</item>
+		<item name="EmbedBackgroundColor">@color/embedBackgroundColorLight</item>
 		<item name="BorderColor">@color/borderColorLight</item>
-		<item name="IconDevColor">@drawable/ic_info_dark</item>
-		<item name="IconDiscordColor">@drawable/ic_discord_dark</item>
-		<item name="IconSupportersColor">@drawable/ic_people_dark</item>
-		<item name="IconConvertColor">@drawable/ic_convert_dark</item>
-		<item name="IconSettingsColor">@drawable/ic_settings_dark</item>
-		<item name="IconPlusColor">@drawable/ic_plus_dark</item>
+		<item name="IconIPColor">@drawable/ic_sync_dark</item>
+		<item name="IconDevColor">@drawable/ic_info_light</item>
+		<item name="IconDiscordColor">@drawable/ic_discord_light</item>
+		<item name="IconSupportersColor">@drawable/ic_people_light</item>
+		<item name="IconToolsColor">@drawable/ic_tools_light</item>
+		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
+		<item name="IconPlusColor">@drawable/ic_plus_light</item>
 	</style>
 	
 	<style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
@@ -105,7 +115,7 @@
 	</style>
 	
 	<style name="CardTextColor" parent="@android:style/TextAppearance.Medium">
-		<item name="subtitleTextColor">?CardTextColor</item>
+		<item name="android:textColor">?CardTextColor</item>
 	</style>
 	
 	<style name="BackgroundColor" parent="@android:style/TextAppearance.Medium">
@@ -140,8 +150,20 @@
 		<item name="fab_colorRipple">?FAB_MainColorRipple</item>
 	</style>
 	
+	<style name="FAB_MainTextColor" parent="@android:style/TextAppearance.Medium">
+		<item name="menu_labels_textColor">?FAB_MainTextColor</item>
+	</style>
+	
+	<style name="EmbedBackgroundColor" parent="@android:style/TextAppearance.Medium">
+		<item name="android:background">?EmbedBackgroundColor</item>
+	</style>
+	
 	<style name="BorderColor" parent="@android:style/TextAppearance.Medium">
 		<item name="android:background">?BorderColor</item>
+	</style>
+
+	<style name="IconIPColor" parent="@android:style/TextAppearance.Medium">
+		<item name="menu_icon">?IconIPColor</item>
 	</style>
 	
 	<style name="IconDevColor" parent="@android:style/TextAppearance.Medium">
@@ -156,8 +178,8 @@
 		<item name="menu_icon">?IconSupportersColor</item>
 	</style>
 	
-	<style name="IconConvertColor" parent="@android:style/TextAppearance.Medium">
-		<item name="menu_icon">?IconConvertColor</item>
+	<style name="IconToolsColor" parent="@android:style/TextAppearance.Medium">
+		<item name="menu_icon">?IconToolsColor</item>
 	</style>
 	
 	<style name="IconSettingsColor" parent="@android:style/TextAppearance.Medium">

@@ -41,13 +41,13 @@
 					android:text="Supporters"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="72dp"/>
-
+				
 				<com.mikhaellopez.circularimageview.CircularImageView
 					xmlns:app="http://schemas.android.com/apk/res-auto"
-					android:id="@+id/anyx_pfp"
+					android:id="@+id/pab_pfp"
 					android:layout_width="64dp"
 					android:layout_height="64dp"
-					android:src="@drawable/Anyx"
+					android:src="@drawable/Pab"
 					app:civ_border_color="?attr/BorderColor"
 					app:civ_border_width="1dp"
 					app:civ_shadow="true"
@@ -62,7 +62,67 @@
 					android:layout_height="wrap_content"
 					android:textSize="24sp"
 					android:textColor="?attr/TextColor"
-					android:text="Anyx#9407"
+					android:text="Pab#1234"
+					android:layout_below="@+id/pab_pfp"
+					android:layout_gravity="center"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:id="@+id/pab_text"/>
+				
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• Patron - Diamond Tier (5$)"
+					android:layout_below="@+id/pab_text"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textSize="18sp"
+					android:textColor="?attr/TextColor"
+					android:id="@+id/pab_patron"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• App Tester"
+					android:layout_below="@+id/pab_patron"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textColor="?attr/TextColor"
+					android:textSize="16sp"
+					android:id="@+id/pab_tester"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="• Idea Provider"
+					android:layout_below="@+id/pab_tester"
+					android:layout_centerHorizontal="true"
+					android:layout_marginTop="8dp"
+					android:textSize="16sp"
+					android:textColor="?attr/TextColor"
+					android:id="@+id/pab_idea"/>
+
+				<com.mikhaellopez.circularimageview.CircularImageView
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/anyx_pfp"
+					android:layout_width="64dp"
+					android:layout_height="64dp"
+					android:src="@drawable/Anyx"
+					app:civ_border_color="?attr/BorderColor"
+					app:civ_border_width="1dp"
+					app:civ_shadow="true"
+					app:civ_shadow_radius="4"
+					app:civ_shadow_color="#151515"
+					android:layout_centerHorizontal="true"
+					android:layout_below="@+id/pab_idea"
+					android:layout_marginTop="16dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="24sp"
+					android:textColor="?attr/TextColor"
+					android:text="Anyx#1040"
 					android:layout_below="@+id/anyx_pfp"
 					android:layout_gravity="center"
 					android:layout_centerHorizontal="true"
@@ -122,7 +182,7 @@
 					android:layout_height="wrap_content"
 					android:textSize="24sp"
 					android:textColor="?attr/TextColor"
-					android:text="GW Andrew#3934"
+					android:text="andre btw.#3934"
 					android:layout_below="@+id/andrew_pfp"
 					android:layout_gravity="center"
 					android:layout_centerHorizontal="true"
@@ -182,7 +242,7 @@
 					android:layout_height="wrap_content"
 					android:textSize="24sp"
 					android:textColor="?attr/TextColor"
-					android:text="Rouge#4556"
+					android:text="[ ]#4556"
 					android:layout_below="@+id/rouge_pfp"
 					android:layout_gravity="center"
 					android:layout_centerHorizontal="true"
@@ -284,10 +344,10 @@
 
 				<com.mikhaellopez.circularimageview.CircularImageView
 					xmlns:app="http://schemas.android.com/apk/res-auto"
-					android:id="@+id/never_pfp"
+					android:id="@+id/reiven_pfp"
 					android:layout_width="64dp"
 					android:layout_height="64dp"
-					android:src="@drawable/NeverAltNutsss"
+					android:src="@drawable/Reiven"
 					app:civ_border_color="?attr/BorderColor"
 					app:civ_border_width="1dp"
 					app:civ_shadow="true"
@@ -302,34 +362,34 @@
 					android:layout_height="wrap_content"
 					android:textSize="24sp"
 					android:textColor="?attr/TextColor"
-					android:text="NeverRzAltNutsss#0141"
-					android:layout_below="@+id/never_pfp"
+					android:text="ReivenAlt#2501"
+					android:layout_below="@+id/reiven_pfp"
 					android:layout_gravity="center"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
-					android:id="@+id/never_text"/>
+					android:id="@+id/reiven_text"/>
 
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• App Tester"
-					android:layout_below="@+id/never_text"
+					android:layout_below="@+id/reiven_text"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textColor="?attr/TextColor"
 					android:textSize="16sp"
-					android:id="@+id/never_tester"/>
+					android:id="@+id/reiven_tester"/>
 
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="• Idea Provider"
-					android:layout_below="@+id/never_tester"
+					android:layout_below="@+id/reiven_tester"
 					android:layout_centerHorizontal="true"
 					android:layout_marginTop="8dp"
 					android:textSize="16sp"
 					android:textColor="?attr/TextColor"
-					android:id="@+id/never_idea"/>
+					android:id="@+id/reiven_idea"/>
 
 				<com.mikhaellopez.circularimageview.CircularImageView
 					xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -343,7 +403,7 @@
 					app:civ_shadow_radius="4"
 					app:civ_shadow_color="#151515"
 					android:layout_centerHorizontal="true"
-					android:layout_below="@+id/never_idea"
+					android:layout_below="@+id/reiven_idea"
 					android:layout_marginTop="16dp"/>
 
 				<TextView
@@ -449,7 +509,7 @@
 					android:layout_height="wrap_content"
 					android:textSize="24sp"
 					android:textColor="?attr/TextColor"
-					android:text="Killbayne#0076"
+					android:text="Killbayne#6969"
 					android:layout_below="@+id/killbayne_pfp"
 					android:layout_gravity="center"
 					android:layout_centerHorizontal="true"

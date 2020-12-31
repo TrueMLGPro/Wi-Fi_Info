@@ -1,12 +1,7 @@
 package com.truemlgpro.wifiinfo;
 
 import android.os.*;
-import android.content.*;
-import android.preference.*;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.*;
-import android.support.v7.preference.CheckBoxPreference;
-import me.anwarshahriar.calligrapher.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat
 {

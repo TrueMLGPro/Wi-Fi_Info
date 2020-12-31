@@ -48,6 +48,18 @@
 			android:dependency="notification_switch"
 			android:title="Colorize Notification"
 			android:summary="Fill notification using accent color" />
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="visualize_signal_strength_ntfc_checkbox"
+			android:dependency="notification_switch"
+			android:title="Visualize Signal Strength"
+			android:summary="Colorize notification depending on signal strength" />
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="start_stop_service_screen_state_ntfc_checkbox"
+			android:dependency="notification_switch"
+			android:title="Show / Hide Notification (Screen State)"
+			android:summary="Show or hide notification depending on screen state\n(on / off)" />
 		<ListPreference
 			android:defaultValue="1000"
 			android:key="notification_update_freq"

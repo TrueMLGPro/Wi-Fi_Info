@@ -1,9 +1,7 @@
 package com.truemlgpro.wifiinfo;
 
+import android.content.*;
 import android.support.v7.preference.*;
-import android.support.v7.preference.PreferenceManager;
-import android.content.SharedPreferences;
-import android.content.Context;
 
 public class SharedPreferencesManager {
 		
@@ -28,9 +26,10 @@ public class SharedPreferencesManager {
 
 		public void storeBoolean(String tag, boolean value) {
 			sEditor = getEditor();
-			sEditor.putBoolean(tag,value);
+			sEditor.putBoolean(tag, value);
 			sEditor.commit();
 		}
+		
 		/**
 		 * Store a string in sharedPreferences
 		 * @param tag identifies the value
@@ -42,20 +41,32 @@ public class SharedPreferencesManager {
 			sEditor.putString(tag, str);
 			sEditor.commit();
 		}
+		
+		/**
+	 	* Store an integer in sharedPreferences
+	 	* @param tag identifies the value
+	 	* @param defValue the value itself
+	 	*/
+
+		public void storeInt(String tag, int defValue) {
+			sEditor = getEditor();
+			sEditor.putInt(tag, defValue);
+			sEditor.commit();
+		}
 
 		/**
-		 *
+		 * Retrieve a boolean from sharedPreferences
 		 * @param tag identifies the value
 		 * @param defValue default value
 		 * @return the stored or default value
 		 */
 
 		public boolean retrieveBoolean(String tag, boolean defValue) {
-			return sPreferences.getBoolean(tag,defValue);
+			return sPreferences.getBoolean(tag, defValue);
 		}
 
 		/**
-		 *
+		 * Retrieve a string from sharedPreferences
 		 * @param tag identifies the string
 		 * @param defStr default string
 		 * @return the stored or default string
@@ -66,23 +77,13 @@ public class SharedPreferencesManager {
 		}
 
 		/**
-		 *
+		 * Retrieve an integer from sharedPreferences
 		 * @param tag identifies the value
 		 * @param defValue default value
 		 * @return the stored or default value
 		 */
+		 
 		public int retrieveInt(String tag, int defValue) {
 			return sPreferences.getInt(tag, defValue);
-		}
-
-		/**
-		 *
-		 * @param tag identifies the value
-		 * @param defValue the value itself
-		 */
-		public void storeInt(String tag, int defValue) {
-			sEditor = getEditor();
-			sEditor.putInt(tag, defValue);
-			sEditor.commit();
 		}
 }

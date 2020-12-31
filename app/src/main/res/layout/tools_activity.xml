@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/content_frame"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="?attr/BackgroundColor">
+
+	<android.support.v7.widget.Toolbar
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+		app:titleTextColor="?attr/TitleTextColor"
+		app:subtitleTextColor="?attr/SubtitleTextColor"/>
+
+	<ScrollView
+		android:id="@+id/cards_scrollview"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:clipToPadding="false">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:orientation="vertical">
+
+			<android.support.v7.widget.CardView
+				xmlns:card_view="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/cardview_1"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:minHeight="100dp"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="72dp"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="16dp"
+				android:foreground="?android:attr/selectableItemBackground"
+				app:cardCornerRadius="8dp"
+				app:cardElevation="8dp"
+				app:cardBackgroundColor="?CardBackgroundColor">
+
+				<LinearLayout
+					android:id="@+id/sidebar1"
+					android:layout_width="8dp"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+					android:gravity="left"
+					android:background="#2087DF"/>
+
+				<LinearLayout
+					android:id="@+id/linear_layout1"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+
+					<android.support.v7.widget.CardView
+						xmlns:card_view="http://schemas.android.com/apk/res-auto"
+						android:id="@+id/cardview_bg_icon_1"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="32dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="left|center_vertical"
+						app:cardCornerRadius="32dp"
+						app:cardElevation="4dp"
+						app:cardBackgroundColor="#006DDE">
+
+						<ImageView
+							android:id="@+id/icon_1"
+							android:layout_width="48dp"
+							android:layout_height="48dp"
+							android:layout_margin="8dp"
+							android:src="@drawable/ic_convert_light"/>
+
+					</android.support.v7.widget.CardView>
+
+					<TextView
+						android:id="@+id/textview_1"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="16dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="center"
+						android:textSize="18sp"
+						android:textColor="?attr/TextColor"
+						android:text="URL to IP Converter"/>
+
+				</LinearLayout>
+
+			</android.support.v7.widget.CardView>
+
+			<android.support.v7.widget.CardView
+				xmlns:card_view="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/cardview_2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:minHeight="100dp"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="16dp"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="16dp"
+				android:foreground="?android:attr/selectableItemBackground"
+				app:cardCornerRadius="8dp"
+				app:cardElevation="8dp"
+				app:cardBackgroundColor="?CardBackgroundColor">
+
+				<LinearLayout
+					android:id="@+id/sidebar2"
+					android:layout_width="8dp"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+					android:gravity="left"
+					android:background="#2087DF"/>
+
+				<LinearLayout
+					android:id="@+id/linear_layout2"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+
+					<android.support.v7.widget.CardView
+						xmlns:card_view="http://schemas.android.com/apk/res-auto"
+						android:id="@+id/cardview_bg_icon_2"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="32dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="left|center_vertical"
+						app:cardCornerRadius="32dp"
+						app:cardElevation="4dp"
+						app:cardBackgroundColor="#664AFF">
+
+						<ImageView
+							android:id="@+id/icon_2"
+							android:layout_width="48dp"
+							android:layout_height="48dp"
+							android:layout_margin="8dp"
+							android:src="@drawable/ic_cellular_ip_light"/>
+
+					</android.support.v7.widget.CardView>
+
+					<TextView
+						android:id="@+id/textview_2"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="16dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="center"
+						android:textSize="18sp"
+						android:textColor="?attr/TextColor"
+						android:text="Cellular Data IPs"/>
+
+				</LinearLayout>
+
+			</android.support.v7.widget.CardView>
+
+			<android.support.v7.widget.CardView
+				xmlns:card_view="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/cardview_3"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:minHeight="100dp"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="16dp"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="16dp"
+				android:foreground="?android:attr/selectableItemBackground"
+				app:cardCornerRadius="8dp"
+				app:cardElevation="8dp"
+				app:cardBackgroundColor="?CardBackgroundColor">
+
+				<LinearLayout
+					android:id="@+id/sidebar3"
+					android:layout_width="8dp"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+					android:gravity="left"
+					android:background="#2087DF"/>
+
+				<LinearLayout
+					android:id="@+id/linear_layout3"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+
+					<android.support.v7.widget.CardView
+						xmlns:card_view="http://schemas.android.com/apk/res-auto"
+						android:id="@+id/cardview_bg_icon_3"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="32dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="left|center_vertical"
+						app:cardCornerRadius="32dp"
+						app:cardElevation="4dp"
+						app:cardBackgroundColor="#A24AFF">
+
+						<ImageView
+							android:id="@+id/icon_3"
+							android:layout_width="48dp"
+							android:layout_height="48dp"
+							android:layout_margin="8dp"
+							android:src="@drawable/ic_router_setup_light"/>
+
+					</android.support.v7.widget.CardView>
+
+					<TextView
+						android:id="@+id/textview_3"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="16dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="center"
+						android:textSize="18sp"
+						android:textColor="?attr/TextColor"
+						android:text="Router Setup"/>
+
+				</LinearLayout>
+
+			</android.support.v7.widget.CardView>
+
+			<android.support.v7.widget.CardView
+				xmlns:card_view="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/cardview_4"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:minHeight="100dp"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="16dp"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="16dp"
+				android:layout_marginBottom="16dp"
+				android:foreground="?android:attr/selectableItemBackground"
+				app:cardCornerRadius="8dp"
+				app:cardElevation="8dp"
+				app:cardBackgroundColor="?CardBackgroundColor">
+
+				<LinearLayout
+					android:id="@+id/sidebar4"
+					android:layout_width="8dp"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+					android:gravity="left"
+					android:background="#2087DF"/>
+
+				<LinearLayout
+					android:id="@+id/linear_layout4"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+
+					<android.support.v7.widget.CardView
+						xmlns:card_view="http://schemas.android.com/apk/res-auto"
+						android:id="@+id/cardview_bg_icon_4"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="32dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="left|center_vertical"
+						app:cardCornerRadius="32dp"
+						app:cardElevation="4dp"
+						app:cardBackgroundColor="#C84AFF">
+
+						<ImageView
+							android:id="@+id/icon_4"
+							android:layout_width="48dp"
+							android:layout_height="48dp"
+							android:layout_margin="8dp"
+							android:src="@drawable/ic_ping_light"/>
+
+					</android.support.v7.widget.CardView>
+
+					<TextView
+						android:id="@+id/textview_4"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="16dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="center"
+						android:textSize="18sp"
+						android:textColor="?attr/TextColor"
+						android:text="Ping"/>
+
+				</LinearLayout>
+
+			</android.support.v7.widget.CardView>
+
+			<android.support.v7.widget.CardView
+				xmlns:card_view="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/cardview_5"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:minHeight="100dp"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="16dp"
+				android:layout_marginBottom="16dp"
+				android:foreground="?android:attr/selectableItemBackground"
+				app:cardCornerRadius="8dp"
+				app:cardElevation="8dp"
+				app:cardBackgroundColor="?CardBackgroundColor">
+
+				<LinearLayout
+					android:id="@+id/sidebar5"
+					android:layout_width="8dp"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+					android:gravity="left"
+					android:background="#2087DF"/>
+
+				<LinearLayout
+					android:id="@+id/linear_layout5"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+
+					<android.support.v7.widget.CardView
+						xmlns:card_view="http://schemas.android.com/apk/res-auto"
+						android:id="@+id/cardview_bg_icon_5"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="32dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="left|center_vertical"
+						app:cardCornerRadius="32dp"
+						app:cardElevation="4dp"
+						app:cardBackgroundColor="#F169FF">
+
+						<ImageView
+							android:id="@+id/icon_5"
+							android:layout_width="48dp"
+							android:layout_height="48dp"
+							android:layout_margin="8dp"
+							android:src="@drawable/ic_lan_devices_scanner_light"/>
+
+					</android.support.v7.widget.CardView>
+
+					<TextView
+						android:id="@+id/textview_5"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="16dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="center"
+						android:textSize="18sp"
+						android:textColor="?attr/TextColor"
+						android:text="LAN Devices Scanner"/>
+
+				</LinearLayout>
+
+			</android.support.v7.widget.CardView>
+
+			<android.support.v7.widget.CardView
+				xmlns:card_view="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/cardview_6"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:minHeight="100dp"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="16dp"
+				android:layout_marginBottom="16dp"
+				android:foreground="?android:attr/selectableItemBackground"
+				app:cardCornerRadius="8dp"
+				app:cardElevation="8dp"
+				app:cardBackgroundColor="?CardBackgroundColor">
+
+				<LinearLayout
+					android:id="@+id/sidebar6"
+					android:layout_width="8dp"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+					android:gravity="left"
+					android:background="#2087DF"/>
+
+				<LinearLayout
+					android:id="@+id/linear_layout6"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+
+					<android.support.v7.widget.CardView
+						xmlns:card_view="http://schemas.android.com/apk/res-auto"
+						android:id="@+id/cardview_bg_icon_6"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="32dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="left|center_vertical"
+						app:cardCornerRadius="32dp"
+						app:cardElevation="4dp"
+						app:cardBackgroundColor="#FF53B9">
+
+						<ImageView
+							android:id="@+id/icon_6"
+							android:layout_width="48dp"
+							android:layout_height="48dp"
+							android:layout_margin="8dp"
+							android:src="@drawable/ic_port_scan_light"/>
+
+					</android.support.v7.widget.CardView>
+
+					<TextView
+						android:id="@+id/textview_6"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="16dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="center"
+						android:textSize="18sp"
+						android:textColor="?attr/TextColor"
+						android:text="Port Scanner"/>
+
+				</LinearLayout>
+
+			</android.support.v7.widget.CardView>
+
+		</LinearLayout>
+
+	</ScrollView>
+
+</FrameLayout>
+

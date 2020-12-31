@@ -1,16 +1,14 @@
 package com.truemlgpro.wifiinfo;
 
-import android.app.*;
+import android.content.*;
 import android.os.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.support.v4.widget.*;
 import android.view.*;
 import android.widget.*;
-import android.content.*;
 import me.anwarshahriar.calligrapher.*;
+
+import android.support.v7.widget.Toolbar;
 
 public class SupportersActivity extends AppCompatActivity
 {
@@ -18,11 +16,12 @@ public class SupportersActivity extends AppCompatActivity
 	private Toolbar toolbar;
 	private ScrollView scrollView;
 	private TextView supporters_textview;
+	private TextView pab_text;
 	private TextView anyx_text;
 	private TextView andrew_text;
 	private TextView rouge_text;
 	private TextView madcodez_text;
-	private TextView never_text;
+	private TextView reiven_text;
 	private TextView artem_text;
 	private TextView terrin_text;
 	private TextView killbayne_text;
@@ -55,11 +54,12 @@ public class SupportersActivity extends AppCompatActivity
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		scrollView = (ScrollView) findViewById(R.id.scrollView);
 		supporters_textview = (TextView) findViewById(R.id.supporters_textview);
+		pab_text = (TextView) findViewById(R.id.pab_text);
 		anyx_text = (TextView) findViewById(R.id.anyx_text);
 		andrew_text = (TextView) findViewById(R.id.andrew_text);
 		rouge_text = (TextView) findViewById(R.id.rouge_text);
 		madcodez_text = (TextView) findViewById(R.id.madcodez_text);
-		never_text = (TextView) findViewById(R.id.never_text);
+		reiven_text = (TextView) findViewById(R.id.reiven_text);
 		artem_text = (TextView) findViewById(R.id.artem_text);
 		terrin_text = (TextView) findViewById(R.id.terrin_text);
 		killbayne_text = (TextView) findViewById(R.id.killbayne_text);
@@ -86,15 +86,26 @@ public class SupportersActivity extends AppCompatActivity
 	}
 	
 	public void initializeOnClickListeners() {
+		pab_text.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v)
+				{
+					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+					ClipData clip = ClipData.newPlainText("Discord", "Pab#1234");
+					cbm.setPrimaryClip(clip);
+
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Pab#1234", Toast.LENGTH_SHORT).show();
+				}
+			});
 		anyx_text.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v)
 				{
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "Anyx#9407");
+					ClipData clip = ClipData.newPlainText("Discord", "Anyx#1040");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Anyx#9407", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Anyx#1040", Toast.LENGTH_SHORT).show();
 				}
 			});
 
@@ -103,10 +114,10 @@ public class SupportersActivity extends AppCompatActivity
 				public void onClick(View v)
 				{
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "GW Andrew#3934");
+					ClipData clip = ClipData.newPlainText("Discord", "andre btw.#3934");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "GW Andrew#3934", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "andre btw.#3934", Toast.LENGTH_SHORT).show();
 				}
 			});
 
@@ -115,10 +126,10 @@ public class SupportersActivity extends AppCompatActivity
 				public void onClick(View v)
 				{
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "Rouge#4556");
+					ClipData clip = ClipData.newPlainText("Discord", "[ ]#4556");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Rouge#4556", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "[ ]#4556", Toast.LENGTH_SHORT).show();
 				}
 			});
 		madcodez_text.setOnClickListener(new View.OnClickListener() {
@@ -133,15 +144,15 @@ public class SupportersActivity extends AppCompatActivity
 				}
 			});
 
-		never_text.setOnClickListener(new View.OnClickListener() {
+		reiven_text.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v)
 				{
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "NeverRzAltNutsss#0141");
+					ClipData clip = ClipData.newPlainText("Discord", "ReivenAlt#2501");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "NeverRzAltNutsss#0141", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "ReivenAlt#2501", Toast.LENGTH_SHORT).show();
 				}
 			});
 
@@ -173,10 +184,10 @@ public class SupportersActivity extends AppCompatActivity
 				public void onClick(View v)
 				{
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "Killbayne#0076");
+					ClipData clip = ClipData.newPlainText("Discord", "Killbayne#6969");
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Killbayne#0076", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Killbayne#6969", Toast.LENGTH_SHORT).show();
 				}
 			});
 	}

@@ -1,0 +1,163 @@
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/content_frame"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="?attr/BackgroundColor">
+
+	<android.support.v7.widget.Toolbar
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+		app:titleTextColor="?attr/TitleTextColor"
+		app:subtitleTextColor="?attr/SubtitleTextColor" />
+	
+	<TextView
+		android:id="@+id/textview_noconn"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="16dp"
+		android:textSize="18sp"
+		android:textColor="?TextColor"
+		android:layout_gravity="center"
+		android:visibility="gone"
+		android:text="No Cellular Connection" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+		
+		<android.support.v7.widget.CardView
+			xmlns:card_view="http://schemas.android.com/apk/res-auto"
+			android:id="@+id/cardview_ip"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:layout_marginTop="72dp"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			app:cardCornerRadius="8dp"
+			app:cardElevation="8dp"
+			app:cardBackgroundColor="?CardBackgroundColor">
+
+			<LinearLayout
+				android:id="@+id/linear_layout_ip"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:layout_gravity="center"
+				android:gravity="center">
+
+				<LinearLayout
+					android:id="@+id/header_ip"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:gravity="left"
+					android:background="?attr/CardHeaderBackgroundColor">
+
+					<TextView
+						android:id="@+id/textview_header_ip"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="8dp"
+						android:layout_marginRight="8dp"
+						android:layout_marginBottom="8dp"
+						android:textSize="12sp"
+						android:textColor="?attr/TextColor"
+						android:text="Public IP Address" />
+
+				</LinearLayout>
+
+				<TextView
+					android:id="@+id/textview_ip_cell"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="16dp"
+					android:layout_marginBottom="16dp"
+					android:textSize="18sp"
+					android:textColor="?attr/CardTextColor"
+					android:text="Your IP: N/A" />
+
+				<com.github.clans.fab.FloatingActionButton
+					xmlns:fab="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/fab_update_ip"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="16dp"
+					android:src="?IconIPColor"
+					fab:fab_colorNormal="?FAB_IPColorEnabled"
+					fab:fab_colorPressed="?FAB_IPColorEnabled"
+					fab:fab_colorDisabled="?FAB_IPColorDisabled"
+					fab:fab_colorRipple="#30FFFFFF"
+					fab:fab_size="mini" />
+
+			</LinearLayout>
+
+		</android.support.v7.widget.CardView>
+		
+		<android.support.v7.widget.CardView
+			xmlns:card_view="http://schemas.android.com/apk/res-auto"
+			android:id="@+id/cardview_local_ip"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:layout_marginTop="16dp"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			app:cardCornerRadius="8dp"
+			app:cardElevation="8dp"
+			app:cardBackgroundColor="?CardBackgroundColor">
+
+			<LinearLayout
+				android:id="@+id/linear_layout_local_ip"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:layout_gravity="center"
+				android:gravity="center">
+
+				<LinearLayout
+					android:id="@+id/header_local_ip"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:gravity="left"
+					android:background="?attr/CardHeaderBackgroundColor">
+
+					<TextView
+						android:id="@+id/textview_header_local_ip"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="8dp"
+						android:layout_marginRight="8dp"
+						android:layout_marginBottom="8dp"
+						android:textSize="12sp"
+						android:textColor="?attr/TextColor"
+						android:text="IPv4" />
+
+				</LinearLayout>
+
+				<TextView
+					android:id="@+id/textview_local_ipv4_cell"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="16dp"
+					android:layout_marginBottom="16dp"
+					android:textSize="18sp"
+					android:textColor="?attr/CardTextColor"
+					android:text="" />
+			
+			</LinearLayout>
+			
+		</android.support.v7.widget.CardView>
+		
+	</LinearLayout>
+</FrameLayout>

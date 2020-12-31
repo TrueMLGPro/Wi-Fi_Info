@@ -1,12 +1,10 @@
 package com.truemlgpro.wifiinfo;
 
-import android.content.*;
-import android.widget.*;
-import android.net.*;
 import android.app.*;
+import android.content.*;
+import android.net.*;
 import android.os.*;
 import android.support.annotation.*;
-import android.support.v4.app.*;
 
 public class ConnectionStateService extends Service 
 {
@@ -19,8 +17,10 @@ public class ConnectionStateService extends Service
 	private ScreenStateReceiver ScrStateRec;
 	private IntentFilter intentFilter;
 	private boolean isRegistered;
-	public static boolean isServiceRunning;
 	private boolean isHandlerPosted;
+	
+	public static boolean isConnectionStateServiceRunning;
+	public static boolean isNotificationServiceRunning;
 
 public class ConnectionStateReceiver extends BroadcastReceiver
 {
@@ -50,15 +50,34 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				showOnlineNotificationAPI21(context);
 			}
 			
-			registerReceiver(ScrStateRec, intentFilter);
-			handler.post(runnable);
-			isHandlerPosted = true;
-			isRegistered = true;
-			isServiceRunning = true;
+			Boolean keyStartStopScrnStateNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, MainActivity.startStopSrvcScrnState);
+			
+			if (keyStartStopScrnStateNtfc) {
+				registerReceiver(ScrStateRec, intentFilter);
+				isRegistered = true;
+				handler.post(runnable);
+				isHandlerPosted = true;
+			} else {
+				if (isRegistered) {
+					unregisterReceiver(ScrStateRec);
+					isRegistered = false;
+				}
+				
+				if (isHandlerPosted) {
+					handler.removeCallbacks(runnable);
+					isHandlerPosted = false;
+				}
+			}
+			
+			//registerReceiver(ScrStateRec, intentFilter);
+			//isRegistered = true;
+			//handler.post(runnable);
+			//isHandlerPosted = true;
+			isNotificationServiceRunning = true;
 		} else {
-			if (isServiceRunning == true) {
+			if (isNotificationServiceRunning) {
 				stopService(new Intent(context, NotificationService.class));
-				isServiceRunning = false;
+				isNotificationServiceRunning = false;
 			}
 			
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
@@ -69,12 +88,12 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				showOfflineNotificationAPI21(context);
 			}
 			
-			if (isRegistered == true) {
+			if (isRegistered) {
 				unregisterReceiver(ScrStateRec);
 				isRegistered = false;
 			}
 			
-			if (isHandlerPosted == true) {
+			if (isHandlerPosted) {
 				handler.removeCallbacks(runnable);
 				isHandlerPosted = false;
 			}
@@ -249,21 +268,21 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		public void run() {
 			Intent ServiceIntent = new Intent(ConnectionStateService.this, NotificationService.class);
 			if (ScreenStateReceiver.screenState == true) {
-				if (isServiceRunning == false) {
+				if (isNotificationServiceRunning == false) {
 					if (android.os.Build.VERSION.SDK_INT < 26) {
 						startService(ServiceIntent);
-						isServiceRunning = true;
+						isNotificationServiceRunning = true;
 					} else {
 						startForegroundService(ServiceIntent);
-						isServiceRunning = true;
+						isNotificationServiceRunning = true;
 					}
 				}
 			}
-			
+				
 			if (ScreenStateReceiver.screenState == false) {
-				if (isServiceRunning == true) {
+				if (isNotificationServiceRunning == true) {
 					stopService(new Intent(ConnectionStateService.this, NotificationService.class));
-					isServiceRunning = false;
+					isNotificationServiceRunning = false;
 				}
 			}
 			handler.postDelayed(runnable, 1000);
@@ -282,6 +301,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		intentFilter.addAction(Intent.ACTION_SCREEN_ON);
 		intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
 		ScrStateRec = new ScreenStateReceiver();
+		
+		isConnectionStateServiceRunning = true;
 		super.onCreate();
 	}
 
@@ -298,6 +319,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			handler.removeCallbacks(runnable);
 			isHandlerPosted = false;
 		}
+		
+		isConnectionStateServiceRunning = false;
 		super.onDestroy();
 	}
 
@@ -307,6 +330,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		ConnectivityManager CM = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo WiFi_NI = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		boolean isConnected = WiFi_NI != null && WiFi_NI.isConnected();
+		
+		/// Move it in onCreate() maybe ///
 		
 		if (isConnected) {
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {

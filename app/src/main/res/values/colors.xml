@@ -3,16 +3,18 @@
 	<!-- Dark theme colors -->
 	<color name="primaryTextColorDark">#FFFFFF</color>
 	<color name="cardTextColorDark">#FFFFFF</color>
-	<color name="cardHeaderBackgroundDark">#353535</color>
-	<color name="cardBackgroundDark">#2559AE</color>
-	<color name="fabIPDarkEnabled">#2F74E7</color>
-	<color name="fabIPDarkDisabled">#1D599D</color>
-	<color name="fabMainDarkEnabled">#303030</color>
-	<color name="fabMainDarkDisabled">#202020</color>
+	<color name="cardHeaderBackgroundDark">#2C2C2C</color>
+	<color name="cardBackgroundDark">#404040</color>
+	<color name="fabIPDarkEnabled">#505050</color>
+	<color name="fabIPDarkDisabled">#252525</color>
+	<color name="fabMainDarkEnabled">#2F74E7</color>
+	<color name="fabMainDarkDisabled">#1D599D</color>
 	<color name="fabMainDarkRipple">#30FFFFFF</color>
+	<color name="fabMainDarkTextColor">#FFFFFF</color>
 	<color name="toolbarTitleColorDark">#FFFFFF</color>
 	<color name="toolbarSubtitleColorDark">#FFFFFF</color>
 	<color name="backgroundColorDark">#202020</color>
+	<color name="embedBackgroundColorDark">#1A1A1A</color>
 	<color name="borderColorDark">#EEEEEE</color>
 	
 	<!-- AMOLED Dark theme colors -->
@@ -22,30 +24,41 @@
 	<color name="cardBackgroundDarkAmoled">#2D2D2D</color>
 	<color name="fabIPDarkAmoledEnabled">#454545</color>
 	<color name="fabIPDarkAmoledDisabled">#1A1A1A</color>
-	<color name="fabMainDarkAmoledEnabled">#1E1E1E</color>
-	<color name="fabMainDarkAmoledDisabled">#171717</color>
+	<color name="fabMainDarkAmoledEnabled">#454545</color>
+	<color name="fabMainDarkAmoledDisabled">#1A1A1A</color>
 	<color name="fabMainDarkAmoledRipple">#30FFFFFF</color>
+	<color name="fabMainDarkAmoledTextColor">#FFFFFF</color>
 	<color name="toolbarTitleColorDarkAmoled">#FFFFFF</color>
 	<color name="toolbarSubtitleColorDarkAmoled">#FFFFFF</color>
 	<color name="backgroundColorDarkAmoled">#000000</color>
+	<color name="embedBackgroundColorDarkAmoled">#1A1A1A</color>
 	<color name="borderColorDarkAmoled">#EEEEEE</color>
 	
 	<!-- Light theme colors -->
 	<color name="primaryTextColorLight">#000000</color>
-	<color name="cardTextColorLight">#FFFFFF</color>
-	<color name="cardHeaderBackgroundLight">#FFFFFF</color>
-	<color name="cardBackgroundLight">#2F69C7</color>
-	<color name="fabIPLightEnabled">#3B75DD</color>
-	<color name="fabIPLightDisabled">#1D599D</color>
-	<color name="fabMainLightEnabled">#FAFAFA</color>
-	<color name="fabMainLightDisabled">#CACACA</color>
-	<color name="fabMainLightRipple">#30000000</color>
+	<color name="cardTextColorLight">#000000</color>
+	<color name="cardHeaderBackgroundLight">#F2F2F2</color>
+	<color name="cardBackgroundLight">#FFFFFF</color>
+	<color name="fabIPLightEnabled">#ECECEC</color>
+	<color name="fabIPLightDisabled">#C4C4C4</color>
+	<color name="fabMainLightEnabled">#2F74E7</color>
+	<color name="fabMainLightDisabled">#1D599D</color>
+	<color name="fabMainLightRipple">#30202020</color>
+	<color name="fabMainLightTextColor">#FFFFFF</color>
 	<color name="toolbarTitleColorLight">#000000</color>
 	<color name="toolbarSubtitleColorLight">#000000</color>
 	<color name="backgroundColorLight">#EEEEEE</color>
+	<color name="embedBackgroundColorLight">#D7D7D7</color>
 	<color name="borderColorLight">#202020</color>
 	
 	<!-- Other colors -->
 	<color name="buttonColor">#2087DF</color>
 	<color name="ntfcColor">#2087DF</color>
+	<color name="ntfcColorSignalHigh">#3FE054</color>
+	<color name="ntfcColorSignalAvg">#FCFF00</color>
+	<color name="ntfcColorSignalLow">#E33E20</color>
+	<color name="refreshLayoutColor1">#2195DF</color>
+	<color name="refreshLayoutColor2">#32CE93</color>
+	<color name="refreshLayoutColor3">#8345EE</color>
+	<color name="refreshLayoutColor4">#4AC2FF</color>
 </resources>

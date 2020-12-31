@@ -1,14 +1,12 @@
 package com.truemlgpro.wifiinfo;
 
 import android.app.*;
-import android.os.*;
 import android.content.*;
-import android.net.wifi.*;
 import android.net.*;
-import android.support.annotation.*;
-import android.support.v4.content.*;
-import android.support.v4.app.*;
+import android.net.wifi.*;
+import android.os.*;
 import android.provider.*;
+import android.support.annotation.*;
 
 public class NotificationService extends Service
 {
@@ -18,6 +16,8 @@ public class NotificationService extends Service
 	private Notification notification29;
 	private Notification notification21_25;
 	private Notification.Builder builder;
+	
+	private int visSigStrgNtfcColor;
 	
 	@Override
 	public void onCreate()
@@ -134,6 +134,7 @@ public class NotificationService extends Service
 		builder = new Notification.Builder(this, channelID);
 		
 		Boolean keyNtfcClr = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
+		Boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
 
 		WifiManager mainWifi;
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -142,14 +143,25 @@ public class NotificationService extends Service
 		if (ssid.equals("<unknown ssid>")) {
 			ssid = "N/A";
 		}
-		String bssd;
+		String bssid;
 		if (wInfo.getBSSID() != null) {
-			bssd = wInfo.getBSSID().toUpperCase();
+			bssid = wInfo.getBSSID().toUpperCase();
 		} else {
-			bssd = "N/A";
+			bssid = "N/A";
 		}
 		int rssi = wInfo.getRssi();
 		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
+		if (keyVisSigStrgNtfc) {
+			if (RSSIconv >= 75) {
+				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalHigh);
+			} else if (RSSIconv >= 50 && RSSIconv < 75) {
+				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalAvg);
+			} else if (RSSIconv >= 1 && RSSIconv < 50) {
+				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalLow);
+			}
+		} else {
+			visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColor);
+		}
 		int freq = wInfo.getFrequency();
 		int channel = convertFrequencyToChannel(freq);
 		int networkSpeed = wInfo.getLinkSpeed();
@@ -157,7 +169,7 @@ public class NotificationService extends Service
 		int network_id = wInfo.getNetworkId();
 		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
 		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
-		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
+		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
 			"Frequency: " + freq + "MHz" + "\n" + "Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
 
 		notification26_28 = builder.setContentIntent(content_intent)
@@ -169,7 +181,7 @@ public class NotificationService extends Service
 			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
 			.setChannelId(channelID)
 			.setColorized(keyNtfcClr)
-			.setColor(getResources().getColor(R.color.ntfcColor))
+			.setColor(visSigStrgNtfcColor)
 			.setCategory(Notification.CATEGORY_SERVICE)
 			.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
 			.setOngoing(true)
@@ -205,6 +217,7 @@ public class NotificationService extends Service
 		builder = new Notification.Builder(this, channelID);
 		
 		Boolean keyNtfcClr = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
+		Boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
 		
 		WifiManager mainWifi;
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -215,6 +228,17 @@ public class NotificationService extends Service
 		}
 		int rssi = wInfo.getRssi();
 		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
+		if (keyVisSigStrgNtfc) {
+			if (RSSIconv >= 75) {
+				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalHigh);
+			} else if (RSSIconv >= 50 && RSSIconv < 75) {
+				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalAvg);
+			} else if (RSSIconv >= 1 && RSSIconv < 50) {
+				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalLow);
+			}
+		} else {
+			visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColor);
+		}
 		int ipAddress = wInfo.getIpAddress();
 		int freq = wInfo.getFrequency();
 		int channel = convertFrequencyToChannel(freq);
@@ -230,7 +254,7 @@ public class NotificationService extends Service
 			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
 			.setChannelId(channelID)
 			.setColorized(keyNtfcClr)
-			.setColor(getResources().getColor(R.color.ntfcColor))
+			.setColor(visSigStrgNtfcColor)
 			.setCategory(Notification.CATEGORY_SERVICE)
 			.setStyle(new Notification.BigTextStyle().bigText(info))
 			.setOngoing(true)
@@ -271,11 +295,11 @@ public class NotificationService extends Service
 		if (ssid.equals("<unknown ssid>")) {
 			ssid = "N/A";
 		}
-		String bssd;
+		String bssid;
 		if (wInfo.getBSSID() != null) {
-			bssd = wInfo.getBSSID().toUpperCase();
+			bssid = wInfo.getBSSID().toUpperCase();
 		} else {
-			bssd = "N/A";
+			bssid = "N/A";
 		}
 		int rssi = wInfo.getRssi();
 		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
@@ -286,7 +310,7 @@ public class NotificationService extends Service
 		int network_id = wInfo.getNetworkId();
 		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
 		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
-		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssd + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
+		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
 			"Frequency: " + freq + "MHz" + "\n" + "Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
 
 		notification21_25 = builder.setContentIntent(content_intent)

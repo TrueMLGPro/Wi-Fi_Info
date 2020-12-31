@@ -69,6 +69,18 @@
 			android:layout_marginBottom="20dp"
 			android:layout_centerHorizontal="true"
 			android:visibility="gone" />
+		
+		<TextView
+			android:id="@+id/alt_pr_textview"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Patreon: TrueMLGPro"
+			android:textSize="20sp"
+			android:textColor="?attr/TextColor"
+			android:layout_below="@id/alt_gh_textview"
+			android:layout_marginBottom="20dp"
+			android:layout_centerHorizontal="true"
+			android:visibility="gone" />
 
 		<br.com.bloder.magic.view.MagicButton
 			android:id="@+id/magic_button1"
@@ -82,7 +94,7 @@
 			app:hide_text_size="12px"
 			app:hide_text_color="@android:color/white"
 			app:icon_button_color="#7690F5"
-			app:expandable_area_color="#98A9FF"
+			app:expandable_area_color="#5E72E5"
 			android:layout_below="@+id/dev_info_text"
 			android:layout_centerHorizontal="true"
 			android:visibility="gone" />
@@ -120,6 +132,24 @@
 			app:icon_button_color="#000000"
 			app:expandable_area_color="#151515"
 			android:layout_below="@id/magic_button2"
+			android:layout_centerHorizontal="true"
+			android:visibility="gone" />
+		
+		<br.com.bloder.magic.view.MagicButton
+			android:id="@+id/magic_button4"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp"
+			app:magic_button_size="65dp"
+			app:button_icon="@drawable/patreon"
+			app:button_icon_width="40dp"
+			app:button_icon_height="40dp"
+			app:hide_text="TrueMLGPro"
+			app:hide_text_size="12px"
+			app:hide_text_color="@android:color/white"
+			app:icon_button_color="#FF424D"
+			app:expandable_area_color="#CC1A40"
+			android:layout_below="@id/magic_button3"
 			android:layout_centerHorizontal="true"
 			android:visibility="gone" />
 

@@ -16,11 +16,12 @@
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	
     <application
-        android:icon="@mipmap/ic_launcher"
+		android:icon="@mipmap/ic_launcher"
 		android:roundIcon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/DarkTheme"
-		android:largeHeap="true">
+		android:label="@string/app_name"
+		android:theme="@style/DarkTheme"
+		android:largeHeap="true"
+		android:usesCleartextTraffic="true">
         
 		<activity
             android:name="com.truemlgpro.wifiinfo.SplashActivity"
@@ -43,7 +44,7 @@
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.DiscordServersActivity"
-			android:label="Discord Servers"
+			android:label="Discord Server"
 			android:screenOrientation="portrait">
 		</activity>
 		<activity
@@ -52,8 +53,38 @@
 			android:screenOrientation="portrait">
 		</activity>
 		<activity
+			android:name="com.truemlgpro.wifiinfo.ToolsActivity"
+			android:label="Tools"
+			android:screenOrientation="portrait">
+		</activity>
+		<activity
 			android:name="com.truemlgpro.wifiinfo.URLtoIPActivity"
 			android:label="URL to IP"
+			android:screenOrientation="portrait">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.CellularDataIPActivity"
+			android:label="Cellular Data IP"
+			android:screenOrientation="portrait">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.RouterSetupActivity"
+			android:label="Router Setup"
+			android:screenOrientation="portrait">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.PingActivity"
+			android:label="Ping"
+			android:screenOrientation="portrait">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.LANDevicesScannerActivity"
+			android:label="LAN Devices Scanner"
+			android:screenOrientation="portrait">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.PortScannerActivity"
+			android:label="Port Scanner"
 			android:screenOrientation="portrait">
 		</activity>
 		<activity
@@ -61,9 +92,9 @@
 			android:label="Settings"
 			android:screenOrientation="portrait"
 			android:parentActivityName="com.truemlgpro.wifiinfo.MainActivity">
-				<meta-data
-					android:name="android.support.PARENT_ACTIVITY"
-					android:value="com.truemlgpro.wifiinfo.MainActivity" />
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="com.truemlgpro.wifiinfo.MainActivity" />
 		</activity>
 		
 		<service
@@ -73,11 +104,28 @@
 		
 		<service
 			android:name=".ConnectionStateService"
-			android:enabled="true"
-			android:process=":ConnectionStateProcess">
+			android:enabled="true">
 		</service>
 		
 		<receiver android:name=".ConnectionStateReceiver">
+			<intent-filter>
+				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+			</intent-filter>
+		</receiver>
+		
+		<receiver android:name=".WiFiConnectivityReceiver">
+			<intent-filter>
+				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+			</intent-filter>
+		</receiver>
+		
+		<receiver android:name=".CellularDataConnectivityReceiver">
+			<intent-filter>
+				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+			</intent-filter>
+		</receiver>
+		
+		<receiver android:name=".NetworkConnectivityReceiver">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
