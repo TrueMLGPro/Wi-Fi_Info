@@ -50,4 +50,4 @@ or
 * __Port Scanner__ 
 
 ## Links
-![Discord Banner 4](https://discordapp.com/api/guilds/601107291915419658/widget.png?style=banner4)
+[![Discord Banner 4](https://discordapp.com/api/guilds/601107291915419658/widget.png?style=banner4)](https://discord.com/invite/qxE2DFr)
