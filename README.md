@@ -17,8 +17,8 @@
 or
 **[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)**
 
-## Wi-Fi Info Android Project
-***Shows information about network you are connected to.***
+## Features
+***Shows all possible information about Wi-Fi network you are connected to.***
 
 * __Public IP Address__
 * __SSID__
@@ -50,4 +50,4 @@ or
 * __Port Scanner__ 
 
 ## Links
-[Discord Server](https://discord.gg/qxE2DFr)
+<iframe src="https://discord.com/widget?id=601107291915419658&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
