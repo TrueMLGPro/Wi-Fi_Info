@@ -50,4 +50,4 @@ or
 * __Port Scanner__ 
 
 ## Links
-<iframe src="https://discord.com/widget?id=601107291915419658&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+![Discord Banner 4](https://discordapp.com/api/guilds/[SERVER ID]/widget.png?style=banner4)
