@@ -57,7 +57,7 @@
 			android:id="@+id/dev_name"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="TrueMLGPro • 2020"
+			android:text="TrueMLGPro • 2020 - 2021"
 			android:textColor="?attr/TextColor"
 			android:textSize="16sp"
 			android:elevation="20dp"

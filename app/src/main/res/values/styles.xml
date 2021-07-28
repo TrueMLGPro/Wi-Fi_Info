@@ -30,6 +30,7 @@
 		<item name="IconToolsColor">@drawable/ic_tools_light</item>
 		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
 		<item name="IconPlusColor">@drawable/ic_plus_light</item>
+		<item name="ToolbarGithubIconColor">@drawable/ic_action_github_light</item>
 	</style>
 	
 	<style name="AmoledDarkTheme" parent="Theme.AppCompat.NoActionBar">
@@ -62,6 +63,7 @@
 		<item name="IconToolsColor">@drawable/ic_tools_light</item>
 		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
 		<item name="IconPlusColor">@drawable/ic_plus_light</item>
+		<item name="ToolbarGithubIconColor">@drawable/ic_action_github_light</item>
 	</style>
 
 	<style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -96,6 +98,7 @@
 		<item name="IconToolsColor">@drawable/ic_tools_light</item>
 		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
 		<item name="IconPlusColor">@drawable/ic_plus_light</item>
+		<item name="ToolbarGithubIconColor">@drawable/ic_action_github_dark</item>
 	</style>
 	
 	<style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
@@ -188,5 +191,9 @@
 	
 	<style name="IconPlusColor" parent="@android:style/TextAppearance.Medium">
 		<item name="menu_icon">?IconPlusColor</item>
+	</style>
+
+	<style name="ToolbarGithubIconColor" parent="@android:style/TextAppearance.Medium">
+		<item name="icon">?ToolbarGithubIconColor</item>
 	</style>
 </resources>

@@ -1,39 +1,79 @@
 package com.truemlgpro.wifiinfo;
 
-import android.*;
-import android.app.*;
-import android.content.*;
-import android.content.pm.*;
-import android.graphics.drawable.*;
-import android.location.*;
-import android.net.*;
-import android.net.wifi.*;
-import android.os.*;
-import android.provider.*;
-import android.support.v4.app.*;
-import android.support.v7.app.*;
-import android.support.v7.preference.*;
-import android.support.v7.widget.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
-import com.github.clans.fab.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import me.anwarshahriar.calligrapher.*;
-
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.DhcpInfo;
+import android.net.LinkProperties;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.net.TrafficStats;
+import android.net.Uri;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.StrictMode;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
+
+import me.anwarshahriar.calligrapher.Calligrapher;
+
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback
 {
-	
+
 	private Toolbar toolbar;
-	private ActionBar actionbar;
-	private ScrollView scrollview;
-	private LinearLayout linear_layout_cards;
 	private TextView textview_ip;
 	private TextView textview1;
 	private TextView textview2;
@@ -79,13 +119,14 @@ public class MainActivity extends AppCompatActivity
 	private FloatingActionButton fab_tools;
 	private FloatingActionButton fab_settings;
 	private FloatingActionButton fab_update;
-	
-	private LocationManager locationManager;
+
+	private final int LocationPermissionCode = 123;
+
 	private ConnectivityManager CM;
 	private NetworkInfo WiFiCheck;
 	private DhcpInfo dhcp;
 	private WifiInfo wInfo;
-	private WifiManager mainWifi;
+	private WifiManager mainWifiManager;
 	private BroadcastReceiver WiFiConnectivityReceiver;
 	public static Boolean isServiceRunning = false;
 	public static Boolean darkMode = true;
@@ -95,8 +136,7 @@ public class MainActivity extends AppCompatActivity
 	public static Boolean visualizeSigStrg = false;
 	public static Boolean startStopSrvcScrnState = false;
 	public static Boolean colorizeNtfc = false;
-	public static Boolean neverShow = false;
-	private static Boolean isTapTargetSeen_NoConnection = false;
+	public static Boolean neverShowGeoDialog = false;
 	public static Boolean isHandlerRunning = false;
 	public static String ntfcUpdateInterval = "1000";
 	public static String cardUpdateInterval = "1000";
@@ -104,40 +144,38 @@ public class MainActivity extends AppCompatActivity
 	public static Activity main;
 	public static AlertDialog alertAPI25;
 	public static AlertDialog alertAPI29;
-	private Handler IPFetchHandler = new Handler();
 	private String publicIPFetched;
 	private boolean siteReachable = false;
-	private Scanner scanner;
 	private String version;
-	private double megabyte = 1024 * 1024;
-	private double gigabyte = 1024 * 1024 * 1024;
-	
+	private final double megabyte = 1024 * 1024;
+	private final double gigabyte = 1024 * 1024 * 1024;
+
 	private SharedPreferences.OnSharedPreferenceChangeListener listener;
-	
-    @Override
+
+	@Override
     protected void onCreate(Bundle savedInstanceState)
     {
 		/// Shared Preferences ///
-		
+
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode);
-		
-		if (keyTheme == true) {
+
+		if (keyTheme) {
 			setTheme(R.style.DarkTheme);
 		}
-		
-		if (keyAmoledTheme == true) {
-			if (keyTheme == true) {
+
+		if (keyAmoledTheme) {
+			if (keyTheme) {
 				setTheme(R.style.AmoledDarkTheme);
 			}
 		}
-		
-		if (keyTheme == false) {
+
+		if (!keyTheme) {
 			setTheme(R.style.LightTheme);
 		}
-		
+
 		listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-			
+
 			@Override
 			public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
 			{
@@ -148,7 +186,7 @@ public class MainActivity extends AppCompatActivity
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode = false);
 					}
 				}
-				
+
 				if (key.equals(SettingsActivity.KEY_PREF_AMOLED_CHECK)) {
 					if (prefs.getBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, false) == true) {
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode = true);
@@ -156,7 +194,7 @@ public class MainActivity extends AppCompatActivity
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode = false);
 					}
 				}
-				
+
 				if (key.equals(SettingsActivity.KEY_PREF_BOOT_SWITCH)) {
 					if (prefs.getBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, false) == true) {
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, startOnBoot = true);
@@ -164,7 +202,7 @@ public class MainActivity extends AppCompatActivity
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, startOnBoot = false);
 					}
 				}
-				
+
 				if (key.equals(SettingsActivity.KEY_PREF_NTFC_SWITCH)) {
 					if (prefs.getBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, true) == true) {
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc = true);
@@ -172,7 +210,7 @@ public class MainActivity extends AppCompatActivity
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc = false);
 					}
 				}
-				
+
 				if (key.equals(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK)) {
 					if (prefs.getBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, false) == true) {
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, visualizeSigStrg = true);
@@ -180,7 +218,7 @@ public class MainActivity extends AppCompatActivity
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, visualizeSigStrg = false);
 					}
 				}
-				
+
 				if (key.equals(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK)) {
 					if (prefs.getBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, false) == true) {
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, startStopSrvcScrnState = true);
@@ -214,7 +252,7 @@ public class MainActivity extends AppCompatActivity
 						}
 					}
 				}
-				
+
 				if (key.equals(SettingsActivity.KEY_PREF_CLR_CHECK)) {
 					if (prefs.getBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, false) == true) {
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, colorizeNtfc = true);
@@ -222,37 +260,37 @@ public class MainActivity extends AppCompatActivity
 						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, colorizeNtfc = false);
 					}
 				}
-				
+
 				if (key.equals(SettingsActivity.KEY_PREF_NTFC_FREQ)) {
 					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("500")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "500");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("1000")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "1000");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("2000")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "2000");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("3000")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "3000");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("4000")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "4000");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("5000")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "5000");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("10000")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "10000");
 					}
 				}
-				
+
 				if (key.equals(SettingsActivity.KEY_PREF_CARD_FREQ)) {
 					if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("500")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "500");
@@ -277,37 +315,37 @@ public class MainActivity extends AppCompatActivity
 					if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("5000")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "5000");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("10000")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "10000");
 					}
 				}
-					
+
 				if (key.equals(SettingsActivity.KEY_PREF_APP_FONT)) {
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/GoogleSans-Medium.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/GoogleSans-Medium.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/CircularStd-Bold.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CircularStd-Bold.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Comfortaa-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Comfortaa-Regular.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/CondellBio-Medium.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CondellBio-Medium.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/FilsonPro-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/FilsonPro-Regular.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Hellix-Medium.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Hellix-Medium.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Moderat-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Moderat-Regular.ttf");
 					}
@@ -315,15 +353,15 @@ public class MainActivity extends AppCompatActivity
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Newson-Medium.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Newson-Medium.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/NoirText-Bold.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/NoirText-Bold.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Poligon-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Poligon-Regular.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/ProximaSoft-Medium.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/ProximaSoft-Medium.ttf");
 					}
@@ -331,61 +369,61 @@ public class MainActivity extends AppCompatActivity
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Squalo-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Squalo-Regular.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Tomkin-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Tomkin-Regular.ttf");
 					}
-					
+
 					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Urbani-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Urbani-Regular.ttf");
 					}
 				}
 			}
 		};
-		
+
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(listener);
-		
+
 		/// END ///
-		
+
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-		
+
 		/// Initialize ///
-		
+
 		main = this;
-		
+
 		initializeViews();
 		initializeOnClickListeners();
 		initializeCopyableText();
-		
+
 		/// END ///
-		
+
 		/// POLICY SETTINGS ///
-		
+
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
-		
+
 		/// END ///
-		
+
 		/// Request permissions ///
-		
-		if (android.os.Build.VERSION.SDK_INT > 25) {
+
+		if (Build.VERSION.SDK_INT > 25) {
 			requestPermissionsOnStart();
 		}
-		
+
 		/// END ///
-		
+
 		/// Notify if GPS is disabled ///
-		
+
 		if (hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
 			if (android.os.Build.VERSION.SDK_INT > 25 && android.os.Build.VERSION.SDK_INT < 29) {
-				Boolean keyNeverShow25 = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean("dialogNeverShowAPI25", neverShow);
+				Boolean keyNeverShow25 = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean("dialogNeverShowAPI25", neverShowGeoDialog);
 				if (!keyNeverShow25) {
 					requestGPS_API25();
 				}
-			} else if (android.os.Build.VERSION.SDK_INT == 29) {
-				Boolean keyNeverShow29 = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean("dialogNeverShowAPI29", neverShow);
+			} else if (android.os.Build.VERSION.SDK_INT >= 29) {
+				Boolean keyNeverShow29 = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean("dialogNeverShowAPI29", neverShowGeoDialog);
 				if (!keyNeverShow29) {
 					requestGPS_API29();
 				}
@@ -393,13 +431,13 @@ public class MainActivity extends AppCompatActivity
 		}
 
 		/// END ///
-		
+
 		/// Service startup ///
-		
+
 		Boolean keyNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc);
-		
-		if (keyNtfc == true) {
-			if (isServiceRunning == false) {
+
+		if (keyNtfc) {
+			if (!isServiceRunning) {
 				Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
 				if (android.os.Build.VERSION.SDK_INT < 26) {
 					startService(ConnectionStateServiceIntent);
@@ -409,13 +447,13 @@ public class MainActivity extends AppCompatActivity
 				isServiceRunning = true;
 			}
 		} else {
-			if (isServiceRunning == true) {
+			if (isServiceRunning) {
 				ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 				WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-				
+
 				Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
 				Intent NotificationServiceIntent = new Intent(MainActivity.this, NotificationService.class);
-				
+
 				stopService(ConnectionStateServiceIntent);
 				isServiceRunning = false;
 				if (WiFiCheck.isConnected()) {
@@ -423,61 +461,61 @@ public class MainActivity extends AppCompatActivity
 				}
 			}
 		}
-		
+
 		/// END ///
-		
+
 		/// Create dynamic shortcuts ///
-		
+
 		if (android.os.Build.VERSION.SDK_INT > 25) {
 			createShortcuts();
 		}
-		
+
 		/// END ///
-		
+
 		/// Keep screen on ///
-		
+
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		
+
 		/// END ///
-		
+
 		/// Get app version ///
-		
+
 		try {
 			PackageInfo pi = this.getPackageManager().getPackageInfo(getPackageName(), 0);
 			version = pi.versionName;
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		/// END ///
-		
+
 		/// Initialize font and ActionBar
-		
+
 		Calligrapher calligrapher = new Calligrapher(this);
 		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, appFont);
 		calligrapher.setFont(this, font, true);
-		
+
 		setSupportActionBar(toolbar);
-		actionbar = getSupportActionBar();
+	    ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(false);
 		actionbar.setSubtitle("Release v" + version);
 		actionbar.setElevation(20);
-		
+
 		/// END ///
-		
+
 		/// Set up FloatingActionMenu options ///
-		
+
 		fam.setClosedOnTouchOutside(true);
-		
+
 		/// END ///
-		
+
 		/// Set default preferences ///
-		
+
 		android.support.v7.preference.PreferenceManager
 			.setDefaultValues(this, R.xml.preferences, false);
-		
+
 		/// END ///
-		
+
 		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
@@ -490,36 +528,51 @@ public class MainActivity extends AppCompatActivity
 			showWidgets(); // Makes CardViews and TextViews visible
 		}
 	}
-	
+
 	public void onInfoGet() {
-		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-		wInfo = mainWifi.getConnectionInfo();
-		dhcp = mainWifi.getDhcpInfo();
-		String ssid = wInfo.getSSID();
-		String macAdd = getMACAddress();
-		String bssid;
+		mainWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+		wInfo = mainWifiManager.getConnectionInfo();
+		dhcp = mainWifiManager.getDhcpInfo();
+		final String ssid = wInfo.getSSID();
+
+		final String bssid;
 		if (wInfo.getBSSID() != null) {
 			bssid = wInfo.getBSSID().toUpperCase();
 		} else {
 			bssid = "N/A";
 		}
-		int rssi = wInfo.getRssi();
-		int freq = wInfo.getFrequency();
-		int networkSpeed = wInfo.getLinkSpeed();
-		int network_id = wInfo.getNetworkId();
-		String gatewayIP = getGatewayIP();
 		String ipv4 = getIPv4Address();
 		String ipv6 = getIPv6Address();
+		String gatewayIP = getGatewayIP();
+		String hostname = getHostname();
 		String dns1 = intToIp(dhcp.dns1);
 		String dns2 = intToIp(dhcp.dns2);
-		int leaseTime = dhcp.leaseDuration;
+		final String subnetMask = intToIp(dhcp.netmask);
+		final int network_id = wInfo.getNetworkId();
+		// Apps cannot access MAC Address on Android 11
+		String macAdd;
+		if (Build.VERSION.SDK_INT > 29) {
+			macAdd = "N/A";
+		} else {
+			macAdd = getMACAddress();
+		}
+		String network_interface = getNetworkInterface();
+		InetAddress loopbackAddr = InetAddress.getLoopbackAddress();
+		String localhostAddr = getLocalhostAddress();
+		final int leaseTime = dhcp.leaseDuration;
 		int leaseTimeHours = dhcp.leaseDuration / 3600;
 		int leaseTimeMinutes = dhcp.leaseDuration / 60;
-		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
-		String subnetMask = intToIp(dhcp.netmask);
+		int freq = wInfo.getFrequency();
 		int channel = convertFrequencyToChannel(freq);
-		SupplicantState supState = wInfo.getSupplicantState();
-		InetAddress loopbackAddr = InetAddress.getLoopbackAddress();
+		int rssi = wInfo.getRssi();
+		int RSSIconv = WifiManager.calculateSignalLevel(rssi, 101);
+		int networkSpeed = wInfo.getLinkSpeed();
+		int TXLinkSpd = 0;
+		int RXLinkSpd = 0;
+		if (Build.VERSION.SDK_INT >= 29) {
+			TXLinkSpd = wInfo.getTxLinkSpeedMbps();
+			RXLinkSpd = wInfo.getRxLinkSpeedMbps();
+		}
 		double totalRXBytes = TrafficStats.getTotalRxBytes();
 		double totalTXBytes = TrafficStats.getTotalTxBytes();
 		double mobileRXBytes = TrafficStats.getMobileRxBytes();
@@ -534,166 +587,161 @@ public class MainActivity extends AppCompatActivity
 		String wifiTXMegabytesStr = String.format(Locale.US, "%.2f", wifiTXMegabytes);
 		String wifiRXGigabytesStr = String.format(Locale.US, "%.2f", wifiRXGigabytes);
 		String wifiTXGigabytesStr = String.format(Locale.US, "%.2f", wifiTXGigabytes);
-			
-		String info_1 = "SSID: " + ssid;
-		String info_3 = "BSSID: " + bssid.toUpperCase();
-		String info_4 = "IPv4: " + ipv4;
-		String info_5 = "IPv6: " + ipv6;
-		String info_6 = "Gateway IP: " + gatewayIP;
-		String info_8 = "DNS (1): " + dns1;
-		String info_9 = "DNS (2): " + dns2;
-		String info_10 = "Subnet Mask: " + subnetMask;
-		String info_11 = "Network ID: " + network_id;
-		String info_12 = "MAC Address: " + macAdd;
-		String info_14 = "Loopback Address: " + loopbackAddr;
-		String info_16 = "Frequency: " + freq + "MHz";
-		String info_17 = "Network Channel: " + channel;
-		String info_18 = "RSSI (Signal Strength): " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
-		String info_19 = "Lease Duration: " + leaseTime + "s " + "(" + leaseTimeHours + "h)";
-		String info_19_1 = "Lease Duration: " + leaseTime + "s " + "(" + leaseTimeMinutes + "m)";
-		String info_22 = "Network Speed: " + networkSpeed + "MB/s";
-		String info_23 = "Transmitted MBs/GBs: " + wifiTXMegabytesStr + "MB " + "(" + wifiTXGigabytesStr + "GB" + ")";
-		String info_24 = "Received MBs/GBs: " + wifiRXMegabytesStr + "MB "  + "(" + wifiRXGigabytesStr + "GB" + ")";
-		String info_25 = "Supplicant State: " + supState;
-			
-		if (ssid.equals("<unknown ssid>")) {
-			textview1.setText("SSID: N/A");
-		} else {
-			textview1.setText(info_1);
-		}
-			
-		if (wInfo.getHiddenSSID() == true) {
-			textview2.setText("Hidden SSID: Yes");
-		} else {
-			textview2.setText("Hidden SSID: No");
-		}
-			
-		if (bssid.contains("02:00:00:00:00:00")) {
-			textview3.setText("BSSID: N/A");
-		} else {
-			textview3.setText(info_3);
-		}
-			
-		textview4.setText(info_4);
-		textview5.setText(info_5);
-		textview6.setText(info_6);
-			
-		try {
-			InetAddress hostnameAddr = InetAddress.getByName(gatewayIP);
-			String info_7 = "Hostname: " + hostnameAddr.getHostName();
-			textview7.setText(info_7);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-			
-		textview8.setText(info_8);
-		textview9.setText(info_9);
-			
-		if (subnetMask.contains("0.0.0.0")) {
-			textview10.setText("Subnet Mask: N/A");
-		} else {
-			textview10.setText(info_10);
-		}
-			
-		if (network_id == -1) {
-			textview11.setText("Network ID: N/A");
-		} else {
-			textview11.setText(info_11);
-		}
-			
-		textview12.setText(info_12);
-			
-		for (Network network : CM.getAllNetworks()) {
-			LinkProperties linkProp = CM.getLinkProperties(network);
-			String interfc = linkProp.getInterfaceName();
-			String info_13 = "Network Interface: " + interfc;
-			textview13.setText(info_13);
-		}
-			
-		textview14.setText(info_14);
-			
-		try {
-			InetAddress localHost = InetAddress.getLocalHost();
-			String info_15 = "Localhost: " + localHost;
-			textview15.setText(info_15);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-			
-		textview16.setText(info_16);
-		textview17.setText(info_17);
-		textview18.setText(info_18);
-			
-		if (leaseTime == 0) {
-			textview19.setText("Lease Duration: N/A");
-		} else if (leaseTime >= 3600) {
-			textview19.setText(info_19);
-		} else if (leaseTime < 3600) {
-			textview19.setText(info_19_1);
-		}
-			
-		if (Build.VERSION.SDK_INT >= 29) {
-			int TXLinkSpd = wInfo.getTxLinkSpeedMbps();
-			int RXLinkSpd = wInfo.getRxLinkSpeedMbps();
-			String info_20 = "Transmit Link Speed: " + TXLinkSpd + "MB/s";
-			String info_21 = "Receive Link Speed: " + RXLinkSpd + "MB/s";
-			textview20.setText(info_20);
-			textview21.setText(info_21);
-		} else {
-			textview20.setVisibility(View.GONE);
-			textview21.setVisibility(View.GONE);
-		}
-			
-		textview22.setText(info_22);
-		textview23.setText(info_23);
-		textview24.setText(info_24);
-		textview25.setText(info_25);
-			
-		if (mainWifi.is5GHzBandSupported()) {
-			String info_26 = "5GHz Band Support: Yes";
-			textview26.setText(info_26);
-		} else {
-			String info_26 = "5GHz Band Support: No";
-			textview26.setText(info_26);
-		}
-			
-		if (mainWifi.isP2pSupported()) {
-			String info_27 = "Wi-Fi Direct Support: Yes";
-			textview27.setText(info_27);
-		} else {
-			String info_27 = "Wi-Fi Direct Support: No";
-			textview27.setText(info_27);
-		}
-			
-		if (mainWifi.isTdlsSupported()) {
-			String info_28 = "TDLS Support: Yes";
-			textview28.setText(info_28);
-		} else {
-			String info_28 = "TDLS Support: No";
-			textview28.setText(info_28);
-		}
-			
-		if (Build.VERSION.SDK_INT >= 29) {
-			if (mainWifi.isWpa3SaeSupported()) {
-				String info_29 = "WPA3 SAE Support: Yes";
-				textview29.setText(info_29);
-			} else {
-				String info_29 = "WPA3 SAE Support: No";
-				textview29.setText(info_29);
+		SupplicantState supState = wInfo.getSupplicantState();
+
+		final String info_1 = "SSID: " + ssid;
+		final String info_3 = "BSSID: " + bssid.toUpperCase();
+		final String info_4 = "IPv4: " + ipv4;
+		final String info_5 = "IPv6: " + ipv6;
+		final String info_6 = "Gateway IP: " + gatewayIP;
+		final String info_7 = "Hostname: " + hostname;
+		final String info_8 = "DNS (1): " + dns1;
+		final String info_9 = "DNS (2): " + dns2;
+		final String info_10 = "Subnet Mask: " + subnetMask;
+		final String info_11 = "Network ID: " + network_id;
+		final String info_12 = "MAC Address: " + macAdd;
+		final String info_13 = "Network Interface: " + network_interface;
+		final String info_14 = "Loopback Address: " + loopbackAddr;
+		final String info_15 = "Localhost: " + localhostAddr;
+		final String info_16 = "Frequency: " + freq + "MHz";
+		final String info_17 = "Network Channel: " + channel;
+		final String info_18 = "RSSI (Signal Strength): " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
+		final String info_19 = "Lease Duration: " + leaseTime + "s " + "(" + leaseTimeHours + "h)";
+		final String info_19_1 = "Lease Duration: " + leaseTime + "s " + "(" + leaseTimeMinutes + "m)";
+		final String info_20 = "Transmit Link Speed: " + TXLinkSpd + "MB/s";
+		final String info_21 = "Receive Link Speed: " + RXLinkSpd + "MB/s";
+		final String info_22 = "Network Speed: " + networkSpeed + "MB/s";
+		final String info_23 = "Transmitted MBs/GBs: " + wifiTXMegabytesStr + "MB " + "(" + wifiTXGigabytesStr + "GB" + ")";
+		final String info_24 = "Received MBs/GBs: " + wifiRXMegabytesStr + "MB "  + "(" + wifiRXGigabytesStr + "GB" + ")";
+		final String info_25 = "Supplicant State: " + supState;
+
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (ssid.equals("<unknown ssid>")) {
+					textview1.setText("SSID: N/A");
+				} else {
+					textview1.setText(info_1);
+				}
+
+				if (wInfo.getHiddenSSID()) {
+					textview2.setText("Hidden SSID: Yes");
+				} else {
+					textview2.setText("Hidden SSID: No");
+				}
+
+				if (bssid.contains("02:00:00:00:00:00")) {
+					textview3.setText("BSSID: N/A");
+				} else {
+					textview3.setText(info_3);
+				}
+
+				textview4.setText(info_4);
+				textview5.setText(info_5);
+				textview6.setText(info_6);
+				textview7.setText(info_7);
+				textview8.setText(info_8);
+				textview9.setText(info_9);
+
+				if (subnetMask.contains("0.0.0.0")) {
+					textview10.setText("Subnet Mask: N/A");
+				} else {
+					textview10.setText(info_10);
+				}
+
+				if (network_id == -1) {
+					textview11.setText("Network ID: N/A");
+				} else {
+					textview11.setText(info_11);
+				}
+
+				textview12.setText(info_12);
+				textview13.setText(info_13);
+				textview14.setText(info_14);
+				textview15.setText(info_15);
+				textview16.setText(info_16);
+				textview17.setText(info_17);
+				textview18.setText(info_18);
+
+				if (leaseTime == 0) {
+					textview19.setText("Lease Duration: N/A");
+				} else if (leaseTime >= 3600) {
+					textview19.setText(info_19);
+				} else if (leaseTime < 3600) {
+					textview19.setText(info_19_1);
+				}
+
+				if (Build.VERSION.SDK_INT >= 29) {
+					textview20.setText(info_20);
+					textview21.setText(info_21);
+				} else {
+					textview20.setVisibility(View.GONE);
+					textview21.setVisibility(View.GONE);
+				}
+
+				textview22.setText(info_22);
+				textview23.setText(info_23);
+				textview24.setText(info_24);
+				textview25.setText(info_25);
+
+				if (mainWifiManager.is5GHzBandSupported()) {
+					String info_26 = "5GHz Band Support: Yes";
+					textview26.setText(info_26);
+				} else {
+					String info_26 = "5GHz Band Support: No";
+					textview26.setText(info_26);
+				}
+
+				if (mainWifiManager.isP2pSupported()) {
+					String info_27 = "Wi-Fi Direct Support: Yes";
+					textview27.setText(info_27);
+				} else {
+					String info_27 = "Wi-Fi Direct Support: No";
+					textview27.setText(info_27);
+				}
+
+				if (mainWifiManager.isTdlsSupported()) {
+					String info_28 = "TDLS Support: Yes";
+					textview28.setText(info_28);
+				} else {
+					String info_28 = "TDLS Support: No";
+					textview28.setText(info_28);
+				}
+
+				if (Build.VERSION.SDK_INT >= 29) {
+					if (mainWifiManager.isWpa3SaeSupported()) {
+						String info_29 = "WPA3 SAE Support: Yes";
+						textview29.setText(info_29);
+					} else {
+						String info_29 = "WPA3 SAE Support: No";
+						textview29.setText(info_29);
+					}
+
+					if (mainWifiManager.isWpa3SuiteBSupported()) {
+						String info_30 = "WPA3 Suite B Support: Yes";
+						textview30.setText(info_30);
+					} else {
+						String info_30 = "WPA3 Suite B Support: No";
+						textview30.setText(info_30);
+					}
+				} else {
+					textview29.setVisibility(View.GONE);
+					textview30.setVisibility(View.GONE);
+				}
 			}
-			
-			if (mainWifi.isWpa3SuiteBSupported()) {
-				String info_30 = "WPA3 Suite B Support: Yes";
-				textview30.setText(info_30);
-			} else {
-				String info_30 = "WPA3 Suite B Support: No";
-				textview30.setText(info_30);
-			}
-		} else {
-			textview29.setVisibility(View.GONE);
-			textview30.setVisibility(View.GONE);
-		}
+		});
 	}
+
+	private final Handler handler = new Handler(Looper.myLooper());
+	private final Runnable runnable = new Runnable() {
+		@Override
+		public void run() {
+			String keyCardFreq = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval);
+			int keyCardFreqFormatted = Integer.parseInt(keyCardFreq);
+			onInfoGet();
+			handler.postDelayed(runnable, keyCardFreqFormatted);
+		}
+	};
 	
 	class WiFiConnectivityReceiver extends BroadcastReceiver
 	{
@@ -834,20 +882,15 @@ public class MainActivity extends AppCompatActivity
 		fab_update.setVisibility(View.VISIBLE);
 	}
 	
-	protected boolean isLocationEnabled() {
-		String ls = Context.LOCATION_SERVICE;
-		locationManager = (LocationManager) getSystemService(ls);
-		if(!locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			return false;
-		} else {
-			return true;
-		}
+	public boolean isLocationEnabled() {
+		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
 	
 	public static boolean hasPermissions(Context context, String... permissions) {
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-			for(String permission: permissions) {
-				if(ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+			for (String permission: permissions) {
+				if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
 					return false;
 				}
 			}
@@ -889,8 +932,8 @@ public class MainActivity extends AppCompatActivity
 		if (!WiFiCheck.isConnected()) {
 			return "0.0.0.0";
 		}
-		mainWifi = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-		DhcpInfo dhcp = mainWifi.getDhcpInfo();
+		mainWifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+		DhcpInfo dhcp = mainWifiManager.getDhcpInfo();
 		int ip = dhcp.gateway;
 		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
 	}
@@ -902,7 +945,7 @@ public class MainActivity extends AppCompatActivity
 				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-						return inetAddress.getHostAddress().toString();
+						return inetAddress.getHostAddress();
 					}
 				}
 			}
@@ -919,7 +962,7 @@ public class MainActivity extends AppCompatActivity
 				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet6Address) {
-						return inetAddress.getHostAddress().toString();
+						return inetAddress.getHostAddress();
 					}
 				}
 			}
@@ -927,6 +970,39 @@ public class MainActivity extends AppCompatActivity
 			Log.e("Wi-Fi Info", ex.toString());
 		} 
 		return null;
+	}
+
+	public String getHostname() {
+		String hostname = null;
+		try {
+			InetAddress hostnameAddr = InetAddress.getByName(getGatewayIP());
+			hostname = hostnameAddr.getHostName();
+			return hostname;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return hostname;
+	}
+
+	public String getNetworkInterface() {
+		String interfc = null;
+		for (Network network : CM.getAllNetworks()) {
+			LinkProperties linkProp = CM.getLinkProperties(network);
+			interfc = linkProp.getInterfaceName();
+		}
+		return interfc;
+	}
+
+	public String getLocalhostAddress() {
+		String localHost_converted = null;
+		try {
+			InetAddress localHost = InetAddress.getLocalHost();
+			localHost_converted = localHost.toString();
+			return localHost_converted;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return localHost_converted;
 	}
 	
 	public String intToIp(int i) {
@@ -945,17 +1021,6 @@ public class MainActivity extends AppCompatActivity
 			return -1;
 		}
 	}
-	
-	private Handler handler = new Handler();
-	private Runnable runnable = new Runnable() {
-		@Override
-		public void run() {
-			String keyCardFreq = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval);
-			int keyCardFreqFormatted = Integer.parseInt(keyCardFreq);
-			onInfoGet();
-			handler.postDelayed(runnable, keyCardFreqFormatted);
-		}
-	};
 	
 	public void requestGPS_API25() {
 		// Notify User if GPS is disabled
@@ -979,7 +1044,7 @@ public class MainActivity extends AppCompatActivity
 				})
 				.setNeutralButton("Don't show again", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean("dialogNeverShowAPI25", neverShow = true);
+						new SharedPreferencesManager(getApplicationContext()).storeBoolean("dialogNeverShowAPI25", neverShowGeoDialog = true);
 					}
 				});
 			builder.setCancelable(false);
@@ -1010,7 +1075,7 @@ public class MainActivity extends AppCompatActivity
 				})
 				.setNeutralButton("Don't show again", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean("dialogNeverShowAPI29", neverShow = true);
+						new SharedPreferencesManager(getApplicationContext()).storeBoolean("dialogNeverShowAPI29", neverShowGeoDialog = true);
 					}
 				});
 			builder.setCancelable(false);
@@ -1021,28 +1086,30 @@ public class MainActivity extends AppCompatActivity
 	
 	public void requestPermissionsOnStart() {
 		if (!hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-			/* Toast toast = Toast.makeText(this, "Location permission is needed to show SSID, BSSID and Network ID on Android 8+, grant it to get full info", Toast.LENGTH_LONG);
-			 toast.setGravity(Gravity.CENTER|Gravity.FILL_HORIZONTAL, 0, 50);
-			 toast.show(); */
 			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 			builder.setTitle("Permission required!")
 				.setMessage("Location permission is needed to show SSID, BSSID and Network ID on Android 8+, grant it to get full info")
 				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						int Permission_All = 1;
-						String[] Permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION};
-						/*Toast toast = Toast.makeText(MainActivity.this, "Click \"Grant\" button to grant required permissions\n(Background location is optional)", Toast.LENGTH_LONG);
-						toast.show();*/
-						ActivityCompat.requestPermissions(MainActivity.this, Permissions, Permission_All);
+						String[] ForegroundLocationPermission = {Manifest.permission.ACCESS_FINE_LOCATION};
+						@SuppressLint("InlinedApi")
+						String[] ForegroundAndBackgroundLocationPermission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION};
+						if (Build.VERSION.SDK_INT >= 30) {
+							ActivityCompat.requestPermissions(MainActivity.this, ForegroundLocationPermission, LocationPermissionCode);
+						} else {
+							ActivityCompat.requestPermissions(MainActivity.this, ForegroundAndBackgroundLocationPermission, LocationPermissionCode);
+						}
 					}
 				})
+				.setNegativeButton("No Thanks", null)
 				.setCancelable(false);
 			AlertDialog alert = builder.create();
 			alert.show();
 		}
 	}
-	
+
+	@SuppressLint("NewApi")
 	public void createShortcuts() {
 		ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
 
@@ -1067,8 +1134,6 @@ public class MainActivity extends AppCompatActivity
 	
 	public void initializeViews() {
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		scrollview = (ScrollView) findViewById(R.id.scroll_view);
-		linear_layout_cards = (LinearLayout) findViewById(R.id.linear_layout_cards);
 		textview_ip = (TextView) findViewById(R.id.textview_ip);
 		textview1 = (TextView) findViewById(R.id.textview1);
 		textview2 = (TextView) findViewById(R.id.textview2);
@@ -1326,7 +1391,7 @@ public class MainActivity extends AppCompatActivity
 				@Override
 				public boolean onLongClick(View v)
 				{
-					dhcp = mainWifi.getDhcpInfo();
+					dhcp = mainWifiManager.getDhcpInfo();
 					String dns1 = intToIp(dhcp.dns1);
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 					ClipData clip = ClipData.newPlainText("DNS (1)", dns1);
@@ -1341,7 +1406,7 @@ public class MainActivity extends AppCompatActivity
 				@Override
 				public boolean onLongClick(View v)
 				{
-					dhcp = mainWifi.getDhcpInfo();
+					dhcp = mainWifiManager.getDhcpInfo();
 					String dns2 = intToIp(dhcp.dns2);
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 					ClipData clip = ClipData.newPlainText("DNS (2)", dns2);
@@ -1363,7 +1428,7 @@ public class MainActivity extends AppCompatActivity
 
 						Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "N/A", Toast.LENGTH_SHORT).show();
 					} else {
-						dhcp = mainWifi.getDhcpInfo();
+						dhcp = mainWifiManager.getDhcpInfo();
 						String subnetMask = intToIp(dhcp.netmask);
 						ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 						ClipData clip = ClipData.newPlainText("Subnet Mask", subnetMask);
@@ -1495,7 +1560,7 @@ public class MainActivity extends AppCompatActivity
 				public boolean onLongClick(View v)
 				{
 					int rssi = wInfo.getRssi();
-					int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
+					int RSSIconv = WifiManager.calculateSignalLevel(rssi, 101);
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 					ClipData clip = ClipData.newPlainText("RSSI", RSSIconv + "%" + " (" + rssi + "dBm" + ")");
 					cbm.setPrimaryClip(clip);
@@ -1631,7 +1696,7 @@ public class MainActivity extends AppCompatActivity
 					ClipData clip = ClipData.newPlainText("Supplicant State", String.valueOf(supState));
 					cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + String.valueOf(supState), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + supState, Toast.LENGTH_SHORT).show();
 					return true;
 				}
 			});
@@ -1641,7 +1706,7 @@ public class MainActivity extends AppCompatActivity
 				public boolean onLongClick(View v)
 				{
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					if (mainWifi.is5GHzBandSupported()) {
+					if (mainWifiManager.is5GHzBandSupported()) {
 						ClipData clip = ClipData.newPlainText("5GHz Band Support", "Yes");
 						cbm.setPrimaryClip(clip);
 						Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Yes", Toast.LENGTH_SHORT).show();
@@ -1659,7 +1724,7 @@ public class MainActivity extends AppCompatActivity
 				public boolean onLongClick(View v)
 				{
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					if (mainWifi.isP2pSupported()) {
+					if (mainWifiManager.isP2pSupported()) {
 						ClipData clip = ClipData.newPlainText("Wi-Fi Direct Support", "Yes");
 						cbm.setPrimaryClip(clip);
 						Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Yes", Toast.LENGTH_SHORT).show();
@@ -1677,7 +1742,7 @@ public class MainActivity extends AppCompatActivity
 				public boolean onLongClick(View v)
 				{
 					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					if (mainWifi.isTdlsSupported()) {
+					if (mainWifiManager.isTdlsSupported()) {
 						ClipData clip = ClipData.newPlainText("TDLS Support", "Yes");
 						cbm.setPrimaryClip(clip);
 						Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Yes", Toast.LENGTH_SHORT).show();
@@ -1696,7 +1761,7 @@ public class MainActivity extends AppCompatActivity
 					public boolean onLongClick(View v)
 					{
 						ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-						if (mainWifi.isWpa3SaeSupported()) {
+						if (mainWifiManager.isWpa3SaeSupported()) {
 							ClipData clip = ClipData.newPlainText("WPA3 SAE Support", "Yes");
 							cbm.setPrimaryClip(clip);
 							Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Yes", Toast.LENGTH_SHORT).show();
@@ -1714,7 +1779,7 @@ public class MainActivity extends AppCompatActivity
 					public boolean onLongClick(View v)
 					{
 						ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-						if (mainWifi.isWpa3SuiteBSupported()) {
+						if (mainWifiManager.isWpa3SuiteBSupported()) {
 							ClipData clip = ClipData.newPlainText("WPA3 Suite B Support", "Yes");
 							cbm.setPrimaryClip(clip);
 							Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Yes", Toast.LENGTH_SHORT).show();
@@ -1726,6 +1791,82 @@ public class MainActivity extends AppCompatActivity
 						return true;
 					}
 				});
+		}
+	}
+	
+	private String getPublicIPAddress() {
+		String publicIP = "";
+		try {
+			Scanner scanner = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A");
+			publicIP = scanner.next();
+			scanner.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return publicIP;
+	}
+	
+	public boolean isReachable(String url) {
+		boolean reachable = false;
+		int code;
+
+		try {
+			URL siteURL = new URL(url);
+			HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setConnectTimeout(3000);
+			connection.connect();
+			code = connection.getResponseCode();
+			connection.disconnect();
+			if (code == 200) {
+				reachable = true;
+			} else {
+				reachable = false;
+			}
+		} catch (Exception e) {
+			reachable = false;
+		}
+		return reachable;
+	}
+	
+	@SuppressWarnings("deprecation")
+	class PublicIPRunnable implements Runnable {
+		@Override
+		public void run() {
+			new AsyncTask<String, Void, Void>() {
+				@Override
+				protected Void doInBackground(String[] voids) {
+					publicIPFetched = getPublicIPAddress();
+					String url_ip = "https://api.ipify.org";
+
+					if (isReachable(url_ip)) {
+						siteReachable = true;
+					} else {
+						siteReachable = false;
+					}
+					return null;
+				}
+
+				@Override
+				protected void onPostExecute(Void aVoid) {
+					super.onPostExecute(aVoid);
+					if (siteReachable) {
+						textview_ip.setText("Your IP: " + publicIPFetched);
+					}
+
+					if (!siteReachable) {
+						textview_ip.setText("Your IP: N/A");
+					}
+				}
+			}.execute();
+
+			Handler handlerEnableFAB = new Handler(Looper.getMainLooper());
+			handlerEnableFAB.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					fab_update.setEnabled(true);
+				}
+			}, 5000);
 		}
 	}
 
@@ -1761,108 +1902,58 @@ public class MainActivity extends AppCompatActivity
 		prefs.unregisterOnSharedPreferenceChangeListener(listener);
 		super.onDestroy();
 	}
-	
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (Build.VERSION.SDK_INT >= 30) {
+			if (requestCode == LocationPermissionCode) {
+				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+					builder.setTitle("Background Location Permission")
+							.setMessage("Due to the changes in Android 11 you need to go to Settings to enable it (this is optional)" + "\n" + "Once Background Location permission is granted you'll be able to see SSID in notification even if you close the app")
+							.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									Toast.makeText(MainActivity.this, "Go to Permissions -> Location", Toast.LENGTH_LONG).show();
+									Toast.makeText(MainActivity.this, "Select \"Allow all the time\"", Toast.LENGTH_LONG).show();
+									Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+									Uri uri = Uri.fromParts("package", getPackageName(), null);
+									intent.setData(uri);
+									startActivity(intent);
+								}
+							})
+							.setNegativeButton("No", null)
+							.setCancelable(false);
+					AlertDialog alert = builder.create();
+					alert.show();
+				}
+			}
+		}
+	}
+
 	@Override
 	public void onBackPressed()
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 		builder.setTitle("Are you sure?")
-			.setMessage("Do you want to exit?")
-			.setIcon(R.drawable.exit)
-			.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					Toast toast = Toast.makeText(MainActivity.this, "See you next time!", Toast.LENGTH_LONG);
-					toast.show();
-					finish();
-				}
-			})
-			.setNegativeButton("Cancel", null);
+				.setMessage("Do you want to exit?")
+				.setIcon(R.drawable.exit)
+				.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						Toast toast = Toast.makeText(MainActivity.this, "See you next time!", Toast.LENGTH_LONG);
+						toast.show();
+						finish();
+					}
+				})
+				.setNegativeButton("Cancel", null);
 		builder.setCancelable(false);
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
 	
-	public String getPublicIPAddress() {
-		String publicIP = "";
-		try {
-			scanner = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A");
-			publicIP = scanner.next();
-			scanner.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return publicIP;
-	}
-	
-	public boolean isReachable(String url) throws IOException {
-		boolean reachable = false;
-		int code;
-
-		try {
-			URL siteURL = new URL(url);
-			HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setConnectTimeout(3000);
-			connection.connect();
-			code = connection.getResponseCode();
-			connection.disconnect();
-			if (code == 200) {
-				reachable = true;
-			} else {
-				reachable = false;
-			}
-		} catch (Exception e) {
-			reachable = false;
-		}
-		return reachable;
-	}
-	
-	class PublicIPRunnable implements Runnable {
-		
-		@Override
-		public void run() {
-			new AsyncTask<String, Void, Void>() {
-				@Override
-				protected Void doInBackground(String[] voids) {
-					publicIPFetched = getPublicIPAddress();
-					String url_ip = "https://api.ipify.org";
-					try {
-						if (isReachable(url_ip)) {
-							siteReachable = true;
-						} else {
-							siteReachable = false;
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					return null;
-				}
-
-				@Override
-				protected void onPostExecute(Void aVoid) {
-					super.onPostExecute(aVoid);
-					if (siteReachable == true) {
-						textview_ip.setText("Your IP: " + publicIPFetched);
-					}
-
-					if (siteReachable == false) {
-						textview_ip.setText("Your IP: N/A");
-					}
-				}
-			}.execute();
-			
-			Handler handlerEnableFAB = new Handler(Looper.getMainLooper());
-			handlerEnableFAB.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					fab_update.setEnabled(true);
-				}
-			}, 5000);
-		}
-	}
-	
-	/*@Override 
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.action_bar_menu, menu);
 		return true;
@@ -1870,26 +1961,11 @@ public class MainActivity extends AppCompatActivity
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.dev_info) {
-            Intent intent = new Intent(this, DevInfoActivity.class);
+        if (item.getItemId() == R.id.github) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TrueMLGPro/Wi-Fi_Info"));
             startActivity(intent);
         }
-		
-		if (item.getItemId() == R.id.discord_servers) {
-			Intent intent = new Intent(this, DiscordServersActivity.class);
-			startActivity(intent);
-		}
-		
-		if (item.getItemId() == R.id.supporters) {
-			Intent intent = new Intent(this, SupportersActivity.class);
-			startActivity(intent);
-		}
-		
-		if (item.getItemId() == R.id.settings) {
-			Intent intent = new Intent(this, SettingsActivity.class);
-			startActivity(intent);
-		}
 		return true;
-    }*/
+    }
 	
 }

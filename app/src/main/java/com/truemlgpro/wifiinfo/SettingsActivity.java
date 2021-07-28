@@ -1,14 +1,15 @@
 package com.truemlgpro.wifiinfo;
 
-import android.content.*;
-import android.os.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.view.*;
-import android.widget.*;
-import me.anwarshahriar.calligrapher.*;
-
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.FrameLayout;
+
+import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class SettingsActivity extends AppCompatActivity
 {
@@ -34,17 +35,17 @@ public class SettingsActivity extends AppCompatActivity
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
 
-		if (keyTheme == true) {
+		if (keyTheme) {
 			setTheme(R.style.DarkTheme);
 		}
 
-		if (keyAmoledTheme == true) {
-			if (keyTheme == true) {
+		if (keyAmoledTheme) {
+			if (keyTheme) {
 				setTheme(R.style.AmoledDarkTheme);
 			}
 		}
 
-		if (keyTheme == false) {
+		if (!keyTheme) {
 			setTheme(R.style.LightTheme);
 		}
 		
@@ -67,19 +68,19 @@ public class SettingsActivity extends AppCompatActivity
 		actionbar.setElevation(20);
 
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// Back button pressed
-					restartMainActivity();
-				}
-			});
+			@Override
+			public void onClick(View v) {
+				// Back button pressed
+				restartMainActivity();
+			}
+		});
 		
 		getSupportFragmentManager().beginTransaction()
 			.replace(R.id.content_frame, new SettingsFragment())
 			.commit();
 	}
 	
-	public void restartMainActivity() {
+	private void restartMainActivity() {
 		Intent intent = new Intent(this, MainActivity.class);
 		MainActivity.main.finish();
 		finish();

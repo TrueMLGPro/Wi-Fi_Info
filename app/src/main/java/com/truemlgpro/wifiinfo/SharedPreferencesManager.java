@@ -1,7 +1,8 @@
 package com.truemlgpro.wifiinfo;
 
-import android.content.*;
-import android.support.v7.preference.*;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 
 public class SharedPreferencesManager {
 		

@@ -1,21 +1,29 @@
 package com.truemlgpro.wifiinfo;
 
-import android.app.*;
-import android.content.*;
-import android.net.*;
-import android.net.wifi.*;
-import android.os.*;
-import android.support.v4.widget.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.view.*;
-import android.webkit.*;
-import android.widget.*;
-import me.anwarshahriar.calligrapher.*;
-
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.DhcpInfo;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
+import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class RouterSetupActivity extends AppCompatActivity
 {
@@ -37,17 +45,17 @@ public class RouterSetupActivity extends AppCompatActivity
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
 
-		if (keyTheme == true) {
+		if (keyTheme) {
 			setTheme(R.style.DarkTheme);
 		}
 
-		if (keyAmoledTheme == true) {
-			if (keyTheme == true) {
+		if (keyAmoledTheme) {
+			if (keyTheme) {
 				setTheme(R.style.AmoledDarkTheme);
 			}
 		}
 
-		if (keyTheme == false) {
+		if (!keyTheme) {
 			setTheme(R.style.LightTheme);
 		}
 		
@@ -71,17 +79,17 @@ public class RouterSetupActivity extends AppCompatActivity
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 		
-		if (keyTheme == true) {
+		if (!keyTheme) {
 			swipeRefresh.setProgressBackgroundColor(R.color.cardBackgroundDark);
 		}
 		
-		if (keyTheme == true) {
-			if (keyAmoledTheme == true) {
+		if (keyTheme) {
+			if (keyAmoledTheme) {
 				swipeRefresh.setProgressBackgroundColor(R.color.cardBackgroundDarkAmoled);
 			}
 		}
 		
-		if (keyTheme == false) {
+		if (!keyTheme) {
 			swipeRefresh.setProgressBackgroundColor(R.color.cardBackgroundLight);
 		}
 		
@@ -171,37 +179,54 @@ public class RouterSetupActivity extends AppCompatActivity
 	
 	private void showErrorToast(Context mContext, int errorCode) {
 		String message = null;
-		if (errorCode == WebViewClient.ERROR_AUTHENTICATION) {
-			message = "User authentication failed on server.";
-		} else if (errorCode == WebViewClient.ERROR_TIMEOUT) {
-			message = "Connection timeout. Try again later.";
-		} else if (errorCode == WebViewClient.ERROR_TOO_MANY_REQUESTS) {
-			message = "Too many requests during this load.";
-		} else if (errorCode == WebViewClient.ERROR_UNKNOWN) {
-			message = "Unknown error";
-		} else if (errorCode == WebViewClient.ERROR_BAD_URL) {
-			message = "Check entered URL.";
-		} else if (errorCode == WebViewClient.ERROR_CONNECT) {
-			message = "Failed to connect to the server.";
-		} else if (errorCode == WebViewClient.ERROR_FAILED_SSL_HANDSHAKE) {
-			message = "Failed to perform SSL handshake.";
-		} else if (errorCode == WebViewClient.ERROR_HOST_LOOKUP) {
-			message = "Server or proxy hostname lookup failed.";
-		} else if (errorCode == WebViewClient.ERROR_PROXY_AUTHENTICATION) {
-			message = "User authentication failed on proxy.";
-		} else if (errorCode == WebViewClient.ERROR_REDIRECT_LOOP) {
-			message = "Too many redirects.";
-		} else if (errorCode == WebViewClient.ERROR_UNSUPPORTED_AUTH_SCHEME) {
-			message = "Unsupported authentication scheme (not basic or digest).";
-		} else if (errorCode == WebViewClient.ERROR_UNSUPPORTED_SCHEME) {
-			message = "Unsupported URI scheme.";
-		} else if (errorCode == WebViewClient.ERROR_FILE) {
-			message = "Generic file error.";
-		} else if (errorCode == WebViewClient.ERROR_FILE_NOT_FOUND) {
-			message = "File not found.";
-		} else if (errorCode == WebViewClient.ERROR_IO) {
-			message = "The server failed to communicate. Try again later.";
+		switch (errorCode) {
+			case WebViewClient.ERROR_AUTHENTICATION:
+				message = "User authentication failed on server.";
+				break;
+			case WebViewClient.ERROR_TIMEOUT:
+				message = "Connection timeout. Try again later.";
+				break;
+			case WebViewClient.ERROR_TOO_MANY_REQUESTS:
+				message = "Too many requests during this load.";
+				break;
+			case WebViewClient.ERROR_UNKNOWN:
+				message = "Unknown error";
+				break;
+			case WebViewClient.ERROR_BAD_URL:
+				message = "Check entered URL.";
+				break;
+			case WebViewClient.ERROR_CONNECT:
+				message = "Failed to connect to the server.";
+				break;
+			case WebViewClient.ERROR_FAILED_SSL_HANDSHAKE:
+				message = "Failed to perform SSL handshake.";
+				break;
+			case WebViewClient.ERROR_HOST_LOOKUP:
+				message = "Server or proxy hostname lookup failed.";
+				break;
+			case WebViewClient.ERROR_PROXY_AUTHENTICATION:
+				message = "User authentication failed on proxy.";
+				break;
+			case WebViewClient.ERROR_REDIRECT_LOOP:
+				message = "Too many redirects.";
+				break;
+			case WebViewClient.ERROR_UNSUPPORTED_AUTH_SCHEME:
+				message = "Unsupported authentication scheme (not basic or digest).";
+				break;
+			case WebViewClient.ERROR_UNSUPPORTED_SCHEME:
+				message = "Unsupported URI scheme.";
+				break;
+			case WebViewClient.ERROR_FILE:
+				message = "Generic file error.";
+				break;
+			case WebViewClient.ERROR_FILE_NOT_FOUND:
+				message = "File not found.";
+				break;
+			case WebViewClient.ERROR_IO:
+				message = "The server failed to communicate. Try again later.";
+				break;
 		}
+
 		if (message != null) {
 			Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
 		}

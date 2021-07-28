@@ -1,3 +1,7 @@
-bin/
-gen/
-/app/build/
+.gradle
+.idea
+build/
+app/build/
+app/release/
+local.properties
+gradle.properties

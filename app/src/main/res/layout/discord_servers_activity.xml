@@ -57,7 +57,7 @@
 			android:stateListAnimator="@null"
 			android:elevation="4dp"
 			android:translationZ="4dp"
-			android:text="Official App Server"
+			android:text="Join"
 			android:onClick="official_onClick"/>
 
 	</LinearLayout>

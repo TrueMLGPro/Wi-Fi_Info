@@ -1,11 +1,14 @@
 package com.truemlgpro.wifiinfo;
 
-import android.content.*;
-import android.os.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.view.*;
-import me.anwarshahriar.calligrapher.*;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+
+import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class ToolsActivity extends AppCompatActivity
 {
@@ -17,6 +20,7 @@ public class ToolsActivity extends AppCompatActivity
 	private CardView cardview_4;
 	private CardView cardview_5;
 	private CardView cardview_6;
+	private CardView cardview_7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,17 +28,17 @@ public class ToolsActivity extends AppCompatActivity
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
 
-		if (keyTheme == true) {
+		if (keyTheme) {
 			setTheme(R.style.DarkTheme);
 		}
 
-		if (keyAmoledTheme == true) {
-			if (keyTheme == true) {
+		if (keyAmoledTheme) {
+			if (keyTheme) {
 				setTheme(R.style.AmoledDarkTheme);
 			}
 		}
 
-		if (keyTheme == false) {
+		if (!keyTheme) {
 			setTheme(R.style.LightTheme);
 		}
 		
@@ -48,6 +52,7 @@ public class ToolsActivity extends AppCompatActivity
 		cardview_4 = (CardView) findViewById(R.id.cardview_4);
 		cardview_5 = (CardView) findViewById(R.id.cardview_5);
 		cardview_6 = (CardView) findViewById(R.id.cardview_6);
+		cardview_7 = (CardView) findViewById(R.id.cardview_7);
 		
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
@@ -62,12 +67,12 @@ public class ToolsActivity extends AppCompatActivity
 		actionbar.setElevation(20);
 
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// Back button pressed
-					finish();
-				}
-			});
+			@Override
+			public void onClick(View v) {
+				// Back button pressed
+				finish();
+			}
+		});
 
 		cardview_1.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -76,7 +81,7 @@ public class ToolsActivity extends AppCompatActivity
 					Intent url_to_ip_intent = new Intent(ToolsActivity.this, URLtoIPActivity.class);
 					startActivity(url_to_ip_intent);
 				}
-			});
+		});
 
 		cardview_2.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -85,7 +90,7 @@ public class ToolsActivity extends AppCompatActivity
 					Intent cell_data_public_ip_intent = new Intent(ToolsActivity.this, CellularDataIPActivity.class);
 					startActivity(cell_data_public_ip_intent);
 				}
-			});
+		});
 
 		cardview_3.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -94,7 +99,7 @@ public class ToolsActivity extends AppCompatActivity
 					Intent router_setup_intent = new Intent(ToolsActivity.this, RouterSetupActivity.class);
 					startActivity(router_setup_intent);
 				}
-			});
+		});
 		
 		cardview_4.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -103,7 +108,7 @@ public class ToolsActivity extends AppCompatActivity
 					Intent ping_intent = new Intent(ToolsActivity.this, PingActivity.class);
 					startActivity(ping_intent);
 				}
-			});
+		});
 		
 		cardview_5.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -112,7 +117,7 @@ public class ToolsActivity extends AppCompatActivity
 					Intent lan_devices_scanner_intent = new Intent(ToolsActivity.this, LANDevicesScannerActivity.class);
 					startActivity(lan_devices_scanner_intent);
 				}
-			});
+		});
 		
 		cardview_6.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -121,7 +126,15 @@ public class ToolsActivity extends AppCompatActivity
 					Intent port_scanner_intent = new Intent(ToolsActivity.this, PortScannerActivity.class);
 					startActivity(port_scanner_intent);
 				}
-			});
+		});
+
+		cardview_7.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+				Intent whois_tool_intent = new Intent(ToolsActivity.this, WhoIsToolActivity.class);
+				startActivity(whois_tool_intent);
+			}
+		});
     }
-	
 }

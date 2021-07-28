@@ -1,19 +1,30 @@
 package com.truemlgpro.wifiinfo;
 
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.support.design.widget.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.view.*;
-import android.view.inputmethod.*;
-import android.widget.*;
-import java.lang.ref.*;
-import java.net.*;
-import me.anwarshahriar.calligrapher.*;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import java.lang.ref.WeakReference;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
+
+import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class URLtoIPActivity extends AppCompatActivity
 {
@@ -22,12 +33,12 @@ public class URLtoIPActivity extends AppCompatActivity
     private static final String EMPTY_STRING = "";
 
     private TextInputLayout mTextInputLayout;
-    private static EditText mEditText;
-	private static TextView textview_ipFromURL;
+    private EditText mEditText;
+	private TextView textview_ipFromURL;
 	private TextView textview_nonetworkconn;
 	private Button convert_button;
 	private LinearLayout layout_url_to_ip_results;
-	private static ScrollView url_to_ip_scroll;
+	private ScrollView url_to_ip_scroll;
 	private Toolbar toolbar;
 	
 	private ConnectivityManager CM;
@@ -45,17 +56,17 @@ public class URLtoIPActivity extends AppCompatActivity
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
 
-		if (keyTheme == true) {
+		if (keyTheme) {
 			setTheme(R.style.DarkTheme);
 		}
 
-		if (keyAmoledTheme == true) {
-			if (keyTheme == true) {
+		if (keyAmoledTheme) {
+			if (keyTheme) {
 				setTheme(R.style.AmoledDarkTheme);
 			}
 		}
 
-		if (keyTheme == false) {
+		if (!keyTheme) {
 			setTheme(R.style.LightTheme);
 		}
 
@@ -71,8 +82,6 @@ public class URLtoIPActivity extends AppCompatActivity
 		url_to_ip_scroll = (ScrollView) findViewById(R.id.url_to_ip_scroll);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 
-		mEditText.setOnEditorActionListener(ActionListener.newInstance(this));
-
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		Calligrapher calligrapher = new Calligrapher(this);
@@ -86,37 +95,37 @@ public class URLtoIPActivity extends AppCompatActivity
 		actionbar.setElevation(20);
 
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// Back button pressed
-					finish();
-				}
-			});
+			@Override
+			public void onClick(View v) {
+				// Back button pressed
+				finish();
+			}
+		});
 
 		convert_button.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (!shouldShowError()) {
-						String url = mEditText.getText().toString();
-						try {
-							String ip = URLandIPConverter.convertUrl("https://" + url);
-							appendResultsText("Converting URL: " + url);
-							appendResultsText("IP: " + ip);
-						} catch (MalformedURLException e) {
-							e.printStackTrace();
-							appendResultsText("Converting URL: " + url);
-							appendResultsText("Error: Malformed URL");
-						} catch (UnknownHostException e) {
-							e.printStackTrace();
-							appendResultsText("Converting URL: " + url);
-							appendResultsText("Error: Unknown Host");
-						}
-						hideError();
-					} else {
-						showError();
+			@Override
+			public void onClick(View v) {
+				if (!shouldShowError()) {
+					String url = mEditText.getText().toString();
+					try {
+						String ip = URLandIPConverter.convertUrl("https://" + url);
+						appendResultsText("Converting URL: " + url);
+						appendResultsText("IP: " + ip);
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+						appendResultsText("Converting URL: " + url);
+						appendResultsText("Error: Malformed URL");
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+						appendResultsText("Converting URL: " + url);
+						appendResultsText("Error: Unknown Host");
 					}
+					hideError();
+				} else {
+					showError();
 				}
-			});
+			}
+		});
     }
 
     private boolean shouldShowError() {
@@ -130,67 +139,6 @@ public class URLtoIPActivity extends AppCompatActivity
 
     private void hideError() {
         mTextInputLayout.setError(EMPTY_STRING);
-    }
-
-    private static final class ActionListener implements TextView.OnEditorActionListener {
-        private final WeakReference<URLtoIPActivity> urlToIPWeakReference;
-
-        public static ActionListener newInstance(URLtoIPActivity urlToIPActivity) {
-            WeakReference<URLtoIPActivity> urlToIPWeakReference = new WeakReference<>(urlToIPActivity);
-            return new ActionListener(urlToIPWeakReference);
-        }
-
-        private ActionListener(WeakReference<URLtoIPActivity> urlToIPWeakReference) {
-            this.urlToIPWeakReference = urlToIPWeakReference;
-        }
-
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            URLtoIPActivity urlToIPActivity = urlToIPWeakReference.get();
-            if (urlToIPActivity != null) {
-                if (actionId == EditorInfo.IME_ACTION_GO && urlToIPActivity.shouldShowError()) {
-                    urlToIPActivity.showError();
-                } else {
-                    urlToIPActivity.hideError();
-					try {
-						String url = mEditText.getText().toString();
-						try {
-							String ip = URLandIPConverter.convertUrl("https://" + url);
-							textview_ipFromURL.append("Converting URL: " + url + "\n");
-							textview_ipFromURL.append("IP: " + ip + "\n");
-							url_to_ip_scroll.post(new Runnable() {
-								@Override
-								public void run() {
-									url_to_ip_scroll.fullScroll(View.FOCUS_DOWN);
-								}
-							});
-						} catch (MalformedURLException e) {
-							e.printStackTrace();
-							textview_ipFromURL.append("Converting URL: " + url + "\n");
-							textview_ipFromURL.append("Error: Malformed URL" + "\n");
-							url_to_ip_scroll.post(new Runnable() {
-								@Override
-								public void run() {
-									url_to_ip_scroll.fullScroll(View.FOCUS_DOWN);
-								}
-							});
-						}
-					} catch (UnknownHostException e) {
-						String url = mEditText.getText().toString();
-						e.printStackTrace();
-						textview_ipFromURL.append("Converting URL: " + url + "\n");
-						textview_ipFromURL.append("Error: Unknown Host" + "\n");
-						url_to_ip_scroll.post(new Runnable() {
-							@Override
-							public void run() {
-								url_to_ip_scroll.fullScroll(View.FOCUS_DOWN);
-							}
-						});
-					}
-                }
-            }
-            return true;
-        }
     }
 	
 	class NetworkConnectivityReceiver extends BroadcastReceiver

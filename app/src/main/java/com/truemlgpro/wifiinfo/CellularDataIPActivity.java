@@ -1,19 +1,34 @@
 package com.truemlgpro.wifiinfo;
 
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.view.*;
-import android.widget.*;
-import com.github.clans.fab.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import me.anwarshahriar.calligrapher.*;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
+
+import com.github.clans.fab.FloatingActionButton;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.URL;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class CellularDataIPActivity extends AppCompatActivity
 {
@@ -27,7 +42,6 @@ public class CellularDataIPActivity extends AppCompatActivity
 	private FloatingActionButton fab_update_ip;
 	private ConnectivityManager CM;
 	private NetworkInfo CellularCheck;
-	private Handler IPFetchHandler = new Handler();
 	private String publicIPFetched;
 	private boolean siteReachable = false;
 	private Scanner scanner;
@@ -39,17 +53,17 @@ public class CellularDataIPActivity extends AppCompatActivity
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
 
-		if (keyTheme == true) {
+		if (keyTheme) {
 			setTheme(R.style.DarkTheme);
 		}
 
-		if (keyAmoledTheme == true) {
-			if (keyTheme == true) {
+		if (keyAmoledTheme) {
+			if (keyTheme) {
 				setTheme(R.style.AmoledDarkTheme);
 			}
 		}
 
-		if (keyTheme == false) {
+		if (!keyTheme) {
 			setTheme(R.style.LightTheme);
 		}
 		
@@ -77,21 +91,21 @@ public class CellularDataIPActivity extends AppCompatActivity
 		actionbar.setElevation(20);
 
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// Back button pressed
-					finish();
-				}
-			});
+			@Override
+			public void onClick(View v) {
+				// Back button pressed
+				finish();
+			}
+		});
 		
 		fab_update_ip.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					fab_update_ip.setEnabled(false);
-					PublicIPRunnable runnableIP = new PublicIPRunnable();
-					new Thread(runnableIP).start();
-				}
-			});
+			@Override
+			public void onClick(View v) {
+				fab_update_ip.setEnabled(false);
+				PublicIPRunnable runnableIP = new PublicIPRunnable();
+				new Thread(runnableIP).start();
+			}
+		});
 			
 		checkCellularConnectivity();
 	}
@@ -132,7 +146,6 @@ public class CellularDataIPActivity extends AppCompatActivity
 	}
 
 	class PublicIPRunnable implements Runnable {
-
 		@Override
 		public void run() {
 			new AsyncTask<String, Void, Void>() {

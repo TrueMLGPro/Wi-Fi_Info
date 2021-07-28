@@ -1,10 +1,21 @@
 package com.truemlgpro.wifiinfo;
 
-import android.app.*;
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.support.annotation.*;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
+import android.support.annotation.RequiresApi;
 
 public class ConnectionStateService extends Service 
 {
@@ -44,7 +55,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
 				showOnlineNotificationAPI26_28(context);
-			} else if (android.os.Build.VERSION.SDK_INT == 29) {
+			} else if (android.os.Build.VERSION.SDK_INT >= 29) {
 				showOnlineNotificationAPI29(context);
 			} else if (android.os.Build.VERSION.SDK_INT < 26) {
 				showOnlineNotificationAPI21(context);
@@ -68,11 +79,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 					isHandlerPosted = false;
 				}
 			}
-			
-			//registerReceiver(ScrStateRec, intentFilter);
-			//isRegistered = true;
-			//handler.post(runnable);
-			//isHandlerPosted = true;
+
 			isNotificationServiceRunning = true;
 		} else {
 			if (isNotificationServiceRunning) {
@@ -82,7 +89,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
 				showOfflineNotificationAPI26_28(context);
-			} else if (android.os.Build.VERSION.SDK_INT == 29) {
+			} else if (android.os.Build.VERSION.SDK_INT >= 29) {
 				showOfflineNotificationAPI29(context);
 			} else if (android.os.Build.VERSION.SDK_INT < 26) {
 				showOfflineNotificationAPI21(context);
@@ -107,6 +114,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		
 		/// ANDROID 8 - ANDROID 9 ///
 		
+		@RequiresApi(api = Build.VERSION_CODES.O)
 		public void showOnlineNotificationAPI26_28(Context context) {
 			int NOTIFICATION_ID = 1304;
 
@@ -127,8 +135,9 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			notificationManager.notify(NOTIFICATION_ID, notification);
 		}
 		
-		/// ANDROID 10 ///
+		/// ANDROID 10 - ANDROID 11 ///
 		
+		@RequiresApi(api = Build.VERSION_CODES.O)
 		public void showOnlineNotificationAPI29(Context context) {
 			int NOTIFICATION_ID = 1305;
 
@@ -176,6 +185,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		
 		/// ANDROID 8 - ANDROID 9 ///
 		
+		@RequiresApi(api = Build.VERSION_CODES.O)
 		public void showOfflineNotificationAPI26_28(Context context) {
 			int NOTIFICATION_ID = 1304;
 
@@ -199,9 +209,10 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				.build();
 			notificationManager.notify(NOTIFICATION_ID, notification);
 		}
+
+		/// ANDROID 10 - ANDROID 11 ///
 		
-		/// ANDROID 10 ///
-		
+		@RequiresApi(api = Build.VERSION_CODES.O)
 		public void showOfflineNotificationAPI29(Context context) {
 			int NOTIFICATION_ID = 1305;
 
@@ -310,12 +321,12 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 	public void onDestroy()
 	{
 		unregisterReceiver(ConnectionStateReceiver);
-		if (isRegistered == true) {
+		if (isRegistered) {
 			unregisterReceiver(ScrStateRec);
 			isRegistered = false;
 		}
 		
-		if (isHandlerPosted == true) {
+		if (isHandlerPosted) {
 			handler.removeCallbacks(runnable);
 			isHandlerPosted = false;
 		}
@@ -330,8 +341,6 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		ConnectivityManager CM = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo WiFi_NI = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		boolean isConnected = WiFi_NI != null && WiFi_NI.isConnected();
-		
-		/// Move it in onCreate() maybe ///
 		
 		if (isConnected) {
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
@@ -353,8 +362,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 					.setAutoCancel(false)
 					.build();
 				startForeground(NOTIFICATION_ID, notification);
-			} else if (android.os.Build.VERSION.SDK_INT == 29) {
-				/// ANDROID 10 ///
+			} else if (android.os.Build.VERSION.SDK_INT >= 29) {
+				/// ANDROID 10 - ANDROID 11 ///
 				int NOTIFICATION_ID = 1305;
 				
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -416,8 +425,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 					.setAutoCancel(false)
 					.build();
 				startForeground(NOTIFICATION_ID, notification);
-			} else if (android.os.Build.VERSION.SDK_INT == 29) {
-				/// ANDROID 10 ///
+			} else if (android.os.Build.VERSION.SDK_INT >= 29) {
+				/// ANDROID 10 - ANDROID 11 ///
 				int NOTIFICATION_ID = 1305;
 
 				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -473,7 +482,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		String channelID = "connection_state_service";
 		CharSequence channelName = "Connection State Service";
 		NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_MIN);
-		channel.setDescription("Wi-Fi Info Watchdog Service Notification");
+		channel.setDescription("Wi-Fi Info Connection Listener Service Notification");
 		channel.setShowBadge(false);
 		notificationManager.createNotificationChannel(channel);
 		return channelID;

@@ -1,13 +1,17 @@
 package com.truemlgpro.wifiinfo;
 
-import android.animation.*;
-import android.content.*;
-import android.content.pm.*;
-import android.os.*;
-import android.support.v7.app.*;
-import android.view.*;
-import android.widget.*;
-import me.anwarshahriar.calligrapher.*;
+import android.animation.ObjectAnimator;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class SplashActivity extends AppCompatActivity
 {
@@ -24,17 +28,17 @@ public class SplashActivity extends AppCompatActivity
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
 
-		if (keyTheme == true) {
+		if (keyTheme) {
 			setTheme(R.style.DarkTheme);
 		}
 
-		if (keyAmoledTheme == true) {
-			if (keyTheme == true) {
+		if (keyAmoledTheme) {
+			if (keyTheme) {
 				setTheme(R.style.AmoledDarkTheme);
 			}
 		}
 
-		if (keyTheme == false) {
+		if (!keyTheme) {
 			setTheme(R.style.LightTheme);
 		}
 		
@@ -84,17 +88,12 @@ public class SplashActivity extends AppCompatActivity
 		calligrapher.setFont(this, font, true);
 		
 		Thread splashThread = new Thread() {
-		@Override
+			@Override
 			public void run() {
-				try {
-					sleep(2500);
-					Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-					startActivity(intent);
-					finish();
-				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				SystemClock.sleep(2500);
+				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+				startActivity(intent);
+				finish();
 			}
 		};
 		splashThread.start();

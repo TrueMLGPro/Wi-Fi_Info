@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/content_frame"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="?attr/BackgroundColor">
+
+	<android.support.v7.widget.Toolbar
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+		app:titleTextColor="?attr/TitleTextColor"
+		app:subtitleTextColor="?attr/SubtitleTextColor"/>
+
+	<TextView
+		android:id="@+id/textview_nonetworkconn"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="16dp"
+		android:textSize="18sp"
+		android:textColor="?TextColor"
+		android:layout_gravity="center"
+		android:visibility="gone"
+		android:text="No Connection"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="top"
+		android:orientation="vertical"
+		android:layout_marginTop="64dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginBottom="8dp">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:orientation="vertical">
+
+			<android.support.design.widget.TextInputLayout
+				xmlns:app="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/input_layout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="6dp"
+				android:layout_marginRight="6dp"
+				android:layout_marginTop="4dp"
+				android:hint="Enter URL"
+				app:errorEnabled="true">
+
+				<EditText
+					android:id="@+id/edittext_main"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:imeOptions="actionGo"
+					android:inputType="text"
+					android:singleLine="true"/>
+
+			</android.support.design.widget.TextInputLayout>
+
+			<Button
+				android:id="@+id/convert_button"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="4dp"
+				android:layout_marginLeft="4dp"
+				android:layout_marginRight="4dp"
+				android:text="Convert"
+				android:textColor="#FFFFFF"
+				style="@style/Widget.AppCompat.Button.Colored" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/layout_who_is_results"
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:padding="8dp">
+
+			<ScrollView
+				android:id="@+id/who_is_scroll"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:background="?EmbedBackgroundColor"
+				android:padding="8dp">
+
+				<TextView
+					android:id="@+id/textview_who_is_text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="?TextColor"
+					android:textIsSelectable="true"/>
+
+			</ScrollView>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</FrameLayout>

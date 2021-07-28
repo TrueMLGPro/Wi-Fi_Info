@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.truemlgpro.wifiinfo">
+	xmlns:tools="http://schemas.android.com/tools"
+	package="com.truemlgpro.wifiinfo">
 	
 	<uses-sdk
-		android:minSdkVersion="21" 
-		android:targetSdkVersion="29" />
+		android:minSdkVersion="21"
+		android:targetSdkVersion="30"
+		tools:overrideLibrary="thecollectiveweb.com.tcwhois" />
 	
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -88,6 +90,11 @@
 			android:screenOrientation="portrait">
 		</activity>
 		<activity
+			android:name="com.truemlgpro.wifiinfo.WhoIsToolActivity"
+			android:label="Whois Tool"
+			android:screenOrientation="portrait">
+		</activity>
+		<activity
 			android:name="com.truemlgpro.wifiinfo.SettingsActivity"
 			android:label="Settings"
 			android:screenOrientation="portrait"
@@ -106,8 +113,18 @@
 			android:name=".ConnectionStateService"
 			android:enabled="true">
 		</service>
-		
-		<receiver android:name=".ConnectionStateReceiver">
+
+	    <service
+		    android:name=".QSTileService"
+		    android:label="IP Address"
+		    android:icon="@drawable/ic_wifi_qs_tile"
+		    android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+		    <intent-filter>
+			    <action android:name="android.service.quicksettings.action.QS_TILE" />
+		    </intent-filter>
+	    </service>
+
+	    <receiver android:name=".ConnectionStateReceiver">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>

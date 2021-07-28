@@ -1,4 +1,5 @@
 # Wi-Fi Info
+
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![GitHub release](https://img.shields.io/github/release/TrueMLGPro/Wi-Fi_Info.svg)](https://GitHub.com/TrueMLGPro/Wi-Fi_Info/releases/)
 [![Github all releases](https://img.shields.io/github/downloads/TrueMLGPro/Wi-Fi_Info/total.svg)](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)
@@ -13,41 +14,48 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/truemlgpro/wi-fi_info/badge/master)](https://www.codefactor.io/repository/github/truemlgpro/wi-fi_info/overview/master)
 
 ## Downloads
+
 [![IzzyOnDroid](https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png)](https://apt.izzysoft.de/fdroid/index/apk/com.truemlgpro.wifiinfo)
 or
 **[Releases](https://github.com/TrueMLGPro/Wi-Fi_Info/releases/)**
 
 ## Features
+
 ***Shows all possible information about Wi-Fi network you are connected to.***
 
-* __Public IP Address__
-* __SSID__
-* __BSSID__
-* __IPv4 (Local)__
-* __IPv6 (Local)__
-* __Gateway IP__
-* __DNS (1)__
-* __DNS (2)__
-* __Subnet Mask__
-* __Network ID__
-* __MAC Address__
-* __Network Interface__
-* __Loopback Address__
-* __Frequency__
-* __Network Channel (2.4 GHz & 5 GHz)__
-* __RSSI (with percentage!)__
-* __Lease Duration__
-* __Network Speed__
-* __Transmit Link Speed__
-* __Receive Link Speed__
-* __WPA Supplicant State__
-* __Feature Support Detection__
-* __URL to IP Converter__
-* __Cellular Data IP__
-* __Router Setup Page__
-* __Ping Tool__
-* __LAN Devices Scanner__
-* __Port Scanner__ 
+- **Public IP Address**
+- **SSID**
+- **BSSID**
+- **IPv4 (Local)**
+- **IPv6 (Local)**
+- **Gateway IP**
+- **DNS (1)**
+- **DNS (2)**
+- **Subnet Mask**
+- **Network ID**
+- **MAC Address**
+- **Network Interface**
+- **Loopback Address**
+- **Frequency**
+- **Network Channel (2.4 GHz & 5 GHz)**
+- **RSSI (with percentage!)**
+- **Lease Duration**
+- **Network Speed**
+- **Transmit Link Speed**
+- **Receive Link Speed**
+- **WPA Supplicant State**
+- **Feature Support Detection**
+
+## Tools
+
+- **URL to IP Converter**
+- **Cellular Data IP**
+- **Router Setup Page**
+- **Ping Tool**
+- **LAN Devices Scanner**
+- **Port Scanner**
+- **Whois Tool**
 
 ## Links
+
 [![Discord Banner 4](https://discordapp.com/api/guilds/601107291915419658/widget.png?style=banner4)](https://discord.com/invite/qxE2DFr)

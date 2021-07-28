@@ -1,6 +1,9 @@
 package com.truemlgpro.wifiinfo;
 
-import java.net.*;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 
 public class URLandIPConverter
 {

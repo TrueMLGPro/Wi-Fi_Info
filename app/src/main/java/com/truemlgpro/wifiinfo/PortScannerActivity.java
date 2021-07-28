@@ -1,20 +1,32 @@
 package com.truemlgpro.wifiinfo;
 
-import android.content.*;
-import android.net.*;
-import android.net.wifi.*;
-import android.os.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.text.*;
-import android.view.*;
-import android.widget.*;
-import com.stealthcopter.networktools.*;
-import java.net.*;
-import java.util.*;
-import me.anwarshahriar.calligrapher.*;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.DhcpInfo;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.stealthcopter.networktools.PortScan;
+
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
+import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class PortScannerActivity extends AppCompatActivity
 {
@@ -46,17 +58,17 @@ public class PortScannerActivity extends AppCompatActivity
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
 
-		if (keyTheme == true) {
+		if (keyTheme) {
 			setTheme(R.style.DarkTheme);
 		}
 
-		if (keyAmoledTheme == true) {
-			if (keyTheme == true) {
+		if (keyAmoledTheme) {
+			if (keyTheme) {
 				setTheme(R.style.AmoledDarkTheme);
 			}
 		}
 
-		if (keyTheme == false) {
+		if (!keyTheme) {
 			setTheme(R.style.LightTheme);
 		}
 
@@ -88,57 +100,57 @@ public class PortScannerActivity extends AppCompatActivity
 		actionbar.setElevation(20);
 
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// Back button pressed
-					finish();
-				}
-			});
+			@Override
+			public void onClick(View v) {
+				// Back button pressed
+				finish();
+			}
+		});
 
 		port_scan_button.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					setEnabled(port_scan_stop_button, true);
-					try {
-						findOpenPorts();
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
-					}
-					ports_open_text.setText("Ports Open: -");
-					adapter.clear();
+			@Override
+			public void onClick(View v) {
+				setEnabled(port_scan_stop_button, true);
+				try {
+					findOpenPorts();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
 				}
-			});
+				ports_open_text.setText("Ports Open: -");
+				adapter.clear();
+			}
+		});
 		
 		port_scan_stop_button.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					portScanner.cancel();
-					setEnabled(port_scan_button, true);
-					setEnabled(port_scan_stop_button, false);
-				}
+			@Override
+			public void onClick(View v) {
+				portScanner.cancel();
+				setEnabled(port_scan_button, true);
+				setEnabled(port_scan_stop_button, false);
+			}
 		});
 
 	}
 
 	private void setEnabled(final View view, final boolean enabled) {
         runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					if (view != null) {
-						view.setEnabled(enabled);
-					}
-				}
-			});
+        	@Override
+	        public void run() {
+        		if (view != null) {
+        			view.setEnabled(enabled);
+        		}
+        	}
+        });
     }
 
 	private void addPortsToList(final String text) {
 		runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					adapter.add(text);
-					adapter.notifyDataSetChanged();
-				}
-			});
+			@Override
+			public void run() {
+				adapter.add(text);
+				adapter.notifyDataSetChanged();
+			}
+		});
 	}
 	
 	private String getGateway() {

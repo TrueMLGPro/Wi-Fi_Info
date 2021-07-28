@@ -1,12 +1,22 @@
 package com.truemlgpro.wifiinfo;
 
-import android.app.*;
-import android.content.*;
-import android.net.*;
-import android.net.wifi.*;
-import android.os.*;
-import android.provider.*;
-import android.support.annotation.*;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 
 public class NotificationService extends Service
 {
@@ -36,7 +46,7 @@ public class NotificationService extends Service
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
-		/// Notification Button Receivers ///
+		/// Notification Settings Button Receiver ///
 		
 		try {
 			if (intent.getAction() != null && intent.getAction().equals("ACTION_NTFC_SETTINGS")) {
@@ -52,8 +62,8 @@ public class NotificationService extends Service
 			/// Android 8 - Android 9 ///
 			showNotificationAPI26_28();
 			startForeground(1301, notification26_28);
-		} else if (android.os.Build.VERSION.SDK_INT == 29) {
-			/// Android 10 ///
+		} else if (android.os.Build.VERSION.SDK_INT >= 29) {
+			/// ANDROID 10 - ANDROID 11 ///
 			showNotificationAPI29();
 			startForeground(1302, notification29);
 		} else if (android.os.Build.VERSION.SDK_INT < 26) {
@@ -74,7 +84,7 @@ public class NotificationService extends Service
 			String keyNtfcFreq = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_NTFC_FREQ, MainActivity.ntfcUpdateInterval);
 			int keyNtfcFreqFormatted = Integer.parseInt(keyNtfcFreq);
 			
-			if (android.os.Build.VERSION.SDK_INT == 29) {
+			if (android.os.Build.VERSION.SDK_INT >= 29) {
 				showNotificationAPI29();
 			}
 			
@@ -112,6 +122,7 @@ public class NotificationService extends Service
 
 	/// ANDROID 8 - ANDROID 9 ///
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	public void showNotificationAPI26_28() {
 		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -193,8 +204,9 @@ public class NotificationService extends Service
 			notificationManager.notify(NOTIFICATION_ID, notification26_28);
 	}
 
-	/// ANDROID 10 ///
+	/// ANDROID 10 - ANDROID 11 ///
 
+	@RequiresApi(api = Build.VERSION_CODES.O)
 	public void showNotificationAPI29() {
 		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);

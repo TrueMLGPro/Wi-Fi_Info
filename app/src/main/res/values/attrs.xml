@@ -22,4 +22,5 @@
 	<attr name="IconToolsColor" format="reference" />
 	<attr name="IconSettingsColor" format="reference" />
 	<attr name="IconPlusColor" format="reference" />
+	<attr name="ToolbarGithubIconColor" format="reference" />
 </resources>

@@ -450,6 +450,76 @@
 
 			</android.support.v7.widget.CardView>
 
+			<android.support.v7.widget.CardView
+				xmlns:card_view="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/cardview_7"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:minHeight="100dp"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="16dp"
+				android:layout_marginBottom="16dp"
+				android:foreground="?android:attr/selectableItemBackground"
+				app:cardCornerRadius="8dp"
+				app:cardElevation="8dp"
+				app:cardBackgroundColor="?CardBackgroundColor">
+
+				<LinearLayout
+					android:id="@+id/sidebar7"
+					android:layout_width="8dp"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+					android:gravity="left"
+					android:background="#2087DF"/>
+
+				<LinearLayout
+					android:id="@+id/linear_layout7"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+
+					<android.support.v7.widget.CardView
+						xmlns:card_view="http://schemas.android.com/apk/res-auto"
+						android:id="@+id/cardview_bg_icon_7"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="32dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="left|center_vertical"
+						app:cardCornerRadius="32dp"
+						app:cardElevation="4dp"
+						app:cardBackgroundColor="#FF506A">
+
+						<ImageView
+							android:id="@+id/icon_7"
+							android:layout_width="48dp"
+							android:layout_height="48dp"
+							android:layout_margin="8dp"
+							android:src="@drawable/ic_whois_tool_light"/>
+
+					</android.support.v7.widget.CardView>
+
+					<TextView
+						android:id="@+id/textview_7"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="16dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="center"
+						android:textSize="18sp"
+						android:textColor="?attr/TextColor"
+						android:text="Whois Tool"/>
+
+				</LinearLayout>
+
+			</android.support.v7.widget.CardView>
+
 		</LinearLayout>
 
 	</ScrollView>

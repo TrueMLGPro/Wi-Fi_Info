@@ -1,21 +1,40 @@
 package com.truemlgpro.wifiinfo;
 
-import android.content.*;
-import android.net.*;
-import android.net.wifi.*;
-import android.os.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
-import com.stealthcopter.networktools.*;
-import com.stealthcopter.networktools.subnet.*;
-import java.net.*;
-import java.util.*;
-import me.anwarshahriar.calligrapher.*;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.DhcpInfo;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.stealthcopter.networktools.SubnetDevices;
+import com.stealthcopter.networktools.subnet.Device;
+
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Scanner;
+
+import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class LANDevicesScannerActivity extends AppCompatActivity
 {
@@ -46,17 +65,17 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
 
-		if (keyTheme == true) {
+		if (keyTheme) {
 			setTheme(R.style.DarkTheme);
 		}
 
-		if (keyAmoledTheme == true) {
-			if (keyTheme == true) {
+		if (keyAmoledTheme) {
+			if (keyTheme) {
 				setTheme(R.style.AmoledDarkTheme);
 			}
 		}
 
-		if (keyTheme == false) {
+		if (!keyTheme) {
 			setTheme(R.style.LightTheme);
 		}
 
@@ -229,7 +248,7 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 				public void onDeviceFound(Device device) {
 					if (wifi_connected) {
 						if (device.ip.equalsIgnoreCase(getWiFiLocalIPv4Address()) && !device.ip.equalsIgnoreCase(getGateway())) {
-							if (getMACAddress() == null) {
+							if (getMACAddress() == null || Build.VERSION.SDK_INT > 29) {
 								addDevicesToList(device.ip + " | " + "N/A" + " (Your Device)");
 							} else {
 								addDevicesToList(device.ip + " | " + getMACAddress() + " (Your Device)");
