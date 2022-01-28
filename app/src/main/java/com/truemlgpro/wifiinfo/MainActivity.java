@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	public static Boolean isHandlerRunning = false;
 	public static String ntfcUpdateInterval = "1000";
 	public static String cardUpdateInterval = "1000";
-	public static String appFont = "fonts/GoogleSans-Medium.ttf";
+	public static String appFont = "fonts/Gilroy-Semibold.ttf";
 	public static Activity main;
 	public static AlertDialog alertAPI25;
 	public static AlertDialog alertAPI29;
@@ -322,59 +322,59 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 
 				if (key.equals(SettingsActivity.KEY_PREF_APP_FONT)) {
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/GoogleSans-Medium.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/GoogleSans-Medium.ttf");
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Gilroy-Semibold.ttf")) {
+						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Gilroy-Semibold.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/CircularStd-Bold.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CircularStd-Bold.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CircularStd-Bold.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Comfortaa-Regular.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Comfortaa-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Comfortaa-Regular.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/CondellBio-Medium.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CondellBio-Medium.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CondellBio-Medium.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/FilsonPro-Regular.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/FilsonPro-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/FilsonPro-Regular.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Hellix-Medium.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Hellix-Medium.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Hellix-Medium.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Moderat-Regular.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Moderat-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Moderat-Regular.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Newson-Medium.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Newson-Medium.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Newson-Medium.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/NoirText-Bold.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/NoirText-Bold.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/NoirText-Bold.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Poligon-Regular.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Poligon-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Poligon-Regular.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/ProximaSoft-Medium.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/ProximaSoft-Medium.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/ProximaSoft-Medium.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Squalo-Regular.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Squalo-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Squalo-Regular.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Tomkin-Regular.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Tomkin-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Tomkin-Regular.ttf");
 					}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/GoogleSans-Medium.ttf").equals("fonts/Urbani-Regular.ttf")) {
+					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Urbani-Regular.ttf")) {
 						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Urbani-Regular.ttf");
 					}
 				}
@@ -400,6 +400,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		/// END ///
 
 		/// POLICY SETTINGS ///
+	    /// FIXME: NETWORKING ON MAIN THREAD ///
 
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
@@ -1911,7 +1912,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 					builder.setTitle("Background Location Permission")
-							.setMessage("Due to the changes in Android 11 you need to go to Settings to enable it (this is optional)" + "\n" + "Once Background Location permission is granted you'll be able to see SSID in notification even if you close the app")
+							.setMessage("Due to the changes in Android 11 you need to go to Settings to enable it (this step is optional)" + "\n" + "Once Background Location permission is granted you'll be able to see SSID in the notification even if you close the app")
 							.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {

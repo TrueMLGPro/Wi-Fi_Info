@@ -37,7 +37,7 @@
 		<item>10000</item>
 	</string-array>
 	<string-array name="app_font_entries">
-		<item>Google Sans</item>
+		<item>Gilroy</item>
 		<item>Circular Std</item>
 		<item>Comfortaa</item>
 		<item>CondellBio</item>
@@ -53,7 +53,7 @@
 		<item>Urbani</item>
 	</string-array>
 	<string-array name="app_font_values">
-		<item>fonts/GoogleSans-Medium.ttf</item>
+		<item>fonts/Gilroy-Semibold.ttf</item>
 		<item>fonts/CircularStd-Bold.ttf</item>
 		<item>fonts/Comfortaa-Regular.ttf</item>
 		<item>fonts/CondellBio-Medium.ttf</item>
@@ -67,5 +67,48 @@
 		<item>fonts/Squalo-Regular.ttf</item>
 		<item>fonts/Tomkin-Regular.ttf</item>
 		<item>fonts/Urbani-Regular.ttf</item>
+	</string-array>
+	<string-array name="dns_record_types">
+		<item>A</item>
+		<item>AAAA</item>
+		<item>AFSDB</item>
+		<item>APL</item>
+		<item>CAA</item>
+		<item>CDNSKEY</item>
+		<item>CDS</item>
+		<item>CERT</item>
+		<item>CNAME</item>
+		<item>CSYNC</item>
+		<item>DHCID</item>
+		<item>DLV</item>
+		<item>DNAME</item>
+		<item>DNSKEY</item>
+		<item>DS</item>
+		<item>HINFO</item>
+		<item>HIP</item>
+		<item>IPSECKEY</item>
+		<item>KEY</item>
+		<item>KX</item>
+		<item>LOC</item>
+		<item>MX</item>
+		<item>NAPTR</item>
+		<item>NS</item>
+		<item>NSEC</item>
+		<item>NSEC3</item>
+		<item>NSEC3PARAM</item>
+		<item>OPENPGPKEY</item>
+		<item>PTR</item>
+		<item>RRSIG</item>
+		<item>RP</item>
+		<item>SIG</item>
+		<item>SOA</item>
+		<item>SRV</item>
+		<item>SSHFP</item>
+		<item>TA</item>
+		<item>TKEY</item>
+		<item>TLSA</item>
+		<item>TSIG</item>
+		<item>TXT</item>
+		<item>URI</item>
 	</string-array>
 </resources>

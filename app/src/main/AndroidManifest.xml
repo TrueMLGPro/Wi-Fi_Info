@@ -94,6 +94,11 @@
 			android:label="Whois Tool"
 			android:screenOrientation="portrait">
 		</activity>
+	    <activity
+		    android:name="com.truemlgpro.wifiinfo.DNSLookupActivity"
+		    android:label="DNS Lookup"
+		    android:screenOrientation="portrait">
+		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.SettingsActivity"
 			android:label="Settings"

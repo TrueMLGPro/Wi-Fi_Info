@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.stealthcopter.networktools.Ping;
 import com.stealthcopter.networktools.ping.PingResult;
 import com.stealthcopter.networktools.ping.PingStats;
-import com.stealthcopter.networktools.ping.PingTools;
 
 import java.net.UnknownHostException;
 
@@ -61,7 +60,7 @@ public class PingActivity extends AppCompatActivity
 	public Boolean cellular_connected;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
@@ -176,6 +175,9 @@ public class PingActivity extends AppCompatActivity
 		
 		appendResultsText("Pinging IP: " + pingResultInfo.getAddress().getHostAddress());
         appendResultsText("Hostname: " + pingResultInfo.getAddress().getHostName());
+
+        // TODO: MOVE LINES 181-208 TO A SEPARATE FUNCTION
+		// startPinger(String url_ip, String timeout, String delay, String ttl, String times) { ... }
 		
 		try {
 			pinger = Ping.onAddress(url_ip).setTimeOutMillis(ping_timeout).setDelayMillis(500).setTimeToLive(ping_ttl).setTimes(ping_times).doPing(new Ping.PingListener() {

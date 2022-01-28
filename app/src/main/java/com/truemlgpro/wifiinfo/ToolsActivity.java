@@ -21,6 +21,7 @@ public class ToolsActivity extends AppCompatActivity
 	private CardView cardview_5;
 	private CardView cardview_6;
 	private CardView cardview_7;
+	private CardView cardview_8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,6 +54,7 @@ public class ToolsActivity extends AppCompatActivity
 		cardview_5 = (CardView) findViewById(R.id.cardview_5);
 		cardview_6 = (CardView) findViewById(R.id.cardview_6);
 		cardview_7 = (CardView) findViewById(R.id.cardview_7);
+		cardview_8 = (CardView) findViewById(R.id.cardview_8);
 		
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
@@ -134,6 +136,15 @@ public class ToolsActivity extends AppCompatActivity
 			{
 				Intent whois_tool_intent = new Intent(ToolsActivity.this, WhoIsToolActivity.class);
 				startActivity(whois_tool_intent);
+			}
+		});
+
+		cardview_8.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+				Intent dns_resolver_tool_intent = new Intent(ToolsActivity.this, DNSLookupActivity.class);
+				startActivity(dns_resolver_tool_intent);
 			}
 		});
     }

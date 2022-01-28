@@ -13,7 +13,7 @@
 			android:title="AMOLED Theme"
 			android:summary="Enable or Disable AMOLED theme" />
 		<ListPreference
-			android:defaultValue="fonts/GoogleSans-Medium.ttf"
+			android:defaultValue="fonts/Gilroy-Semibold.ttf"
 			android:key="app_font_list"
 			android:title="App Font"
 			android:summary="Choose font to be used by app"

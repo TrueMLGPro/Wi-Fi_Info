@@ -107,19 +107,24 @@ public class URLtoIPActivity extends AppCompatActivity
 			public void onClick(View v) {
 				if (!shouldShowError()) {
 					String url = mEditText.getText().toString();
-					try {
-						String ip = URLandIPConverter.convertUrl("https://" + url);
-						appendResultsText("Converting URL: " + url);
-						appendResultsText("IP: " + ip);
-					} catch (MalformedURLException e) {
-						e.printStackTrace();
-						appendResultsText("Converting URL: " + url);
-						appendResultsText("Error: Malformed URL");
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
-						appendResultsText("Converting URL: " + url);
-						appendResultsText("Error: Unknown Host");
-					}
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							try {
+								String ip = URLandIPConverter.convertUrl("https://" + url);
+								appendResultsText("Converting URL: " + url);
+								appendResultsText("IP: " + ip);
+							} catch (MalformedURLException e) {
+								e.printStackTrace();
+								appendResultsText("Converting URL: " + url);
+								appendResultsText("Error: Malformed URL");
+							} catch (UnknownHostException e) {
+								e.printStackTrace();
+								appendResultsText("Converting URL: " + url);
+								appendResultsText("Error: Unknown Host");
+							}
+						}
+					}).start();
 					hideError();
 				} else {
 					showError();
