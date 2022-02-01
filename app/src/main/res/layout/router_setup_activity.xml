@@ -18,6 +18,24 @@
 		app:titleTextColor="?attr/TitleTextColor"
 		app:subtitleTextColor="?attr/SubtitleTextColor"/>
 
+	<FrameLayout
+		android:id="@+id/frame_layout_nonetworkconn"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<TextView
+			android:id="@+id/textview_nonetworkconn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="16dp"
+			android:textSize="18sp"
+			android:textColor="?TextColor"
+			android:layout_gravity="center"
+			android:visibility="gone"
+			android:text="No Connection" />
+
+	</FrameLayout>
+
 	<ProgressBar
 		android:id="@+id/progressBarLoading"
 		style="?android:attr/progressBarStyleHorizontal"

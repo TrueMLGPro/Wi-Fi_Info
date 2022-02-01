@@ -1,9 +1,13 @@
 package com.truemlgpro.wifiinfo;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
 import android.net.NetworkInfo;
@@ -20,7 +24,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
@@ -28,16 +34,26 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 public class RouterSetupActivity extends AppCompatActivity
 {
 	private Toolbar toolbar;
+	private FrameLayout frame_layout_nonetworkconn;
+	private TextView textview_nonetworkconn;
 	private WebView webview_main;
 	private ProgressBar progressBarLoading;
 	private SwipeRefreshLayout swipeRefresh;
 	private EditText edittext_user;
 	private EditText edittext_password;
+
 	private WifiManager mainWifi;
-	private NetworkInfo WiFiCheck;
+
+	private AlertDialog alert;
 	
 	public static String user;
 	public static String password;
+
+	private BroadcastReceiver NetworkConnectivityReceiver;
+	private ConnectivityManager CM;
+	private NetworkInfo WiFiCheck;
+
+	public Boolean wifi_connected = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -63,6 +79,8 @@ public class RouterSetupActivity extends AppCompatActivity
 		setContentView(R.layout.router_setup_activity);
 		
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		frame_layout_nonetworkconn = (FrameLayout) findViewById(R.id.frame_layout_nonetworkconn);
+		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 		webview_main = (WebView) findViewById(R.id.webview_main);
 		progressBarLoading = (ProgressBar) findViewById(R.id.progressBarLoading);
 		swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
@@ -110,33 +128,42 @@ public class RouterSetupActivity extends AppCompatActivity
 					finish();
 				}
 			});
-		
-		showDialog();
+
+		initDialog();
+		checkNetworkConnectivity();
+
+		if (wifi_connected) {
+			showDialog();
+		}
 	}
-	
-	public void showDialog() {
+
+	public void initDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		final View editTextLoginPasswordView = layoutInflater.inflate(R.layout.edit_text_dialog, null);
 		builder.setTitle("Router Login — " + getGatewayIP())
-			.setView(R.layout.edit_text_dialog)
-			.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					Dialog d = (Dialog) dialog;
-					edittext_user = d.findViewById(R.id.edit_text_user);
-					edittext_password = d.findViewById(R.id.edit_text_password);
-					user = edittext_user.getText().toString();
-					password = edittext_password.getText().toString();
-					loadWebview();
-				}
-			})
-			.setNegativeButton("Cancel", null);
+				.setView(R.layout.edit_text_dialog)
+				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						Dialog d = (Dialog) dialog;
+						edittext_user = d.findViewById(R.id.edit_text_user);
+						edittext_password = d.findViewById(R.id.edit_text_password);
+						user = edittext_user.getText().toString();
+						password = edittext_password.getText().toString();
+						loadWebview();
+					}
+				})
+				.setNegativeButton("Cancel", null);
 		builder.setCancelable(false);
-		AlertDialog alert = builder.create();
+		alert = builder.create();
+	}
+	
+	public void showDialog() {
 		alert.show();
 	}
 	
+	@SuppressLint("SetJavaScriptEnabled")
 	public void loadWebview() {
 		String userAgent = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0";
 		WebSettings ws = webview_main.getSettings();
@@ -242,6 +269,70 @@ public class RouterSetupActivity extends AppCompatActivity
 		DhcpInfo dhcp = mainWifi.getDhcpInfo();
 		int ip = dhcp.gateway;
 		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
+	}
+
+	class NetworkConnectivityReceiver extends BroadcastReceiver
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			checkNetworkConnectivity();
+		}
+	}
+
+	public void checkNetworkConnectivity() {
+		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		// WI-FI Connectivity Check
+
+		if (WiFiCheck.isConnected()) {
+			showWidgets();
+			if (!alert.isShowing()) {
+				initDialog();
+				showDialog();
+			}
+			wifi_connected = true;
+		} else {
+			hideWidgets();
+			if (alert.isShowing()) {
+				alert.dismiss();
+			}
+			wifi_connected = false;
+		}
+	}
+
+	public void showWidgets() {
+		webview_main.setVisibility(View.VISIBLE);
+		progressBarLoading.setVisibility(View.VISIBLE);
+		swipeRefresh.setVisibility(View.VISIBLE);
+		frame_layout_nonetworkconn.setVisibility(View.GONE);
+		textview_nonetworkconn.setVisibility(View.GONE);
+	}
+
+	public void hideWidgets() {
+		webview_main.setVisibility(View.GONE);
+		progressBarLoading.setVisibility(View.GONE);
+		swipeRefresh.setVisibility(View.GONE);
+		frame_layout_nonetworkconn.setVisibility(View.VISIBLE);
+		textview_nonetworkconn.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	protected void onStart()
+	{
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+		NetworkConnectivityReceiver = new RouterSetupActivity.NetworkConnectivityReceiver();
+		registerReceiver(NetworkConnectivityReceiver, filter);
+		super.onStart();
+	}
+
+	@Override
+	protected void onStop()
+	{
+		unregisterReceiver(NetworkConnectivityReceiver);
+		super.onStop();
 	}
 	
 }
