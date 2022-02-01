@@ -142,52 +142,17 @@ public class PingActivity extends AppCompatActivity
 		int ip = dhcp.gateway;
 		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
 	}
-	
-	public void ping() {
-		setEnabled(ping_button, false);
-		setEnabled(ping_button_cancel, true);
-		String url_ip = edit_text_ping.getText().toString();
 
-		if (TextUtils.isEmpty(url_ip)) {
-			if (wifi_connected) {
-				url_ip = getGateway();
-				Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Gateway IP: " + getGateway(), Toast.LENGTH_LONG).show();
-			} else if (cellular_connected) {
-				url_ip = "google.com";
-				Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Google URL: " + url_ip, Toast.LENGTH_LONG).show();
-			}
-		}
-		
-		int ping_timeout = Integer.parseInt(edit_text_timeout.getText().toString());
-		int ping_ttl = Integer.parseInt(edit_text_ttl.getText().toString());
-		int ping_times = Integer.parseInt(edit_text_times.getText().toString());
-		
-		PingResult pingResultInfo = null;
+	private void startPinger(String url_ip, int timeout, int ttl, int times) {
 		try {
-			pingResultInfo = Ping.onAddress(url_ip).setTimeOutMillis(ping_timeout).doPing();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			appendResultsText(e.getMessage());
-            setEnabled(ping_button, true);
-			setEnabled(ping_button_cancel, false);
-            return;
-		}
-		
-		appendResultsText("Pinging IP: " + pingResultInfo.getAddress().getHostAddress());
-        appendResultsText("Hostname: " + pingResultInfo.getAddress().getHostName());
-
-        // TODO: MOVE LINES 181-208 TO A SEPARATE FUNCTION
-		// startPinger(String url_ip, String timeout, String delay, String ttl, String times) { ... }
-		
-		try {
-			pinger = Ping.onAddress(url_ip).setTimeOutMillis(ping_timeout).setDelayMillis(500).setTimeToLive(ping_ttl).setTimes(ping_times).doPing(new Ping.PingListener() {
+			pinger = Ping.onAddress(url_ip).setTimeOutMillis(timeout).setDelayMillis(500).setTimeToLive(ttl).setTimes(times).doPing(new Ping.PingListener() {
 				@Override
 				public void onResult(PingResult pingResult) {
 					if (pingResult.isReachable()) {
 						appendResultsText(String.format("%.2f ms", pingResult.getTimeTaken()));
 					} else {
 						appendResultsText("Connection Timeout");
-					}	
+					}
 				}
 
 				@Override
@@ -213,6 +178,77 @@ public class PingActivity extends AppCompatActivity
 			setEnabled(ping_button, true);
 			setEnabled(ping_button_cancel, false);
 		}
+	}
+	
+	public void ping() {
+		setEnabled(ping_button, false);
+		setEnabled(ping_button_cancel, true);
+		String url_ip = edit_text_ping.getText().toString();
+
+		if (TextUtils.isEmpty(url_ip)) {
+			if (wifi_connected) {
+				url_ip = getGateway();
+				Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Gateway IP: " + getGateway(), Toast.LENGTH_LONG).show();
+			} else if (cellular_connected) {
+				url_ip = "google.com";
+				Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Google URL: " + url_ip, Toast.LENGTH_LONG).show();
+			}
+		}
+
+		if (!TextUtils.isEmpty(edit_text_timeout.getText().toString())) {
+			if (Integer.parseInt(edit_text_timeout.getText().toString()) < 1) {
+				appendResultsText("Timeout value cannot be lower than 1 ms");
+				appendResultsText("Changing timeout to the default value");
+				edit_text_timeout.setText("3000");
+			}
+		} else {
+			appendResultsText("Timeout text field cannot be empty");
+			appendResultsText("Changing timeout to the default value");
+			edit_text_timeout.setText("3000");
+		}
+
+		if (!TextUtils.isEmpty(edit_text_ttl.getText().toString())) {
+			if (Integer.parseInt(edit_text_ttl.getText().toString()) < 1) {
+				appendResultsText("TTL value cannot be lower than 1");
+				appendResultsText("Changing it to the default value");
+				edit_text_ttl.setText("30");
+			}
+		} else {
+			appendResultsText("TTL text field cannot be empty");
+			appendResultsText("Changing it to the default value");
+			edit_text_timeout.setText("30");
+		}
+
+		if (!TextUtils.isEmpty(edit_text_times.getText().toString())) {
+			if (Integer.parseInt(edit_text_times.getText().toString()) < 1) {
+				appendResultsText("You cannot ping a host " + edit_text_times.getText().toString() + " times");
+				appendResultsText("Changing it to the default value");
+				edit_text_times.setText("5");
+			}
+		} else {
+			appendResultsText("You cannot ping a host if you don't define how many packets you want to send");
+			appendResultsText("Changing it to the default value");
+			edit_text_times.setText("5");
+		}
+
+		int ping_timeout = Integer.parseInt(edit_text_timeout.getText().toString());
+		int ping_ttl = Integer.parseInt(edit_text_ttl.getText().toString());
+		int ping_times = Integer.parseInt(edit_text_times.getText().toString());
+		
+		PingResult pingResultInfo = null;
+		try {
+			pingResultInfo = Ping.onAddress(url_ip).setTimeOutMillis(ping_timeout).doPing();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			appendResultsText(e.getMessage());
+            setEnabled(ping_button, true);
+			setEnabled(ping_button_cancel, false);
+            return;
+		}
+		
+		appendResultsText("Pinging IP: " + pingResultInfo.getAddress().getHostAddress());
+        appendResultsText("Hostname: " + pingResultInfo.getAddress().getHostName());
+		startPinger(url_ip, ping_timeout, ping_ttl, ping_times);
 	}
 
 	class NetworkConnectivityReceiver extends BroadcastReceiver
