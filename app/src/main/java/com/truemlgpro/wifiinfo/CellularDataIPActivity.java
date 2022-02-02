@@ -34,11 +34,12 @@ public class CellularDataIPActivity extends AppCompatActivity
 {
 	
 	private Toolbar toolbar;
+	private TextView textview_nocellconn;
 	private CardView cardview_ip;
 	private CardView cardview_local_ip;
 	private TextView textview_ip_cell;
-	private TextView textview_nocellconn;
-	private TextView textview_local_ipv4_cell;
+	private TextView textview_header_local_ip;
+	private TextView textview_local_ip_cell;
 	private FloatingActionButton fab_update_ip;
 	private ConnectivityManager CM;
 	private NetworkInfo CellularCheck;
@@ -74,7 +75,8 @@ public class CellularDataIPActivity extends AppCompatActivity
 		cardview_ip = (CardView) findViewById(R.id.cardview_ip);
 		cardview_local_ip = (CardView) findViewById(R.id.cardview_local_ip);
 		textview_ip_cell = (TextView) findViewById(R.id.textview_ip_cell);
-		textview_local_ipv4_cell = (TextView) findViewById(R.id.textview_local_ipv4_cell);
+		textview_header_local_ip = (TextView) findViewById(R.id.textview_header_local_ip);
+		textview_local_ip_cell = (TextView) findViewById(R.id.textview_local_ip_cell);
 		textview_nocellconn = (TextView) findViewById(R.id.textview_noconn);
 		fab_update_ip = (FloatingActionButton) findViewById(R.id.fab_update_ip);
 		
@@ -215,15 +217,21 @@ public class CellularDataIPActivity extends AppCompatActivity
 
 		if (CellularCheck.isConnected()) {
 			showWidgets();
-			textview_local_ipv4_cell.setText("IPv4: " + getCellularLocalIPv4Address());
+			if (isAnIPv4Addr(getCellularLocalIPAddress())) {
+				textview_header_local_ip.setText("IPv4");
+				textview_local_ip_cell.setText("IPv4: " + getCellularLocalIPAddress());
+			} else {
+				textview_header_local_ip.setText("IPv6");
+				textview_local_ip_cell.setText("IPv6: " + getCellularLocalIPAddress());
+			}
 		} else {
-			textview_local_ipv4_cell.setText("IPv4: N/A");
+			textview_local_ip_cell.setText("IP: N/A");
 			textview_ip_cell.setText("Your IP: N/A");
 			hideWidgets();
 		}
 	}
 	
-	public static String getCellularLocalIPv4Address() {
+	public static String getCellularLocalIPAddress() {
 		try {
 			List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
 			for (NetworkInterface intf : interfaces) {
@@ -239,6 +247,35 @@ public class CellularDataIPActivity extends AppCompatActivity
 		}
 		
 		return "";
+	}
+
+	private boolean isAnIPv4Addr(String ipAddr) {
+		boolean isIPv4 = false;
+		String IPV4_REGEX = "^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$";
+		/* The following types of addresses match this RegEx pattern:
+			IPv6 addresses
+			zero compressed IPv6 addresses (section 2.2 of RFC5952)
+			link-local IPv6 addresses with zone index (section 11 of RFC4007)
+			IPv4-Embedded IPv6 Address (section 2 of RFC6052)
+			IPv4-mapped IPv6 addresses (section 2.1 of RFC2765)
+			IPv4-translated addresses (section 2.1 of RFC2765)
+		 */
+		String IPV6_REGEX = "^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$|" +
+				"^::(?:[0-9a-fA-F]{1,4}:){0,6}[0-9a-fA-F]{1,4}$|" +
+				"^[0-9a-fA-F]{1,4}::(?:[0-9a-fA-F]{1,4}:){0,5}[0-9a-fA-F]{1,4}$|" +
+				"^[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}::(?:[0-9a-fA-F]{1,4}:){0,4}[0-9a-fA-F]{1,4}$|" +
+				"^(?:[0-9a-fA-F]{1,4}:){0,2}[0-9a-fA-F]{1,4}::(?:[0-9a-fA-F]{1,4}:){0,3}[0-9a-fA-F]{1,4}$|" +
+				"^(?:[0-9a-fA-F]{1,4}:){0,3}[0-9a-fA-F]{1,4}::(?:[0-9a-fA-F]{1,4}:){0,2}[0-9a-fA-F]{1,4}$|" +
+				"^(?:[0-9a-fA-F]{1,4}:){0,4}[0-9a-fA-F]{1,4}::(?:[0-9a-fA-F]{1,4}:)?[0-9a-fA-F]{1,4}$|" +
+				"^(?:[0-9a-fA-F]{1,4}:){0,5}[0-9a-fA-F]{1,4}::[0-9a-fA-F]{1,4}$|" +
+				"^(?:[0-9a-fA-F]{1,4}:){0,6}[0-9a-fA-F]{1,4}::$";
+
+		if (ipAddr.matches(IPV4_REGEX)) {
+			isIPv4 = true;
+		} else if (ipAddr.matches(IPV6_REGEX)) {
+			isIPv4 = false;
+		}
+		return isIPv4;
 	}
 
 	@Override
