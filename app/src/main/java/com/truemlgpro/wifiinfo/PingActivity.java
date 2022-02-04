@@ -209,6 +209,7 @@ public class PingActivity extends AppCompatActivity
 
 		if (!TextUtils.isEmpty(edit_text_ttl.getText().toString())) {
 			if (Integer.parseInt(edit_text_ttl.getText().toString()) < 1) {
+				// FIXME
 				appendResultsText("TTL value cannot be lower than 1");
 				appendResultsText("Changing it to the default value");
 				edit_text_ttl.setText("30");
@@ -216,7 +217,7 @@ public class PingActivity extends AppCompatActivity
 		} else {
 			appendResultsText("TTL text field cannot be empty");
 			appendResultsText("Changing it to the default value");
-			edit_text_timeout.setText("30");
+			edit_text_ttl.setText("30");
 		}
 
 		if (!TextUtils.isEmpty(edit_text_times.getText().toString())) {
