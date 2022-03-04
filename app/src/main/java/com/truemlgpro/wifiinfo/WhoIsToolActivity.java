@@ -1,26 +1,28 @@
 package com.truemlgpro.wifiinfo;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutionException;
@@ -35,9 +37,9 @@ public class WhoIsToolActivity extends AppCompatActivity {
 
 	private TextInputLayout input_layout;
 	private EditText edittext_main;
-	private TextView textview_who_is_text;
+	private TextView textview_who_is_results;
 	private TextView textview_nonetworkconn;
-	private Button convert_button;
+	private Button fetch_whois_info_button;
 	private LinearLayout layout_who_is_results;
 	private ScrollView who_is_scroll;
 	private Toolbar toolbar;
@@ -48,6 +50,17 @@ public class WhoIsToolActivity extends AppCompatActivity {
 
 	public Boolean wifi_connected;
 	public Boolean cellular_connected;
+
+	private Bundle whoIsBundle = new Bundle();
+
+	private static final String MSG_KEY = "WhoIsQuery";
+
+	private static final int STATE_SUCCESS = 0;
+	private static final int STATE_ERROR_MALFORMED_URL = 1;
+	private static final int STATE_ERROR_UNKNOWN_HOST = 2;
+
+	private static final int STATE_RUNNABLE_STARTED = 11;
+	private static final int STATE_RUNNABLE_FINISHED = 12;
 
 	private BroadcastReceiver NetworkConnectivityReceiver;
 
@@ -77,8 +90,8 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		input_layout = (TextInputLayout) findViewById(R.id.input_layout);
 		edittext_main = (EditText) findViewById(R.id.edittext_main);
-		convert_button = (Button) findViewById(R.id.convert_button);
-		textview_who_is_text = (TextView) findViewById(R.id.textview_who_is_text);
+		fetch_whois_info_button = (Button) findViewById(R.id.fetch_whois_info_button);
+		textview_who_is_results = (TextView) findViewById(R.id.textview_who_is_results);
 		layout_who_is_results = (LinearLayout) findViewById(R.id.layout_who_is_results);
 		who_is_scroll = (ScrollView) findViewById(R.id.who_is_scroll);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
@@ -103,11 +116,11 @@ public class WhoIsToolActivity extends AppCompatActivity {
 			}
 		});
 
-		convert_button.setOnClickListener(new View.OnClickListener() {
+		fetch_whois_info_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (!shouldShowError()) {
-					getWhoIsInfo();
+					startWhoIsThread();
 					hideError();
 				} else {
 					showError();
@@ -129,37 +142,87 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		input_layout.setError(EMPTY_STRING);
 	}
 
-	private void scrollDown() {
-		who_is_scroll.post(new Runnable() {
-			@Override
-			public void run() {
-				who_is_scroll.fullScroll(View.FOCUS_DOWN);
+	@SuppressLint("HandlerLeak")
+	private final Handler msgHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case STATE_SUCCESS:
+					whoIsBundle = msg.getData();
+					String whoIsQuery = whoIsBundle.getString(MSG_KEY);
+					appendResultsText(whoIsQuery);
+					break;
+				case STATE_ERROR_MALFORMED_URL:
+					appendResultsText("Error: Malformed URL");
+					break;
+				case STATE_ERROR_UNKNOWN_HOST:
+					appendResultsText("Error: Unknown Host");
+					break;
+				case STATE_RUNNABLE_STARTED:
+					setEnabled(fetch_whois_info_button, false);
+					break;
+				case STATE_RUNNABLE_FINISHED:
+					setEnabled(fetch_whois_info_button, true);
+					break;
 			}
-		});
+		}
+	};
+
+	private final Runnable msgSenderRunnable = new Runnable() {
+		@Override
+		public void run() {
+			msgHandler.sendEmptyMessage(STATE_RUNNABLE_STARTED);
+			try {
+				String url = edittext_main.getText().toString();
+				String ip = URLandIPConverter.convertUrl("https://" + url);
+				String fetched_whois_data = getWhoIsInfo(url);
+				String output = "Getting Whois data for URL: " + url + "\n"
+						+ "IP: " + ip + "\n"
+						+ fetched_whois_data + "\n"
+						+ "----------------------------------------" + "\n";
+				Message msg = msgHandler.obtainMessage(STATE_SUCCESS);
+				whoIsBundle.putString(MSG_KEY, output);
+				msg.setData(whoIsBundle);
+				msgHandler.sendMessage(msg);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+				msgHandler.sendEmptyMessage(STATE_ERROR_MALFORMED_URL);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				msgHandler.sendEmptyMessage(STATE_ERROR_UNKNOWN_HOST);
+			}
+			msgHandler.sendEmptyMessage(STATE_RUNNABLE_FINISHED);
+		}
+	};
+
+	private void startWhoIsThread() {
+		new Thread(msgSenderRunnable).start();
 	}
 
-	public void getWhoIsInfo() {
-		TCWHOIS whois_client = new TCWHOIS();
+	public String getWhoIsInfo(String url) {
+		String whois_data = "";
 		try {
-			String url = edittext_main.getText().toString();
-			String whois_data = whois_client.getTCWHOIS(url);
-			String ip = URLandIPConverter.convertUrl("https://" + url);
-			appendResultsText("Getting Whois data for URL: " + url);
-			appendResultsText(("IP: " + ip));
-			appendResultsText(whois_data);
+			TCWHOIS whois_client = new TCWHOIS();
+			whois_data = whois_client.getTCWHOIS(url);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			appendResultsText("Error: Interrupted");
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 			appendResultsText("Error: Failed to execute");
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			appendResultsText("Error: Unknown Host");
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			appendResultsText("Error: Malformed URL");
 		}
+		return whois_data;
+	}
+
+	private void setEnabled(final View view, final boolean enabled) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (view != null) {
+					view.setEnabled(enabled);
+				}
+			}
+		});
 	}
 
 	class NetworkConnectivityReceiver extends BroadcastReceiver
@@ -180,12 +243,12 @@ public class WhoIsToolActivity extends AppCompatActivity {
 
 		if (WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
 			showWidgets();
-			textview_who_is_text.setText("...\n");
+			textview_who_is_results.setText("...\n");
 			edittext_main.setText("");
 			wifi_connected = true;
 			cellular_connected = false;
 		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
-			textview_who_is_text.setText("...\n");
+			textview_who_is_results.setText("...\n");
 			edittext_main.setText("");
 			hideWidgets();
 			wifi_connected = false;
@@ -196,12 +259,12 @@ public class WhoIsToolActivity extends AppCompatActivity {
 
 		if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
 			showWidgets();
-			textview_who_is_text.setText("...\n");
+			textview_who_is_results.setText("...\n");
 			edittext_main.setText("");
 			wifi_connected = false;
 			cellular_connected = true;
 		} else if (!CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
-			textview_who_is_text.setText("...\n");
+			textview_who_is_results.setText("...\n");
 			edittext_main.setText("");
 			hideWidgets();
 			wifi_connected = false;
@@ -210,20 +273,20 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	}
 
 	public void showWidgets() {
-		textview_who_is_text.setVisibility(View.VISIBLE);
+		textview_who_is_results.setVisibility(View.VISIBLE);
 		layout_who_is_results.setVisibility(View.VISIBLE);
 		input_layout.setVisibility(View.VISIBLE);
 		edittext_main.setVisibility(View.VISIBLE);
-		convert_button.setVisibility(View.VISIBLE);
+		fetch_whois_info_button.setVisibility(View.VISIBLE);
 		textview_nonetworkconn.setVisibility(View.GONE);
 	}
 
 	public void hideWidgets() {
-		textview_who_is_text.setVisibility(View.GONE);
+		textview_who_is_results.setVisibility(View.GONE);
 		layout_who_is_results.setVisibility(View.GONE);
 		input_layout.setVisibility(View.GONE);
 		edittext_main.setVisibility(View.GONE);
-		convert_button.setVisibility(View.GONE);
+		fetch_whois_info_button.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
 	}
 
@@ -231,7 +294,7 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				textview_who_is_text.append(text + "\n");
+				textview_who_is_results.append(text + "\n");
 				who_is_scroll.post(new Runnable() {
 					@Override
 					public void run() {

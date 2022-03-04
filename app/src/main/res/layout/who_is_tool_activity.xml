@@ -66,7 +66,7 @@
 			</android.support.design.widget.TextInputLayout>
 
 			<Button
-				android:id="@+id/convert_button"
+				android:id="@+id/fetch_whois_info_button"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="4dp"
@@ -93,7 +93,7 @@
 				android:padding="8dp">
 
 				<TextView
-					android:id="@+id/textview_who_is_text"
+					android:id="@+id/textview_who_is_results"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textColor="?TextColor"

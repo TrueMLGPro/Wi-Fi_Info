@@ -209,7 +209,6 @@ public class PingActivity extends AppCompatActivity
 
 		if (!TextUtils.isEmpty(edit_text_ttl.getText().toString())) {
 			if (Integer.parseInt(edit_text_ttl.getText().toString()) < 1) {
-				// FIXME
 				appendResultsText("TTL value cannot be lower than 1");
 				appendResultsText("Changing it to the default value");
 				edit_text_ttl.setText("30");

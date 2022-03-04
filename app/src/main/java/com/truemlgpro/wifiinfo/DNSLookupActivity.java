@@ -149,24 +149,24 @@ public class DNSLookupActivity extends AppCompatActivity {
 				AndroidUsingLinkProperties.setup(getApplicationContext());
 				Class<Data> recordDataClass = Record.TYPE.valueOf(dns_record_type).getDataClass();
 				if (recordDataClass == null) {
-					return "Record type " + dns_record_type + " is not supported" + "\n-----------------\n";
+					return "Record type " + dns_record_type + " is not supported" + "\n---------------------\n";
 				}
 				result = ResolverApi.INSTANCE.resolve(url_ip, recordDataClass);
 			} catch (IOException e) {
-				return "Failed to perform a lookup for record type " + dns_record_type + " | Error message: " + e.getMessage() + "\n-----------------\n";
+				return "Failed to perform a lookup for record type " + dns_record_type + " | Error message: " + e.getMessage() + "\n---------------------\n";
 			}
 
 			if (!result.wasSuccessful()) {
-				return "Failed to perform a lookup for record type " + dns_record_type + " | Response code: " + result.getResponseCode() + "\n-----------------\n";
+				return "Failed to perform a lookup for record type " + dns_record_type + " | Response code: " + result.getResponseCode() + "\n---------------------\n";
 			}
 
 			Set<? extends Data> answers = result.getAnswers();
 			if (answers.isEmpty()) {
-				return "No records available for record type " + dns_record_type + "\n-----------------\n";
+				return "No records available for record type " + dns_record_type + "\n---------------------\n";
 			}
 
 			StringBuilder out = new StringBuilder();
-			out.append("DNS Record Type - ").append(dns_record_type).append("\nURL/IP: ").append(url_ip).append("\n-----------------").append("\n");
+			out.append("DNS Record Type - ").append(dns_record_type).append("\nURL/IP: ").append(url_ip).append("\n---------------------").append("\n");
 			for (Data answer : answers) {
 				out.append(answer).append("\n");
 			}
