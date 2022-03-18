@@ -74,37 +74,37 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 {
 
 	private Toolbar toolbar;
-	private TextView textview_ip;
-	private TextView textview1;
-	private TextView textview2;
-	private TextView textview3;
-	private TextView textview4;
-	private TextView textview5;
-	private TextView textview6;
-	private TextView textview7;
-	private TextView textview8;
-	private TextView textview9;
-	private TextView textview10;
-	private TextView textview11;
-	private TextView textview12;
-	private TextView textview13;
-	private TextView textview14;
-	private TextView textview15;
-	private TextView textview16;
-	private TextView textview17;
-	private TextView textview18;
-	private TextView textview19;
-	private TextView textview20;
-	private TextView textview21;
-	private TextView textview22;
-	private TextView textview23;
-	private TextView textview24;
-	private TextView textview25;
-	private TextView textview26;
-	private TextView textview27;
-	private TextView textview28;
-	private TextView textview29;
-	private TextView textview30;
+	private TextView textview_public_ip;
+	private TextView textview_ssid;
+	private TextView textview_hidden_ssid;
+	private TextView textview_bssid;
+	private TextView textview_ipv4;
+	private TextView textview_ipv6;
+	private TextView textview_gateway_ip;
+	private TextView textview_hostname;
+	private TextView textview_dns1;
+	private TextView textview_dns2;
+	private TextView textview_subnet_mask;
+	private TextView textview_network_id;
+	private TextView textview_mac_address;
+	private TextView textview_network_interface;
+	private TextView textview_loopback_address;
+	private TextView textview_localhost;
+	private TextView textview_frequency;
+	private TextView textview_network_channel;
+	private TextView textview_rssi;
+	private TextView textview_lease_duration;
+	private TextView textview_transmit_link_speed;
+	private TextView textview_receive_link_speed;
+	private TextView textview_network_speed;
+	private TextView textview_transmitted_data;
+	private TextView textview_received_data;
+	private TextView textview_supplicant_state;
+	private TextView textview_5ghz_support;
+	private TextView textview_wifi_direct_support;
+	private TextView textview_tdls_support;
+	private TextView textview_wpa3_sae_support;
+	private TextView textview_wpa3_suite_b_support;
 	private TextView textview_noconn;
 	private CardView cardview_1;
 	private CardView cardview_2;
@@ -523,7 +523,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		if (!WiFiCheck.isConnected()) {
 			textview_noconn.setVisibility(View.VISIBLE);
 			hideWidgets(); // Hides CardViews and TextViews
-			textview_ip.setText("Your IP: N/A");
+			textview_public_ip.setText("Your IP: N/A");
 		} else {
 			textview_noconn.setVisibility(View.GONE);
 			showWidgets(); // Makes CardViews and TextViews visible
@@ -620,114 +620,114 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			@Override
 			public void run() {
 				if (ssid.equals("<unknown ssid>")) {
-					textview1.setText("SSID: N/A");
+					textview_ssid.setText("SSID: N/A");
 				} else {
-					textview1.setText(info_1);
+					textview_ssid.setText(info_1);
 				}
 
 				if (wInfo.getHiddenSSID()) {
-					textview2.setText("Hidden SSID: Yes");
+					textview_hidden_ssid.setText("Hidden SSID: Yes");
 				} else {
-					textview2.setText("Hidden SSID: No");
+					textview_hidden_ssid.setText("Hidden SSID: No");
 				}
 
 				if (bssid.contains("02:00:00:00:00:00")) {
-					textview3.setText("BSSID: N/A");
+					textview_bssid.setText("BSSID: N/A");
 				} else {
-					textview3.setText(info_3);
+					textview_bssid.setText(info_3);
 				}
 
-				textview4.setText(info_4);
-				textview5.setText(info_5);
-				textview6.setText(info_6);
-				textview7.setText(info_7);
-				textview8.setText(info_8);
-				textview9.setText(info_9);
+				textview_ipv4.setText(info_4);
+				textview_ipv6.setText(info_5);
+				textview_gateway_ip.setText(info_6);
+				textview_hostname.setText(info_7);
+				textview_dns1.setText(info_8);
+				textview_dns2.setText(info_9);
 
 				if (subnetMask.contains("0.0.0.0")) {
-					textview10.setText("Subnet Mask: N/A");
+					textview_subnet_mask.setText("Subnet Mask: N/A");
 				} else {
-					textview10.setText(info_10);
+					textview_subnet_mask.setText(info_10);
 				}
 
 				if (network_id == -1) {
-					textview11.setText("Network ID: N/A");
+					textview_network_id.setText("Network ID: N/A");
 				} else {
-					textview11.setText(info_11);
+					textview_network_id.setText(info_11);
 				}
 
-				textview12.setText(info_12);
-				textview13.setText(info_13);
-				textview14.setText(info_14);
-				textview15.setText(info_15);
-				textview16.setText(info_16);
-				textview17.setText(info_17);
-				textview18.setText(info_18);
+				textview_mac_address.setText(info_12);
+				textview_network_interface.setText(info_13);
+				textview_loopback_address.setText(info_14);
+				textview_localhost.setText(info_15);
+				textview_frequency.setText(info_16);
+				textview_network_channel.setText(info_17);
+				textview_rssi.setText(info_18);
 
 				if (leaseTime == 0) {
-					textview19.setText("Lease Duration: N/A");
+					textview_lease_duration.setText("Lease Duration: N/A");
 				} else if (leaseTime >= 3600) {
-					textview19.setText(info_19);
+					textview_lease_duration.setText(info_19);
 				} else if (leaseTime < 3600) {
-					textview19.setText(info_19_1);
+					textview_lease_duration.setText(info_19_1);
 				}
 
 				if (Build.VERSION.SDK_INT >= 29) {
-					textview20.setText(info_20);
-					textview21.setText(info_21);
+					textview_transmit_link_speed.setText(info_20);
+					textview_receive_link_speed.setText(info_21);
 				} else {
-					textview20.setVisibility(View.GONE);
-					textview21.setVisibility(View.GONE);
+					textview_transmit_link_speed.setVisibility(View.GONE);
+					textview_receive_link_speed.setVisibility(View.GONE);
 				}
 
-				textview22.setText(info_22);
-				textview23.setText(info_23);
-				textview24.setText(info_24);
-				textview25.setText(info_25);
+				textview_network_speed.setText(info_22);
+				textview_transmitted_data.setText(info_23);
+				textview_received_data.setText(info_24);
+				textview_supplicant_state.setText(info_25);
 
 				if (mainWifiManager.is5GHzBandSupported()) {
 					String info_26 = "5GHz Band Support: Yes";
-					textview26.setText(info_26);
+					textview_5ghz_support.setText(info_26);
 				} else {
 					String info_26 = "5GHz Band Support: No";
-					textview26.setText(info_26);
+					textview_5ghz_support.setText(info_26);
 				}
 
 				if (mainWifiManager.isP2pSupported()) {
 					String info_27 = "Wi-Fi Direct Support: Yes";
-					textview27.setText(info_27);
+					textview_wifi_direct_support.setText(info_27);
 				} else {
 					String info_27 = "Wi-Fi Direct Support: No";
-					textview27.setText(info_27);
+					textview_wifi_direct_support.setText(info_27);
 				}
 
 				if (mainWifiManager.isTdlsSupported()) {
 					String info_28 = "TDLS Support: Yes";
-					textview28.setText(info_28);
+					textview_tdls_support.setText(info_28);
 				} else {
 					String info_28 = "TDLS Support: No";
-					textview28.setText(info_28);
+					textview_tdls_support.setText(info_28);
 				}
 
 				if (Build.VERSION.SDK_INT >= 29) {
 					if (mainWifiManager.isWpa3SaeSupported()) {
 						String info_29 = "WPA3 SAE Support: Yes";
-						textview29.setText(info_29);
+						textview_wpa3_sae_support.setText(info_29);
 					} else {
 						String info_29 = "WPA3 SAE Support: No";
-						textview29.setText(info_29);
+						textview_wpa3_sae_support.setText(info_29);
 					}
 
 					if (mainWifiManager.isWpa3SuiteBSupported()) {
 						String info_30 = "WPA3 Suite B Support: Yes";
-						textview30.setText(info_30);
+						textview_wpa3_suite_b_support.setText(info_30);
 					} else {
 						String info_30 = "WPA3 Suite B Support: No";
-						textview30.setText(info_30);
+						textview_wpa3_suite_b_support.setText(info_30);
 					}
 				} else {
-					textview29.setVisibility(View.GONE);
-					textview30.setVisibility(View.GONE);
+					textview_wpa3_sae_support.setVisibility(View.GONE);
+					textview_wpa3_suite_b_support.setVisibility(View.GONE);
 				}
 			}
 		});
@@ -755,7 +755,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			if (!WiFiCheck.isConnected()) {
 				textview_noconn.setVisibility(View.VISIBLE);
 				hideWidgets(); // Hides CardViews and TextViews
-				textview_ip.setText("Your IP: N/A");
+				textview_public_ip.setText("Your IP: N/A");
 				if (isHandlerRunning) {
 					handler.removeCallbacks(runnable);
 					isHandlerRunning = false;
@@ -792,37 +792,37 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	}
 	
 	public void hideWidgets() {
-		textview_ip.setVisibility(View.GONE);
-		textview1.setVisibility(View.GONE);
-		textview2.setVisibility(View.GONE);
-		textview3.setVisibility(View.GONE);
-		textview4.setVisibility(View.GONE);
-		textview5.setVisibility(View.GONE);
-		textview6.setVisibility(View.GONE);
-		textview7.setVisibility(View.GONE);
-		textview8.setVisibility(View.GONE);
-		textview9.setVisibility(View.GONE);
-		textview10.setVisibility(View.GONE);
-		textview11.setVisibility(View.GONE);
-		textview12.setVisibility(View.GONE);
-		textview13.setVisibility(View.GONE);
-		textview14.setVisibility(View.GONE);
-		textview15.setVisibility(View.GONE);
-		textview16.setVisibility(View.GONE);
-		textview17.setVisibility(View.GONE);
-		textview18.setVisibility(View.GONE);
-		textview19.setVisibility(View.GONE);
-		textview20.setVisibility(View.GONE);
-		textview21.setVisibility(View.GONE);
-		textview22.setVisibility(View.GONE);
-		textview23.setVisibility(View.GONE);
-		textview24.setVisibility(View.GONE);
-		textview25.setVisibility(View.GONE);
-		textview26.setVisibility(View.GONE);
-		textview27.setVisibility(View.GONE);
-		textview28.setVisibility(View.GONE);
-		textview29.setVisibility(View.GONE);
-		textview30.setVisibility(View.GONE);
+		textview_public_ip.setVisibility(View.GONE);
+		textview_ssid.setVisibility(View.GONE);
+		textview_hidden_ssid.setVisibility(View.GONE);
+		textview_bssid.setVisibility(View.GONE);
+		textview_ipv4.setVisibility(View.GONE);
+		textview_ipv6.setVisibility(View.GONE);
+		textview_gateway_ip.setVisibility(View.GONE);
+		textview_hostname.setVisibility(View.GONE);
+		textview_dns1.setVisibility(View.GONE);
+		textview_dns2.setVisibility(View.GONE);
+		textview_subnet_mask.setVisibility(View.GONE);
+		textview_network_id.setVisibility(View.GONE);
+		textview_mac_address.setVisibility(View.GONE);
+		textview_network_interface.setVisibility(View.GONE);
+		textview_loopback_address.setVisibility(View.GONE);
+		textview_localhost.setVisibility(View.GONE);
+		textview_frequency.setVisibility(View.GONE);
+		textview_network_channel.setVisibility(View.GONE);
+		textview_rssi.setVisibility(View.GONE);
+		textview_lease_duration.setVisibility(View.GONE);
+		textview_transmit_link_speed.setVisibility(View.GONE);
+		textview_receive_link_speed.setVisibility(View.GONE);
+		textview_network_speed.setVisibility(View.GONE);
+		textview_transmitted_data.setVisibility(View.GONE);
+		textview_received_data.setVisibility(View.GONE);
+		textview_supplicant_state.setVisibility(View.GONE);
+		textview_5ghz_support.setVisibility(View.GONE);
+		textview_wifi_direct_support.setVisibility(View.GONE);
+		textview_tdls_support.setVisibility(View.GONE);
+		textview_wpa3_sae_support.setVisibility(View.GONE);
+		textview_wpa3_suite_b_support.setVisibility(View.GONE);
 		cardview_1.setVisibility(View.GONE);
 		cardview_2.setVisibility(View.GONE);
 		cardview_3.setVisibility(View.GONE);
@@ -833,46 +833,46 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	}
 	
 	public void showWidgets() {
-		textview_ip.setVisibility(View.VISIBLE);
-		textview1.setVisibility(View.VISIBLE);
-		textview2.setVisibility(View.VISIBLE);
-		textview3.setVisibility(View.VISIBLE);
-		textview4.setVisibility(View.VISIBLE);
-		textview5.setVisibility(View.VISIBLE);
-		textview6.setVisibility(View.VISIBLE);
-		textview7.setVisibility(View.VISIBLE);
-		textview8.setVisibility(View.VISIBLE);
-		textview9.setVisibility(View.VISIBLE);
-		textview10.setVisibility(View.VISIBLE);
-		textview11.setVisibility(View.VISIBLE);
-		textview12.setVisibility(View.VISIBLE);
-		textview13.setVisibility(View.VISIBLE);
-		textview14.setVisibility(View.VISIBLE);
-		textview15.setVisibility(View.VISIBLE);
-		textview16.setVisibility(View.VISIBLE);
-		textview17.setVisibility(View.VISIBLE);
-		textview18.setVisibility(View.VISIBLE);
-		textview19.setVisibility(View.VISIBLE);
-		if (Build.VERSION.SDK_INT < 29 && textview20.getVisibility() == View.VISIBLE && textview21.getVisibility() == View.VISIBLE) {
-			textview20.setVisibility(View.GONE);
-			textview21.setVisibility(View.GONE);
-		} else if (Build.VERSION.SDK_INT >= 29 && textview20.getVisibility() == View.GONE && textview21.getVisibility() == View.GONE) {
-			textview20.setVisibility(View.VISIBLE);
-			textview21.setVisibility(View.VISIBLE);
+		textview_public_ip.setVisibility(View.VISIBLE);
+		textview_ssid.setVisibility(View.VISIBLE);
+		textview_hidden_ssid.setVisibility(View.VISIBLE);
+		textview_bssid.setVisibility(View.VISIBLE);
+		textview_ipv4.setVisibility(View.VISIBLE);
+		textview_ipv6.setVisibility(View.VISIBLE);
+		textview_gateway_ip.setVisibility(View.VISIBLE);
+		textview_hostname.setVisibility(View.VISIBLE);
+		textview_dns1.setVisibility(View.VISIBLE);
+		textview_dns2.setVisibility(View.VISIBLE);
+		textview_subnet_mask.setVisibility(View.VISIBLE);
+		textview_network_id.setVisibility(View.VISIBLE);
+		textview_mac_address.setVisibility(View.VISIBLE);
+		textview_network_interface.setVisibility(View.VISIBLE);
+		textview_loopback_address.setVisibility(View.VISIBLE);
+		textview_localhost.setVisibility(View.VISIBLE);
+		textview_frequency.setVisibility(View.VISIBLE);
+		textview_network_channel.setVisibility(View.VISIBLE);
+		textview_rssi.setVisibility(View.VISIBLE);
+		textview_lease_duration.setVisibility(View.VISIBLE);
+		if (Build.VERSION.SDK_INT < 29 && textview_transmit_link_speed.getVisibility() == View.VISIBLE && textview_receive_link_speed.getVisibility() == View.VISIBLE) {
+			textview_transmit_link_speed.setVisibility(View.GONE);
+			textview_receive_link_speed.setVisibility(View.GONE);
+		} else if (Build.VERSION.SDK_INT >= 29 && textview_transmit_link_speed.getVisibility() == View.GONE && textview_receive_link_speed.getVisibility() == View.GONE) {
+			textview_transmit_link_speed.setVisibility(View.VISIBLE);
+			textview_receive_link_speed.setVisibility(View.VISIBLE);
 		}
-		textview22.setVisibility(View.VISIBLE);
-		textview23.setVisibility(View.VISIBLE);
-		textview24.setVisibility(View.VISIBLE);
-		textview25.setVisibility(View.VISIBLE);
-		textview26.setVisibility(View.VISIBLE);
-		textview27.setVisibility(View.VISIBLE);
-		textview28.setVisibility(View.VISIBLE);
-		if (Build.VERSION.SDK_INT < 29 && textview29.getVisibility() == View.VISIBLE && textview30.getVisibility() == View.VISIBLE) {
-			textview29.setVisibility(View.GONE);
-			textview30.setVisibility(View.GONE);
-		} else if (Build.VERSION.SDK_INT >= 29 && textview29.getVisibility() == View.GONE && textview30.getVisibility() == View.GONE) {
-			textview29.setVisibility(View.VISIBLE);
-			textview30.setVisibility(View.VISIBLE);
+		textview_network_speed.setVisibility(View.VISIBLE);
+		textview_transmitted_data.setVisibility(View.VISIBLE);
+		textview_received_data.setVisibility(View.VISIBLE);
+		textview_supplicant_state.setVisibility(View.VISIBLE);
+		textview_5ghz_support.setVisibility(View.VISIBLE);
+		textview_wifi_direct_support.setVisibility(View.VISIBLE);
+		textview_tdls_support.setVisibility(View.VISIBLE);
+		if (Build.VERSION.SDK_INT < 29 && textview_wpa3_sae_support.getVisibility() == View.VISIBLE && textview_wpa3_suite_b_support.getVisibility() == View.VISIBLE) {
+			textview_wpa3_sae_support.setVisibility(View.GONE);
+			textview_wpa3_suite_b_support.setVisibility(View.GONE);
+		} else if (Build.VERSION.SDK_INT >= 29 && textview_wpa3_sae_support.getVisibility() == View.GONE && textview_wpa3_suite_b_support.getVisibility() == View.GONE) {
+			textview_wpa3_sae_support.setVisibility(View.VISIBLE);
+			textview_wpa3_suite_b_support.setVisibility(View.VISIBLE);
 		}
 		cardview_1.setVisibility(View.VISIBLE);
 		cardview_2.setVisibility(View.VISIBLE);
@@ -1135,37 +1135,37 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	
 	public void initializeViews() {
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		textview_ip = (TextView) findViewById(R.id.textview_ip);
-		textview1 = (TextView) findViewById(R.id.textview1);
-		textview2 = (TextView) findViewById(R.id.textview2);
-		textview3 = (TextView) findViewById(R.id.textview3);
-		textview4 = (TextView) findViewById(R.id.textview4);
-		textview5 = (TextView) findViewById(R.id.textview5);
-		textview6 = (TextView) findViewById(R.id.textview6);
-		textview7 = (TextView) findViewById(R.id.textview7);
-		textview8 = (TextView) findViewById(R.id.textview8);
-		textview9 = (TextView) findViewById(R.id.textview9);
-		textview10 = (TextView) findViewById(R.id.textview10);
-		textview11 = (TextView) findViewById(R.id.textview11);
-		textview12 = (TextView) findViewById(R.id.textview12);
-		textview13 = (TextView) findViewById(R.id.textview13);
-		textview14 = (TextView) findViewById(R.id.textview14);
-		textview15 = (TextView) findViewById(R.id.textview15);
-		textview16 = (TextView) findViewById(R.id.textview16);
-		textview17 = (TextView) findViewById(R.id.textview17);
-		textview18 = (TextView) findViewById(R.id.textview18);
-		textview19 = (TextView) findViewById(R.id.textview19);
-		textview20 = (TextView) findViewById(R.id.textview20);
-		textview21 = (TextView) findViewById(R.id.textview21);
-		textview22 = (TextView) findViewById(R.id.textview22);
-		textview23 = (TextView) findViewById(R.id.textview23);
-		textview24 = (TextView) findViewById(R.id.textview24);
-		textview25 = (TextView) findViewById(R.id.textview25);
-		textview26 = (TextView) findViewById(R.id.textview26);
-		textview27 = (TextView) findViewById(R.id.textview27);
-		textview28 = (TextView) findViewById(R.id.textview28);
-		textview29 = (TextView) findViewById(R.id.textview29);
-		textview30 = (TextView) findViewById(R.id.textview30);
+		textview_public_ip = (TextView) findViewById(R.id.textview_public_ip);
+		textview_ssid = (TextView) findViewById(R.id.textview_ssid);
+		textview_hidden_ssid = (TextView) findViewById(R.id.textview_hidden_ssid);
+		textview_bssid = (TextView) findViewById(R.id.textview_bssid);
+		textview_ipv4 = (TextView) findViewById(R.id.textview_ipv4);
+		textview_ipv6 = (TextView) findViewById(R.id.textview_ipv6);
+		textview_gateway_ip = (TextView) findViewById(R.id.textview_gateway_ip);
+		textview_hostname = (TextView) findViewById(R.id.textview_hostname);
+		textview_dns1 = (TextView) findViewById(R.id.textview_dns1);
+		textview_dns2 = (TextView) findViewById(R.id.textview_dns2);
+		textview_subnet_mask = (TextView) findViewById(R.id.textview_subnet_mask);
+		textview_network_id = (TextView) findViewById(R.id.textview_network_id);
+		textview_mac_address = (TextView) findViewById(R.id.textview_mac_address);
+		textview_network_interface = (TextView) findViewById(R.id.textview_network_interface);
+		textview_loopback_address = (TextView) findViewById(R.id.textview_loopback_address);
+		textview_localhost = (TextView) findViewById(R.id.textview_localhost);
+		textview_frequency = (TextView) findViewById(R.id.textview_frequency);
+		textview_network_channel = (TextView) findViewById(R.id.textview_network_channel);
+		textview_rssi = (TextView) findViewById(R.id.textview_rssi);
+		textview_lease_duration = (TextView) findViewById(R.id.textview_lease_duration);
+		textview_transmit_link_speed = (TextView) findViewById(R.id.textview_transmit_link_speed);
+		textview_receive_link_speed = (TextView) findViewById(R.id.textview_receive_link_speed);
+		textview_network_speed = (TextView) findViewById(R.id.textview_network_speed);
+		textview_transmitted_data = (TextView) findViewById(R.id.textview_transmitted_data);
+		textview_received_data = (TextView) findViewById(R.id.textview_received_data);
+		textview_supplicant_state = (TextView) findViewById(R.id.textview_supplicant_state);
+		textview_5ghz_support = (TextView) findViewById(R.id.textview_5ghz_support);
+		textview_wifi_direct_support = (TextView) findViewById(R.id.textview_wifi_direct_support);
+		textview_tdls_support = (TextView) findViewById(R.id.textview_tdls_support);
+		textview_wpa3_sae_support = (TextView) findViewById(R.id.textview_wpa3_sae_support);
+		textview_wpa3_suite_b_support = (TextView) findViewById(R.id.textview_wpa3_suite_b_support);
 		textview_noconn = (TextView) findViewById(R.id.textview_noconn);
 		cardview_1 = (CardView) findViewById(R.id.cardview_1);
 		cardview_2 = (CardView) findViewById(R.id.cardview_2);
@@ -1239,11 +1239,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	}
 	
 	public void initializeCopyableText() {
-		textview_ip.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_public_ip.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
-					if (textview_ip.getText().equals("Your IP: N/A")) {
+					if (textview_public_ip.getText().equals("Your IP: N/A")) {
 						ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 						ClipData clip = ClipData.newPlainText("Public IP", "N/A");
 						cbm.setPrimaryClip(clip);
@@ -1260,11 +1260,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview1.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_ssid.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
-					if (textview1.getText().equals("SSID: N/A")) {
+					if (textview_ssid.getText().equals("SSID: N/A")) {
 						ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 						ClipData clip = ClipData.newPlainText("SSID", "N/A");
 						cbm.setPrimaryClip(clip);
@@ -1282,11 +1282,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview2.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_hidden_ssid.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
-					if (textview2.getText().equals("Hidden SSID: Yes")) {
+					if (textview_hidden_ssid.getText().equals("Hidden SSID: Yes")) {
 						ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 						ClipData clip = ClipData.newPlainText("Hidden SSID", "Yes");
 						cbm.setPrimaryClip(clip);
@@ -1303,11 +1303,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview3.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_bssid.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
-					if (textview3.getText().equals("BSSID: N/A")) {
+					if (textview_bssid.getText().equals("BSSID: N/A")) {
 						ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 						ClipData clip = ClipData.newPlainText("BSSID", "N/A");
 						cbm.setPrimaryClip(clip);
@@ -1325,7 +1325,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview4.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_ipv4.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1339,7 +1339,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview5.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_ipv6.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1353,7 +1353,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview6.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_gateway_ip.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1367,7 +1367,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview7.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_hostname.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1388,7 +1388,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview8.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_dns1.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1403,7 +1403,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview9.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_dns2.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1418,11 +1418,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview10.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_subnet_mask.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
-					if (textview10.getText().equals("Subnet Mask: N/A")) {
+					if (textview_subnet_mask.getText().equals("Subnet Mask: N/A")) {
 						ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 						ClipData clip = ClipData.newPlainText("Subnet Mask", "N/A");
 						cbm.setPrimaryClip(clip);
@@ -1441,11 +1441,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview11.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_network_id.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
-					if (textview11.getText().equals("Network ID: N/A")) {
+					if (textview_network_id.getText().equals("Network ID: N/A")) {
 						ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 						ClipData clip = ClipData.newPlainText("Network ID", "N/A");
 						cbm.setPrimaryClip(clip);
@@ -1463,7 +1463,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview12.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_mac_address.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1477,7 +1477,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview13.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_network_interface.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1494,7 +1494,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview14.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_loopback_address.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1508,7 +1508,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview15.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_localhost.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1527,7 +1527,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview16.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_frequency.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1541,7 +1541,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview17.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_network_channel.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1556,7 +1556,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview18.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_rssi.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1571,7 +1571,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview19.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_lease_duration.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1600,7 +1600,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			});
 
 		if (Build.VERSION.SDK_INT >= 29) {
-			textview20.setOnLongClickListener(new View.OnLongClickListener() {
+			textview_transmit_link_speed.setOnLongClickListener(new View.OnLongClickListener() {
 					@Override
 					public boolean onLongClick(View v)
 					{
@@ -1615,7 +1615,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 					}
 				});
 
-			textview21.setOnLongClickListener(new View.OnLongClickListener() {
+			textview_receive_link_speed.setOnLongClickListener(new View.OnLongClickListener() {
 					@Override
 					public boolean onLongClick(View v)
 					{
@@ -1631,7 +1631,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				});
 		}
 
-		textview22.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_network_speed.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1646,7 +1646,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview23.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_transmitted_data.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1667,7 +1667,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview24.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_received_data.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1688,7 +1688,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview25.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_supplicant_state.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1702,7 +1702,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview26.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_5ghz_support.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1720,7 +1720,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview27.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_wifi_direct_support.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1738,7 +1738,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			});
 
-		textview28.setOnLongClickListener(new View.OnLongClickListener() {
+		textview_tdls_support.setOnLongClickListener(new View.OnLongClickListener() {
 				@Override
 				public boolean onLongClick(View v)
 				{
@@ -1757,7 +1757,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			});
 
 		if (Build.VERSION.SDK_INT >= 29) {
-			textview29.setOnLongClickListener(new View.OnLongClickListener() {
+			textview_wpa3_sae_support.setOnLongClickListener(new View.OnLongClickListener() {
 					@Override
 					public boolean onLongClick(View v)
 					{
@@ -1775,7 +1775,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 					}
 				});
 
-			textview30.setOnLongClickListener(new View.OnLongClickListener() {
+			textview_wpa3_suite_b_support.setOnLongClickListener(new View.OnLongClickListener() {
 					@Override
 					public boolean onLongClick(View v)
 					{
@@ -1852,11 +1852,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				protected void onPostExecute(Void aVoid) {
 					super.onPostExecute(aVoid);
 					if (siteReachable) {
-						textview_ip.setText("Your IP: " + publicIPFetched);
+						textview_public_ip.setText("Your IP: " + publicIPFetched);
 					}
 
 					if (!siteReachable) {
-						textview_ip.setText("Your IP: N/A");
+						textview_public_ip.setText("Your IP: N/A");
 					}
 				}
 			}.execute();

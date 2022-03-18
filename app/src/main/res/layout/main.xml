@@ -83,7 +83,7 @@
 					</LinearLayout>
 
 					<TextView
-						android:id="@+id/textview_ip"
+						android:id="@+id/textview_public_ip"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -153,7 +153,7 @@
 					</LinearLayout>
 			
 					<TextView
-						android:id="@+id/textview1"
+						android:id="@+id/textview_ssid"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -162,7 +162,7 @@
 						android:text="" />
 					
 					<TextView
-						android:id="@+id/textview2"
+						android:id="@+id/textview_hidden_ssid"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -171,7 +171,7 @@
 						android:text="" />
 					
 					<TextView
-						android:id="@+id/textview3"
+						android:id="@+id/textview_bssid"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -180,7 +180,7 @@
 						android:text="" />
 					
 					<TextView
-						android:id="@+id/textview4"
+						android:id="@+id/textview_ipv4"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -189,7 +189,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview5"
+						android:id="@+id/textview_ipv6"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -198,7 +198,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview6"
+						android:id="@+id/textview_gateway_ip"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -207,7 +207,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview7"
+						android:id="@+id/textview_hostname"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -264,7 +264,7 @@
 					</LinearLayout>
 
 					<TextView
-						android:id="@+id/textview8"
+						android:id="@+id/textview_dns1"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -273,7 +273,7 @@
 						android:text="" />
 
 					<TextView
-						android:id="@+id/textview9"
+						android:id="@+id/textview_dns2"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -282,7 +282,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview10"
+						android:id="@+id/textview_subnet_mask"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -291,7 +291,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview11"
+						android:id="@+id/textview_network_id"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -300,7 +300,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview12"
+						android:id="@+id/textview_mac_address"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -309,7 +309,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview13"
+						android:id="@+id/textview_network_interface"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -318,7 +318,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview14"
+						android:id="@+id/textview_loopback_address"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -327,7 +327,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview15"
+						android:id="@+id/textview_localhost"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -384,7 +384,7 @@
 					</LinearLayout>
 						
 					<TextView
-						android:id="@+id/textview16"
+						android:id="@+id/textview_frequency"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -393,7 +393,7 @@
 						android:text="" />
 
 					<TextView
-						android:id="@+id/textview17"
+						android:id="@+id/textview_network_channel"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -402,7 +402,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview18"
+						android:id="@+id/textview_rssi"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -411,7 +411,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview19"
+						android:id="@+id/textview_lease_duration"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -420,7 +420,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview20"
+						android:id="@+id/textview_transmit_link_speed"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -429,7 +429,7 @@
 						android:text="" />
 
 					<TextView
-						android:id="@+id/textview21"
+						android:id="@+id/textview_receive_link_speed"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -438,7 +438,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview22"
+						android:id="@+id/textview_network_speed"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -447,7 +447,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview23"
+						android:id="@+id/textview_transmitted_data"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -456,7 +456,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview24"
+						android:id="@+id/textview_received_data"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -513,7 +513,7 @@
 					</LinearLayout>
 						
 					<TextView
-						android:id="@+id/textview25"
+						android:id="@+id/textview_supplicant_state"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -571,7 +571,7 @@
 					</LinearLayout>
 						
 					<TextView
-						android:id="@+id/textview26"
+						android:id="@+id/textview_5ghz_support"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -580,7 +580,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview27"
+						android:id="@+id/textview_wifi_direct_support"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -589,7 +589,7 @@
 						android:text="" />
 
 					<TextView
-						android:id="@+id/textview28"
+						android:id="@+id/textview_tdls_support"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
@@ -599,7 +599,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview29"
+						android:id="@+id/textview_wpa3_sae_support"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:textSize="16sp"
@@ -607,7 +607,7 @@
 						android:text="" />
 						
 					<TextView
-						android:id="@+id/textview30"
+						android:id="@+id/textview_wpa3_suite_b_support"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="16dp"
