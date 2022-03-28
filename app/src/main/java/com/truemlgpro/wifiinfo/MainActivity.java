@@ -1835,10 +1835,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		if (Build.VERSION.SDK_INT >= 29) {
 			strB.append(info_20).append("\n").append(info_21).append("\n");
 		}
-		strB.append(info_22).append("\n").append(info_23).append("\n").append(info_24).append("\n");
+		strB.append(info_22).append("\n").append(info_23).append("\n").append(info_24).append("\n").append(info_25).append("\n")
+			.append(info_26).append("\n").append(info_27).append("\n").append(info_28).append("\n");
 		if (Build.VERSION.SDK_INT >= 29) {
-			strB.append(info_25).append("\n").append(info_26).append("\n").append(info_27).append("\n").append(info_28).append("\n")
-				.append(info_29).append("\n").append(info_30);
+			strB.append(info_29).append("\n").append(info_30);
 		}
 
 		ClipData clipData = ClipData.newPlainText("all_info_text", strB);
