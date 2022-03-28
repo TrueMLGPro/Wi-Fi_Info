@@ -35,6 +35,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -119,6 +120,38 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	private FloatingActionButton fab_tools;
 	private FloatingActionButton fab_settings;
 	private FloatingActionButton fab_update;
+
+	// Strings for onInfoGet()
+	String info_1 = "";
+	String info_2 = "";
+	String info_3 = "";
+	String info_4 = "";
+	String info_5 = "";
+	String info_6 = "";
+	String info_7 = "";
+	String info_8 = "";
+	String info_9 = "";
+	String info_10 = "";
+	String info_11 = "";
+	String info_12 = "";
+	String info_13 = "";
+	String info_14 = "";
+	String info_15 = "";
+	String info_16 = "";
+	String info_17 = "";
+	String info_18 = "";
+	String info_19 = "";
+	String info_20 = "";
+	String info_21 = "";
+	String info_22 = "";
+	String info_23 = "";
+	String info_24 = "";
+	String info_25 = "";
+	String info_26 = "";
+	String info_27 = "";
+	String info_28 = "";
+	String info_29 = "";
+	String info_30 = "";
 
 	private final int LocationPermissionCode = 123;
 
@@ -534,9 +567,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		mainWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		wInfo = mainWifiManager.getConnectionInfo();
 		dhcp = mainWifiManager.getDhcpInfo();
-		final String ssid = wInfo.getSSID();
-
-		final String bssid;
+		String ssid = wInfo.getSSID();
+		String bssid;
 		if (wInfo.getBSSID() != null) {
 			bssid = wInfo.getBSSID().toUpperCase();
 		} else {
@@ -548,8 +580,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		String hostname = getHostname();
 		String dns1 = intToIp(dhcp.dns1);
 		String dns2 = intToIp(dhcp.dns2);
-		final String subnetMask = intToIp(dhcp.netmask);
-		final int network_id = wInfo.getNetworkId();
+		String subnetMask = intToIp(dhcp.netmask);
+		int network_id = wInfo.getNetworkId();
 		// Apps cannot access MAC Address on Android 11
 		String macAdd;
 		if (Build.VERSION.SDK_INT > 29) {
@@ -560,7 +592,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		String network_interface = getNetworkInterface();
 		InetAddress loopbackAddr = InetAddress.getLoopbackAddress();
 		String localhostAddr = getLocalhostAddress();
-		final int leaseTime = dhcp.leaseDuration;
+		int leaseTime = dhcp.leaseDuration;
 		int leaseTimeHours = dhcp.leaseDuration / 3600;
 		int leaseTimeMinutes = dhcp.leaseDuration / 60;
 		int freq = wInfo.getFrequency();
@@ -590,72 +622,112 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		String wifiTXGigabytesStr = String.format(Locale.US, "%.2f", wifiTXGigabytes);
 		SupplicantState supState = wInfo.getSupplicantState();
 
-		final String info_1 = "SSID: " + ssid;
-		final String info_3 = "BSSID: " + bssid.toUpperCase();
-		final String info_4 = "IPv4: " + ipv4;
-		final String info_5 = "IPv6: " + ipv6;
-		final String info_6 = "Gateway IP: " + gatewayIP;
-		final String info_7 = "Hostname: " + hostname;
-		final String info_8 = "DNS (1): " + dns1;
-		final String info_9 = "DNS (2): " + dns2;
-		final String info_10 = "Subnet Mask: " + subnetMask;
-		final String info_11 = "Network ID: " + network_id;
-		final String info_12 = "MAC Address: " + macAdd;
-		final String info_13 = "Network Interface: " + network_interface;
-		final String info_14 = "Loopback Address: " + loopbackAddr;
-		final String info_15 = "Localhost: " + localhostAddr;
-		final String info_16 = "Frequency: " + freq + "MHz";
-		final String info_17 = "Network Channel: " + channel;
-		final String info_18 = "RSSI (Signal Strength): " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
-		final String info_19 = "Lease Duration: " + leaseTime + "s " + "(" + leaseTimeHours + "h)";
-		final String info_19_1 = "Lease Duration: " + leaseTime + "s " + "(" + leaseTimeMinutes + "m)";
-		final String info_20 = "Transmit Link Speed: " + TXLinkSpd + "MB/s";
-		final String info_21 = "Receive Link Speed: " + RXLinkSpd + "MB/s";
-		final String info_22 = "Network Speed: " + networkSpeed + "MB/s";
-		final String info_23 = "Transmitted MBs/GBs: " + wifiTXMegabytesStr + "MB " + "(" + wifiTXGigabytesStr + "GB" + ")";
-		final String info_24 = "Received MBs/GBs: " + wifiRXMegabytesStr + "MB "  + "(" + wifiRXGigabytesStr + "GB" + ")";
-		final String info_25 = "Supplicant State: " + supState;
+		if (ssid.equals("<unknown ssid>")) {
+			info_1 = "SSID: N/A";
+		} else {
+			info_1 = "SSID: " + ssid;
+		}
+
+		if (wInfo.getHiddenSSID()) {
+			info_2 = "Hidden SSID: Yes";
+		} else {
+			info_2 = "Hidden SSID: No";
+		}
+
+		if (bssid.contains("02:00:00:00:00:00")) {
+			info_3 = "BSSID: N/A";
+		} else {
+			info_3 = "BSSID: " + bssid.toUpperCase();
+		}
+
+		info_4 = "IPv4: " + ipv4;
+		info_5 = "IPv6: " + ipv6;
+		info_6 = "Gateway IP: " + gatewayIP;
+		info_7 = "Hostname: " + hostname;
+		info_8 = "DNS (1): " + dns1;
+		info_9 = "DNS (2): " + dns2;
+
+		if (subnetMask.contains("0.0.0.0")) {
+			info_10 = "Subnet Mask: N/A";
+		} else {
+			info_10 = "Subnet Mask: " + subnetMask;
+		}
+
+		if (network_id == -1) {
+			info_11 = "Network ID: N/A";
+		} else {
+			info_11 = "Network ID: " + network_id;
+		}
+
+		info_12 = "MAC Address: " + macAdd;
+		info_13 = "Network Interface: " + network_interface;
+		info_14 = "Loopback Address: " + loopbackAddr;
+		info_15 = "Localhost: " + localhostAddr;
+		info_16 = "Frequency: " + freq + "MHz";
+		info_17 = "Network Channel: " + channel;
+		info_18 = "RSSI (Signal Strength): " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
+
+		if (leaseTime == 0) {
+			info_19 = "Lease Duration: N/A";
+		} else if (leaseTime >= 3600) {
+			info_19 = "Lease Duration: " + leaseTime + "s " + "(" + leaseTimeHours + "h)";
+		} else if (leaseTime < 3600) {
+			info_19 = "Lease Duration: " + leaseTime + "s " + "(" + leaseTimeMinutes + "m)";
+		}
+
+		info_20 = "Transmit Link Speed: " + TXLinkSpd + "MB/s";
+		info_21 = "Receive Link Speed: " + RXLinkSpd + "MB/s";
+		info_22 = "Network Speed: " + networkSpeed + "MB/s";
+		info_23 = "Transmitted MBs/GBs: " + wifiTXMegabytesStr + "MB " + "(" + wifiTXGigabytesStr + "GB" + ")";
+		info_24 = "Received MBs/GBs: " + wifiRXMegabytesStr + "MB "  + "(" + wifiRXGigabytesStr + "GB" + ")";
+		info_25 = "Supplicant State: " + supState;
+
+		if (mainWifiManager.is5GHzBandSupported()) {
+			info_26 = "5GHz Band Support: Yes";
+		} else {
+			info_26 = "5GHz Band Support: No";
+		}
+
+		if (mainWifiManager.isP2pSupported()) {
+			info_27 = "Wi-Fi Direct Support: Yes";
+		} else {
+			info_27 = "Wi-Fi Direct Support: No";
+		}
+
+		if (mainWifiManager.isTdlsSupported()) {
+			info_28 = "TDLS Support: Yes";
+		} else {
+			info_28 = "TDLS Support: No";
+		}
+
+		if (Build.VERSION.SDK_INT >= 29) {
+			if (mainWifiManager.isWpa3SaeSupported()) {
+				info_29 = "WPA3 SAE Support: Yes";
+			} else {
+				info_29 = "WPA3 SAE Support: No";
+			}
+
+			if (mainWifiManager.isWpa3SuiteBSupported()) {
+				info_30 = "WPA3 Suite B Support: Yes";
+			} else {
+				info_30 = "WPA3 Suite B Support: No";
+			}
+		}
 
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (ssid.equals("<unknown ssid>")) {
-					textview_ssid.setText("SSID: N/A");
-				} else {
-					textview_ssid.setText(info_1);
-				}
-
-				if (wInfo.getHiddenSSID()) {
-					textview_hidden_ssid.setText("Hidden SSID: Yes");
-				} else {
-					textview_hidden_ssid.setText("Hidden SSID: No");
-				}
-
-				if (bssid.contains("02:00:00:00:00:00")) {
-					textview_bssid.setText("BSSID: N/A");
-				} else {
-					textview_bssid.setText(info_3);
-				}
-
+				textview_ssid.setText(info_1);
+				textview_hidden_ssid.setText(info_2);
+				textview_bssid.setText(info_3);
 				textview_ipv4.setText(info_4);
 				textview_ipv6.setText(info_5);
 				textview_gateway_ip.setText(info_6);
 				textview_hostname.setText(info_7);
 				textview_dns1.setText(info_8);
 				textview_dns2.setText(info_9);
-
-				if (subnetMask.contains("0.0.0.0")) {
-					textview_subnet_mask.setText("Subnet Mask: N/A");
-				} else {
-					textview_subnet_mask.setText(info_10);
-				}
-
-				if (network_id == -1) {
-					textview_network_id.setText("Network ID: N/A");
-				} else {
-					textview_network_id.setText(info_11);
-				}
-
+				textview_subnet_mask.setText(info_10);
+				textview_network_id.setText(info_11);
 				textview_mac_address.setText(info_12);
 				textview_network_interface.setText(info_13);
 				textview_loopback_address.setText(info_14);
@@ -663,71 +735,28 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				textview_frequency.setText(info_16);
 				textview_network_channel.setText(info_17);
 				textview_rssi.setText(info_18);
-
-				if (leaseTime == 0) {
-					textview_lease_duration.setText("Lease Duration: N/A");
-				} else if (leaseTime >= 3600) {
-					textview_lease_duration.setText(info_19);
-				} else if (leaseTime < 3600) {
-					textview_lease_duration.setText(info_19_1);
-				}
-
-				if (Build.VERSION.SDK_INT >= 29) {
-					textview_transmit_link_speed.setText(info_20);
-					textview_receive_link_speed.setText(info_21);
-				} else {
-					textview_transmit_link_speed.setVisibility(View.GONE);
-					textview_receive_link_speed.setVisibility(View.GONE);
-				}
-
+				textview_lease_duration.setText(info_19);
 				textview_network_speed.setText(info_22);
 				textview_transmitted_data.setText(info_23);
 				textview_received_data.setText(info_24);
 				textview_supplicant_state.setText(info_25);
-
-				if (mainWifiManager.is5GHzBandSupported()) {
-					String info_26 = "5GHz Band Support: Yes";
-					textview_5ghz_support.setText(info_26);
-				} else {
-					String info_26 = "5GHz Band Support: No";
-					textview_5ghz_support.setText(info_26);
-				}
-
-				if (mainWifiManager.isP2pSupported()) {
-					String info_27 = "Wi-Fi Direct Support: Yes";
-					textview_wifi_direct_support.setText(info_27);
-				} else {
-					String info_27 = "Wi-Fi Direct Support: No";
-					textview_wifi_direct_support.setText(info_27);
-				}
-
-				if (mainWifiManager.isTdlsSupported()) {
-					String info_28 = "TDLS Support: Yes";
-					textview_tdls_support.setText(info_28);
-				} else {
-					String info_28 = "TDLS Support: No";
-					textview_tdls_support.setText(info_28);
-				}
+				textview_5ghz_support.setText(info_26);
+				textview_wifi_direct_support.setText(info_27);
+				textview_tdls_support.setText(info_28);
 
 				if (Build.VERSION.SDK_INT >= 29) {
-					if (mainWifiManager.isWpa3SaeSupported()) {
-						String info_29 = "WPA3 SAE Support: Yes";
-						textview_wpa3_sae_support.setText(info_29);
-					} else {
-						String info_29 = "WPA3 SAE Support: No";
-						textview_wpa3_sae_support.setText(info_29);
-					}
-
-					if (mainWifiManager.isWpa3SuiteBSupported()) {
-						String info_30 = "WPA3 Suite B Support: Yes";
-						textview_wpa3_suite_b_support.setText(info_30);
-					} else {
-						String info_30 = "WPA3 Suite B Support: No";
-						textview_wpa3_suite_b_support.setText(info_30);
-					}
+					textview_transmit_link_speed.setText(info_20);
+					textview_receive_link_speed.setText(info_21);
+					textview_wpa3_sae_support.setText(info_29);
+					textview_wpa3_suite_b_support.setText(info_30);
 				} else {
-					textview_wpa3_sae_support.setVisibility(View.GONE);
-					textview_wpa3_suite_b_support.setVisibility(View.GONE);
+					if (textview_transmit_link_speed.getVisibility() != View.GONE && textview_receive_link_speed.getVisibility() != View.GONE
+						&& textview_wpa3_sae_support.getVisibility() != View.GONE && textview_wpa3_suite_b_support.getVisibility() != View.GONE) {
+						textview_transmit_link_speed.setVisibility(View.GONE);
+						textview_receive_link_speed.setVisibility(View.GONE);
+						textview_wpa3_sae_support.setVisibility(View.GONE);
+						textview_wpa3_suite_b_support.setVisibility(View.GONE);
+					}
 				}
 			}
 		});
@@ -1794,6 +1823,28 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				});
 		}
 	}
+
+	private void copyAllTextviews() {
+		ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+		StringBuilder strB = new StringBuilder();
+		strB.append(info_1).append("\n").append(info_2).append("\n").append(info_3).append("\n").append(info_4).append("\n")
+			.append(info_5).append("\n").append(info_6).append("\n").append(info_7).append("\n").append(info_8).append("\n")
+			.append(info_9).append("\n").append(info_10).append("\n").append(info_11).append("\n").append(info_12).append("\n")
+			.append(info_13).append("\n").append(info_14).append("\n").append(info_15).append("\n").append(info_16).append("\n")
+			.append(info_17).append("\n").append(info_18).append("\n").append(info_19).append("\n");
+		if (Build.VERSION.SDK_INT >= 29) {
+			strB.append(info_20).append("\n").append(info_21).append("\n");
+		}
+		strB.append(info_22).append("\n").append(info_23).append("\n").append(info_24).append("\n");
+		if (Build.VERSION.SDK_INT >= 29) {
+			strB.append(info_25).append("\n").append(info_26).append("\n").append(info_27).append("\n").append(info_28).append("\n")
+				.append(info_29).append("\n").append(info_30);
+		}
+
+		ClipData clipData = ClipData.newPlainText("all_info_text", strB);
+		cbm.setPrimaryClip(clipData);
+		Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+	}
 	
 	private String getPublicIPAddress() {
 		String publicIP = "";
@@ -1809,7 +1860,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	
 	public boolean isReachable(String url) {
 		boolean reachable = false;
-		int code;
+		int response_code;
 
 		try {
 			URL siteURL = new URL(url);
@@ -1817,9 +1868,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			connection.setRequestMethod("GET");
 			connection.setConnectTimeout(3000);
 			connection.connect();
-			code = connection.getResponseCode();
+			response_code = connection.getResponseCode();
 			connection.disconnect();
-			if (code == 200) {
+			if (response_code == 200) {
 				reachable = true;
 			} else {
 				reachable = false;
@@ -1905,7 +1956,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	}
 
 	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		if (Build.VERSION.SDK_INT >= 30) {
 			if (requestCode == LocationPermissionCode) {
@@ -1962,10 +2013,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.github) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TrueMLGPro/Wi-Fi_Info"));
-            startActivity(intent);
-        }
+		int id = item.getItemId();
+		if (id == R.id.github) {
+			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TrueMLGPro/Wi-Fi_Info"));
+			startActivity(intent);
+		} else if (id == R.id.copy_all) {
+			copyAllTextviews();
+		}
 		return true;
     }
 	
