@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	String info_30 = "";
 
 	private final int LocationPermissionCode = 123;
+	private Boolean permissionGranted;
 
 	private ConnectivityManager CM;
 	private NetworkInfo WiFiCheck;
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	public static String appFont = "fonts/Gilroy-Semibold.ttf";
 	public static Activity main;
 	public static AlertDialog alertAPI25;
-	public static AlertDialog alertAPI29;
+	public static AlertDialog alertAPI27;
 	private String publicIPFetched;
 	private boolean siteReachable = false;
 	private String version;
@@ -442,7 +443,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 		/// Request permissions ///
 
-		if (Build.VERSION.SDK_INT > 25) {
+		if (Build.VERSION.SDK_INT >= 26) {
 			requestPermissionsOnStart();
 		}
 
@@ -450,16 +451,24 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 		/// Notify if GPS is disabled ///
 
-		if (hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-			if (android.os.Build.VERSION.SDK_INT > 25 && android.os.Build.VERSION.SDK_INT < 29) {
+	    if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 31) {
+		    // Android 8.1 - Android 11
+		    permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+	    } else if (Build.VERSION.SDK_INT >= 31) {
+		    // Android 12+
+		    permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION);
+	    }
+
+		if (permissionGranted) {
+			if (Build.VERSION.SDK_INT == 26) {
 				Boolean keyNeverShow25 = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean("dialogNeverShowAPI25", neverShowGeoDialog);
 				if (!keyNeverShow25) {
 					requestGPS_API25();
 				}
-			} else if (android.os.Build.VERSION.SDK_INT >= 29) {
-				Boolean keyNeverShow29 = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean("dialogNeverShowAPI29", neverShowGeoDialog);
-				if (!keyNeverShow29) {
-					requestGPS_API29();
+			} else if (Build.VERSION.SDK_INT >= 27) {
+				Boolean keyNeverShow27 = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean("dialogNeverShowAPI27", neverShowGeoDialog);
+				if (!keyNeverShow27) {
+					requestGPS_API27();
 				}
 			}
 		}
@@ -810,12 +819,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		toast.show();
 	}
 	
-	public void showToastOnEnableAPI29() {
+	public void showToastOnEnableAPI27() {
 		Toast toast = Toast.makeText(this, "Enable Location to show SSID, BSSID and Network ID of current network", Toast.LENGTH_LONG);
 		toast.show();
 	}
 	
-	public void showToastOnCancelAPI29() {
+	public void showToastOnCancelAPI27() {
 		Toast toast = Toast.makeText(this, "SSID, BSSID and Network ID of current network won't be shown", Toast.LENGTH_LONG);
 		toast.show();
 	}
@@ -1082,58 +1091,73 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			alertAPI25.show();
 		}
 	}
-	
-	public void requestGPS_API29() {
+
+	public void requestGPS_API27() {
 		// Notify User if GPS is disabled
 		isLocationEnabled();
 		if (!isLocationEnabled()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 			builder.setTitle("Location is Disabled")
-				.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) and Network ID on Android 10\n\nClick Enable to grant Wi-Fi Info permission to show SSID, BSSID and Network ID")
+				.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) and Network ID on Android 8.1\n\nClick Enable to grant Wi-Fi Info permission to show SSID, BSSID and Network ID")
 				.setIcon(R.drawable.location)
 				.setPositiveButton("Enable", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						showToastOnEnableAPI29();
+						showToastOnEnableAPI27();
 						startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 					}
 				})
 				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						showToastOnCancelAPI29();
+						showToastOnCancelAPI27();
 						dialog.cancel();
 					}
 				})
 				.setNeutralButton("Don't show again", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean("dialogNeverShowAPI29", neverShowGeoDialog = true);
+						new SharedPreferencesManager(getApplicationContext()).storeBoolean("dialogNeverShowAPI27", neverShowGeoDialog = true);
 					}
 				});
 			builder.setCancelable(false);
-			alertAPI29 = builder.create();
-			alertAPI29.show();
+			alertAPI27 = builder.create();
+			alertAPI27.show();
 		}
 	}
 	
 	public void requestPermissionsOnStart() {
-		if (!hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+		// In Android 8.1 (API 27) - 11 (API 30) ACCESS_COARSE_LOCATION needs to be granted to access network information
+		// Android 12+ (API 31) needs ACCESS_FINE_LOCATION to be granted though
+		if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 31) {
+			// Android 8.1 - Android 11
+			permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+		} else if (Build.VERSION.SDK_INT >= 31) {
+			// Android 12+
+			permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION);
+		}
+
+		if (!permissionGranted) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 			builder.setTitle("Permission required!")
-				.setMessage("Location permission is needed to show SSID, BSSID and Network ID on Android 8+, grant it to get full info")
-				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						String[] ForegroundLocationPermission = {Manifest.permission.ACCESS_FINE_LOCATION};
-						@SuppressLint("InlinedApi")
-						String[] ForegroundAndBackgroundLocationPermission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION};
-						if (Build.VERSION.SDK_INT >= 30) {
-							ActivityCompat.requestPermissions(MainActivity.this, ForegroundLocationPermission, LocationPermissionCode);
-						} else {
-							ActivityCompat.requestPermissions(MainActivity.this, ForegroundAndBackgroundLocationPermission, LocationPermissionCode);
+					.setMessage("Location permission is needed to show SSID, BSSID and Network ID on Android 8.1+, grant it to get full info")
+					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							// Android 8.1 - Android 11
+							String[] ForegroundCoarseLocationPermission_API27 = {Manifest.permission.ACCESS_COARSE_LOCATION};
+							String[] ForegroundFineLocationPermission_API30 = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION};
+							// Android 12+
+							String[] ForegroundLocationPermission_API31 = {Manifest.permission.ACCESS_FINE_LOCATION};
+							if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 30) {
+								ActivityCompat.requestPermissions(MainActivity.this, ForegroundCoarseLocationPermission_API27, LocationPermissionCode);
+							} else if (Build.VERSION.SDK_INT == 30) {
+								ActivityCompat.requestPermissions(MainActivity.this, ForegroundFineLocationPermission_API30, LocationPermissionCode);
+							} else if (Build.VERSION.SDK_INT >= 31) {
+								// FIXME: DOESN'T SHOW THE SYSTEM PERMISSION REQUEST DIALOG
+								ActivityCompat.requestPermissions(MainActivity.this, ForegroundLocationPermission_API31, LocationPermissionCode);
+							}
 						}
-					}
-				})
-				.setNegativeButton("No Thanks", null)
-				.setCancelable(false);
+					})
+					.setNegativeButton("No Thanks", null)
+					.setCancelable(false);
 			AlertDialog alert = builder.create();
 			alert.show();
 		}
@@ -1963,7 +1987,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 					builder.setTitle("Background Location Permission")
-							.setMessage("Due to the changes in Android 11 you need to go to Settings to enable it (this step is optional)" + "\n" + "Once Background Location permission is granted you'll be able to see SSID in the notification even if you close the app")
+							.setMessage("Due to the changes in Android 11+ you need to go to Settings to enable it (this step is optional)" + "\n" + "Once Background Location permission is granted you'll be able to see SSID in the notification even if you close the app")
 							.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {

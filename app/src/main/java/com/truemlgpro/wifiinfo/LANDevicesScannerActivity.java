@@ -275,6 +275,8 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 							addDevicesToList(device.ip);
 						}
 					}
+
+					sortListByIP();
 				}
 
 				@Override
@@ -283,7 +285,6 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 						@Override
 						public void run() {
 							devices_found_text.setText("Devices Found: " + devicesFound.size());
-							sortListByIP();
 							adapter.notifyDataSetChanged();
 						}
 					});

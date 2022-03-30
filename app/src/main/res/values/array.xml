@@ -68,6 +68,10 @@
 		<item>fonts/Tomkin-Regular.ttf</item>
 		<item>fonts/Urbani-Regular.ttf</item>
 	</string-array>
+	<string-array name="packet_types">
+		<item>TCP</item>
+		<item>UDP</item>
+	</string-array>
 	<string-array name="dns_record_types">
 		<item>A</item>
 		<item>AAAA</item>

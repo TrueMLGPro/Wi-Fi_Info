@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,8 @@ import com.stealthcopter.networktools.PortScan;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
@@ -34,6 +37,8 @@ public class PortScannerActivity extends AppCompatActivity
 	private Toolbar toolbar;
 	private TextView textview_nonetworkconn;
 	private EditText edittext_ip;
+	private EditText edittext_threads;
+	private Spinner spinner_packet_types;
 	private TextView ports_open_text;
 	private Button port_scan_button;
 	private Button port_scan_stop_button;
@@ -78,6 +83,8 @@ public class PortScannerActivity extends AppCompatActivity
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 		edittext_ip = (EditText) findViewById(R.id.edittext_ip);
+		edittext_threads = (EditText) findViewById(R.id.edittext_threads);
+		spinner_packet_types = (Spinner) findViewById(R.id.spinner_packet_types);
 		ports_open_text = (TextView) findViewById(R.id.ports_open_text);
 		port_scan_button = (Button) findViewById(R.id.port_scan_button);
 		port_scan_stop_button = (Button) findViewById(R.id.port_scan_stop_button);
@@ -143,11 +150,24 @@ public class PortScannerActivity extends AppCompatActivity
         });
     }
 
+	public void sortList() {
+		Comparator<String> portComparator = new Comparator<String>() {
+			@Override
+			public int compare(String port1, String port2) {
+				return Integer.parseInt(port1) - Integer.parseInt(port2);
+			}
+		};
+		Collections.sort(ports_arrayList, portComparator);
+	}
+
 	private void addPortsToList(final String text) {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				adapter.add(text);
+				if (!ports_arrayList.contains(text)) {
+					adapter.add(text);
+				}
+				sortList();
 				adapter.notifyDataSetChanged();
 			}
 		});
@@ -167,13 +187,20 @@ public class PortScannerActivity extends AppCompatActivity
         setEnabled(port_scan_button, false);
 		
 		String url_ip = edittext_ip.getText().toString();
+		int threads = Integer.parseInt(edittext_threads.getText().toString());
 		
 		if (TextUtils.isEmpty(url_ip)) {
 			url_ip = "google.com";
 			Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Google URL: " + url_ip, Toast.LENGTH_LONG).show();
 		}
-		
-        portScanner = PortScan.onAddress(url_ip).setTimeOutMillis(1000).setPortsAll().setMethodTCP().doScan(new PortScan.PortListener() {
+
+		if (TextUtils.isEmpty(edittext_threads.getText().toString()) || threads <= 0) {
+			threads = 8;
+		}
+
+		String packet_type = spinner_packet_types.getSelectedItem().toString();
+		if (packet_type.equals("TCP")) {
+			portScanner = PortScan.onAddress(url_ip).setTimeOutMillis(1000).setPortsAll().setNoThreads(threads).setMethodTCP().doScan(new PortScan.PortListener() {
 				@Override
 				public void onResult(int portNo, boolean open) {
 					if (open) {
@@ -194,6 +221,31 @@ public class PortScannerActivity extends AppCompatActivity
 					});
 				}
 			});
+		} else if (packet_type.equals("UDP")) {
+			// FIXME: LISTS EVERY PORT EVEN IF IT'S CLOSED
+			// Tested on an Android 8 emulator
+			portScanner = PortScan.onAddress(url_ip).setTimeOutMillis(1000).setPortsAll().setNoThreads(threads).setMethodUDP().doScan(new PortScan.PortListener() {
+				@Override
+				public void onResult(int portNo, boolean open) {
+					if (open) {
+						String portNoString = String.valueOf(portNo);
+						addPortsToList(portNoString);
+					}
+				}
+
+				@Override
+				public void onFinished(ArrayList<Integer> openPorts) {
+					setEnabled(port_scan_button, true);
+					setEnabled(port_scan_stop_button, false);
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							ports_open_text.setText("Ports Open: " + ports_arrayList.size());
+						}
+					});
+				}
+			});
+		}
     }
 
 	class NetworkConnectivityReceiver extends BroadcastReceiver
@@ -241,6 +293,8 @@ public class PortScannerActivity extends AppCompatActivity
 
 	public void showWidgets() {
 		edittext_ip.setVisibility(View.VISIBLE);
+		edittext_threads.setVisibility(View.VISIBLE);
+		spinner_packet_types.setVisibility(View.VISIBLE);
 		ports_open_text.setVisibility(View.VISIBLE);
 		port_scan_button.setVisibility(View.VISIBLE);
 		port_scan_stop_button.setVisibility(View.VISIBLE);
@@ -250,6 +304,8 @@ public class PortScannerActivity extends AppCompatActivity
 
 	public void hideWidgets() {
 		edittext_ip.setVisibility(View.GONE);
+		edittext_threads.setVisibility(View.GONE);
+		spinner_packet_types.setVisibility(View.GONE);
 		ports_open_text.setVisibility(View.GONE);
 		port_scan_button.setVisibility(View.GONE);
 		port_scan_stop_button.setVisibility(View.GONE);

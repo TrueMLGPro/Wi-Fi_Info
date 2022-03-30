@@ -43,22 +43,68 @@
 			android:orientation="vertical"
 			android:gravity="center">
 
-			<android.support.design.widget.TextInputLayout
-				xmlns:app="http://schemas.android.com/apk/res-auto"
-				android:id="@+id/input_layout_ip"
+			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="4dp"
-				android:hint="Enter IP or URL">
+				android:orientation="horizontal"
+				android:gravity="center">
 
-				<EditText
-					android:id="@+id/edittext_ip"
-					android:layout_width="match_parent"
+				<android.support.design.widget.TextInputLayout
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/input_layout_ip"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:singleLine="true"
-					android:imeOptions="actionGo"/>
+					android:layout_weight="1"
+					android:layout_margin="4dp"
+					android:hint="Enter IP or URL">
 
-			</android.support.design.widget.TextInputLayout>
+					<EditText
+						android:id="@+id/edittext_ip"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:singleLine="true"
+						android:imeOptions="actionGo"/>
+
+				</android.support.design.widget.TextInputLayout>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:gravity="center">
+
+				<android.support.design.widget.TextInputLayout
+					xmlns:app="http://schemas.android.com/apk/res-auto"
+					android:id="@+id/input_layout_threads"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="0.5"
+					android:layout_margin="4dp"
+					android:hint="Threads">
+
+					<EditText
+						android:id="@+id/edittext_threads"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:singleLine="true"
+						android:imeOptions="actionGo"
+						android:text="8"/>
+
+				</android.support.design.widget.TextInputLayout>
+
+				<Spinner
+					android:id="@+id/spinner_packet_types"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_weight="0.5"
+					android:layout_marginRight="4dp"
+					android:layout_marginTop="4dp"
+					android:layout_marginBottom="4dp"
+					android:entries="@array/packet_types" />
+
+			</LinearLayout>
 
 			<TextView
 				android:id="@+id/ports_open_text"
@@ -104,7 +150,7 @@
 			android:id="@+id/listview_open_ports"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_marginTop="8dp"
+			android:layout_marginTop="4dp"
 			android:transcriptMode="alwaysScroll"
 			android:textColor="?TextColor"/>
 
