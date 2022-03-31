@@ -222,8 +222,6 @@ public class PortScannerActivity extends AppCompatActivity
 				}
 			});
 		} else if (packet_type.equals("UDP")) {
-			// FIXME: LISTS EVERY PORT EVEN IF IT'S CLOSED
-			// Tested on an Android 8 emulator
 			portScanner = PortScan.onAddress(url_ip).setTimeOutMillis(1000).setPortsAll().setNoThreads(threads).setMethodUDP().doScan(new PortScan.PortListener() {
 				@Override
 				public void onResult(int portNo, boolean open) {

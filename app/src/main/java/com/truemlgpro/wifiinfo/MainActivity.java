@@ -1151,7 +1151,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 							} else if (Build.VERSION.SDK_INT == 30) {
 								ActivityCompat.requestPermissions(MainActivity.this, ForegroundFineLocationPermission_API30, LocationPermissionCode);
 							} else if (Build.VERSION.SDK_INT >= 31) {
-								// FIXME: DOESN'T SHOW THE SYSTEM PERMISSION REQUEST DIALOG
 								ActivityCompat.requestPermissions(MainActivity.this, ForegroundLocationPermission_API31, LocationPermissionCode);
 							}
 						}

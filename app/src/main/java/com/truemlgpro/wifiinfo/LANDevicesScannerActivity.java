@@ -215,6 +215,7 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 			@Override
 			public void run() {
 				adapter.add(text);
+				sortListByIP();
 				adapter.notifyDataSetChanged();
 			}
 		});
@@ -244,52 +245,50 @@ public class LANDevicesScannerActivity extends AppCompatActivity
         setEnabled(lan_scan_button, false);
 		
         SubnetDevices subnetDevices = SubnetDevices.fromLocalAddress().findDevices(new SubnetDevices.OnSubnetDeviceFound() {
-				@Override
-				public void onDeviceFound(Device device) {
-					if (wifi_connected) {
-						if (device.ip.equalsIgnoreCase(getWiFiLocalIPv4Address()) && !device.ip.equalsIgnoreCase(getGateway())) {
-							if (getMACAddress() == null || Build.VERSION.SDK_INT > 29) {
-								addDevicesToList(device.ip + " | " + "N/A" + " (Your Device)");
-							} else {
-								addDevicesToList(device.ip + " | " + getMACAddress() + " (Your Device)");
-							}
-						} else if (!device.ip.equalsIgnoreCase(getWiFiLocalIPv4Address()) && !device.ip.equalsIgnoreCase(getGateway())) {
-							if (device.mac == null) {
-								addDevicesToList(device.ip + " | " + "N/A");
-							} else {
-								addDevicesToList(device.ip + " | " + device.mac.toUpperCase());
-							}
-						} else if (device.ip.equalsIgnoreCase(getGateway())) {
-							if (device.mac == null) {
-								addDevicesToList(device.ip + " | " + "N/A");
-							} else {
-								addDevicesToList(device.ip + " | " + device.mac.toUpperCase() + " (Gateway)");
-							}
-						}
-					}
-					
-					if (cellular_connected) {
-						if (device.ip.equalsIgnoreCase(getCellularLocalIPv4Address())) {
-							addDevicesToList(device.ip + " (Your Device)");
+			@Override
+			public void onDeviceFound(Device device) {
+				if (wifi_connected) {
+					if (device.ip.equalsIgnoreCase(getWiFiLocalIPv4Address()) && !device.ip.equalsIgnoreCase(getGateway())) {
+						if (getMACAddress() == null || Build.VERSION.SDK_INT > 29) {
+							addDevicesToList(device.ip + " | " + "N/A" + " (Your Device)");
 						} else {
-							addDevicesToList(device.ip);
+							addDevicesToList(device.ip + " | " + getMACAddress() + " (Your Device)");
+						}
+					} else if (!device.ip.equalsIgnoreCase(getWiFiLocalIPv4Address()) && !device.ip.equalsIgnoreCase(getGateway())) {
+						if (device.mac == null) {
+							addDevicesToList(device.ip + " | " + "N/A");
+						} else {
+							addDevicesToList(device.ip + " | " + device.mac.toUpperCase());
+						}
+					} else if (device.ip.equalsIgnoreCase(getGateway())) {
+						if (device.mac == null) {
+							addDevicesToList(device.ip + " | " + "N/A");
+						} else {
+							addDevicesToList(device.ip + " | " + device.mac.toUpperCase() + " (Gateway)");
 						}
 					}
-
-					sortListByIP();
 				}
 
-				@Override
-				public void onFinished(final ArrayList<Device> devicesFound) {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							devices_found_text.setText("Devices Found: " + devicesFound.size());
-							adapter.notifyDataSetChanged();
-						}
-					});
-					setEnabled(lan_scan_button, true);
+				if (cellular_connected) {
+					if (device.ip.equalsIgnoreCase(getCellularLocalIPv4Address())) {
+						addDevicesToList(device.ip + " (Your Device)");
+					} else {
+						addDevicesToList(device.ip);
+					}
 				}
+			}
+
+			@Override
+			public void onFinished(final ArrayList<Device> devicesFound) {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						devices_found_text.setText("Devices Found: " + devicesFound.size());
+						adapter.notifyDataSetChanged();
+					}
+				});
+				setEnabled(lan_scan_button, true);
+			}
 		});
     }
 	
