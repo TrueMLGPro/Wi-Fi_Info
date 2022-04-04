@@ -19,7 +19,6 @@
 			android:id="@+id/splash_logo"
 			android:padding="8dp"
 			android:adjustViewBounds="true"
-			android:layout_centerInParent="true"
 			android:layout_marginTop="4dp"/>
 
 		<TextView
@@ -30,8 +29,6 @@
 			android:textColor="?attr/TextColor"
 			android:textSize="30sp"
 			android:layout_gravity="center"
-			android:layout_below="@id/splash_logo"
-			android:layout_centerHorizontal="true"
 			android:layout_margin="4dp"/>
 
 	</LinearLayout>

@@ -2,14 +2,12 @@
 <FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="?attr/BackgroundColor">
 
 	<android.support.v7.widget.Toolbar
-		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
 		android:layout_height="?attr/actionBarSize"
@@ -31,7 +29,6 @@
 			android:orientation="vertical">
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_1"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -61,7 +58,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_1"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -101,7 +97,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_2"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -131,7 +126,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_2"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -171,7 +165,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_3"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -201,7 +194,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_3"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -241,7 +233,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_4"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -272,7 +263,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_4"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -380,7 +370,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_6"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -410,7 +399,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_6"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -450,7 +438,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_7"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -480,7 +467,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_7"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -520,7 +506,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_8"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -550,7 +535,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_8"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"

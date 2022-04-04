@@ -47,7 +47,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal"
-				android:gravity="center">
+				android:gravity="center"
+				android:baselineAligned="false">
 
 				<android.support.design.widget.TextInputLayout
 					xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -58,7 +59,7 @@
 					android:layout_margin="4dp"
 					android:hint="Enter IP or URL">
 
-					<EditText
+					<android.support.design.widget.TextInputEditText
 						android:id="@+id/edittext_ip"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
@@ -76,7 +77,6 @@
 				android:gravity="center">
 
 				<android.support.design.widget.TextInputLayout
-					xmlns:app="http://schemas.android.com/apk/res-auto"
 					android:id="@+id/input_layout_threads"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
 					android:layout_margin="4dp"
 					android:hint="Threads">
 
-					<EditText
+					<android.support.design.widget.TextInputEditText
 						android:id="@+id/edittext_threads"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"

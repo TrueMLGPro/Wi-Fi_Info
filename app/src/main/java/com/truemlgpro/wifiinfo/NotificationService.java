@@ -63,7 +63,7 @@ public class NotificationService extends Service
 			showNotificationAPI26_28();
 			startForeground(1301, notification26_28);
 		} else if (android.os.Build.VERSION.SDK_INT >= 29) {
-			/// ANDROID 10 - ANDROID 11 ///
+			/// ANDROID 10 & higher ///
 			showNotificationAPI29();
 			startForeground(1302, notification29);
 		} else if (android.os.Build.VERSION.SDK_INT < 26) {
@@ -204,7 +204,7 @@ public class NotificationService extends Service
 			notificationManager.notify(NOTIFICATION_ID, notification26_28);
 	}
 
-	/// ANDROID 10 - ANDROID 11 ///
+	/// ANDROID 10 & higher ///
 
 	@RequiresApi(api = Build.VERSION_CODES.O)
 	public void showNotificationAPI29() {
@@ -255,7 +255,7 @@ public class NotificationService extends Service
 		int freq = wInfo.getFrequency();
 		int channel = convertFrequencyToChannel(freq);
 		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
-		String info = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " |" + "\n" + freq + " MHz " + "(Ch: " + channel + ")";
+		String info = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
 			
 		notification29 = builder.setContentIntent(content_intent)
 			.setSmallIcon(R.drawable.ic_wifi)
