@@ -46,8 +46,8 @@ public class RouterSetupActivity extends AppCompatActivity
 
 	private AlertDialog alert;
 	
-	public static String user;
-	public static String password;
+	private String user;
+	private String password;
 
 	private BroadcastReceiver NetworkConnectivityReceiver;
 	private ConnectivityManager CM;
@@ -143,18 +143,15 @@ public class RouterSetupActivity extends AppCompatActivity
 		final View editTextLoginPasswordView = layoutInflater.inflate(R.layout.edit_text_dialog, null);
 		builder.setTitle("Router Login — " + getGatewayIP())
 				.setView(R.layout.edit_text_dialog)
-				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						Dialog d = (Dialog) dialog;
-						edittext_user = d.findViewById(R.id.edit_text_user);
-						edittext_password = d.findViewById(R.id.edit_text_password);
-						user = edittext_user.getText().toString();
-						password = edittext_password.getText().toString();
-						loadWebview();
-					}
+				.setPositiveButton("Ok", (dialog, which) -> {
+					Dialog d = (Dialog) dialog;
+					edittext_user = d.findViewById(R.id.edit_text_user);
+					edittext_password = d.findViewById(R.id.edit_text_password);
+					user = edittext_user.getText().toString();
+					password = edittext_password.getText().toString();
+					loadWebview();
 				})
-				.setNegativeButton("Cancel", null);
+				.setNegativeButton("Cancel", (dialog, which) -> finish());
 		builder.setCancelable(false);
 		alert = builder.create();
 	}
