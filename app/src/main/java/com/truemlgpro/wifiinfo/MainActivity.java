@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	String info_30 = "";
 
 	private final int LocationPermissionCode = 123;
-	private Boolean permissionGranted;
+	private Boolean permissionGranted = true;
 
 	private ConnectivityManager CM;
 	private NetworkInfo WiFiCheck;
@@ -433,7 +433,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		/// END ///
 
 		/// POLICY SETTINGS ///
-	    /// FIXME: NETWORKING ON MAIN THREAD ///
 
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);

@@ -123,43 +123,50 @@
 		    android:name=".QSTileService"
 		    android:label="IP Address"
 		    android:icon="@drawable/ic_wifi_qs_tile"
-		    android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+		    android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+		    android:exported="false">
 		    <intent-filter>
 			    <action android:name="android.service.quicksettings.action.QS_TILE" />
 		    </intent-filter>
 	    </service>
 
-	    <receiver android:name=".ConnectionStateReceiver">
+	    <receiver android:name=".ConnectionStateReceiver"
+		    android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name=".WiFiConnectivityReceiver">
+		<receiver android:name=".WiFiConnectivityReceiver"
+			android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name=".CellularDataConnectivityReceiver">
+		<receiver android:name=".CellularDataConnectivityReceiver"
+			android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name=".NetworkConnectivityReceiver">
+		<receiver android:name=".NetworkConnectivityReceiver"
+			android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name=".BootReceiver">
+		<receiver android:name=".BootReceiver"
+			android:exported="false">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name=".ActionButtonReceiver">
+		<receiver android:name=".ActionButtonReceiver"
+			android:exported="false">
 			<intent-filter>
 				<action android:name="ACTION_STOP" />
 				<action android:name="ACTION_STOP_CONN_STATE_SERVICE" />
