@@ -203,8 +203,6 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 	
 	private void addDevicesToList(final String text) {
 		Comparator<String> ipComparator = (ip1, ip2) -> convertDiscoveredIPToLong(ip1).compareTo(convertDiscoveredIPToLong(ip2));
-
-		String formatted_ip = convertDiscoveredIPToLong(text).toString();
 		int index = Collections.binarySearch(devices_arrayList, text, ipComparator);
 
 		runOnUiThread(() -> {
@@ -223,6 +221,10 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 		return (sc.nextLong() << 24) + (sc.nextLong() << 16) + 
 			(sc.nextLong() << 8) + (sc.nextLong());
     }
+
+	public void sortListByIP() {
+		Collections.sort(devices_arrayList, (ip1, ip2) -> convertDiscoveredIPToLong(ip1).compareTo(convertDiscoveredIPToLong(ip2)));
+	}
 	
 	private void findSubnetDevices() {
         setEnabled(lan_scan_button, false);
@@ -265,6 +267,7 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 			public void onFinished(final ArrayList<Device> devicesFound) {
 				runOnUiThread(() -> {
 					devices_found_text.setText("Devices Found: " + devicesFound.size());
+					sortListByIP();
 					adapter.notifyDataSetChanged();
 				});
 				setEnabled(lan_scan_button, true);

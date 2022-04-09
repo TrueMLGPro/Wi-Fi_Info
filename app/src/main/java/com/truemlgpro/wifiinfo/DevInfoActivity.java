@@ -83,12 +83,9 @@ public class DevInfoActivity extends AppCompatActivity
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 		
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 		
 		try {
@@ -120,75 +117,54 @@ public class DevInfoActivity extends AppCompatActivity
 	}
 		
 	public void initializeOnClickListenersAPI22() {
-		alt_ds_txt.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-				ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#2674");
-				cbm.setPrimaryClip(clip);
+		alt_ds_txt.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#2674");
+			cbm.setPrimaryClip(clip);
 
-				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "🐱️TrueMLGPro🌟#2674", Toast.LENGTH_SHORT).show();
-			}
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "🐱️TrueMLGPro🌟#2674", Toast.LENGTH_SHORT).show();
 		});
 
-		alt_gh_txt.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-				ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
-				cbm.setPrimaryClip(clip);
+		alt_gh_txt.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
+			cbm.setPrimaryClip(clip);
 
-				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro/Wi-Fi_Info", Toast.LENGTH_SHORT).show();
-			}
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro/Wi-Fi_Info", Toast.LENGTH_SHORT).show();
 		});
 	
-		alt_pr_txt.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-				ClipData clip = ClipData.newPlainText("Patreon", "TrueMLGPro");
-				cbm.setPrimaryClip(clip);
+		alt_pr_txt.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Patreon", "TrueMLGPro");
+			cbm.setPrimaryClip(clip);
 
-				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro", Toast.LENGTH_SHORT).show();
-			}
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro", Toast.LENGTH_SHORT).show();
 		});
 	}
 
 	public void initializeOnClickListeners() {
-		magic_ds.setMagicButtonClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-				ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#2674");
-				cbm.setPrimaryClip(clip);
+		magic_ds.setMagicButtonClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#2674");
+			cbm.setPrimaryClip(clip);
 
-				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "🐱️TrueMLGPro🌟#2674", Toast.LENGTH_SHORT).show();
-			}
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "🐱️TrueMLGPro🌟#2674", Toast.LENGTH_SHORT).show();
 		});
 
-		magic_gh.setMagicButtonClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-				ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
-				cbm.setPrimaryClip(clip);
+		magic_gh.setMagicButtonClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
+			cbm.setPrimaryClip(clip);
 
-				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro/Wi-Fi_Info", Toast.LENGTH_SHORT).show();
-			}
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro/Wi-Fi_Info", Toast.LENGTH_SHORT).show();
 		});
 
-		magic_pr.setMagicButtonClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-				ClipData clip = ClipData.newPlainText("Patreon", "TrueMLGPro");
-				cbm.setPrimaryClip(clip);
+		magic_pr.setMagicButtonClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Patreon", "TrueMLGPro");
+			cbm.setPrimaryClip(clip);
 
-				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro", Toast.LENGTH_SHORT).show();
-			}
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro", Toast.LENGTH_SHORT).show();
 		});
 	}
 }

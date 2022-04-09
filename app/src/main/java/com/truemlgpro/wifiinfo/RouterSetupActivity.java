@@ -113,21 +113,12 @@ public class RouterSetupActivity extends AppCompatActivity
 		
 		swipeRefresh.setColorSchemeResources(R.color.refreshLayoutColor1, R.color.refreshLayoutColor2, R.color.refreshLayoutColor3, R.color.refreshLayoutColor4);
 		swipeRefresh.setProgressViewOffset(true, -75, 200);
-		swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh()
-			{
-				webview_main.reload();
-			}
-		});
+		swipeRefresh.setOnRefreshListener(() -> webview_main.reload());
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// Back button pressed
-					finish();
-				}
-			});
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
+		});
 
 		initDialog();
 		checkNetworkConnectivity();

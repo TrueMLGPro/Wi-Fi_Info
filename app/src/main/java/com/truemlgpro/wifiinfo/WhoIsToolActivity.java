@@ -215,12 +215,9 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	}
 
 	private void setEnabled(final View view, final boolean enabled) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (view != null) {
-					view.setEnabled(enabled);
-				}
+		runOnUiThread(() -> {
+			if (view != null) {
+				view.setEnabled(enabled);
 			}
 		});
 	}
@@ -291,17 +288,9 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	}
 
 	private void appendResultsText(final String text) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				textview_who_is_results.append(text + "\n");
-				who_is_scroll.post(new Runnable() {
-					@Override
-					public void run() {
-						who_is_scroll.fullScroll(View.FOCUS_DOWN);
-					}
-				});
-			}
+		runOnUiThread(() -> {
+			textview_who_is_results.append(text + "\n");
+			who_is_scroll.post(() -> who_is_scroll.fullScroll(View.FOCUS_DOWN));
 		});
 	}
 

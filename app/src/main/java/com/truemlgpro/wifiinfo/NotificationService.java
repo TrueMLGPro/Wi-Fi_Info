@@ -17,11 +17,17 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
+
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 
 public class NotificationService extends Service
 {
-	
-	private NotificationManager notificationManager;
+
 	private Notification notification26_28;
 	private Notification notification29;
 	private Notification notification21_25;
@@ -87,13 +93,13 @@ public class NotificationService extends Service
 			if (android.os.Build.VERSION.SDK_INT >= 29) {
 				showNotificationAPI29();
 			}
-			
-			if (android.os.Build.VERSION.SDK_INT < 26) {
-				showNotificationAPI21_25();
-			}
-			
+
 			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
 				showNotificationAPI26_28();
+			}
+
+			if (android.os.Build.VERSION.SDK_INT < 26) {
+				showNotificationAPI21_25();
 			}
 			handler.postDelayed(runnable, keyNtfcFreqFormatted);
 		}
@@ -150,6 +156,7 @@ public class NotificationService extends Service
 		WifiManager mainWifi;
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
+		String ip = getIPv4Address();
 		String ssid = wInfo.getSSID();
 		if (ssid.equals("<unknown ssid>")) {
 			ssid = "N/A";
@@ -176,9 +183,8 @@ public class NotificationService extends Service
 		int freq = wInfo.getFrequency();
 		int channel = convertFrequencyToChannel(freq);
 		int networkSpeed = wInfo.getLinkSpeed();
-		int ipAddress = wInfo.getIpAddress();
+
 		int network_id = wInfo.getNetworkId();
-		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
 		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
 		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
 			"Frequency: " + freq + "MHz" + "\n" + "Network Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "Network ID: " + network_id;
@@ -234,6 +240,7 @@ public class NotificationService extends Service
 		WifiManager mainWifi;
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
+		String ip = getIPv4Address();
 		String ssid = wInfo.getSSID();
 		if (ssid.equals("<unknown ssid>")) {
 			ssid = "N/A";
@@ -251,10 +258,8 @@ public class NotificationService extends Service
 		} else {
 			visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColor);
 		}
-		int ipAddress = wInfo.getIpAddress();
 		int freq = wInfo.getFrequency();
 		int channel = convertFrequencyToChannel(freq);
-		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
 		String info = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
 			
 		notification29 = builder.setContentIntent(content_intent)
@@ -303,6 +308,7 @@ public class NotificationService extends Service
 		WifiManager mainWifi;
 		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
+		String ip = getIPv4Address();
 		String ssid = wInfo.getSSID();
 		if (ssid.equals("<unknown ssid>")) {
 			ssid = "N/A";
@@ -318,9 +324,7 @@ public class NotificationService extends Service
 		int freq = wInfo.getFrequency();
 		int channel = convertFrequencyToChannel(freq);
 		int networkSpeed = wInfo.getLinkSpeed();
-		int ipAddress = wInfo.getIpAddress();
 		int network_id = wInfo.getNetworkId();
-		String ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff), (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
 		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
 		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
 			"Frequency: " + freq + "MHz" + "\n" + "Network Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
@@ -346,6 +350,23 @@ public class NotificationService extends Service
 	}
 	
 	/// END ///
+
+	public String getIPv4Address() {
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+						return inetAddress.getHostAddress();
+					}
+				}
+			}
+		} catch (SocketException ex) {
+			Log.e("Wi-Fi Info", ex.toString());
+		}
+		return null;
+	}
 	
 	public static int convertFrequencyToChannel(int freq) {
 		if (freq >= 2412 && freq <= 2484) {

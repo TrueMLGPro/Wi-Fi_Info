@@ -124,7 +124,7 @@
 		    android:label="IP Address"
 		    android:icon="@drawable/ic_wifi_qs_tile"
 		    android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-		    android:exported="false">
+		    android:exported="true">
 		    <intent-filter>
 			    <action android:name="android.service.quicksettings.action.QS_TILE" />
 		    </intent-filter>
@@ -159,7 +159,7 @@
 		</receiver>
 		
 		<receiver android:name=".BootReceiver"
-			android:exported="false">
+			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>

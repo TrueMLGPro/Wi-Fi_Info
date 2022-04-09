@@ -59,20 +59,17 @@ public class QSTileService extends TileService {
 			qs_tile.setLabel("Local IP");
 			qs_tile.setState(Tile.STATE_ACTIVE);
 			qs_tile.updateTile();
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					SystemClock.sleep(500);
-					if (WiFiCheck.isConnected() || CellularCheck.isConnected()) {
-						qs_tile.setLabel(getIPv4Address());
-						qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_success));
-					} else {
-						qs_tile.setLabel("No Connection");
-						qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
-					}
-					qs_tile.setState(Tile.STATE_INACTIVE);
-					qs_tile.updateTile();
+			new Thread(() -> {
+				SystemClock.sleep(500);
+				if (WiFiCheck.isConnected() || CellularCheck.isConnected()) {
+					qs_tile.setLabel(getIPv4Address());
+					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_success));
+				} else {
+					qs_tile.setLabel("No Connection");
+					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
 				}
+				qs_tile.setState(Tile.STATE_INACTIVE);
+				qs_tile.updateTile();
 			}).start();
 		} else {
 			// Public IP
@@ -80,23 +77,20 @@ public class QSTileService extends TileService {
 			qs_tile.setLabel("Public IP");
 			qs_tile.setState(Tile.STATE_INACTIVE);
 			qs_tile.updateTile();
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					SystemClock.sleep(500);
-					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi));
-					qs_tile.setState(Tile.STATE_ACTIVE);
-					qs_tile.updateTile();
-					if (WiFiCheck.isConnected() || CellularCheck.isConnected()) {
-						QSTileService.PublicIPRunnable runnableIP = new QSTileService.PublicIPRunnable();
-						new Thread(runnableIP).start();
-					} else {
-						qs_tile.setLabel("No Connection");
-						qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
-					}
-					qs_tile.setState(Tile.STATE_INACTIVE);
-					qs_tile.updateTile();
+			new Thread(() -> {
+				SystemClock.sleep(500);
+				qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi));
+				qs_tile.setState(Tile.STATE_ACTIVE);
+				qs_tile.updateTile();
+				if (WiFiCheck.isConnected() || CellularCheck.isConnected()) {
+					PublicIPRunnable runnableIP = new PublicIPRunnable();
+					new Thread(runnableIP).start();
+				} else {
+					qs_tile.setLabel("No Connection");
+					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
 				}
+				qs_tile.setState(Tile.STATE_INACTIVE);
+				qs_tile.updateTile();
 			}).start();
 		}
 	}

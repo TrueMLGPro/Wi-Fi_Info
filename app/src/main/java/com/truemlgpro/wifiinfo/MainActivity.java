@@ -974,7 +974,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	
 	public String getIPv4Address() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) { 
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
 				NetworkInterface intf = en.nextElement();
 				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
@@ -985,13 +985,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			}
 		} catch (SocketException ex) {
 			Log.e("Wi-Fi Info", ex.toString());
-		} 
+		}
 		return null;
 	}
 	
 	public String getIPv6Address() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) { 
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
 				NetworkInterface intf = en.nextElement();
 				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
@@ -1002,7 +1002,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			}
 		} catch (SocketException ex) {
 			Log.e("Wi-Fi Info", ex.toString());
-		} 
+		}
 		return null;
 	}
 

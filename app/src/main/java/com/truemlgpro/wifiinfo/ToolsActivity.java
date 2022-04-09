@@ -68,84 +68,49 @@ public class ToolsActivity extends AppCompatActivity
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 
-		cardview_1.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					Intent url_to_ip_intent = new Intent(ToolsActivity.this, URLtoIPActivity.class);
-					startActivity(url_to_ip_intent);
-				}
+		cardview_1.setOnClickListener(v -> {
+			Intent url_to_ip_intent = new Intent(ToolsActivity.this, URLtoIPActivity.class);
+			startActivity(url_to_ip_intent);
 		});
 
-		cardview_2.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					Intent cell_data_public_ip_intent = new Intent(ToolsActivity.this, CellularDataIPActivity.class);
-					startActivity(cell_data_public_ip_intent);
-				}
+		cardview_2.setOnClickListener(v -> {
+			Intent cell_data_public_ip_intent = new Intent(ToolsActivity.this, CellularDataIPActivity.class);
+			startActivity(cell_data_public_ip_intent);
 		});
 
-		cardview_3.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					Intent router_setup_intent = new Intent(ToolsActivity.this, RouterSetupActivity.class);
-					startActivity(router_setup_intent);
-				}
+		cardview_3.setOnClickListener(v -> {
+			Intent router_setup_intent = new Intent(ToolsActivity.this, RouterSetupActivity.class);
+			startActivity(router_setup_intent);
 		});
 		
-		cardview_4.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					Intent ping_intent = new Intent(ToolsActivity.this, PingActivity.class);
-					startActivity(ping_intent);
-				}
+		cardview_4.setOnClickListener(v -> {
+			Intent ping_intent = new Intent(ToolsActivity.this, PingActivity.class);
+			startActivity(ping_intent);
 		});
 		
-		cardview_5.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					Intent lan_devices_scanner_intent = new Intent(ToolsActivity.this, LANDevicesScannerActivity.class);
-					startActivity(lan_devices_scanner_intent);
-				}
+		cardview_5.setOnClickListener(v -> {
+			Intent lan_devices_scanner_intent = new Intent(ToolsActivity.this, LANDevicesScannerActivity.class);
+			startActivity(lan_devices_scanner_intent);
 		});
 		
-		cardview_6.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					Intent port_scanner_intent = new Intent(ToolsActivity.this, PortScannerActivity.class);
-					startActivity(port_scanner_intent);
-				}
+		cardview_6.setOnClickListener(v -> {
+			Intent port_scanner_intent = new Intent(ToolsActivity.this, PortScannerActivity.class);
+			startActivity(port_scanner_intent);
 		});
 
-		cardview_7.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				Intent whois_tool_intent = new Intent(ToolsActivity.this, WhoIsToolActivity.class);
-				startActivity(whois_tool_intent);
-			}
+		cardview_7.setOnClickListener(v -> {
+			Intent whois_tool_intent = new Intent(ToolsActivity.this, WhoIsToolActivity.class);
+			startActivity(whois_tool_intent);
 		});
 
-		cardview_8.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				Intent dns_resolver_tool_intent = new Intent(ToolsActivity.this, DNSLookupActivity.class);
-				startActivity(dns_resolver_tool_intent);
-			}
+		cardview_8.setOnClickListener(v -> {
+			Intent dns_lookup_tool_intent = new Intent(ToolsActivity.this, DNSLookupActivity.class);
+			startActivity(dns_lookup_tool_intent);
 		});
     }
 }

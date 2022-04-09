@@ -110,24 +110,15 @@ public class PingActivity extends AppCompatActivity
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 		
-		ping_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ping();
-			}
-		});
+		ping_button.setOnClickListener(v -> ping());
 		
-		ping_button_cancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		ping_button_cancel.setOnClickListener(v -> {
+			if (pinger != null) {
 				pinger.cancel();
 			}
 		});
@@ -168,6 +159,7 @@ public class PingActivity extends AppCompatActivity
 				@Override
 				public void onError(Exception e) {
 					e.printStackTrace();
+					appendResultsText(e.getMessage());
 					setEnabled(ping_button, true);
 					setEnabled(ping_button_cancel, false);
 				}
@@ -245,7 +237,7 @@ public class PingActivity extends AppCompatActivity
 			setEnabled(ping_button_cancel, false);
             return;
 		}
-		
+
 		appendResultsText("Pinging IP: " + pingResultInfo.getAddress().getHostAddress());
         appendResultsText("Hostname: " + pingResultInfo.getAddress().getHostName());
 		startPinger(url_ip, ping_timeout, ping_ttl, ping_times);
@@ -323,29 +315,18 @@ public class PingActivity extends AppCompatActivity
 	}
 	
 	private void setEnabled(final View view, final boolean enabled) {
-        runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (view != null) {
-					view.setEnabled(enabled);
-				}
-			}
-		});
+        runOnUiThread(() -> {
+	        if (view != null) {
+		        view.setEnabled(enabled);
+	        }
+        });
     }
 	
 	private void appendResultsText(final String text) {
-        runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				ping_text.append(text + "\n");
-				ping_results_scroll.post(new Runnable() {
-					@Override
-					public void run() {
-						ping_results_scroll.fullScroll(View.FOCUS_DOWN);
-					}
-				});
-			}
-		});
+        runOnUiThread(() -> {
+	        ping_text.append(text + "\n");
+	        ping_results_scroll.post(() -> ping_results_scroll.fullScroll(View.FOCUS_DOWN));
+        });
     }
 	
 	@Override
@@ -361,6 +342,9 @@ public class PingActivity extends AppCompatActivity
 	@Override
 	protected void onStop()
 	{
+		if (pinger != null) {
+			pinger.cancel();
+		}
 		unregisterReceiver(NetworkConnectivityReceiver);
 		super.onStop();
 	}

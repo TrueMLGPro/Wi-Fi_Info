@@ -92,21 +92,15 @@ public class CellularDataIPActivity extends AppCompatActivity
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 		
-		fab_update_ip.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				fab_update_ip.setEnabled(false);
-				PublicIPRunnable runnableIP = new PublicIPRunnable();
-				new Thread(runnableIP).start();
-			}
+		fab_update_ip.setOnClickListener(v -> {
+			fab_update_ip.setEnabled(false);
+			PublicIPRunnable runnableIP = new PublicIPRunnable();
+			new Thread(runnableIP).start();
 		});
 			
 		checkCellularConnectivity();
@@ -181,12 +175,7 @@ public class CellularDataIPActivity extends AppCompatActivity
 			}.execute();
 
 			Handler handlerEnableFAB = new Handler(Looper.getMainLooper());
-			handlerEnableFAB.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						fab_update_ip.setEnabled(true);
-					}
-				}, 5000);
+			handlerEnableFAB.postDelayed(() -> fab_update_ip.setEnabled(true), 5000);
 		}
 	}
 	
@@ -259,7 +248,7 @@ public class CellularDataIPActivity extends AppCompatActivity
 			IPv4-Embedded IPv6 Address (section 2 of RFC6052)
 			IPv4-mapped IPv6 addresses (section 2.1 of RFC2765)
 			IPv4-translated addresses (section 2.1 of RFC2765)
-		 */
+		*/
 		String IPV6_REGEX = "^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$|" +
 				"^::(?:[0-9a-fA-F]{1,4}:){0,6}[0-9a-fA-F]{1,4}$|" +
 				"^[0-9a-fA-F]{1,4}::(?:[0-9a-fA-F]{1,4}:){0,5}[0-9a-fA-F]{1,4}$|" +

@@ -77,122 +77,86 @@ public class SupportersActivity extends AppCompatActivity
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 		
 		initializeOnClickListeners();
 	}
 	
 	public void initializeOnClickListeners() {
-		pab_text.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "Pab#1234");
-					cbm.setPrimaryClip(clip);
+		pab_text.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "Pab#1234");
+			cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Pab#1234", Toast.LENGTH_SHORT).show();
-				}
-			});
-		anyx_text.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "Anyx#1040");
-					cbm.setPrimaryClip(clip);
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Pab#1234", Toast.LENGTH_SHORT).show();
+		});
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Anyx#1040", Toast.LENGTH_SHORT).show();
-				}
-			});
+		anyx_text.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "Anyx#1040");
+			cbm.setPrimaryClip(clip);
 
-		andrew_text.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "andre btw.#3934");
-					cbm.setPrimaryClip(clip);
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Anyx#1040", Toast.LENGTH_SHORT).show();
+		});
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "andre btw.#3934", Toast.LENGTH_SHORT).show();
-				}
-			});
+		andrew_text.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "andre btw.#3934");
+			cbm.setPrimaryClip(clip);
 
-		rouge_text.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "[ ]#4556");
-					cbm.setPrimaryClip(clip);
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "andre btw.#3934", Toast.LENGTH_SHORT).show();
+		});
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "[ ]#4556", Toast.LENGTH_SHORT).show();
-				}
-			});
-		madcodez_text.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "madcodez#1517");
-					cbm.setPrimaryClip(clip);
+		rouge_text.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "[ ]#4556");
+			cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "madcodez#1517", Toast.LENGTH_SHORT).show();
-				}
-			});
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "[ ]#4556", Toast.LENGTH_SHORT).show();
+		});
 
-		reiven_text.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "ReivenAlt#2501");
-					cbm.setPrimaryClip(clip);
+		madcodez_text.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "madcodez#1517");
+			cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "ReivenAlt#2501", Toast.LENGTH_SHORT).show();
-				}
-			});
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "madcodez#1517", Toast.LENGTH_SHORT).show();
+		});
 
-		artem_text.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "Apтем#8524");
-					cbm.setPrimaryClip(clip);
+		reiven_text.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "ReivenAlt#2501");
+			cbm.setPrimaryClip(clip);
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Apтем#8524", Toast.LENGTH_SHORT).show();
-				}
-			});
-		terrin_text.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "Terrin Tin#5462");
-					cbm.setPrimaryClip(clip);
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "ReivenAlt#2501", Toast.LENGTH_SHORT).show();
+		});
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Terrin Tin#5462", Toast.LENGTH_SHORT).show();
-				}
-			});
+		artem_text.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "Apтем#8524");
+			cbm.setPrimaryClip(clip);
 
-		killbayne_text.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v)
-				{
-					ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-					ClipData clip = ClipData.newPlainText("Discord", "Killbayne#6969");
-					cbm.setPrimaryClip(clip);
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Apтем#8524", Toast.LENGTH_SHORT).show();
+		});
 
-					Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Killbayne#6969", Toast.LENGTH_SHORT).show();
-				}
-			});
+		terrin_text.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "Terrin Tin#5462");
+			cbm.setPrimaryClip(clip);
+
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Terrin Tin#5462", Toast.LENGTH_SHORT).show();
+		});
+
+		killbayne_text.setOnClickListener(v -> {
+			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData clip = ClipData.newPlainText("Discord", "Killbayne#6969");
+			cbm.setPrimaryClip(clip);
+
+			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Killbayne#6969", Toast.LENGTH_SHORT).show();
+		});
 	}
 	
 }

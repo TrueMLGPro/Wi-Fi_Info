@@ -94,38 +94,32 @@ public class URLtoIPActivity extends AppCompatActivity
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 
-		convert_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (!shouldShowError()) {
-					String url = mEditText.getText().toString();
-					new Thread(() -> {
-						try {
-							String ip = URLandIPConverter.convertUrl("https://" + url);
-							appendResultsText("Converting URL: " + url);
-							appendResultsText("IP: " + ip);
-						} catch (MalformedURLException e) {
-							e.printStackTrace();
-							appendResultsText("Converting URL: " + url);
-							appendResultsText("Error: Malformed URL");
-						} catch (UnknownHostException e) {
-							e.printStackTrace();
-							appendResultsText("Converting URL: " + url);
-							appendResultsText("Error: Unknown Host");
-						}
-					}).start();
-					hideError();
-				} else {
-					showError();
-				}
+		convert_button.setOnClickListener(v -> {
+			if (!shouldShowError()) {
+				String url = mEditText.getText().toString();
+				new Thread(() -> {
+					try {
+						String ip = URLandIPConverter.convertUrl("https://" + url);
+						appendResultsText("Converting URL: " + url);
+						appendResultsText("IP: " + ip);
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+						appendResultsText("Converting URL: " + url);
+						appendResultsText("Error: Malformed URL");
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+						appendResultsText("Converting URL: " + url);
+						appendResultsText("Error: Unknown Host");
+					}
+				}).start();
+				hideError();
+			} else {
+				showError();
 			}
 		});
     }
@@ -209,18 +203,10 @@ public class URLtoIPActivity extends AppCompatActivity
 	}
 	
 	private void appendResultsText(final String text) {
-        runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				textview_ipFromURL.append(text + "\n");
-				url_to_ip_scroll.post(new Runnable() {
-					@Override
-					public void run() {
-						url_to_ip_scroll.fullScroll(View.FOCUS_DOWN);
-					}
-				});
-			}
-		});
+        runOnUiThread(() -> {
+	        textview_ipFromURL.append(text + "\n");
+	        url_to_ip_scroll.post(() -> url_to_ip_scroll.fullScroll(View.FOCUS_DOWN));
+        });
     }
 
 	@Override

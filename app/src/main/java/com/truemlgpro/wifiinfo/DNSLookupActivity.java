@@ -100,24 +100,18 @@ public class DNSLookupActivity extends AppCompatActivity {
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 
-		get_dns_info_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				url_ip = edit_text_dns.getText().toString();
-				if (TextUtils.isEmpty(url_ip)) {
-					url_ip = "google.com";
-					Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Google URL: " + url_ip, Toast.LENGTH_LONG).show();
-				}
-				startDnsLookup();
+		get_dns_info_button.setOnClickListener(v -> {
+			url_ip = edit_text_dns.getText().toString();
+			if (TextUtils.isEmpty(url_ip)) {
+				url_ip = "google.com";
+				Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Google URL: " + url_ip, Toast.LENGTH_LONG).show();
 			}
+			startDnsLookup();
 		});
 
 		spinner_dns_record_types.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -183,28 +177,17 @@ public class DNSLookupActivity extends AppCompatActivity {
 	}
 
 	private void setEnabled(final View view, final boolean enabled) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (view != null) {
-					view.setEnabled(enabled);
-				}
+		runOnUiThread(() -> {
+			if (view != null) {
+				view.setEnabled(enabled);
 			}
 		});
 	}
 
 	private void appendResultsText(final String text) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				dns_lookup_textview.append(text + "\n");
-				dns_lookup_results_scroll.post(new Runnable() {
-					@Override
-					public void run() {
-						dns_lookup_results_scroll.fullScroll(View.FOCUS_DOWN);
-					}
-				});
-			}
+		runOnUiThread(() -> {
+			dns_lookup_textview.append(text + "\n");
+			dns_lookup_results_scroll.post(() -> dns_lookup_results_scroll.fullScroll(View.FOCUS_DOWN));
 		});
 	}
 

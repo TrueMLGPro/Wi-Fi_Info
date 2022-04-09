@@ -15,8 +15,6 @@ public class SettingsActivity extends AppCompatActivity
 {
 
 	private Toolbar toolbar;
-	private FrameLayout content_frame;
-	private Context context;
 	
 	public static final String KEY_PREF_SWITCH = "theme_switch";
 	public static final String KEY_PREF_AMOLED_CHECK = "amoled_theme_checkbox";
@@ -55,7 +53,6 @@ public class SettingsActivity extends AppCompatActivity
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		content_frame = (FrameLayout) findViewById(R.id.content_frame);
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);

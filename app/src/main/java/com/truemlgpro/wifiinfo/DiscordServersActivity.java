@@ -15,7 +15,6 @@ public class DiscordServersActivity extends AppCompatActivity
 {
 
 	private Toolbar toolbar;
-	private Button true_mlg_pro_button;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -43,7 +42,6 @@ public class DiscordServersActivity extends AppCompatActivity
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		true_mlg_pro_button = (Button) findViewById(R.id.true_mlg_pro_button);
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
@@ -55,12 +53,9 @@ public class DiscordServersActivity extends AppCompatActivity
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 		
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 		
 	}

@@ -264,12 +264,6 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		/// END ///
 	}
 	
-	@Override
-	public IBinder onBind(Intent intent)
-	{
-		return null;
-	}
-	
 	private Handler handler = new Handler(Looper.getMainLooper());
 	private Runnable runnable = new Runnable() {
 		@Override
@@ -483,6 +477,12 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		channel.setShowBadge(false);
 		notificationManager.createNotificationChannel(channel);
 		return channelID;
+	}
+
+	@Override
+	public IBinder onBind(Intent intent)
+	{
+		return null;
 	}
 
 }

@@ -8,11 +8,9 @@ public class SharedPreferencesManager {
 		
 		private SharedPreferences sPreferences;
 		private SharedPreferences.Editor sEditor;
-		private Context context;
 
-		public SharedPreferencesManager(Context context) {
-			this.context = context;
-			sPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+	public SharedPreferencesManager(Context context) {
+		sPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		}
 
 		private SharedPreferences.Editor getEditor() {

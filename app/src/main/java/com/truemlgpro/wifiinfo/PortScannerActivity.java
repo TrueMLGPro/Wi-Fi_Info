@@ -106,81 +106,54 @@ public class PortScannerActivity extends AppCompatActivity
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 
-		port_scan_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setEnabled(port_scan_stop_button, true);
-				try {
-					findOpenPorts();
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
-				ports_open_text.setText("Ports Open: -");
-				adapter.clear();
+		port_scan_button.setOnClickListener(v -> {
+			setEnabled(port_scan_stop_button, true);
+			try {
+				findOpenPorts();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
 			}
+			ports_open_text.setText("Ports Open: -");
+			adapter.clear();
 		});
 		
-		port_scan_stop_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		port_scan_stop_button.setOnClickListener(v -> {
+			if (portScanner != null) {
 				portScanner.cancel();
-				setEnabled(port_scan_button, true);
-				setEnabled(port_scan_stop_button, false);
 			}
+			setEnabled(port_scan_button, true);
+			setEnabled(port_scan_stop_button, false);
 		});
 
 	}
 
 	private void setEnabled(final View view, final boolean enabled) {
-        runOnUiThread(new Runnable() {
-        	@Override
-	        public void run() {
-        		if (view != null) {
-        			view.setEnabled(enabled);
-        		}
-        	}
+        runOnUiThread(() -> {
+	        if (view != null) {
+		        view.setEnabled(enabled);
+	        }
         });
     }
 
-	public void sortList() {
-		Comparator<String> portComparator = new Comparator<String>() {
-			@Override
-			public int compare(String port1, String port2) {
-				return Integer.parseInt(port1) - Integer.parseInt(port2);
-			}
-		};
-		Collections.sort(ports_arrayList, portComparator);
-	}
-
 	private void addPortsToList(final String text) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (!ports_arrayList.contains(text)) {
-					adapter.add(text);
-				}
-				sortList();
-				adapter.notifyDataSetChanged();
+		Comparator<String> portComparator = (port1, port2) -> Integer.parseInt(port1) - Integer.parseInt(port2);
+		int index = Collections.binarySearch(ports_arrayList, text, portComparator);
+
+		runOnUiThread(() -> {
+			if (!ports_arrayList.contains(text)) {
+				ports_arrayList.add((index < 0) ? (-index - 1) : index, text);
 			}
+			adapter.notifyDataSetChanged();
 		});
 	}
-	
-	private String getGateway() {
-		if (!WiFiCheck.isConnected()) {
-			return "0.0.0.0";
-		}
-		WifiManager mainWifi = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-		DhcpInfo dhcp = mainWifi.getDhcpInfo();
-		int ip = dhcp.gateway;
-		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
+
+	public void sortListByPort() {
+		Collections.sort(ports_arrayList, (port1, port2) -> Integer.parseInt(port1) - Integer.parseInt(port2));
 	}
 
 	private void findOpenPorts() throws UnknownHostException {
@@ -213,11 +186,10 @@ public class PortScannerActivity extends AppCompatActivity
 				public void onFinished(ArrayList<Integer> openPorts) {
 					setEnabled(port_scan_button, true);
 					setEnabled(port_scan_stop_button, false);
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							ports_open_text.setText("Ports Open: " + ports_arrayList.size());
-						}
+					runOnUiThread(() -> {
+						ports_open_text.setText("Ports Open: " + ports_arrayList.size());
+						sortListByPort();
+						adapter.notifyDataSetChanged();
 					});
 				}
 			});
@@ -235,11 +207,10 @@ public class PortScannerActivity extends AppCompatActivity
 				public void onFinished(ArrayList<Integer> openPorts) {
 					setEnabled(port_scan_button, true);
 					setEnabled(port_scan_stop_button, false);
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							ports_open_text.setText("Ports Open: " + ports_arrayList.size());
-						}
+					runOnUiThread(() -> {
+						ports_open_text.setText("Ports Open: " + ports_arrayList.size());
+						sortListByPort();
+						adapter.notifyDataSetChanged();
 					});
 				}
 			});
@@ -324,6 +295,9 @@ public class PortScannerActivity extends AppCompatActivity
 	@Override
 	protected void onStop()
 	{
+		if (portScanner != null) {
+			portScanner.cancel();
+		}
 		unregisterReceiver(NetworkConnectivityReceiver);
 		super.onStop();
 	}
