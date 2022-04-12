@@ -5,10 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.DhcpInfo;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +35,8 @@ public class PortScannerActivity extends AppCompatActivity
 
 	private Toolbar toolbar;
 	private TextView textview_nonetworkconn;
+	private TextInputLayout text_input_layout_ip;
+	private TextInputLayout text_input_layout_threads;
 	private EditText edittext_ip;
 	private EditText edittext_threads;
 	private Spinner spinner_packet_types;
@@ -82,6 +83,8 @@ public class PortScannerActivity extends AppCompatActivity
 
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
+		text_input_layout_ip = (TextInputLayout) findViewById(R.id.input_layout_ip);
+		text_input_layout_threads = (TextInputLayout) findViewById(R.id.input_layout_threads);
 		edittext_ip = (EditText) findViewById(R.id.edittext_ip);
 		edittext_threads = (EditText) findViewById(R.id.edittext_threads);
 		spinner_packet_types = (Spinner) findViewById(R.id.spinner_packet_types);
@@ -261,6 +264,8 @@ public class PortScannerActivity extends AppCompatActivity
 	}
 
 	public void showWidgets() {
+		text_input_layout_ip.setVisibility(View.VISIBLE);
+		text_input_layout_threads.setVisibility(View.VISIBLE);
 		edittext_ip.setVisibility(View.VISIBLE);
 		edittext_threads.setVisibility(View.VISIBLE);
 		spinner_packet_types.setVisibility(View.VISIBLE);
@@ -272,6 +277,8 @@ public class PortScannerActivity extends AppCompatActivity
 	}
 
 	public void hideWidgets() {
+		text_input_layout_ip.setVisibility(View.GONE);
+		text_input_layout_threads.setVisibility(View.GONE);
 		edittext_ip.setVisibility(View.GONE);
 		edittext_threads.setVisibility(View.GONE);
 		spinner_packet_types.setVisibility(View.GONE);
