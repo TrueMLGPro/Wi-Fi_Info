@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
@@ -49,7 +48,7 @@ public class DiscordServersActivity extends AppCompatActivity
 		
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 		

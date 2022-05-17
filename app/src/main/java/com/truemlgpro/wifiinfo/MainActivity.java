@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 {
 
 	private Toolbar toolbar;
+	private Menu toolbarMenu;
 	private TextView textview_public_ip;
 	private TextView textview_ssid;
 	private TextView textview_hidden_ssid;
@@ -207,209 +208,204 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			setTheme(R.style.LightTheme);
 		}
 
-		listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-
-			@Override
-			public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
-			{
-				if (key.equals(SettingsActivity.KEY_PREF_SWITCH)) {
-					if (prefs.getBoolean(SettingsActivity.KEY_PREF_SWITCH, true) == true) {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode = true);
-					} else {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode = false);
-					}
+		listener = (prefs, key) -> {
+			if (key.equals(SettingsActivity.KEY_PREF_SWITCH)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_SWITCH, true) == true) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode = false);
 				}
+			}
 
-				if (key.equals(SettingsActivity.KEY_PREF_AMOLED_CHECK)) {
-					if (prefs.getBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, false) == true) {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode = true);
-					} else {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode = false);
-					}
+			if (key.equals(SettingsActivity.KEY_PREF_AMOLED_CHECK)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, false) == true) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode = false);
 				}
+			}
 
-				if (key.equals(SettingsActivity.KEY_PREF_BOOT_SWITCH)) {
-					if (prefs.getBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, false) == true) {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, startOnBoot = true);
-					} else {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, startOnBoot = false);
-					}
+			if (key.equals(SettingsActivity.KEY_PREF_BOOT_SWITCH)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, false) == true) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, startOnBoot = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, startOnBoot = false);
 				}
+			}
 
-				if (key.equals(SettingsActivity.KEY_PREF_NTFC_SWITCH)) {
-					if (prefs.getBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, true) == true) {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc = true);
-					} else {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc = false);
-					}
+			if (key.equals(SettingsActivity.KEY_PREF_NTFC_SWITCH)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, true) == true) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc = false);
 				}
+			}
 
-				if (key.equals(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK)) {
-					if (prefs.getBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, false) == true) {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, visualizeSigStrg = true);
-					} else {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, visualizeSigStrg = false);
-					}
+			if (key.equals(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, false) == true) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, visualizeSigStrg = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, visualizeSigStrg = false);
 				}
+			}
 
-				if (key.equals(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK)) {
-					if (prefs.getBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, false) == true) {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, startStopSrvcScrnState = true);
-						Intent restartConnectionStateService = new Intent(MainActivity.this, ConnectionStateService.class);
-						Intent restartNotificationService = new Intent(MainActivity.this, NotificationService.class);
-						if (ConnectionStateService.isNotificationServiceRunning) {
-							stopService(restartNotificationService);
+			if (key.equals(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, false) == true) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, startStopSrvcScrnState = true);
+					Intent restartConnectionStateService = new Intent(MainActivity.this, ConnectionStateService.class);
+					Intent restartNotificationService = new Intent(MainActivity.this, NotificationService.class);
+					if (ConnectionStateService.isNotificationServiceRunning) {
+						stopService(restartNotificationService);
+					}
+					if (ConnectionStateService.isConnectionStateServiceRunning) {
+						stopService(restartConnectionStateService);
+						if (Build.VERSION.SDK_INT < 26) {
+							startService(restartConnectionStateService);
+						} else {
+							startForegroundService(restartConnectionStateService);
 						}
-						if (ConnectionStateService.isConnectionStateServiceRunning) {
-							stopService(restartConnectionStateService);
-							if (android.os.Build.VERSION.SDK_INT < 26) {
-								startService(restartConnectionStateService);
-							} else {
-								startForegroundService(restartConnectionStateService);
-							}
-						}
-					} else {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, startStopSrvcScrnState = false);
-						Intent restartConnectionStateService = new Intent(MainActivity.this, ConnectionStateService.class);
-						Intent restartNotificationService = new Intent(MainActivity.this, NotificationService.class);
-						if (ConnectionStateService.isNotificationServiceRunning) {
-							stopService(restartNotificationService);
-						}
-						if (ConnectionStateService.isConnectionStateServiceRunning) {
-							stopService(restartConnectionStateService);
-							if (android.os.Build.VERSION.SDK_INT < 26) {
-								startService(restartConnectionStateService);
-							} else {
-								startForegroundService(restartConnectionStateService);
-							}
+					}
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, startStopSrvcScrnState = false);
+					Intent restartConnectionStateService = new Intent(MainActivity.this, ConnectionStateService.class);
+					Intent restartNotificationService = new Intent(MainActivity.this, NotificationService.class);
+					if (ConnectionStateService.isNotificationServiceRunning) {
+						stopService(restartNotificationService);
+					}
+					if (ConnectionStateService.isConnectionStateServiceRunning) {
+						stopService(restartConnectionStateService);
+						if (Build.VERSION.SDK_INT < 26) {
+							startService(restartConnectionStateService);
+						} else {
+							startForegroundService(restartConnectionStateService);
 						}
 					}
 				}
+			}
 
-				if (key.equals(SettingsActivity.KEY_PREF_CLR_CHECK)) {
-					if (prefs.getBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, false) == true) {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, colorizeNtfc = true);
-					} else {
-						new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, colorizeNtfc = false);
-					}
+			if (key.equals(SettingsActivity.KEY_PREF_CLR_CHECK)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, false) == true) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, colorizeNtfc = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, colorizeNtfc = false);
+				}
+			}
+
+			if (key.equals(SettingsActivity.KEY_PREF_NTFC_FREQ)) {
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("500")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "500");
 				}
 
-				if (key.equals(SettingsActivity.KEY_PREF_NTFC_FREQ)) {
-					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("500")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "500");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("1000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "1000");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("2000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "2000");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("3000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "3000");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("4000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "4000");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("5000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "5000");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("10000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "10000");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("1000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "1000");
 				}
 
-				if (key.equals(SettingsActivity.KEY_PREF_CARD_FREQ)) {
-					if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("500")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "500");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("1000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "1000");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("2000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "2000");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("3000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "3000");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("4000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "4000");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("5000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "5000");
-					}
-
-					if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("10000")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "10000");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("2000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "2000");
 				}
 
-				if (key.equals(SettingsActivity.KEY_PREF_APP_FONT)) {
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Gilroy-Semibold.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Gilroy-Semibold.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("3000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "3000");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CircularStd-Bold.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CircularStd-Bold.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("4000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "4000");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Comfortaa-Regular.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Comfortaa-Regular.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("5000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "5000");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CondellBio-Medium.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CondellBio-Medium.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("10000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "10000");
+				}
+			}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/FilsonPro-Regular.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/FilsonPro-Regular.ttf");
-					}
+			if (key.equals(SettingsActivity.KEY_PREF_CARD_FREQ)) {
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("500")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "500");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Hellix-Medium.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Hellix-Medium.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("1000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "1000");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Moderat-Regular.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Moderat-Regular.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("2000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "2000");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Newson-Medium.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Newson-Medium.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("3000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "3000");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/NoirText-Bold.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/NoirText-Bold.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("4000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "4000");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Poligon-Regular.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Poligon-Regular.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("5000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "5000");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/ProximaSoft-Medium.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/ProximaSoft-Medium.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("10000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "10000");
+				}
+			}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Squalo-Regular.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Squalo-Regular.ttf");
-					}
+			if (key.equals(SettingsActivity.KEY_PREF_APP_FONT)) {
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Gilroy-Semibold.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Gilroy-Semibold.ttf");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Tomkin-Regular.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Tomkin-Regular.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CircularStd-Bold.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CircularStd-Bold.ttf");
+				}
 
-					if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Urbani-Regular.ttf")) {
-						new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Urbani-Regular.ttf");
-					}
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Comfortaa-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Comfortaa-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CondellBio-Medium.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CondellBio-Medium.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/FilsonPro-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/FilsonPro-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Hellix-Medium.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Hellix-Medium.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Moderat-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Moderat-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Newson-Medium.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Newson-Medium.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/NoirText-Bold.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/NoirText-Bold.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Poligon-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Poligon-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/ProximaSoft-Medium.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/ProximaSoft-Medium.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Squalo-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Squalo-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Tomkin-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Tomkin-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Urbani-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Urbani-Regular.ttf");
 				}
 			}
 		};
@@ -538,7 +534,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 		setSupportActionBar(toolbar);
 	    ActionBar actionbar = getSupportActionBar();
-		actionbar.setDisplayHomeAsUpEnabled(false);
+	    actionbar.setDisplayHomeAsUpEnabled(false);
 		actionbar.setSubtitle("Release v" + version);
 		actionbar.setElevation(20);
 
@@ -564,9 +560,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			textview_noconn.setVisibility(View.VISIBLE);
 			hideWidgets(); // Hides CardViews and TextViews
 			textview_public_ip.setText("Your IP: N/A");
+			if (toolbarMenu != null) {
+				if (toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
+					setToolbarItemEnabled(R.id.copy_all, false);
+				}
+			}
 		} else {
 			textview_noconn.setVisibility(View.GONE);
 			showWidgets(); // Makes CardViews and TextViews visible
+			if (toolbarMenu != null) {
+				if (!toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
+					setToolbarItemEnabled(R.id.copy_all, true);
+				}
+			}
 		}
 	}
 
@@ -777,8 +783,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 	};
 	
-	class WiFiConnectivityReceiver extends BroadcastReceiver
-	{
+	class WiFiConnectivityReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
@@ -789,6 +794,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				textview_noconn.setVisibility(View.VISIBLE);
 				hideWidgets(); // Hides CardViews and TextViews
 				textview_public_ip.setText("Your IP: N/A");
+				if (toolbarMenu != null) {
+					if (toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
+						setToolbarItemEnabled(R.id.copy_all, false);
+					}
+				}
 				if (isHandlerRunning) {
 					handler.removeCallbacks(runnable);
 					isHandlerRunning = false;
@@ -796,6 +806,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			} else {
 				textview_noconn.setVisibility(View.GONE);
 				showWidgets(); // Makes CardViews and TextViews visible
+				if (toolbarMenu != null) {
+					if (!toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
+						toolbarMenu.findItem(R.id.copy_all).setEnabled(true);
+					}
+				}
 				if (!isHandlerRunning) {
 					handler.post(runnable);
 					isHandlerRunning = true;
@@ -1702,7 +1717,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		cbm.setPrimaryClip(clipData);
 		Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 	}
-	
+
 	private String getPublicIPAddress() {
 		String publicIP = "";
 		try {
@@ -1714,7 +1729,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 		return publicIP;
 	}
-	
+
 	public boolean isReachable(String url) {
 		boolean reachable;
 		int response_code;
@@ -1737,7 +1752,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 		return reachable;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	class PublicIPRunnable implements Runnable {
 		@Override
@@ -1842,7 +1857,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
+
+	private void setToolbarItemEnabled(int item, Boolean enabled) {
+		if (toolbarMenu != null) {
+			toolbarMenu.findItem(item).setEnabled(enabled);
+		}
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		toolbarMenu = menu;
+		return super.onPrepareOptionsMenu(menu);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.action_bar_menu, menu);

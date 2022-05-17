@@ -79,7 +79,7 @@ public class DevInfoActivity extends AppCompatActivity
 		
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 		

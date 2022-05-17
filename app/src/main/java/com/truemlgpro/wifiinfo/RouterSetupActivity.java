@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -53,7 +52,8 @@ public class RouterSetupActivity extends AppCompatActivity
 	private ConnectivityManager CM;
 	private NetworkInfo WiFiCheck;
 
-	public Boolean wifi_connected = false;
+	private Boolean wifi_connected = false;
+	private Boolean isNetworkConnReceiverRegistered = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -93,11 +93,11 @@ public class RouterSetupActivity extends AppCompatActivity
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 		
-		if (!keyTheme) {
+		if (keyTheme) {
 			swipeRefresh.setProgressBackgroundColor(R.color.cardBackgroundDark);
 		}
 		
@@ -133,16 +133,16 @@ public class RouterSetupActivity extends AppCompatActivity
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		final View editTextLoginPasswordView = layoutInflater.inflate(R.layout.edit_text_dialog, null);
 		builder.setTitle("Router Login — " + getGatewayIP())
-				.setView(R.layout.edit_text_dialog)
-				.setPositiveButton("Ok", (dialog, which) -> {
-					Dialog d = (Dialog) dialog;
-					edittext_user = d.findViewById(R.id.edit_text_user);
-					edittext_password = d.findViewById(R.id.edit_text_password);
-					user = edittext_user.getText().toString();
-					password = edittext_password.getText().toString();
-					loadWebview();
-				})
-				.setNegativeButton("Cancel", (dialog, which) -> finish());
+			.setView(R.layout.edit_text_dialog)
+			.setPositiveButton("Ok", (dialog, which) -> {
+				Dialog d = (Dialog) dialog;
+				edittext_user = d.findViewById(R.id.edit_text_user);
+				edittext_password = d.findViewById(R.id.edit_text_password);
+				user = edittext_user.getText().toString();
+				password = edittext_password.getText().toString();
+				loadWebview();
+			})
+			.setNegativeButton("Cancel", (dialog, which) -> finish());
 		builder.setCancelable(false);
 		alert = builder.create();
 	}
@@ -181,6 +181,18 @@ public class RouterSetupActivity extends AppCompatActivity
 				if (swipeRefresh.isRefreshing()) {
 					swipeRefresh.setRefreshing(false);
 				}
+				// TODO: IMPLEMENT LOGIC TO UNREGISTER A RECEIVER IF THE WEBVIEW WAS LOADED
+				if (WiFiCheck.isConnected() && NetworkConnectivityReceiver != null && isNetworkConnReceiverRegistered) {
+					unregisterReceiver(NetworkConnectivityReceiver);
+					isNetworkConnReceiverRegistered = false;
+				} else {
+					IntentFilter filter = new IntentFilter();
+					filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+					NetworkConnectivityReceiver = new RouterSetupActivity.NetworkConnectivityReceiver();
+					registerReceiver(NetworkConnectivityReceiver, filter);
+					isNetworkConnReceiverRegistered = true;
+				}
+				// TODO: FINISH THIS, MAKE SURE THIS CODE DOESN'T CAUSE ANY ISSUES AT RUNTIME OR DISABLES THE RECEIVER WHEN IT'S BEING USED
 			}
 			
 			@Override
@@ -243,7 +255,7 @@ public class RouterSetupActivity extends AppCompatActivity
 		}
 
 		if (message != null) {
-			Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+			Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -313,6 +325,7 @@ public class RouterSetupActivity extends AppCompatActivity
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new RouterSetupActivity.NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
+		isNetworkConnReceiverRegistered = true;
 		super.onStart();
 	}
 
@@ -320,6 +333,7 @@ public class RouterSetupActivity extends AppCompatActivity
 	protected void onStop()
 	{
 		unregisterReceiver(NetworkConnectivityReceiver);
+		isNetworkConnReceiverRegistered = false;
 		super.onStop();
 	}
 	

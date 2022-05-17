@@ -6,24 +6,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class ToolsActivity extends AppCompatActivity
 {
 
-	private Toolbar toolbar;
-	private CardView cardview_1;
-	private CardView cardview_2;
-	private CardView cardview_3;
-	private CardView cardview_4;
-	private CardView cardview_5;
-	private CardView cardview_6;
-	private CardView cardview_7;
-	private CardView cardview_8;
-
-    @Override
+	@Override
     protected void onCreate(Bundle savedInstanceState)
 	{
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
@@ -46,15 +35,15 @@ public class ToolsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tools_activity);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		cardview_1 = (CardView) findViewById(R.id.cardview_1);
-		cardview_2 = (CardView) findViewById(R.id.cardview_2);
-		cardview_3 = (CardView) findViewById(R.id.cardview_3);
-		cardview_4 = (CardView) findViewById(R.id.cardview_4);
-		cardview_5 = (CardView) findViewById(R.id.cardview_5);
-		cardview_6 = (CardView) findViewById(R.id.cardview_6);
-		cardview_7 = (CardView) findViewById(R.id.cardview_7);
-		cardview_8 = (CardView) findViewById(R.id.cardview_8);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		CardView cardview_url_to_ip = (CardView) findViewById(R.id.cardview_1);
+		CardView cardview_cellular_ip = (CardView) findViewById(R.id.cardview_2);
+		CardView cardview_router_setup = (CardView) findViewById(R.id.cardview_3);
+		CardView cardview_ping = (CardView) findViewById(R.id.cardview_4);
+		CardView cardview_lan_devices_scanner = (CardView) findViewById(R.id.cardview_5);
+		CardView cardview_port_scanner = (CardView) findViewById(R.id.cardview_6);
+		CardView cardview_whois = (CardView) findViewById(R.id.cardview_7);
+		CardView cardview_dns_lookup = (CardView) findViewById(R.id.cardview_8);
 		
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
@@ -73,42 +62,42 @@ public class ToolsActivity extends AppCompatActivity
 			finish();
 		});
 
-		cardview_1.setOnClickListener(v -> {
+		cardview_url_to_ip.setOnClickListener(v -> {
 			Intent url_to_ip_intent = new Intent(ToolsActivity.this, URLtoIPActivity.class);
 			startActivity(url_to_ip_intent);
 		});
 
-		cardview_2.setOnClickListener(v -> {
+		cardview_cellular_ip.setOnClickListener(v -> {
 			Intent cell_data_public_ip_intent = new Intent(ToolsActivity.this, CellularDataIPActivity.class);
 			startActivity(cell_data_public_ip_intent);
 		});
 
-		cardview_3.setOnClickListener(v -> {
+		cardview_router_setup.setOnClickListener(v -> {
 			Intent router_setup_intent = new Intent(ToolsActivity.this, RouterSetupActivity.class);
 			startActivity(router_setup_intent);
 		});
 		
-		cardview_4.setOnClickListener(v -> {
+		cardview_ping.setOnClickListener(v -> {
 			Intent ping_intent = new Intent(ToolsActivity.this, PingActivity.class);
 			startActivity(ping_intent);
 		});
 		
-		cardview_5.setOnClickListener(v -> {
+		cardview_lan_devices_scanner.setOnClickListener(v -> {
 			Intent lan_devices_scanner_intent = new Intent(ToolsActivity.this, LANDevicesScannerActivity.class);
 			startActivity(lan_devices_scanner_intent);
 		});
 		
-		cardview_6.setOnClickListener(v -> {
+		cardview_port_scanner.setOnClickListener(v -> {
 			Intent port_scanner_intent = new Intent(ToolsActivity.this, PortScannerActivity.class);
 			startActivity(port_scanner_intent);
 		});
 
-		cardview_7.setOnClickListener(v -> {
+		cardview_whois.setOnClickListener(v -> {
 			Intent whois_tool_intent = new Intent(ToolsActivity.this, WhoIsToolActivity.class);
 			startActivity(whois_tool_intent);
 		});
 
-		cardview_8.setOnClickListener(v -> {
+		cardview_dns_lookup.setOnClickListener(v -> {
 			Intent dns_lookup_tool_intent = new Intent(ToolsActivity.this, DNSLookupActivity.class);
 			startActivity(dns_lookup_tool_intent);
 		});
