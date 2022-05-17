@@ -181,7 +181,6 @@ public class RouterSetupActivity extends AppCompatActivity
 				if (swipeRefresh.isRefreshing()) {
 					swipeRefresh.setRefreshing(false);
 				}
-				// TODO: IMPLEMENT LOGIC TO UNREGISTER A RECEIVER IF THE WEBVIEW WAS LOADED
 				if (WiFiCheck.isConnected() && NetworkConnectivityReceiver != null && isNetworkConnReceiverRegistered) {
 					unregisterReceiver(NetworkConnectivityReceiver);
 					isNetworkConnReceiverRegistered = false;
@@ -192,7 +191,6 @@ public class RouterSetupActivity extends AppCompatActivity
 					registerReceiver(NetworkConnectivityReceiver, filter);
 					isNetworkConnReceiverRegistered = true;
 				}
-				// TODO: FINISH THIS, MAKE SURE THIS CODE DOESN'T CAUSE ANY ISSUES AT RUNTIME OR DISABLES THE RECEIVER WHEN IT'S BEING USED
 			}
 			
 			@Override
