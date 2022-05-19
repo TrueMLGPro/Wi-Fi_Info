@@ -55,10 +55,10 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 	private NetworkInfo WiFiCheck;
 	private NetworkInfo CellularCheck;
 	
-	public static Scanner sc;
+	private static Scanner sc;
 	
-	public static Boolean wifi_connected;
-	public static Boolean cellular_connected;
+	private static Boolean wifi_connected;
+	private static Boolean cellular_connected;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -233,19 +233,19 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 			@Override
 			public void onDeviceFound(Device device) {
 				if (wifi_connected) {
-					if (device.ip.equalsIgnoreCase(getWiFiLocalIPv4Address()) && !device.ip.equalsIgnoreCase(getGateway())) {
+					if (device.ip.equals(getWiFiLocalIPv4Address()) && !device.ip.equals(getGateway())) {
 						if (getMACAddress() == null || Build.VERSION.SDK_INT > 29) {
 							addDevicesToList(device.ip + " | " + "MAC: N/A" + " (Your Device)");
 						} else {
 							addDevicesToList(device.ip + " | " + "MAC: " + getMACAddress() + " (Your Device)");
 						}
-					} else if (!device.ip.equalsIgnoreCase(getWiFiLocalIPv4Address()) && !device.ip.equalsIgnoreCase(getGateway())) {
+					} else if (!device.ip.equals(getWiFiLocalIPv4Address()) && !device.ip.equals(getGateway())) {
 						if (device.mac == null) {
 							addDevicesToList(device.ip + " | " + "MAC: N/A");
 						} else {
 							addDevicesToList(device.ip + " | " + "MAC: " + device.mac.toUpperCase());
 						}
-					} else if (device.ip.equalsIgnoreCase(getGateway())) {
+					} else if (device.ip.equals(getGateway())) {
 						if (device.mac == null) {
 							addDevicesToList(device.ip + " | " + "MAC: N/A" + " (Gateway)");
 						} else {
@@ -255,7 +255,7 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 				}
 
 				if (cellular_connected) {
-					if (device.ip.equalsIgnoreCase(getCellularLocalIPv4Address())) {
+					if (device.ip.equals(getCellularLocalIPv4Address())) {
 						addDevicesToList(device.ip + " (Your Device)");
 					} else {
 						addDevicesToList(device.ip);

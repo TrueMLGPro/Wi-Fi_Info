@@ -54,6 +54,7 @@ public class RouterSetupActivity extends AppCompatActivity
 
 	private Boolean wifi_connected = false;
 	private Boolean isNetworkConnReceiverRegistered = false;
+	private Boolean isLoggedIn = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -181,22 +182,15 @@ public class RouterSetupActivity extends AppCompatActivity
 				if (swipeRefresh.isRefreshing()) {
 					swipeRefresh.setRefreshing(false);
 				}
-				if (WiFiCheck.isConnected() && NetworkConnectivityReceiver != null && isNetworkConnReceiverRegistered) {
-					unregisterReceiver(NetworkConnectivityReceiver);
-					isNetworkConnReceiverRegistered = false;
-				} else {
-					IntentFilter filter = new IntentFilter();
-					filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-					NetworkConnectivityReceiver = new RouterSetupActivity.NetworkConnectivityReceiver();
-					registerReceiver(NetworkConnectivityReceiver, filter);
-					isNetworkConnReceiverRegistered = true;
-				}
+				isLoggedIn = true;
 			}
 			
 			@Override
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 				showErrorToast(RouterSetupActivity.this, errorCode);
-				showDialog();
+				if (wifi_connected && !isLoggedIn) {
+					showDialog();
+				}
 				super.onReceivedError(view, errorCode, description, failingUrl);
 			}
 		});
@@ -286,7 +280,7 @@ public class RouterSetupActivity extends AppCompatActivity
 
 		if (WiFiCheck.isConnected()) {
 			showWidgets();
-			if (!alert.isShowing()) {
+			if (!alert.isShowing() && !isLoggedIn) {
 				initDialog();
 				showDialog();
 			}
@@ -302,7 +296,6 @@ public class RouterSetupActivity extends AppCompatActivity
 
 	public void showWidgets() {
 		webview_main.setVisibility(View.VISIBLE);
-		progressBarLoading.setVisibility(View.VISIBLE);
 		swipeRefresh.setVisibility(View.VISIBLE);
 		frame_layout_nonetworkconn.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.GONE);
@@ -316,23 +309,30 @@ public class RouterSetupActivity extends AppCompatActivity
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
 	}
 
-	@Override
-	protected void onStart()
-	{
+	private void registerNetworkConnReceiver() {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new RouterSetupActivity.NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
 		isNetworkConnReceiverRegistered = true;
+	}
+
+	private void unregisterNetworkConnReceiver() {
+		unregisterReceiver(NetworkConnectivityReceiver);
+		isNetworkConnReceiverRegistered = false;
+	}
+
+	@Override
+	protected void onStart()
+	{
+		registerNetworkConnReceiver();
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterReceiver(NetworkConnectivityReceiver);
-		isNetworkConnReceiverRegistered = false;
+		unregisterNetworkConnReceiver();
 		super.onStop();
 	}
-	
 }
