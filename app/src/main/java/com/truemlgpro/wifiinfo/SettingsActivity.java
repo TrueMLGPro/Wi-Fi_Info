@@ -1,21 +1,16 @@
 package com.truemlgpro.wifiinfo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.FrameLayout;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class SettingsActivity extends AppCompatActivity
 {
 
-	private Toolbar toolbar;
-	
 	public static final String KEY_PREF_SWITCH = "theme_switch";
 	public static final String KEY_PREF_AMOLED_CHECK = "amoled_theme_checkbox";
 	public static final String KEY_PREF_APP_FONT = "app_font_list";
@@ -52,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity
 		
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
@@ -64,12 +59,9 @@ public class SettingsActivity extends AppCompatActivity
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				restartMainActivity();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			restartActivity();
 		});
 		
 		getSupportFragmentManager().beginTransaction()
@@ -77,18 +69,18 @@ public class SettingsActivity extends AppCompatActivity
 			.commit();
 	}
 	
-	private void restartMainActivity() {
-		Intent intent = new Intent(this, MainActivity.class);
-		MainActivity.main.finish();
+	private void restartActivity() {
 		finish();
-		startActivity(intent);
+		overridePendingTransition(0, 0);
+		Intent mainActivityIntent = new Intent(SettingsActivity.this, MainActivity.class);
+		startActivity(mainActivityIntent);
+		overridePendingTransition(0, 0);
 	}
 
 	@Override
 	public void onBackPressed()
 	{
 		super.onBackPressed();
-		restartMainActivity();
+		restartActivity();
 	}
-	
 }

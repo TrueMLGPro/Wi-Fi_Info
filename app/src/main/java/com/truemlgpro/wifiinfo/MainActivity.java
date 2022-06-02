@@ -170,14 +170,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	public static Boolean visualizeSigStrg = false;
 	public static Boolean startStopSrvcScrnState = false;
 	public static Boolean colorizeNtfc = false;
-	public static Boolean neverShowGeoDialog = false;
-	public static Boolean isHandlerRunning = false;
+	private Boolean neverShowGeoDialog = false;
+	private Boolean isHandlerRunning = false;
 	public static String ntfcUpdateInterval = "1000";
-	public static String cardUpdateInterval = "1000";
+	private String cardUpdateInterval = "1000";
 	public static String appFont = "fonts/Gilroy-Semibold.ttf";
-	public static Activity main;
-	public static AlertDialog alertAPI25;
-	public static AlertDialog alertAPI27;
+	private AlertDialog alertAPI25;
+	private AlertDialog alertAPI27;
 	private String publicIPFetched;
 	private boolean siteReachable = false;
 	private String version;
@@ -419,8 +418,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         setContentView(R.layout.main);
 
 		/// Initialize ///
-
-		main = this;
 
 		initializeViews();
 		initializeOnClickListeners();
@@ -1251,6 +1248,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		});
 
 		fab_settings.setOnClickListener(v -> {
+			finish();
+			overridePendingTransition(0, 0);
 			Intent intent_settings = new Intent(MainActivity.this, SettingsActivity.class);
 			startActivity(intent_settings);
 			fam.close(true);

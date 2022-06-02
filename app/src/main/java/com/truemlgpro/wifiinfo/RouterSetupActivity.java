@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.HttpAuthHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -53,7 +54,6 @@ public class RouterSetupActivity extends AppCompatActivity
 	private NetworkInfo WiFiCheck;
 
 	private Boolean wifi_connected = false;
-	private Boolean isNetworkConnReceiverRegistered = false;
 	private Boolean isLoggedIn = false;
 
 	@Override
@@ -99,17 +99,17 @@ public class RouterSetupActivity extends AppCompatActivity
 		actionbar.setElevation(20);
 		
 		if (keyTheme) {
-			swipeRefresh.setProgressBackgroundColor(R.color.cardBackgroundDark);
+			swipeRefresh.setProgressBackgroundColorSchemeResource(R.color.cardBackgroundDark);
 		}
 		
 		if (keyTheme) {
 			if (keyAmoledTheme) {
-				swipeRefresh.setProgressBackgroundColor(R.color.cardBackgroundDarkAmoled);
+				swipeRefresh.setProgressBackgroundColorSchemeResource(R.color.cardBackgroundDarkAmoled);
 			}
 		}
 		
 		if (!keyTheme) {
-			swipeRefresh.setProgressBackgroundColor(R.color.cardBackgroundLight);
+			swipeRefresh.setProgressBackgroundColorSchemeResource(R.color.cardBackgroundLight);
 		}
 		
 		swipeRefresh.setColorSchemeResources(R.color.refreshLayoutColor1, R.color.refreshLayoutColor2, R.color.refreshLayoutColor3, R.color.refreshLayoutColor4);
@@ -121,15 +121,15 @@ public class RouterSetupActivity extends AppCompatActivity
 			finish();
 		});
 
-		initDialog();
+		initLoginDialog();
 		checkNetworkConnectivity();
 
 		if (wifi_connected) {
-			showDialog();
+			showLoginDialog();
 		}
 	}
 
-	public void initDialog() {
+	public void initLoginDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		final View editTextLoginPasswordView = layoutInflater.inflate(R.layout.edit_text_dialog, null);
@@ -148,7 +148,7 @@ public class RouterSetupActivity extends AppCompatActivity
 		alert = builder.create();
 	}
 	
-	public void showDialog() {
+	public void showLoginDialog() {
 		alert.show();
 	}
 	
@@ -163,8 +163,10 @@ public class RouterSetupActivity extends AppCompatActivity
 		ws.setLoadWithOverviewMode(true);
 		ws.setUseWideViewPort(true);
 		ws.setUserAgentString(userAgent);
-		webview_main.loadUrl("http://" + user + ":" + password + "@" + getGatewayIP());
+
+		webview_main.loadUrl("http://" + getGatewayIP());
 		webview_main.setWebChromeClient(new WebChromeClient() {
+			@Override
 			public void onProgressChanged(WebView view, int progress) {
 				if (progress < 100 && progressBarLoading.getVisibility() == View.GONE) {
 					progressBarLoading.setVisibility(View.VISIBLE);
@@ -178,10 +180,17 @@ public class RouterSetupActivity extends AppCompatActivity
 		
 		webview_main.setWebViewClient(new WebViewClient() {
 			@Override
+			public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
+				handler.proceed(user, password);
+				super.onReceivedHttpAuthRequest(view, handler, host, realm);
+			}
+
+			@Override
 			public void onPageFinished(WebView view, String url) {
 				if (swipeRefresh.isRefreshing()) {
 					swipeRefresh.setRefreshing(false);
 				}
+				getSupportActionBar().setSubtitle(view.getTitle());
 				isLoggedIn = true;
 			}
 			
@@ -189,7 +198,7 @@ public class RouterSetupActivity extends AppCompatActivity
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 				showErrorToast(RouterSetupActivity.this, errorCode);
 				if (wifi_connected && !isLoggedIn) {
-					showDialog();
+					showLoginDialog();
 				}
 				super.onReceivedError(view, errorCode, description, failingUrl);
 			}
@@ -200,49 +209,37 @@ public class RouterSetupActivity extends AppCompatActivity
 		String message = null;
 		switch (errorCode) {
 			case WebViewClient.ERROR_AUTHENTICATION:
-				message = "User authentication failed on server.";
+				message = "User authentication failed on server";
 				break;
 			case WebViewClient.ERROR_TIMEOUT:
-				message = "Connection timeout. Try again later.";
+				message = "Connection timeout. Try again later";
 				break;
 			case WebViewClient.ERROR_TOO_MANY_REQUESTS:
-				message = "Too many requests during this load.";
+				message = "Too many requests during this load";
 				break;
 			case WebViewClient.ERROR_UNKNOWN:
 				message = "Unknown error";
 				break;
-			case WebViewClient.ERROR_BAD_URL:
-				message = "Check entered URL.";
-				break;
 			case WebViewClient.ERROR_CONNECT:
-				message = "Failed to connect to the server.";
-				break;
-			case WebViewClient.ERROR_FAILED_SSL_HANDSHAKE:
-				message = "Failed to perform SSL handshake.";
+				message = "Failed to connect to the server";
 				break;
 			case WebViewClient.ERROR_HOST_LOOKUP:
-				message = "Server or proxy hostname lookup failed.";
+				message = "Server or proxy hostname lookup failed";
 				break;
 			case WebViewClient.ERROR_PROXY_AUTHENTICATION:
-				message = "User authentication failed on proxy.";
+				message = "User authentication failed on proxy";
 				break;
 			case WebViewClient.ERROR_REDIRECT_LOOP:
-				message = "Too many redirects.";
+				message = "Too many redirects";
 				break;
 			case WebViewClient.ERROR_UNSUPPORTED_AUTH_SCHEME:
-				message = "Unsupported authentication scheme (not basic or digest).";
+				message = "Unsupported authentication scheme (not basic or digest)";
 				break;
 			case WebViewClient.ERROR_UNSUPPORTED_SCHEME:
-				message = "Unsupported URI scheme.";
-				break;
-			case WebViewClient.ERROR_FILE:
-				message = "Generic file error.";
-				break;
-			case WebViewClient.ERROR_FILE_NOT_FOUND:
-				message = "File not found.";
+				message = "Unsupported URI scheme";
 				break;
 			case WebViewClient.ERROR_IO:
-				message = "The server failed to communicate. Try again later.";
+				message = "The server failed to communicate. Try again later";
 				break;
 		}
 
@@ -281,8 +278,8 @@ public class RouterSetupActivity extends AppCompatActivity
 		if (WiFiCheck.isConnected()) {
 			showWidgets();
 			if (!alert.isShowing() && !isLoggedIn) {
-				initDialog();
-				showDialog();
+				initLoginDialog();
+				showLoginDialog();
 			}
 			wifi_connected = true;
 		} else {
@@ -314,12 +311,10 @@ public class RouterSetupActivity extends AppCompatActivity
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new RouterSetupActivity.NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
-		isNetworkConnReceiverRegistered = true;
 	}
 
 	private void unregisterNetworkConnReceiver() {
 		unregisterReceiver(NetworkConnectivityReceiver);
-		isNetworkConnReceiverRegistered = false;
 	}
 
 	@Override

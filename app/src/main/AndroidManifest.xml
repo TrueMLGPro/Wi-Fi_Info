@@ -24,13 +24,16 @@
 		android:theme="@style/DarkTheme"
 		android:largeHeap="true"
 		android:usesCleartextTraffic="true">
+
+	    <meta-data android:name="android.webkit.WebView.MetricsOptOut"
+		    android:value="true" />
         
 		<activity
             android:name="com.truemlgpro.wifiinfo.SplashActivity"
-			android:screenOrientation="portrait">
+			android:screenOrientation="portrait"
+			android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -173,6 +176,5 @@
 				<action android:name="ACTION_NTFC_SETTINGS" />
 			</intent-filter>
 		</receiver>
-		
     </application>
 </manifest>
