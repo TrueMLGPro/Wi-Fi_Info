@@ -6,7 +6,6 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 public class SettingsFragment extends PreferenceFragmentCompat
 {
-	
 	@Override
 	public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
 		setPreferencesFromResource(R.xml.preferences, rootKey);
@@ -20,5 +19,4 @@ public class SettingsFragment extends PreferenceFragmentCompat
 			prefState.setSummary("Fill notification with accent color\n(Android 8+)");
 		}
 	}
-	
 }

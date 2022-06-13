@@ -32,8 +32,7 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class CellularDataIPActivity extends AppCompatActivity
 {
-	
-	private Toolbar toolbar;
+
 	private TextView textview_nocellconn;
 	private CardView cardview_ip;
 	private CardView cardview_local_ip;
@@ -46,6 +45,7 @@ public class CellularDataIPActivity extends AppCompatActivity
 	private String publicIPFetched;
 	private boolean siteReachable = false;
 	private Scanner scanner;
+
 	private BroadcastReceiver CellularDataConnectivityReceiver;
 	
 	@Override
@@ -70,8 +70,8 @@ public class CellularDataIPActivity extends AppCompatActivity
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cellular_data_ip_activity);
-		
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		cardview_ip = (CardView) findViewById(R.id.cardview_ip);
 		cardview_local_ip = (CardView) findViewById(R.id.cardview_local_ip);
 		textview_ip_cell = (TextView) findViewById(R.id.textview_ip_cell);
@@ -106,7 +106,7 @@ public class CellularDataIPActivity extends AppCompatActivity
 		checkCellularConnectivity();
 	}
 	
-	public boolean isReachable(String url) throws IOException {
+	private boolean isReachable(String url) {
 		boolean reachable = false;
 		int code;
 
@@ -141,22 +141,19 @@ public class CellularDataIPActivity extends AppCompatActivity
 		return publicIP;
 	}
 
+	@SuppressWarnings("deprecation")
 	class PublicIPRunnable implements Runnable {
 		@Override
 		public void run() {
 			new AsyncTask<String, Void, Void>() {
 				@Override
 				protected Void doInBackground(String[] voids) {
-					publicIPFetched = getPublicIPAddress();
-					String url_ip = "https://api.ipify.org";
-					try {
-						if (isReachable(url_ip)) {
-							siteReachable = true;
-						} else {
-							siteReachable = false;
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
+					String url = "https://api.ipify.org";
+					siteReachable = isReachable(url);
+					if (siteReachable) {
+						publicIPFetched = getPublicIPAddress();
+					} else {
+						publicIPFetched = "N/A";
 					}
 					return null;
 				}
@@ -164,13 +161,7 @@ public class CellularDataIPActivity extends AppCompatActivity
 				@Override
 				protected void onPostExecute(Void aVoid) {
 					super.onPostExecute(aVoid);
-					if (siteReachable == true) {
-						textview_ip_cell.setText("Your IP: " + publicIPFetched);
-					}
-
-					if (siteReachable == false) {
-						textview_ip_cell.setText("Your IP: N/A");
-					}
+					textview_ip_cell.setText("Your IP: " + publicIPFetched);
 				}
 			}.execute();
 
@@ -222,9 +213,9 @@ public class CellularDataIPActivity extends AppCompatActivity
 	
 	public static String getCellularLocalIPAddress() {
 		try {
-			List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-			for (NetworkInterface intf : interfaces) {
-				List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+			List<NetworkInterface> listNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface networkInterface : listNetworkInterfaces) {
+				List<InetAddress> addrs = Collections.list(networkInterface.getInetAddresses());
 				for (InetAddress addr : addrs) {
 					if (!addr.isLoopbackAddress()) {
 						return addr.getHostAddress();
@@ -234,7 +225,6 @@ public class CellularDataIPActivity extends AppCompatActivity
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
 		return "";
 	}
 
@@ -270,18 +260,17 @@ public class CellularDataIPActivity extends AppCompatActivity
 	@Override
 	protected void onStart()
 	{
+		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		CellularDataConnectivityReceiver = new CellularDataConnectivityReceiver();
 		registerReceiver(CellularDataConnectivityReceiver, filter);
-		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterReceiver(CellularDataConnectivityReceiver);
 		super.onStop();
+		unregisterReceiver(CellularDataConnectivityReceiver);
 	}
-	
 }

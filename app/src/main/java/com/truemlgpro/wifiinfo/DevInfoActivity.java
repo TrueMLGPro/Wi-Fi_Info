@@ -19,7 +19,6 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 public class DevInfoActivity extends AppCompatActivity
 {
 
-	private Toolbar toolbar;
 	private TextView alt_ds_txt;
 	private TextView alt_gh_txt;
 	private TextView alt_pr_txt;
@@ -58,8 +57,8 @@ public class DevInfoActivity extends AppCompatActivity
 		setContentView(R.layout.dev_info_activity);
 		
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		alt_ds_txt = (TextView) findViewById(R.id.alt_ds_textview);
 		alt_gh_txt = (TextView) findViewById(R.id.alt_gh_textview);
 		alt_pr_txt = (TextView) findViewById(R.id.alt_pr_textview);
@@ -113,7 +112,6 @@ public class DevInfoActivity extends AppCompatActivity
 			magic_pr.setVisibility(View.VISIBLE);
 			initializeOnClickListeners();
 		}
-		
 	}
 		
 	public void initializeOnClickListenersAPI22() {
@@ -121,7 +119,6 @@ public class DevInfoActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#2674");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "🐱️TrueMLGPro🌟#2674", Toast.LENGTH_SHORT).show();
 		});
 
@@ -129,7 +126,6 @@ public class DevInfoActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro/Wi-Fi_Info", Toast.LENGTH_SHORT).show();
 		});
 	
@@ -137,7 +133,6 @@ public class DevInfoActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Patreon", "TrueMLGPro");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro", Toast.LENGTH_SHORT).show();
 		});
 	}
@@ -147,7 +142,6 @@ public class DevInfoActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "🐱️TrueMLGPro🌟#2674");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "🐱️TrueMLGPro🌟#2674", Toast.LENGTH_SHORT).show();
 		});
 
@@ -155,7 +149,6 @@ public class DevInfoActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("GitHub", "TrueMLGPro/Wi-Fi_Info");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro/Wi-Fi_Info", Toast.LENGTH_SHORT).show();
 		});
 
@@ -163,9 +156,7 @@ public class DevInfoActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Patreon", "TrueMLGPro");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "TrueMLGPro", Toast.LENGTH_SHORT).show();
 		});
 	}
 }
-

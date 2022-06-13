@@ -39,8 +39,7 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class LANDevicesScannerActivity extends AppCompatActivity
 {
-	
-	private Toolbar toolbar;
+
 	private TextView textview_nonetworkconn;
 	private TextView local_ip_text;
 	private TextView devices_found_text;
@@ -83,7 +82,7 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lan_devices_scanner_activity);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 		local_ip_text = (TextView) findViewById(R.id.local_ip_text);
 		devices_found_text = (TextView) findViewById(R.id.devices_found_text);
@@ -118,11 +117,11 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 		});
 	}
 	
-	public static String getCellularLocalIPv4Address() {
+	private String getCellularLocalIPv4Address() {
 		try {
-			List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-			for (NetworkInterface intf : interfaces) {
-				List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+			List<NetworkInterface> listNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface networkInterface : listNetworkInterfaces) {
+				List<InetAddress> addrs = Collections.list(networkInterface.getInetAddresses());
 				for (InetAddress addr : addrs) {
 					if (!addr.isLoopbackAddress()) {
 						return addr.getHostAddress();
@@ -132,15 +131,14 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
 		return "";
 	}
 	
-	public static String getWiFiLocalIPv4Address() {
+	private String getWiFiLocalIPv4Address() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) { 
-				NetworkInterface intf = en.nextElement();
-				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+			for (Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface.getNetworkInterfaces(); enumNetworkInterfaces.hasMoreElements();) {
+				NetworkInterface networkInterface = enumNetworkInterfaces.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = networkInterface.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
 						return inetAddress.getHostAddress();
@@ -148,38 +146,37 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 				}
 			}
 		} catch (SocketException ex) {
-			Log.e("Wi-Fi Info", ex.toString());
+			Log.e("getWifiLocalIPv4Addr", ex.toString());
 		} 
 		return null;
 	}
-	
-	public static String getMACAddress() {
+
+	private String getMACAddress() {
 		try {
-			List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-			for (NetworkInterface nif : all) {
-				if (!nif.getName().equalsIgnoreCase("wlan0"))
+			List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface networkInterface : allNetworkInterfaces) {
+				if (!networkInterface.getName().equalsIgnoreCase("wlan0"))
 					continue;
 
-				byte[] macBytes = nif.getHardwareAddress();
+				byte[] macBytes = networkInterface.getHardwareAddress();
 				if (macBytes == null) {
 					return "";
 				}
 
-				StringBuilder res1 = new StringBuilder();
+				StringBuilder macAddressStringBuilder = new StringBuilder();
 				for (byte b : macBytes) {  
-					res1.append(String.format("%02X:", b));
+					macAddressStringBuilder.append(String.format("%02X:", b));
 				}
 
-				if (res1.length() > 0) {
-					res1.deleteCharAt(res1.length() - 1);
+				if (macAddressStringBuilder.length() > 0) {
+					macAddressStringBuilder.deleteCharAt(macAddressStringBuilder.length() - 1);
 				}
 
-				return res1.toString();
+				return macAddressStringBuilder.toString();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return "";
 	}
 	
@@ -341,18 +338,17 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 	@Override
 	protected void onStart()
 	{
+		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
-		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterReceiver(NetworkConnectivityReceiver);
 		super.onStop();
+		unregisterReceiver(NetworkConnectivityReceiver);
 	}
-	
 }

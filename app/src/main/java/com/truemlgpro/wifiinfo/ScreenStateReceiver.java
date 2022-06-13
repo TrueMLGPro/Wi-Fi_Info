@@ -21,5 +21,4 @@ public class ScreenStateReceiver extends BroadcastReceiver
 			screenState = false;
 		}
 	}
-	
 }

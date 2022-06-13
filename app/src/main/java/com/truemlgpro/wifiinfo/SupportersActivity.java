@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,8 +14,7 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class SupportersActivity extends AppCompatActivity
 {
-	
-	private Toolbar toolbar;
+
 	private ScrollView scrollView;
 	private TextView supporters_textview;
 	private TextView pab_text;
@@ -54,7 +52,7 @@ public class SupportersActivity extends AppCompatActivity
 
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		scrollView = (ScrollView) findViewById(R.id.scrollView);
 		supporters_textview = (TextView) findViewById(R.id.supporters_textview);
 		pab_text = (TextView) findViewById(R.id.pab_text);
@@ -90,7 +88,6 @@ public class SupportersActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "Pab#1234");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Pab#1234", Toast.LENGTH_SHORT).show();
 		});
 
@@ -98,7 +95,6 @@ public class SupportersActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "Anyx#1040");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Anyx#1040", Toast.LENGTH_SHORT).show();
 		});
 
@@ -106,7 +102,6 @@ public class SupportersActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "andre btw.#3934");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "andre btw.#3934", Toast.LENGTH_SHORT).show();
 		});
 
@@ -114,7 +109,6 @@ public class SupportersActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "[ ]#4556");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "[ ]#4556", Toast.LENGTH_SHORT).show();
 		});
 
@@ -122,7 +116,6 @@ public class SupportersActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "madcodez#1517");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "madcodez#1517", Toast.LENGTH_SHORT).show();
 		});
 
@@ -130,7 +123,6 @@ public class SupportersActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "ReivenAlt#2501");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "ReivenAlt#2501", Toast.LENGTH_SHORT).show();
 		});
 
@@ -138,7 +130,6 @@ public class SupportersActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "Apтем#8524");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Apтем#8524", Toast.LENGTH_SHORT).show();
 		});
 
@@ -146,7 +137,6 @@ public class SupportersActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "Terrin Tin#5462");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Terrin Tin#5462", Toast.LENGTH_SHORT).show();
 		});
 
@@ -154,9 +144,7 @@ public class SupportersActivity extends AppCompatActivity
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Discord", "Killbayne#6969");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Killbayne#6969", Toast.LENGTH_SHORT).show();
 		});
 	}
-	
 }

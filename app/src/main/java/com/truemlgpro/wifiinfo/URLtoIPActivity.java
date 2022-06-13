@@ -11,16 +11,15 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
@@ -29,9 +28,6 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 public class URLtoIPActivity extends AppCompatActivity
 {
 
-	private static final int MIN_TEXT_LENGTH = 4;
-    private static final String EMPTY_STRING = "";
-
     private TextInputLayout mTextInputLayout;
     private EditText mEditText;
 	private TextView textview_ipFromURL;
@@ -39,16 +35,20 @@ public class URLtoIPActivity extends AppCompatActivity
 	private Button convert_button;
 	private LinearLayout layout_url_to_ip_results;
 	private ScrollView url_to_ip_scroll;
-	private Toolbar toolbar;
-	
+
 	private ConnectivityManager CM;
 	private NetworkInfo WiFiCheck;
 	private NetworkInfo CellularCheck;
 	
 	public Boolean wifi_connected;
 	public Boolean cellular_connected;
+
+	private static final int MIN_TEXT_LENGTH = 4;
+	private static final String EMPTY_STRING = "";
 	
 	private BroadcastReceiver NetworkConnectivityReceiver;
+
+	private final String lineSeparator = "\n----------------------------\n";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,7 +73,7 @@ public class URLtoIPActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.url_to_ip_activity);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mTextInputLayout = (TextInputLayout) findViewById(R.id.input_layout);
         mEditText = (EditText) findViewById(R.id.edittext_main);
 		convert_button = (Button) findViewById(R.id.convert_button);
@@ -107,14 +107,17 @@ public class URLtoIPActivity extends AppCompatActivity
 						String ip = URLandIPConverter.convertUrl("https://" + url);
 						appendResultsText("Converting URL: " + url);
 						appendResultsText("IP: " + ip);
+						appendResultsText(lineSeparator);
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 						appendResultsText("Converting URL: " + url);
 						appendResultsText("Error: Malformed URL");
+						appendResultsText(lineSeparator);
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 						appendResultsText("Converting URL: " + url);
 						appendResultsText("Error: Unknown Host");
+						appendResultsText(lineSeparator);
 					}
 				}).start();
 				hideError();
@@ -212,18 +215,32 @@ public class URLtoIPActivity extends AppCompatActivity
 	@Override
 	protected void onStart()
 	{
+		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
-		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterReceiver(NetworkConnectivityReceiver);
 		super.onStop();
+		unregisterReceiver(NetworkConnectivityReceiver);
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.url_to_ip_tool_action_bar_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.clear_url_to_ip_log) {
+			textview_ipFromURL.setText("...\n");
+		}
+		return true;
+	}
 }

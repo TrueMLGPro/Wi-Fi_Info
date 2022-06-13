@@ -6,7 +6,6 @@ import android.content.Intent;
 
 public class ActionButtonReceiver extends BroadcastReceiver
 {
-	
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
@@ -28,9 +27,4 @@ public class ActionButtonReceiver extends BroadcastReceiver
 			context.sendBroadcast(StatusBarCloseIntent);
 		}
 	}
-	
-	public ActionButtonReceiver() {
-		
-	}
-	
 }

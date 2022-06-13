@@ -11,7 +11,6 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class ToolsActivity extends AppCompatActivity
 {
-
 	@Override
     protected void onCreate(Bundle savedInstanceState)
 	{

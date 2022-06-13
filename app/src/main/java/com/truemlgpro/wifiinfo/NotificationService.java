@@ -38,15 +38,15 @@ public class NotificationService extends Service
 	@Override
 	public void onCreate()
 	{
-		handler.post(runnable);
 		super.onCreate();
+		handler.post(runnable);
 	}
 
 	@Override
 	public void onDestroy()
 	{
-		handler.removeCallbacks(runnable);
 		super.onDestroy();
+		handler.removeCallbacks(runnable);
 	}
 
 	@Override
@@ -83,8 +83,8 @@ public class NotificationService extends Service
 	
 	/// Handler for Notification Updates ///
 	
-	private Handler handler = new Handler(Looper.getMainLooper());
-	private Runnable runnable = new Runnable() {
+	private final Handler handler = new Handler(Looper.getMainLooper());
+	private final Runnable runnable = new Runnable() {
 		@Override
 		public void run() {
 			String keyNtfcFreq = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_NTFC_FREQ, MainActivity.ntfcUpdateInterval);

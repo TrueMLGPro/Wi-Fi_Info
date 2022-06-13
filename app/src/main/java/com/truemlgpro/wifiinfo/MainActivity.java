@@ -2,7 +2,6 @@ package com.truemlgpro.wifiinfo;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -31,8 +30,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
-import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -182,6 +181,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	private String version;
 	private final double megabyte = 1024 * 1024;
 	private final double gigabyte = 1024 * 1024 * 1024;
+
+	private HandlerThread infoHandlerThread;
+	private Handler infoHandler;
 
 	private SharedPreferences.OnSharedPreferenceChangeListener listener;
 
@@ -425,13 +427,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 		/// END ///
 
-		/// POLICY SETTINGS ///
-
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		StrictMode.setThreadPolicy(policy);
-
-		/// END ///
-
 		/// Request permissions ///
 
 		if (Build.VERSION.SDK_INT >= 26) {
@@ -573,7 +568,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 	}
 
-	public void onInfoGet() {
+	public void getAllNetworkInformation() {
 		mainWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		wInfo = mainWifiManager.getConnectionInfo();
 		dhcp = mainWifiManager.getDhcpInfo();
@@ -723,62 +718,76 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				info_30 = "WPA3 Suite B Support: No";
 			}
 		}
-
-		runOnUiThread(() -> {
-			textview_ssid.setText(info_1);
-			textview_hidden_ssid.setText(info_2);
-			textview_bssid.setText(info_3);
-			textview_ipv4.setText(info_4);
-			textview_ipv6.setText(info_5);
-			textview_gateway_ip.setText(info_6);
-			textview_hostname.setText(info_7);
-			textview_dns1.setText(info_8);
-			textview_dns2.setText(info_9);
-			textview_subnet_mask.setText(info_10);
-			textview_network_id.setText(info_11);
-			textview_mac_address.setText(info_12);
-			textview_network_interface.setText(info_13);
-			textview_loopback_address.setText(info_14);
-			textview_localhost.setText(info_15);
-			textview_frequency.setText(info_16);
-			textview_network_channel.setText(info_17);
-			textview_rssi.setText(info_18);
-			textview_lease_duration.setText(info_19);
-			textview_network_speed.setText(info_22);
-			textview_transmitted_data.setText(info_23);
-			textview_received_data.setText(info_24);
-			textview_supplicant_state.setText(info_25);
-			textview_5ghz_support.setText(info_26);
-			textview_wifi_direct_support.setText(info_27);
-			textview_tdls_support.setText(info_28);
-
-			if (Build.VERSION.SDK_INT >= 29) {
-				textview_transmit_link_speed.setText(info_20);
-				textview_receive_link_speed.setText(info_21);
-				textview_wpa3_sae_support.setText(info_29);
-				textview_wpa3_suite_b_support.setText(info_30);
-			} else {
-				if (textview_transmit_link_speed.getVisibility() != View.GONE && textview_receive_link_speed.getVisibility() != View.GONE
-					&& textview_wpa3_sae_support.getVisibility() != View.GONE && textview_wpa3_suite_b_support.getVisibility() != View.GONE) {
-					textview_transmit_link_speed.setVisibility(View.GONE);
-					textview_receive_link_speed.setVisibility(View.GONE);
-					textview_wpa3_sae_support.setVisibility(View.GONE);
-					textview_wpa3_suite_b_support.setVisibility(View.GONE);
-				}
-			}
-		});
 	}
 
-	private final Handler handler = new Handler(Looper.myLooper());
-	private final Runnable runnable = new Runnable() {
+	public void updateTextviews() {
+		textview_ssid.setText(info_1);
+		textview_hidden_ssid.setText(info_2);
+		textview_bssid.setText(info_3);
+		textview_ipv4.setText(info_4);
+		textview_ipv6.setText(info_5);
+		textview_gateway_ip.setText(info_6);
+		textview_hostname.setText(info_7);
+		textview_dns1.setText(info_8);
+		textview_dns2.setText(info_9);
+		textview_subnet_mask.setText(info_10);
+		textview_network_id.setText(info_11);
+		textview_mac_address.setText(info_12);
+		textview_network_interface.setText(info_13);
+		textview_loopback_address.setText(info_14);
+		textview_localhost.setText(info_15);
+		textview_frequency.setText(info_16);
+		textview_network_channel.setText(info_17);
+		textview_rssi.setText(info_18);
+		textview_lease_duration.setText(info_19);
+		textview_network_speed.setText(info_22);
+		textview_transmitted_data.setText(info_23);
+		textview_received_data.setText(info_24);
+		textview_supplicant_state.setText(info_25);
+		textview_5ghz_support.setText(info_26);
+		textview_wifi_direct_support.setText(info_27);
+		textview_tdls_support.setText(info_28);
+
+		if (Build.VERSION.SDK_INT >= 29) {
+			textview_transmit_link_speed.setText(info_20);
+			textview_receive_link_speed.setText(info_21);
+			textview_wpa3_sae_support.setText(info_29);
+			textview_wpa3_suite_b_support.setText(info_30);
+		} else {
+			if (textview_transmit_link_speed.getVisibility() != View.GONE && textview_receive_link_speed.getVisibility() != View.GONE
+				&& textview_wpa3_sae_support.getVisibility() != View.GONE && textview_wpa3_suite_b_support.getVisibility() != View.GONE) {
+				textview_transmit_link_speed.setVisibility(View.GONE);
+				textview_receive_link_speed.setVisibility(View.GONE);
+				textview_wpa3_sae_support.setVisibility(View.GONE);
+				textview_wpa3_suite_b_support.setVisibility(View.GONE);
+			}
+		}
+	}
+
+	private void startInfoHandlerThread() {
+		infoHandlerThread = new HandlerThread("BackgroundInfoHandlerThread", android.os.Process.THREAD_PRIORITY_BACKGROUND);
+		infoHandlerThread.start();
+		infoHandler = new Handler(infoHandlerThread.getLooper());
+		infoHandler.post(infoRunnable);
+	}
+
+	private final Runnable infoRunnable = new Runnable() {
 		@Override
 		public void run() {
 			String keyCardFreq = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval);
 			int keyCardFreqFormatted = Integer.parseInt(keyCardFreq);
-			onInfoGet();
-			handler.postDelayed(runnable, keyCardFreqFormatted);
+			getAllNetworkInformation();
+			runOnUiThread(() -> updateTextviews());
+			infoHandler.postDelayed(infoRunnable, keyCardFreqFormatted);
 		}
 	};
+
+	private void stopInfoHandlerThread() {
+		if (infoHandlerThread != null) {
+			infoHandlerThread.quit();
+			infoHandlerThread = null;
+		}
+	}
 	
 	class WiFiConnectivityReceiver extends BroadcastReceiver {
 		@Override
@@ -797,7 +806,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 					}
 				}
 				if (isHandlerRunning) {
-					handler.removeCallbacks(runnable);
+					stopInfoHandlerThread();
 					isHandlerRunning = false;
 				}
 			} else {
@@ -805,11 +814,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				showWidgets(); // Makes CardViews and TextViews visible
 				if (toolbarMenu != null) {
 					if (!toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
-						toolbarMenu.findItem(R.id.copy_all).setEnabled(true);
+						setToolbarItemEnabled(R.id.copy_all, true);
 					}
 				}
 				if (!isHandlerRunning) {
-					handler.post(runnable);
+					startInfoHandlerThread();
 					isHandlerRunning = true;
 				}
 			}
@@ -946,31 +955,30 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	
 	public static String getMACAddress() {
 		try {
-			List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-			for (NetworkInterface nif : all) {
-				if (!nif.getName().equalsIgnoreCase("wlan0"))
+			List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface networkInterface : allNetworkInterfaces) {
+				if (!networkInterface.getName().equalsIgnoreCase("wlan0"))
 					continue;
 				
-				byte[] macBytes = nif.getHardwareAddress();
+				byte[] macBytes = networkInterface.getHardwareAddress();
 				if (macBytes == null) {
 					return "";
 				}
 				
-				StringBuilder res1 = new StringBuilder();
-				for (byte b : macBytes) {  
-					res1.append(String.format("%02X:", b));
+				StringBuilder macAddressStringBuilder = new StringBuilder();
+				for (byte b : macBytes) {
+					macAddressStringBuilder.append(String.format("%02X:", b));
 				}
 				
-				if (res1.length() > 0) {
-					res1.deleteCharAt(res1.length() - 1);
+				if (macAddressStringBuilder.length() > 0) {
+					macAddressStringBuilder.deleteCharAt(macAddressStringBuilder.length() - 1);
 				}
 				
-				return res1.toString();
+				return macAddressStringBuilder.toString();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return "";
 	}
 	
@@ -986,9 +994,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	
 	public String getIPv4Address() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-				NetworkInterface intf = en.nextElement();
-				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+			for (Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface.getNetworkInterfaces(); enumNetworkInterfaces.hasMoreElements();) {
+				NetworkInterface networkInterface = enumNetworkInterfaces.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = networkInterface.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
 						return inetAddress.getHostAddress();
@@ -996,16 +1004,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			}
 		} catch (SocketException ex) {
-			Log.e("Wi-Fi Info", ex.toString());
+			Log.e("getIPv4Address()", ex.toString());
 		}
 		return null;
 	}
 	
 	public String getIPv6Address() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-				NetworkInterface intf = en.nextElement();
-				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+			for (Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface.getNetworkInterfaces(); enumNetworkInterfaces.hasMoreElements();) {
+				NetworkInterface networkInterface = enumNetworkInterfaces.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = networkInterface.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet6Address) {
 						return inetAddress.getHostAddress();
@@ -1013,7 +1021,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				}
 			}
 		} catch (SocketException ex) {
-			Log.e("Wi-Fi Info", ex.toString());
+			Log.e("getIPv6Address()", ex.toString());
 		}
 		return null;
 	}
@@ -1051,11 +1059,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		return localHost_converted;
 	}
 	
-	public String intToIp(int i) {
-		return ((i & 0xFF) + "."
-		+ ((i >> 8) & 0xFF) + "."
-		+ ((i >> 16) & 0xFF) + "."
-		+ ((i >> 24) & 0xFF));
+	public String intToIp(int ipInt) {
+		return ((ipInt & 0xFF) + "."
+		+ ((ipInt >> 8) & 0xFF) + "."
+		+ ((ipInt >> 16) & 0xFF) + "."
+		+ ((ipInt >> 24) & 0xFF));
 	}
 	
 	public static int convertFrequencyToChannel(int freq) {
@@ -1125,6 +1133,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION);
 		}
 
+		// FIXME: DOESN'T WORK ON ANDROID 11
 		if (!permissionGranted) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 			builder.setTitle("Permission required!")
@@ -1153,7 +1162,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	@SuppressLint("NewApi")
 	public void createShortcuts() {
 		ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
-
 		ShortcutInfo githubShortcut = new ShortcutInfo.Builder(this, "shortcut_github")
 			.setShortLabel("GitHub Repo")
 			.setLongLabel("Open GitHub repository")
@@ -1161,7 +1169,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			.setRank(2)
 			.setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TrueMLGPro/Wi-Fi_Info/")))
 			.build();
-
 		ShortcutInfo releasesShortcut = new ShortcutInfo.Builder(this, "shortcut_releases")
 			.setShortLabel("Releases")
 			.setLongLabel("Open GitHub releases")
@@ -1169,7 +1176,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			.setIcon(Icon.createWithResource(this, R.drawable.ic_folder))
 			.setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TrueMLGPro/Wi-Fi_Info/releases")))
 			.build();
-
 		shortcutManager.setDynamicShortcuts(Arrays.asList(githubShortcut, releasesShortcut));
 	}
 	
@@ -1268,13 +1274,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Public IP", "N/A");
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "N/A", Toast.LENGTH_SHORT).show();
 			} else {
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Public IP", publicIPFetched);
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + publicIPFetched, Toast.LENGTH_SHORT).show();
 			}
 			return true;
@@ -1285,14 +1289,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("SSID", "N/A");
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "N/A", Toast.LENGTH_SHORT).show();
 			} else {
 				String ssid = wInfo.getSSID();
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("SSID", ssid);
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + ssid, Toast.LENGTH_SHORT).show();
 			}
 			return true;
@@ -1303,13 +1305,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Hidden SSID", "Yes");
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "Yes", Toast.LENGTH_SHORT).show();
 			} else {
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Hidden SSID", "No");
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "No", Toast.LENGTH_SHORT).show();
 			}
 			return true;
@@ -1320,14 +1320,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("BSSID", "N/A");
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "N/A", Toast.LENGTH_SHORT).show();
 			} else {
 				String bssid = wInfo.getBSSID().toUpperCase();
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("BSSID", bssid);
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + bssid, Toast.LENGTH_SHORT).show();
 			}
 			return true;
@@ -1338,7 +1336,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("IPv4", ipv4);
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + ipv4, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1348,7 +1345,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("IPv6", ipv6);
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + ipv6, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1358,7 +1354,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Gateway IP", gatewayIP);
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + gatewayIP, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1371,7 +1366,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Hostname", hostName);
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + hostName, Toast.LENGTH_SHORT).show();
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
@@ -1386,7 +1380,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("DNS (1)", dns1);
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + dns1, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1397,7 +1390,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("DNS (2)", dns2);
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + dns2, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1407,7 +1399,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Subnet Mask", "N/A");
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "N/A", Toast.LENGTH_SHORT).show();
 			} else {
 				dhcp = mainWifiManager.getDhcpInfo();
@@ -1415,7 +1406,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Subnet Mask", subnetMask);
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + subnetMask, Toast.LENGTH_SHORT).show();
 			}
 			return true;
@@ -1426,14 +1416,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Network ID", "N/A");
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + "N/A", Toast.LENGTH_SHORT).show();
 			} else {
 				String network_id = String.valueOf(wInfo.getNetworkId());
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Network ID", network_id);
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + network_id, Toast.LENGTH_SHORT).show();
 			}
 			return true;
@@ -1444,7 +1432,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("MAC Address", macAddress);
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + macAddress, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1456,7 +1443,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Network Interface", interfc);
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + interfc, Toast.LENGTH_SHORT).show();
 			}
 			return true;
@@ -1467,7 +1453,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Loopback Address", loopbackAddr.toString());
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + loopbackAddr, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1478,7 +1463,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Localhost", localHost.toString());
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + localHost, Toast.LENGTH_SHORT).show();
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
@@ -1492,7 +1476,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Frequency", freq + "MHz");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + freq + "MHz", Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1503,7 +1486,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Network Channel", String.valueOf(channel));
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + channel, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1514,7 +1496,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("RSSI", RSSIconv + "%" + " (" + rssi + "dBm" + ")");
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")", Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1526,7 +1507,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			String leaseTimeHoursFormat = leaseTime + "s " + "(" + leaseTimeHours + "h)";
 			String leaseTimeMinutesFormat = leaseTime + "s " + "(" + leaseTimeMinutes + "m)";
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-
 			if (leaseTime == 0) {
 				ClipData clip = ClipData.newPlainText("Lease Duration", "N/A");
 				cbm.setPrimaryClip(clip);
@@ -1550,7 +1530,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Transmit Link Speed", transmitLinkSpeed);
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + transmitLinkSpeed, Toast.LENGTH_SHORT).show();
 				return true;
 			});
@@ -1561,7 +1540,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 				ClipData clip = ClipData.newPlainText("Receive Link Speed", receiveLinkSpeed);
 				cbm.setPrimaryClip(clip);
-
 				Toast.makeText(getBaseContext(), "Copied to Clipboard: " + receiveLinkSpeed, Toast.LENGTH_SHORT).show();
 				return true;
 			});
@@ -1573,7 +1551,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Network Speed", networkSpd);
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + networkSpd, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1590,7 +1567,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Transmitted MBs/GBs", TX_Formatted);
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + TX_Formatted, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1607,7 +1583,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			String RX_Formatted = wifiRXMegabytesStr + "MB " + "(" + wifiRXGigabytesStr + "GB" + ")";
 			ClipData clip = ClipData.newPlainText("Received MBs/GBs", RX_Formatted);
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + RX_Formatted, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1617,7 +1592,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData clip = ClipData.newPlainText("Supplicant State", String.valueOf(supState));
 			cbm.setPrimaryClip(clip);
-
 			Toast.makeText(getBaseContext(), "Copied to Clipboard: " + supState, Toast.LENGTH_SHORT).show();
 			return true;
 		});
@@ -1729,7 +1703,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		return publicIP;
 	}
 
-	public boolean isReachable(String url) {
+	private boolean isReachable(String url) {
 		boolean reachable;
 		int response_code;
 
@@ -1759,23 +1733,20 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			new AsyncTask<String, Void, Void>() {
 				@Override
 				protected Void doInBackground(String[] voids) {
-					publicIPFetched = getPublicIPAddress();
-					String url_ip = "https://api.ipify.org";
-
-					siteReachable = isReachable(url_ip);
+					String url = "https://api.ipify.org";
+					siteReachable = isReachable(url);
+					if (siteReachable) {
+						publicIPFetched = getPublicIPAddress();
+					} else {
+						publicIPFetched = "N/A";
+					}
 					return null;
 				}
 
 				@Override
 				protected void onPostExecute(Void aVoid) {
 					super.onPostExecute(aVoid);
-					if (siteReachable) {
-						textview_public_ip.setText("Your IP: " + publicIPFetched);
-					}
-
-					if (!siteReachable) {
-						textview_public_ip.setText("Your IP: N/A");
-					}
+					textview_public_ip.setText("Your IP: " + publicIPFetched);
 				}
 			}.execute();
 
@@ -1787,34 +1758,34 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	@Override
 	protected void onPause()
 	{
+		super.onPause();
 		if (isHandlerRunning) {
-			handler.removeCallbacks(runnable);
+			stopInfoHandlerThread();
 			isHandlerRunning = false;
 		}
 		unregisterReceiver(WiFiConnectivityReceiver);
-		super.onPause();
 	}
 
 	@Override
 	protected void onResume()
 	{
+		super.onResume();
 		if (!isHandlerRunning) {
-			handler.post(runnable);
+			startInfoHandlerThread();
 			isHandlerRunning = true;
 		}
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		WiFiConnectivityReceiver = new WiFiConnectivityReceiver();
 		registerReceiver(WiFiConnectivityReceiver, filter);
-		super.onResume();
 	}
 
 	@Override
 	protected void onDestroy()
 	{
+		super.onDestroy();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.unregisterOnSharedPreferenceChangeListener(listener);
-		super.onDestroy();
 	}
 
 	@Override
@@ -1871,7 +1842,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+		getMenuInflater().inflate(R.menu.main_action_bar_menu, menu);
 		return true;
 	}
 	

@@ -35,7 +35,6 @@ import java.util.Set;
 
 public class DNSLookupActivity extends AppCompatActivity {
 
-	private Toolbar toolbar;
 	private TextView textview_nonetworkconn;
 	private Button get_dns_info_button;
 	private TextInputLayout input_layout_dns;
@@ -55,6 +54,8 @@ public class DNSLookupActivity extends AppCompatActivity {
 
 	public Boolean wifi_connected;
 	public Boolean cellular_connected;
+
+	String lineSeparator = "\n---------------------\n";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dns_lookup_activity);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 		get_dns_info_button = (Button) findViewById(R.id.get_dns_info_button);
 		input_layout_dns = (TextInputLayout) findViewById(R.id.input_layout_dns);
@@ -143,24 +144,24 @@ public class DNSLookupActivity extends AppCompatActivity {
 				AndroidUsingLinkProperties.setup(getApplicationContext());
 				Class<Data> recordDataClass = Record.TYPE.valueOf(dns_record_type).getDataClass();
 				if (recordDataClass == null) {
-					return "Record type " + dns_record_type + " is not supported" + "\n---------------------\n";
+					return "Record type " + dns_record_type + " is not supported" + lineSeparator;
 				}
 				result = ResolverApi.INSTANCE.resolve(url_ip, recordDataClass);
 			} catch (IOException e) {
-				return "Failed to perform a lookup for record type " + dns_record_type + " | Error message: " + e.getMessage() + "\n---------------------\n";
+				return "Failed to perform a lookup for record type " + dns_record_type + " | Error message: " + e.getMessage() + lineSeparator;
 			}
 
 			if (!result.wasSuccessful()) {
-				return "Failed to perform a lookup for record type " + dns_record_type + " | Response code: " + result.getResponseCode() + "\n---------------------\n";
+				return "Failed to perform a lookup for record type " + dns_record_type + " | Response code: " + result.getResponseCode() + lineSeparator;
 			}
 
 			Set<? extends Data> answers = result.getAnswers();
 			if (answers.isEmpty()) {
-				return "No records available for record type " + dns_record_type + "\n---------------------\n";
+				return "No records available for record type " + dns_record_type + lineSeparator;
 			}
 
 			StringBuilder out = new StringBuilder();
-			out.append("DNS Record Type - ").append(dns_record_type).append("\nURL/IP: ").append(url_ip).append("\n---------------------").append("\n");
+			out.append("DNS Record Type - ").append(dns_record_type).append("\nURL/IP: ").append(url_ip).append(lineSeparator);
 			for (Data answer : answers) {
 				out.append(answer).append("\n");
 			}
@@ -259,18 +260,17 @@ public class DNSLookupActivity extends AppCompatActivity {
 	@Override
 	protected void onStart()
 	{
+		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new DNSLookupActivity.NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
-		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterReceiver(NetworkConnectivityReceiver);
 		super.onStop();
+		unregisterReceiver(NetworkConnectivityReceiver);
 	}
-
 }

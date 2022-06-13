@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -32,9 +31,6 @@ import thecollectiveweb.com.tcwhois.TCWHOIS;
 
 public class WhoIsToolActivity extends AppCompatActivity {
 
-	private static final int MIN_TEXT_LENGTH = 4;
-	private static final String EMPTY_STRING = "";
-
 	private TextInputLayout input_layout;
 	private EditText edittext_main;
 	private TextView textview_who_is_results;
@@ -42,7 +38,6 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	private Button fetch_whois_info_button;
 	private LinearLayout layout_who_is_results;
 	private ScrollView who_is_scroll;
-	private Toolbar toolbar;
 
 	private ConnectivityManager CM;
 	private NetworkInfo WiFiCheck;
@@ -61,6 +56,9 @@ public class WhoIsToolActivity extends AppCompatActivity {
 
 	private static final int STATE_RUNNABLE_STARTED = 11;
 	private static final int STATE_RUNNABLE_FINISHED = 12;
+
+	private static final int MIN_TEXT_LENGTH = 4;
+	private static final String EMPTY_STRING = "";
 
 	private BroadcastReceiver NetworkConnectivityReceiver;
 
@@ -87,7 +85,7 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.who_is_tool_activity);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		input_layout = (TextInputLayout) findViewById(R.id.input_layout);
 		edittext_main = (EditText) findViewById(R.id.edittext_main);
 		fetch_whois_info_button = (Button) findViewById(R.id.fetch_whois_info_button);
@@ -116,15 +114,12 @@ public class WhoIsToolActivity extends AppCompatActivity {
 			}
 		});
 
-		fetch_whois_info_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (!shouldShowError()) {
-					startWhoIsThread();
-					hideError();
-				} else {
-					showError();
-				}
+		fetch_whois_info_button.setOnClickListener(v -> {
+			if (!shouldShowError()) {
+				startWhoIsThread();
+				hideError();
+			} else {
+				showError();
 			}
 		});
 	}
@@ -143,7 +138,7 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	}
 
 	@SuppressLint("HandlerLeak")
-	private final Handler msgHandler = new Handler() {
+	private final Handler msgHandler = new Handler(Looper.myLooper()) {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -297,17 +292,17 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	@Override
 	protected void onStart()
 	{
+		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new WhoIsToolActivity.NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
-		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterReceiver(NetworkConnectivityReceiver);
 		super.onStop();
+		unregisterReceiver(NetworkConnectivityReceiver);
 	}
 }

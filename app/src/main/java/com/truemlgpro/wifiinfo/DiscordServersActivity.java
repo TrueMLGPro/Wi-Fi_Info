@@ -13,8 +13,6 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 public class DiscordServersActivity extends AppCompatActivity
 {
 
-	private Toolbar toolbar;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -39,8 +37,8 @@ public class DiscordServersActivity extends AppCompatActivity
 		setContentView(R.layout.discord_servers_activity);
 		
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		
 		Calligrapher calligrapher = new Calligrapher(this);
 		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
@@ -56,7 +54,6 @@ public class DiscordServersActivity extends AppCompatActivity
 			// Back button pressed
 			finish();
 		});
-		
 	}
 	
 	public void official_onClick(View v) {
@@ -65,5 +62,4 @@ public class DiscordServersActivity extends AppCompatActivity
 		i.setData(Uri.parse(url));
 		startActivity(i);
 	}
-	
 }

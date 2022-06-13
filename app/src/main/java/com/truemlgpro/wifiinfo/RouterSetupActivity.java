@@ -320,14 +320,14 @@ public class RouterSetupActivity extends AppCompatActivity
 	@Override
 	protected void onStart()
 	{
-		registerNetworkConnReceiver();
 		super.onStart();
+		registerNetworkConnReceiver();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterNetworkConnReceiver();
 		super.onStop();
+		unregisterNetworkConnReceiver();
 	}
 }

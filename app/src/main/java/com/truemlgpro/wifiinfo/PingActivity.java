@@ -7,13 +7,18 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,14 +31,15 @@ import com.stealthcopter.networktools.Ping;
 import com.stealthcopter.networktools.ping.PingResult;
 import com.stealthcopter.networktools.ping.PingStats;
 
+import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class PingActivity extends AppCompatActivity
 {
-	
-	private Toolbar toolbar;
+
 	private TextView textview_nonetworkconn;
 	private TextInputLayout textInputLayoutPing;
 	private TextInputLayout textInputLayoutTimeout;
@@ -56,8 +62,14 @@ public class PingActivity extends AppCompatActivity
 	
 	private Ping pinger;
 
+	private HandlerThread pingHandlerThread;
+	private Handler pingHandler;
+
 	public Boolean wifi_connected;
 	public Boolean cellular_connected;
+
+	private String url_ip = "";
+	private final String lineSeparator = "\n----------------------------\n";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -81,8 +93,8 @@ public class PingActivity extends AppCompatActivity
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ping_activity);
-		
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 		textInputLayoutPing = (TextInputLayout) findViewById(R.id.input_layout_ping);
 		edit_text_ping = (EditText) findViewById(R.id.edit_text_ping);
@@ -115,7 +127,7 @@ public class PingActivity extends AppCompatActivity
 			finish();
 		});
 		
-		ping_button.setOnClickListener(v -> ping());
+		ping_button.setOnClickListener(v -> preparePinger());
 		
 		ping_button_cancel.setOnClickListener(v -> {
 			if (pinger != null) {
@@ -134,48 +146,10 @@ public class PingActivity extends AppCompatActivity
 		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
 	}
 
-	private void startPinger(String url_ip, int timeout, int ttl, int times) {
-		try {
-			pinger = Ping.onAddress(url_ip).setTimeOutMillis(timeout).setDelayMillis(500).setTimeToLive(ttl).setTimes(times).doPing(new Ping.PingListener() {
-				@Override
-				public void onResult(PingResult pingResult) {
-					if (pingResult.isReachable()) {
-						appendResultsText(String.format("%.2f ms", pingResult.getTimeTaken()));
-					} else {
-						appendResultsText("Connection Timeout");
-					}
-				}
-
-				@Override
-				public void onFinished(PingStats pingStats) {
-					appendResultsText(String.format("Pings: %d, Packets lost: %d",
-							pingStats.getNoPings(), pingStats.getPacketsLost()));
-					appendResultsText(String.format("Min / Avg / Max Latency:\n%.2f / %.2f / %.2f ms",
-							pingStats.getMinTimeTaken(), pingStats.getAverageTimeTaken(), pingStats.getMaxTimeTaken()));
-					setEnabled(ping_button, true);
-					setEnabled(ping_button_cancel, false);
-				}
-
-				@Override
-				public void onError(Exception e) {
-					e.printStackTrace();
-					appendResultsText(e.getMessage());
-					setEnabled(ping_button, true);
-					setEnabled(ping_button_cancel, false);
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-			appendResultsText(e.getMessage());
-			setEnabled(ping_button, true);
-			setEnabled(ping_button_cancel, false);
-		}
-	}
-	
-	public void ping() {
+	private void preparePinger() {
 		setEnabled(ping_button, false);
 		setEnabled(ping_button_cancel, true);
-		String url_ip = edit_text_ping.getText().toString();
+		url_ip = edit_text_ping.getText().toString();
 
 		if (TextUtils.isEmpty(url_ip)) {
 			if (wifi_connected) {
@@ -226,21 +200,59 @@ public class PingActivity extends AppCompatActivity
 		int ping_timeout = Integer.parseInt(edit_text_timeout.getText().toString());
 		int ping_ttl = Integer.parseInt(edit_text_ttl.getText().toString());
 		int ping_times = Integer.parseInt(edit_text_times.getText().toString());
-		
-		PingResult pingResultInfo = null;
-		try {
-			pingResultInfo = Ping.onAddress(url_ip).setTimeOutMillis(ping_timeout).doPing();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			appendResultsText(e.getMessage());
-            setEnabled(ping_button, true);
-			setEnabled(ping_button_cancel, false);
-            return;
-		}
 
-		appendResultsText("Pinging IP: " + pingResultInfo.getAddress().getHostAddress());
-        appendResultsText("Hostname: " + pingResultInfo.getAddress().getHostName());
+		pingHandlerThread = new HandlerThread("BackgroundPingHandlerThread", android.os.Process.THREAD_PRIORITY_BACKGROUND);
+		pingHandlerThread.start();
+		pingHandler = new Handler(pingHandlerThread.getLooper());
+
+		pingHandler.post(() -> {
+			try {
+				String pingHostAddress = URLandIPConverter.convertUrl("https://" + url_ip);
+				InetAddress inetAddress = InetAddress.getByName(url_ip);
+				String pingHostname = inetAddress.getHostName();
+				appendResultsText("Pinging IP: " + pingHostAddress);
+				appendResultsText("Hostname: " + pingHostname);
+			} catch (UnknownHostException | MalformedURLException e) {
+				e.printStackTrace();
+				setEnabled(ping_button, true);
+				setEnabled(ping_button_cancel, false);
+				appendResultsText(lineSeparator);
+			}
+		});
+
 		startPinger(url_ip, ping_timeout, ping_ttl, ping_times);
+	}
+
+	private void startPinger(String url_ip, int timeout, int ttl, int times) {
+		pinger = Ping.onAddress(url_ip).setTimeOutMillis(timeout).setDelayMillis(500).setTimeToLive(ttl).setTimes(times).doPing(new Ping.PingListener() {
+			@Override
+			public void onResult(PingResult pingResult) {
+				if (pingResult.isReachable()) {
+					appendResultsText(String.format("%.2f ms", pingResult.getTimeTaken()));
+				} else {
+					appendResultsText("Connection Timeout");
+				}
+			}
+
+			@Override
+			public void onFinished(PingStats pingStats) {
+				appendResultsText(String.format("Pings: %d, Packets lost: %d",
+						pingStats.getNoPings(), pingStats.getPacketsLost()));
+				appendResultsText(String.format("Min / Avg / Max Latency:\n%.2f / %.2f / %.2f ms",
+						pingStats.getMinTimeTaken(), pingStats.getAverageTimeTaken(), pingStats.getMaxTimeTaken()));
+				appendResultsText(lineSeparator);
+				setEnabled(ping_button, true);
+				setEnabled(ping_button_cancel, false);
+			}
+
+			@Override
+			public void onError(Exception e) {
+				e.printStackTrace();
+				appendResultsText(e.getMessage());
+				setEnabled(ping_button, true);
+				setEnabled(ping_button_cancel, false);
+			}
+		});
 	}
 
 	class NetworkConnectivityReceiver extends BroadcastReceiver
@@ -332,21 +344,43 @@ public class PingActivity extends AppCompatActivity
 	@Override
 	protected void onStart()
 	{
+		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
-		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
+		super.onStop();
 		if (pinger != null) {
 			pinger.cancel();
 		}
+		if (pingHandlerThread != null) {
+			pingHandlerThread.quit();
+			pingHandlerThread = null;
+		}
+		if (pingHandler != null) {
+			pingHandler.removeCallbacks(null);
+			pingHandler.getLooper().quit();
+		}
 		unregisterReceiver(NetworkConnectivityReceiver);
-		super.onStop();
 	}
-	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.ping_tool_action_bar_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.clear_ping_log) {
+			ping_text.setText("...\n");
+		}
+		return true;
+	}
 }
