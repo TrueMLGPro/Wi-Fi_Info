@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,6 +53,8 @@ public class PingActivity extends AppCompatActivity
 	private TextView ping_text;
 	private Button ping_button;
 	private Button ping_button_cancel;
+
+	private Menu toolbarPingMenu;
 	
 	private BroadcastReceiver NetworkConnectivityReceiver;
 	private ConnectivityManager CM;
@@ -275,11 +276,21 @@ public class PingActivity extends AppCompatActivity
 			showWidgets();
 			ping_text.setText("...\n");
 			edit_text_ping.setText("");
+			if (toolbarPingMenu != null) {
+				if (!toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_ping_log, true);
+				}
+			}
 			wifi_connected = true;
 			cellular_connected = false;
 		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
 			ping_text.setText("...\n");
 			edit_text_ping.setText("");
+			if (toolbarPingMenu != null) {
+				if (toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_ping_log, false);
+				}
+			}
 			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
@@ -291,11 +302,21 @@ public class PingActivity extends AppCompatActivity
 			showWidgets();
 			ping_text.setText("...\n");
 			edit_text_ping.setText("");
+			if (toolbarPingMenu != null) {
+				if (!toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_ping_log, true);
+				}
+			}
 			wifi_connected = false;
 			cellular_connected = true;
 		} else if (!CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
 			ping_text.setText("...\n");
 			edit_text_ping.setText("");
+			if (toolbarPingMenu != null) {
+				if (toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_ping_log, false);
+				}
+			}
 			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
@@ -367,6 +388,19 @@ public class PingActivity extends AppCompatActivity
 			pingHandler.getLooper().quit();
 		}
 		unregisterReceiver(NetworkConnectivityReceiver);
+	}
+
+	private void setToolbarItemEnabled(int item, Boolean enabled) {
+		if (toolbarPingMenu != null) {
+			toolbarPingMenu.findItem(item).setEnabled(enabled);
+		}
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		toolbarPingMenu = menu;
+		checkNetworkConnectivity();
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override

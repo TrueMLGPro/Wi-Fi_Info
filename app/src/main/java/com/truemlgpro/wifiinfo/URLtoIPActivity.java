@@ -36,6 +36,8 @@ public class URLtoIPActivity extends AppCompatActivity
 	private LinearLayout layout_url_to_ip_results;
 	private ScrollView url_to_ip_scroll;
 
+	private Menu toolbarURLtoIPToolMenu;
+
 	private ConnectivityManager CM;
 	private NetworkInfo WiFiCheck;
 	private NetworkInfo CellularCheck;
@@ -125,6 +127,10 @@ public class URLtoIPActivity extends AppCompatActivity
 				showError();
 			}
 		});
+
+		checkNetworkConnectivity();
+
+
     }
 
     private boolean shouldShowError() {
@@ -160,11 +166,21 @@ public class URLtoIPActivity extends AppCompatActivity
 			showWidgets();
 			textview_ipFromURL.setText("...\n");
 			mEditText.setText("");
+			if (toolbarURLtoIPToolMenu != null) {
+				if (!toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_url_to_ip_log, true);
+				}
+			}
 			wifi_connected = true;
 			cellular_connected = false;
 		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
 			textview_ipFromURL.setText("...\n");
 			mEditText.setText("");
+			if (toolbarURLtoIPToolMenu != null) {
+				if (toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_url_to_ip_log, false);
+				}
+			}
 			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
@@ -176,11 +192,21 @@ public class URLtoIPActivity extends AppCompatActivity
 			showWidgets();
 			textview_ipFromURL.setText("...\n");
 			mEditText.setText("");
+			if (toolbarURLtoIPToolMenu != null) {
+				if (!toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_url_to_ip_log, true);
+				}
+			}
 			wifi_connected = false;
 			cellular_connected = true;
 		} else if (!CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
 			textview_ipFromURL.setText("...\n");
 			mEditText.setText("");
+			if (toolbarURLtoIPToolMenu != null) {
+				if (toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_url_to_ip_log, false);
+				}
+			}
 			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
@@ -227,6 +253,19 @@ public class URLtoIPActivity extends AppCompatActivity
 	{
 		super.onStop();
 		unregisterReceiver(NetworkConnectivityReceiver);
+	}
+
+	private void setToolbarItemEnabled(int item, Boolean enabled) {
+		if (toolbarURLtoIPToolMenu != null) {
+			toolbarURLtoIPToolMenu.findItem(item).setEnabled(enabled);
+		}
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		toolbarURLtoIPToolMenu = menu;
+		checkNetworkConnectivity();
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override

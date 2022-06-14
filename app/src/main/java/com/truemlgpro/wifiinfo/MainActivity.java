@@ -552,19 +552,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			textview_noconn.setVisibility(View.VISIBLE);
 			hideWidgets(); // Hides CardViews and TextViews
 			textview_public_ip.setText("Your IP: N/A");
-			if (toolbarMenu != null) {
-				if (toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
-					setToolbarItemEnabled(R.id.copy_all, false);
-				}
-			}
 		} else {
 			textview_noconn.setVisibility(View.GONE);
 			showWidgets(); // Makes CardViews and TextViews visible
-			if (toolbarMenu != null) {
-				if (!toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
-					setToolbarItemEnabled(R.id.copy_all, true);
-				}
-			}
 		}
 	}
 
@@ -793,34 +783,38 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-			WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+			checkWiFiConnectivity();
+		}
+	}
 
-			if (!WiFiCheck.isConnected()) {
-				textview_noconn.setVisibility(View.VISIBLE);
-				hideWidgets(); // Hides CardViews and TextViews
-				textview_public_ip.setText("Your IP: N/A");
-				if (toolbarMenu != null) {
-					if (toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
-						setToolbarItemEnabled(R.id.copy_all, false);
-					}
+	private void checkWiFiConnectivity() {
+		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if (!WiFiCheck.isConnected()) {
+			textview_noconn.setVisibility(View.VISIBLE);
+			hideWidgets(); // Hides CardViews and TextViews
+			textview_public_ip.setText("Your IP: N/A");
+			if (toolbarMenu != null) {
+				if (toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
+					setToolbarItemEnabled(R.id.copy_all, false);
 				}
-				if (isHandlerRunning) {
-					stopInfoHandlerThread();
-					isHandlerRunning = false;
+			}
+			if (isHandlerRunning) {
+				stopInfoHandlerThread();
+				isHandlerRunning = false;
+			}
+		} else {
+			textview_noconn.setVisibility(View.GONE);
+			showWidgets(); // Makes CardViews and TextViews visible
+			if (toolbarMenu != null) {
+				if (!toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
+					setToolbarItemEnabled(R.id.copy_all, true);
 				}
-			} else {
-				textview_noconn.setVisibility(View.GONE);
-				showWidgets(); // Makes CardViews and TextViews visible
-				if (toolbarMenu != null) {
-					if (!toolbarMenu.findItem(R.id.copy_all).isEnabled()) {
-						setToolbarItemEnabled(R.id.copy_all, true);
-					}
-				}
-				if (!isHandlerRunning) {
-					startInfoHandlerThread();
-					isHandlerRunning = true;
-				}
+			}
+			if (!isHandlerRunning) {
+				startInfoHandlerThread();
+				isHandlerRunning = true;
 			}
 		}
 	}
@@ -1837,6 +1831,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		toolbarMenu = menu;
+		checkWiFiConnectivity();
 		return super.onPrepareOptionsMenu(menu);
 	}
 
