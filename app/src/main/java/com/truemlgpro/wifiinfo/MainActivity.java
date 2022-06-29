@@ -1076,7 +1076,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		if (!isLocationEnabled()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 			builder.setTitle("Location is Disabled")
-				.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) on Android 8+\n\nClick Enable to grant Wi-Fi Info permission to show SSID and BSSID")
+				.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) on Android 8+\n\nClick \"Enable\" to grant Wi-Fi Info permission to show SSID and BSSID")
 				.setIcon(R.drawable.location)
 				.setPositiveButton("Enable", (dialog, id) -> {
 					showToastOnEnable();
@@ -1099,7 +1099,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		if (!isLocationEnabled()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 			builder.setTitle("Location is Disabled")
-				.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) and Network ID on Android 8.1\n\nClick Enable to grant Wi-Fi Info permission to show SSID, BSSID and Network ID")
+				.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) and Network ID on Android 8.1\n\nClick \"Enable\" to grant Wi-Fi Info permission to show SSID, BSSID and Network ID")
 				.setIcon(R.drawable.location)
 				.setPositiveButton("Enable", (dialog, id) -> {
 					showToastOnEnableAPI27();
@@ -1127,23 +1127,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION);
 		}
 
-		// FIXME: DOESN'T WORK ON ANDROID 11
 		if (!permissionGranted) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 			builder.setTitle("Permission required!")
 					.setMessage("Location permission is needed to show SSID, BSSID and Network ID on Android 8.1+, grant it to get full info")
 					.setPositiveButton("Ok", (dialog, id) -> {
-						// Android 8.1 - Android 11
+						// Android 8.1 - Android 10
 						String[] ForegroundCoarseLocationPermission_API27 = {Manifest.permission.ACCESS_COARSE_LOCATION};
-						String[] ForegroundFineLocationPermission_API30 = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION};
-						// Android 12+
-						String[] ForegroundLocationPermission_API31 = {Manifest.permission.ACCESS_FINE_LOCATION};
+						// Android 11+
+						String[] ForegroundFineLocationPermission_API30 = {Manifest.permission.ACCESS_FINE_LOCATION};
 						if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 30) {
 							ActivityCompat.requestPermissions(MainActivity.this, ForegroundCoarseLocationPermission_API27, LocationPermissionCode);
-						} else if (Build.VERSION.SDK_INT == 30) {
+						} else if (Build.VERSION.SDK_INT >= 30) {
 							ActivityCompat.requestPermissions(MainActivity.this, ForegroundFineLocationPermission_API30, LocationPermissionCode);
-						} else if (Build.VERSION.SDK_INT >= 31) {
-							ActivityCompat.requestPermissions(MainActivity.this, ForegroundLocationPermission_API31, LocationPermissionCode);
 						}
 					})
 					.setNegativeButton("No Thanks", null)
@@ -1789,8 +1785,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			if (requestCode == LocationPermissionCode) {
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-					builder.setTitle("Background Location Permission")
-							.setMessage("Due to the changes in Android 11+ you need to go to Settings to enable it (this step is optional)" + "\n" + "Once Background Location permission is granted you'll be able to see SSID in the notification even if you close the app")
+					builder.setTitle("Background Location Permission (Optional)")
+							.setMessage("Due to the changes in Android 11+ you need to go to Settings to enable it" + "\n" + "Once Background Location permission is granted you'll be able to see SSID in the notification even if you close the app")
 							.setPositiveButton("Ok", (dialog, id) -> {
 								Toast.makeText(MainActivity.this, "Go to Permissions -> Location", Toast.LENGTH_LONG).show();
 								Toast.makeText(MainActivity.this, "Select \"Allow all the time\"", Toast.LENGTH_LONG).show();
@@ -1799,7 +1795,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 								intent.setData(uri);
 								startActivity(intent);
 							})
-							.setNegativeButton("No", null)
+							.setNegativeButton("No Thanks", null)
 							.setCancelable(false);
 					AlertDialog alert = builder.create();
 					alert.show();
