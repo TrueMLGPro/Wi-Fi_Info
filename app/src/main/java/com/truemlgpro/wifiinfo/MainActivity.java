@@ -1825,16 +1825,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main_action_bar_menu, menu);
+		return true;
+	}
+
+	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		toolbarMenu = menu;
 		checkWiFiConnectivity();
 		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main_action_bar_menu, menu);
-		return true;
 	}
 	
 	@Override

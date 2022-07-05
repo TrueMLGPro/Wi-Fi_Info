@@ -128,8 +128,7 @@ public class URLtoIPActivity extends AppCompatActivity
 			}
 		});
 
-		checkNetworkConnectivity();
-
+		checkNetworkConnectivity(false);
 
     }
 
@@ -151,21 +150,24 @@ public class URLtoIPActivity extends AppCompatActivity
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			checkNetworkConnectivity();
+			checkNetworkConnectivity(false);
 		}
 	}
 
-	public void checkNetworkConnectivity() {
+	public void checkNetworkConnectivity(Boolean calledFromToolbarAction) {
 		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+		if (!calledFromToolbarAction) {
+			textview_ipFromURL.setText("...\n");
+			mEditText.setText("");
+		}
 
 		// WI-FI Connectivity Check
 
 		if (WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
 			showWidgets();
-			textview_ipFromURL.setText("...\n");
-			mEditText.setText("");
 			if (toolbarURLtoIPToolMenu != null) {
 				if (!toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_url_to_ip_log, true);
@@ -174,14 +176,12 @@ public class URLtoIPActivity extends AppCompatActivity
 			wifi_connected = true;
 			cellular_connected = false;
 		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
-			textview_ipFromURL.setText("...\n");
-			mEditText.setText("");
+			hideWidgets();
 			if (toolbarURLtoIPToolMenu != null) {
 				if (toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_url_to_ip_log, false);
 				}
 			}
-			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
 		}
@@ -190,8 +190,6 @@ public class URLtoIPActivity extends AppCompatActivity
 
 		if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
 			showWidgets();
-			textview_ipFromURL.setText("...\n");
-			mEditText.setText("");
 			if (toolbarURLtoIPToolMenu != null) {
 				if (!toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_url_to_ip_log, true);
@@ -200,14 +198,12 @@ public class URLtoIPActivity extends AppCompatActivity
 			wifi_connected = false;
 			cellular_connected = true;
 		} else if (!CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
-			textview_ipFromURL.setText("...\n");
-			mEditText.setText("");
+			hideWidgets();
 			if (toolbarURLtoIPToolMenu != null) {
 				if (toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_url_to_ip_log, false);
 				}
 			}
-			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
 		}
@@ -262,16 +258,16 @@ public class URLtoIPActivity extends AppCompatActivity
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		toolbarURLtoIPToolMenu = menu;
-		checkNetworkConnectivity();
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.url_to_ip_tool_action_bar_menu, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		toolbarURLtoIPToolMenu = menu;
+		checkNetworkConnectivity(true);
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override

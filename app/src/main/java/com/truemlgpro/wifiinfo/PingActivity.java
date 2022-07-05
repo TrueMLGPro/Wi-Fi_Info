@@ -261,21 +261,24 @@ public class PingActivity extends AppCompatActivity
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			checkNetworkConnectivity();
+			checkNetworkConnectivity(false);
 		}
 	}
 	
-	public void checkNetworkConnectivity() {
+	public void checkNetworkConnectivity(Boolean calledFromToolbarAction) {
 		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+		if (!calledFromToolbarAction) {
+			ping_text.setText("...\n");
+			edit_text_ping.setText("");
+		}
 
 		// WI-FI Connectivity Check
 
 		if (WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
 			showWidgets();
-			ping_text.setText("...\n");
-			edit_text_ping.setText("");
 			if (toolbarPingMenu != null) {
 				if (!toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_ping_log, true);
@@ -284,8 +287,6 @@ public class PingActivity extends AppCompatActivity
 			wifi_connected = true;
 			cellular_connected = false;
 		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
-			ping_text.setText("...\n");
-			edit_text_ping.setText("");
 			if (toolbarPingMenu != null) {
 				if (toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_ping_log, false);
@@ -300,8 +301,6 @@ public class PingActivity extends AppCompatActivity
 
 		if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
 			showWidgets();
-			ping_text.setText("...\n");
-			edit_text_ping.setText("");
 			if (toolbarPingMenu != null) {
 				if (!toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_ping_log, true);
@@ -310,8 +309,6 @@ public class PingActivity extends AppCompatActivity
 			wifi_connected = false;
 			cellular_connected = true;
 		} else if (!CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
-			ping_text.setText("...\n");
-			edit_text_ping.setText("");
 			if (toolbarPingMenu != null) {
 				if (toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_ping_log, false);
@@ -397,16 +394,16 @@ public class PingActivity extends AppCompatActivity
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		toolbarPingMenu = menu;
-		checkNetworkConnectivity();
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.ping_tool_action_bar_menu, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		toolbarPingMenu = menu;
+		checkNetworkConnectivity(true);
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
