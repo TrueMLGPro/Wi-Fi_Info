@@ -45,7 +45,7 @@
         <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="IzzyOnDroid">
     </a>
     <p align="center">or</p>
-    <h2 align="center"><strong><a href="https://github.com/TrueMLGPro/Wi-Fi_Info/releases/" style="text-align:center">Releases</a></strong></h2>
+    <h3 align="center"><strong><a href="https://github.com/TrueMLGPro/Wi-Fi_Info/releases/" style="text-align:center">Releases</a></strong></h3>
 </p>
 
 <h2>Features</h2>
@@ -111,5 +111,5 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 
    http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software distributed under the License isdistributed on an "AS IS" BASIS, WITHOUTWARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 </code></pre>
