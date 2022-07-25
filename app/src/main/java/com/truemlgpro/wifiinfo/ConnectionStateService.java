@@ -27,7 +27,7 @@ public class ConnectionStateService extends Service
 	
 	private ScreenStateReceiver ScrStateRec;
 	private IntentFilter intentFilter;
-	private boolean isRegistered;
+	private boolean isScreenStateReceiverRegistered;
 	private boolean isHandlerPosted;
 	
 	public static boolean isConnectionStateServiceRunning;
@@ -46,6 +46,8 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 		
 		if (isConnected) {
 			Intent ServiceIntent = new Intent(ConnectionStateService.this, NotificationService.class);
+
+			NotificationService.isServiceStopRequested = false;
 			
 			if (android.os.Build.VERSION.SDK_INT < 26) {
 				startService(ServiceIntent);
@@ -65,13 +67,13 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			
 			if (keyStartStopScrnStateNtfc) {
 				registerReceiver(ScrStateRec, intentFilter);
-				isRegistered = true;
+				isScreenStateReceiverRegistered = true;
 				handler.post(runnable);
 				isHandlerPosted = true;
 			} else {
-				if (isRegistered) {
+				if (isScreenStateReceiverRegistered) {
 					unregisterReceiver(ScrStateRec);
-					isRegistered = false;
+					isScreenStateReceiverRegistered = false;
 				}
 				
 				if (isHandlerPosted) {
@@ -83,6 +85,7 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 			isNotificationServiceRunning = true;
 		} else {
 			if (isNotificationServiceRunning) {
+				NotificationService.isServiceStopRequested = true;
 				stopService(new Intent(context, NotificationService.class));
 				isNotificationServiceRunning = false;
 			}
@@ -95,9 +98,9 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 				showOfflineNotificationAPI21(context);
 			}
 			
-			if (isRegistered) {
+			if (isScreenStateReceiverRegistered) {
 				unregisterReceiver(ScrStateRec);
-				isRegistered = false;
+				isScreenStateReceiverRegistered = false;
 			}
 			
 			if (isHandlerPosted) {
@@ -312,9 +315,9 @@ public class ConnectionStateReceiver extends BroadcastReceiver
 	public void onDestroy()
 	{
 		unregisterReceiver(ConnectionStateReceiver);
-		if (isRegistered) {
+		if (isScreenStateReceiverRegistered) {
 			unregisterReceiver(ScrStateRec);
-			isRegistered = false;
+			isScreenStateReceiverRegistered = false;
 		}
 		
 		if (isHandlerPosted) {

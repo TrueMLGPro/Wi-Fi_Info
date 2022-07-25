@@ -24,6 +24,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.Objects;
 
 public class NotificationService extends Service
 {
@@ -34,6 +35,8 @@ public class NotificationService extends Service
 	private Notification.Builder builder;
 	
 	private int visSigStrgNtfcColor;
+
+	public static Boolean isServiceStopRequested = false;
 	
 	@Override
 	public void onCreate()
@@ -101,7 +104,12 @@ public class NotificationService extends Service
 			if (android.os.Build.VERSION.SDK_INT < 26) {
 				showNotificationAPI21_25();
 			}
-			handler.postDelayed(runnable, keyNtfcFreqFormatted);
+
+			if (!isServiceStopRequested) {
+				handler.postDelayed(runnable, keyNtfcFreqFormatted);
+			} else {
+				handler.removeCallbacks(runnable);
+			}
 		}
 	};
 	
@@ -161,12 +169,16 @@ public class NotificationService extends Service
 		if (ssid.equals("<unknown ssid>")) {
 			ssid = "N/A";
 		}
-		String bssid;
+
+		String bssid = "";
 		if (wInfo.getBSSID() != null) {
 			bssid = wInfo.getBSSID().toUpperCase();
-		} else {
+		}
+
+		if (bssid.contains("02:00:00:00:00:00")) {
 			bssid = "N/A";
 		}
+
 		int rssi = wInfo.getRssi();
 		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
 		if (keyVisSigStrgNtfc) {
@@ -183,8 +195,11 @@ public class NotificationService extends Service
 		int freq = wInfo.getFrequency();
 		int channel = convertFrequencyToChannel(freq);
 		int networkSpeed = wInfo.getLinkSpeed();
+		String network_id = String.valueOf(wInfo.getNetworkId());
+		if (network_id.contains("-1")) {
+			network_id = "N/A";
+		}
 
-		int network_id = wInfo.getNetworkId();
 		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
 		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
 			"Frequency: " + freq + "MHz" + "\n" + "Network Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "Network ID: " + network_id;
@@ -245,6 +260,16 @@ public class NotificationService extends Service
 		if (ssid.equals("<unknown ssid>")) {
 			ssid = "N/A";
 		}
+
+		String bssid = "";
+		if (wInfo.getBSSID() != null) {
+			bssid = wInfo.getBSSID().toUpperCase();
+		}
+
+		if (bssid.contains("02:00:00:00:00:00")) {
+			bssid = "N/A";
+		}
+
 		int rssi = wInfo.getRssi();
 		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
 		if (keyVisSigStrgNtfc) {
@@ -260,12 +285,20 @@ public class NotificationService extends Service
 		}
 		int freq = wInfo.getFrequency();
 		int channel = convertFrequencyToChannel(freq);
-		String info = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
-			
+		int networkSpeed = wInfo.getLinkSpeed();
+		String network_id = String.valueOf(wInfo.getNetworkId());
+		if (network_id.contains("-1")) {
+			network_id = "N/A";
+		}
+
+		String collapsedInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
+		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" +
+				"Frequency: " + freq + "MHz" + "\n" + "Network Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
+
 		notification29 = builder.setContentIntent(content_intent)
 			.setSmallIcon(R.drawable.ic_wifi)
 			.setContentTitle("Local IP: " + ip)
-			.setContentText(info)
+			.setContentText(collapsedInfo)
 			.setWhen(System.currentTimeMillis())
 			.addAction(R.drawable.ic_stop, "Stop Services", pIntentActionStop)
 			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
@@ -273,7 +306,7 @@ public class NotificationService extends Service
 			.setColorized(keyNtfcClr)
 			.setColor(visSigStrgNtfcColor)
 			.setCategory(Notification.CATEGORY_SERVICE)
-			.setStyle(new Notification.BigTextStyle().bigText(info))
+			.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
 			.setOngoing(true)
 			.setOnlyAlertOnce(true)
 			.setAutoCancel(false)
@@ -325,6 +358,7 @@ public class NotificationService extends Service
 		int channel = convertFrequencyToChannel(freq);
 		int networkSpeed = wInfo.getLinkSpeed();
 		int network_id = wInfo.getNetworkId();
+
 		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
 		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
 			"Frequency: " + freq + "MHz" + "\n" + "Network Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
