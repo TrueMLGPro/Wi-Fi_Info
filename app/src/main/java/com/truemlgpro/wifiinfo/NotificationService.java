@@ -5,8 +5,10 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -24,11 +26,11 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.util.Objects;
 
 public class NotificationService extends Service
 {
 
+	private BroadcastReceiver NotificationServiceStopReceiver;
 	private Notification notification26_28;
 	private Notification notification29;
 	private Notification notification21_25;
@@ -36,13 +38,15 @@ public class NotificationService extends Service
 	
 	private int visSigStrgNtfcColor;
 
-	public static Boolean isServiceStopRequested = false;
-	
 	@Override
 	public void onCreate()
 	{
 		super.onCreate();
 		handler.post(runnable);
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("ACTION_STOP_FOREGROUND");
+		NotificationServiceStopReceiver = new NotificationServiceStopReceiver();
+		registerReceiver(NotificationServiceStopReceiver, filter);
 	}
 
 	@Override
@@ -50,6 +54,7 @@ public class NotificationService extends Service
 	{
 		super.onDestroy();
 		handler.removeCallbacks(runnable);
+		unregisterReceiver(NotificationServiceStopReceiver);
 	}
 
 	@Override
@@ -72,7 +77,7 @@ public class NotificationService extends Service
 			showNotificationAPI26_28();
 			startForeground(1301, notification26_28);
 		} else if (android.os.Build.VERSION.SDK_INT >= 29) {
-			/// ANDROID 10 & higher ///
+			/// Android 10 & higher ///
 			showNotificationAPI29();
 			startForeground(1302, notification29);
 		} else if (android.os.Build.VERSION.SDK_INT < 26) {
@@ -81,7 +86,7 @@ public class NotificationService extends Service
 			startForeground(1303, notification21_25);
 		}
 		
-		return START_STICKY;
+		return START_NOT_STICKY;
 	}
 	
 	/// Handler for Notification Updates ///
@@ -95,26 +100,32 @@ public class NotificationService extends Service
 			
 			if (android.os.Build.VERSION.SDK_INT >= 29) {
 				showNotificationAPI29();
-			}
-
-			if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
+			} else if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
 				showNotificationAPI26_28();
-			}
-
-			if (android.os.Build.VERSION.SDK_INT < 26) {
+			} else if (android.os.Build.VERSION.SDK_INT < 26) {
 				showNotificationAPI21_25();
 			}
 
-			if (!isServiceStopRequested) {
-				handler.postDelayed(runnable, keyNtfcFreqFormatted);
-			} else {
-				handler.removeCallbacks(runnable);
-			}
+			handler.postDelayed(runnable, keyNtfcFreqFormatted);
 		}
 	};
 	
 	/// END ///
-	
+
+	public class NotificationServiceStopReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction() != null && intent.getAction().equals("ACTION_STOP_FOREGROUND")) {
+				handler.removeCallbacks(runnable);
+				if (Build.VERSION.SDK_INT < 24) {
+					stopForeground(true);
+				} else {
+					stopForeground(STOP_FOREGROUND_REMOVE);
+				}
+			}
+		}
+	}
+
 	/// Notification Settings Activity ///
 	
 	public void startNtfcSettingsActivity() {
@@ -148,7 +159,7 @@ public class NotificationService extends Service
 
 		Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
 		intentActionStop.setAction("ACTION_STOP");
-		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
+		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Intent intentActionSettings = new Intent(this, ActionButtonReceiver.class);
 		intentActionSettings.setAction("ACTION_NTFC_SETTINGS");
@@ -161,8 +172,7 @@ public class NotificationService extends Service
 		Boolean keyNtfcClr = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
 		Boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
 
-		WifiManager mainWifi;
-		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+		WifiManager mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ip = getIPv4Address();
 		String ssid = wInfo.getSSID();
@@ -235,15 +245,15 @@ public class NotificationService extends Service
 		int NOTIFICATION_ID = 1302;
 
 		Intent NotificationIntent = new Intent(this, MainActivity.class);
-		PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 		Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
 		intentActionStop.setAction("ACTION_STOP");
-		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
+		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 		Intent intentActionSettings = new Intent(this, ActionButtonReceiver.class);
 		intentActionSettings.setAction("ACTION_NTFC_SETTINGS");
-		PendingIntent pIntentActionSettings = PendingIntent.getBroadcast(this, 0, intentActionSettings, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent pIntentActionSettings = PendingIntent.getBroadcast(this, 0, intentActionSettings, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 		
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
@@ -252,8 +262,7 @@ public class NotificationService extends Service
 		Boolean keyNtfcClr = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
 		Boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
 		
-		WifiManager mainWifi;
-		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+		WifiManager mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ip = getIPv4Address();
 		String ssid = wInfo.getSSID();
@@ -329,7 +338,7 @@ public class NotificationService extends Service
 
 		Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
 		intentActionStop.setAction("ACTION_STOP");
-		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
+		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Intent intentActionSettings = new Intent(this, ActionButtonReceiver.class);
 		intentActionSettings.setAction("ACTION_NTFC_SETTINGS");
@@ -338,8 +347,7 @@ public class NotificationService extends Service
 		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		builder = new Notification.Builder(this);
 
-		WifiManager mainWifi;
-		mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+		WifiManager mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ip = getIPv4Address();
 		String ssid = wInfo.getSSID();

@@ -176,5 +176,12 @@
 				<action android:name="ACTION_NTFC_SETTINGS" />
 			</intent-filter>
 		</receiver>
+
+		<receiver android:name=".NotificationServiceStopReceiver"
+			android:exported="false">
+			<intent-filter>
+				<action android:name="ACTION_STOP_FOREGROUND" />
+			</intent-filter>
+		</receiver>
     </application>
 </manifest>
