@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 30
+	compileSdk 31
 	buildToolsVersion "30.0.3"
 
 	signingConfigs {
@@ -19,9 +19,9 @@ android {
 	defaultConfig {
 		applicationId "com.truemlgpro.wifiinfo"
 		minSdkVersion 21
-		targetSdkVersion 30
-		versionCode 1420
-		versionName "1.4.2"
+		targetSdkVersion 31
+		versionCode 1500
+		versionName "1.5"
 	}
 	buildTypes {
 		release {
@@ -52,10 +52,6 @@ android {
 }
 
 dependencies {
-	api ('android.arch.core:runtime:+') {
-		force = true
-	}
-
 	implementation 'com.android.support:design:27.1.0'
 	implementation 'com.android.support:support-v4:27.1.0'
 	implementation 'com.android.support:appcompat-v7:27.1.0'
