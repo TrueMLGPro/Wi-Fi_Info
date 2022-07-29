@@ -5,7 +5,7 @@
 	
 	<uses-sdk
 		android:minSdkVersion="21"
-		android:targetSdkVersion="30"
+		android:targetSdkVersion="31"
 		tools:overrideLibrary="thecollectiveweb.com.tcwhois" />
 	
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
