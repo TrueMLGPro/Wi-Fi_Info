@@ -6,11 +6,11 @@ import android.content.Intent;
 
 public class ActionButtonReceiver extends BroadcastReceiver
 {
-	
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
 		if (intent.getAction() != null && intent.getAction().equals("ACTION_STOP")) {
+			context.sendBroadcast(new Intent(context, NotificationService.NotificationServiceStopReceiver.class).setAction("ACTION_STOP_FOREGROUND"));
 			context.stopService(new Intent(context, NotificationService.class));
 			context.stopService(new Intent(context, ConnectionStateService.class));
 			MainActivity.isServiceRunning = false;
@@ -28,9 +28,4 @@ public class ActionButtonReceiver extends BroadcastReceiver
 			context.sendBroadcast(StatusBarCloseIntent);
 		}
 	}
-	
-	public ActionButtonReceiver() {
-		
-	}
-	
 }

@@ -11,16 +11,15 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
@@ -29,9 +28,6 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 public class URLtoIPActivity extends AppCompatActivity
 {
 
-	private static final int MIN_TEXT_LENGTH = 4;
-    private static final String EMPTY_STRING = "";
-
     private TextInputLayout mTextInputLayout;
     private EditText mEditText;
 	private TextView textview_ipFromURL;
@@ -39,16 +35,22 @@ public class URLtoIPActivity extends AppCompatActivity
 	private Button convert_button;
 	private LinearLayout layout_url_to_ip_results;
 	private ScrollView url_to_ip_scroll;
-	private Toolbar toolbar;
-	
+
+	private Menu toolbarURLtoIPToolMenu;
+
 	private ConnectivityManager CM;
 	private NetworkInfo WiFiCheck;
 	private NetworkInfo CellularCheck;
 	
 	public Boolean wifi_connected;
 	public Boolean cellular_connected;
+
+	private static final int MIN_TEXT_LENGTH = 4;
+	private static final String EMPTY_STRING = "";
 	
 	private BroadcastReceiver NetworkConnectivityReceiver;
+
+	private final String lineSeparator = "\n----------------------------\n";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,7 +75,7 @@ public class URLtoIPActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.url_to_ip_activity);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mTextInputLayout = (TextInputLayout) findViewById(R.id.input_layout);
         mEditText = (EditText) findViewById(R.id.edittext_main);
 		convert_button = (Button) findViewById(R.id.convert_button);
@@ -90,42 +92,44 @@ public class URLtoIPActivity extends AppCompatActivity
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 
-		convert_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (!shouldShowError()) {
-					String url = mEditText.getText().toString();
+		convert_button.setOnClickListener(v -> {
+			if (!shouldShowError()) {
+				String url = mEditText.getText().toString();
+				new Thread(() -> {
 					try {
 						String ip = URLandIPConverter.convertUrl("https://" + url);
 						appendResultsText("Converting URL: " + url);
 						appendResultsText("IP: " + ip);
+						appendResultsText(lineSeparator);
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 						appendResultsText("Converting URL: " + url);
 						appendResultsText("Error: Malformed URL");
+						appendResultsText(lineSeparator);
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 						appendResultsText("Converting URL: " + url);
 						appendResultsText("Error: Unknown Host");
+						appendResultsText(lineSeparator);
 					}
-					hideError();
-				} else {
-					showError();
-				}
+				}).start();
+				hideError();
+			} else {
+				showError();
 			}
 		});
+
+		checkNetworkConnectivity(false);
+
     }
 
     private boolean shouldShowError() {
@@ -146,27 +150,38 @@ public class URLtoIPActivity extends AppCompatActivity
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			checkNetworkConnectivity();
+			checkNetworkConnectivity(false);
 		}
 	}
 
-	public void checkNetworkConnectivity() {
+	public void checkNetworkConnectivity(Boolean calledFromToolbarAction) {
 		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+		if (!calledFromToolbarAction) {
+			textview_ipFromURL.setText("...\n");
+			mEditText.setText("");
+		}
 
 		// WI-FI Connectivity Check
 
 		if (WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
 			showWidgets();
-			textview_ipFromURL.setText("...\n");
-			mEditText.setText("");
+			if (toolbarURLtoIPToolMenu != null) {
+				if (!toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_url_to_ip_log, true);
+				}
+			}
 			wifi_connected = true;
 			cellular_connected = false;
 		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
-			textview_ipFromURL.setText("...\n");
-			mEditText.setText("");
 			hideWidgets();
+			if (toolbarURLtoIPToolMenu != null) {
+				if (toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_url_to_ip_log, false);
+				}
+			}
 			wifi_connected = false;
 			cellular_connected = false;
 		}
@@ -175,14 +190,20 @@ public class URLtoIPActivity extends AppCompatActivity
 
 		if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
 			showWidgets();
-			textview_ipFromURL.setText("...\n");
-			mEditText.setText("");
+			if (toolbarURLtoIPToolMenu != null) {
+				if (!toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_url_to_ip_log, true);
+				}
+			}
 			wifi_connected = false;
 			cellular_connected = true;
 		} else if (!CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
-			textview_ipFromURL.setText("...\n");
-			mEditText.setText("");
 			hideWidgets();
+			if (toolbarURLtoIPToolMenu != null) {
+				if (toolbarURLtoIPToolMenu.findItem(R.id.clear_url_to_ip_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_url_to_ip_log, false);
+				}
+			}
 			wifi_connected = false;
 			cellular_connected = false;
 		}
@@ -207,35 +228,54 @@ public class URLtoIPActivity extends AppCompatActivity
 	}
 	
 	private void appendResultsText(final String text) {
-        runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				textview_ipFromURL.append(text + "\n");
-				url_to_ip_scroll.post(new Runnable() {
-					@Override
-					public void run() {
-						url_to_ip_scroll.fullScroll(View.FOCUS_DOWN);
-					}
-				});
-			}
-		});
+        runOnUiThread(() -> {
+	        textview_ipFromURL.append(text + "\n");
+	        url_to_ip_scroll.post(() -> url_to_ip_scroll.fullScroll(View.FOCUS_DOWN));
+        });
     }
 
 	@Override
 	protected void onStart()
 	{
+		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
-		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterReceiver(NetworkConnectivityReceiver);
 		super.onStop();
+		unregisterReceiver(NetworkConnectivityReceiver);
 	}
 
+	private void setToolbarItemEnabled(int item, Boolean enabled) {
+		if (toolbarURLtoIPToolMenu != null) {
+			toolbarURLtoIPToolMenu.findItem(item).setEnabled(enabled);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.url_to_ip_tool_action_bar_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		toolbarURLtoIPToolMenu = menu;
+		checkNetworkConnectivity(true);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.clear_url_to_ip_log) {
+			textview_ipFromURL.setText("...\n");
+		}
+		return true;
+	}
 }

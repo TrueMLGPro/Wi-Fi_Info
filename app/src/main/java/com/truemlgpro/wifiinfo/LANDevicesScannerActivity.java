@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,8 +39,7 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class LANDevicesScannerActivity extends AppCompatActivity
 {
-	
-	private Toolbar toolbar;
+
 	private TextView textview_nonetworkconn;
 	private TextView local_ip_text;
 	private TextView devices_found_text;
@@ -54,13 +54,13 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 	private NetworkInfo WiFiCheck;
 	private NetworkInfo CellularCheck;
 	
-	public static Scanner sc;
+	private static Scanner sc;
 	
-	public static Boolean wifi_connected;
-	public static Boolean cellular_connected;
+	private static Boolean wifi_connected;
+	private static Boolean cellular_connected;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
@@ -82,7 +82,7 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lan_devices_scanner_activity);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 		local_ip_text = (TextView) findViewById(R.id.local_ip_text);
 		devices_found_text = (TextView) findViewById(R.id.devices_found_text);
@@ -101,34 +101,27 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// Back button pressed
-					finish();
-				}
-			});
-			
-		lan_scan_button.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					findSubnetDevices();
-					devices_found_text.setText("Devices Found: -");
-					adapter.clear();
-				}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
-		
+			
+		lan_scan_button.setOnClickListener(v -> {
+			findSubnetDevices();
+			devices_found_text.setText("Devices Found: -");
+			adapter.clear();
+		});
 	}
 	
-	public static String getCellularLocalIPv4Address() {
+	private String getCellularLocalIPv4Address() {
 		try {
-			List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-			for (NetworkInterface intf : interfaces) {
-				List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+			List<NetworkInterface> listNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface networkInterface : listNetworkInterfaces) {
+				List<InetAddress> addrs = Collections.list(networkInterface.getInetAddresses());
 				for (InetAddress addr : addrs) {
 					if (!addr.isLoopbackAddress()) {
 						return addr.getHostAddress();
@@ -138,54 +131,52 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
 		return "";
 	}
 	
-	public static String getWiFiLocalIPv4Address() {
+	private String getWiFiLocalIPv4Address() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) { 
-				NetworkInterface intf = en.nextElement();
-				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+			for (Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface.getNetworkInterfaces(); enumNetworkInterfaces.hasMoreElements();) {
+				NetworkInterface networkInterface = enumNetworkInterfaces.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = networkInterface.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-						return inetAddress.getHostAddress().toString();
+						return inetAddress.getHostAddress();
 					}
 				}
 			}
 		} catch (SocketException ex) {
-			Log.e("Wi-Fi Info", ex.toString());
+			Log.e("getWifiLocalIPv4Addr", ex.toString());
 		} 
 		return null;
 	}
-	
-	public static String getMACAddress() {
+
+	private String getMACAddress() {
 		try {
-			List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-			for (NetworkInterface nif : all) {
-				if (!nif.getName().equalsIgnoreCase("wlan0"))
+			List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface networkInterface : allNetworkInterfaces) {
+				if (!networkInterface.getName().equalsIgnoreCase("wlan0"))
 					continue;
 
-				byte[] macBytes = nif.getHardwareAddress();
+				byte[] macBytes = networkInterface.getHardwareAddress();
 				if (macBytes == null) {
 					return "";
 				}
 
-				StringBuilder res1 = new StringBuilder();
+				StringBuilder macAddressStringBuilder = new StringBuilder();
 				for (byte b : macBytes) {  
-					res1.append(String.format("%02X:", b));
+					macAddressStringBuilder.append(String.format("%02X:", b));
 				}
 
-				if (res1.length() > 0) {
-					res1.deleteCharAt(res1.length() - 1);
+				if (macAddressStringBuilder.length() > 0) {
+					macAddressStringBuilder.deleteCharAt(macAddressStringBuilder.length() - 1);
 				}
 
-				return res1.toString();
+				return macAddressStringBuilder.toString();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return "";
 	}
 	
@@ -200,27 +191,25 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 	}
 	
 	private void setEnabled(final View view, final boolean enabled) {
-        runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (view != null) {
-					view.setEnabled(enabled);
-				}
-			}
-		});
+        runOnUiThread(() -> {
+	        if (view != null) {
+		        view.setEnabled(enabled);
+	        }
+        });
     }
 	
 	private void addDevicesToList(final String text) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				adapter.add(text);
-				adapter.notifyDataSetChanged();
-			}
+		Comparator<String> ipComparator = (ip1, ip2) -> convertDiscoveredIPToLong(ip1).compareTo(convertDiscoveredIPToLong(ip2));
+		int index = Collections.binarySearch(devices_arrayList, text, ipComparator);
+
+		runOnUiThread(() -> {
+			devices_arrayList.add((index < 0) ? (-index - 1) : index, text);
+			adapter.notifyDataSetChanged();
 		});
 	}
-	
-	public static Long formatDiscoveredIP(String ip) {
+
+	@NonNull
+	public static Long convertDiscoveredIPToLong(String ip) {
 		if (wifi_connected) {
 			sc = new Scanner(ip).useDelimiter("\\.|\\W\\|(|<=\\|).*$");
 		} else if (cellular_connected) {
@@ -229,66 +218,57 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 		return (sc.nextLong() << 24) + (sc.nextLong() << 16) + 
 			(sc.nextLong() << 8) + (sc.nextLong());
     }
-    
+
 	public void sortListByIP() {
-        Comparator<String> ipComparator = new Comparator<String>() {
-            @Override
-            public int compare(String ip1, String ip2) {
-                return formatDiscoveredIP(ip1).compareTo(formatDiscoveredIP(ip2));
-            }       
-        };
-		Collections.sort(devices_arrayList, ipComparator);
+		Collections.sort(devices_arrayList, (ip1, ip2) -> convertDiscoveredIPToLong(ip1).compareTo(convertDiscoveredIPToLong(ip2)));
 	}
 	
 	private void findSubnetDevices() {
         setEnabled(lan_scan_button, false);
 		
         SubnetDevices subnetDevices = SubnetDevices.fromLocalAddress().findDevices(new SubnetDevices.OnSubnetDeviceFound() {
-				@Override
-				public void onDeviceFound(Device device) {
-					if (wifi_connected) {
-						if (device.ip.equalsIgnoreCase(getWiFiLocalIPv4Address()) && !device.ip.equalsIgnoreCase(getGateway())) {
-							if (getMACAddress() == null || Build.VERSION.SDK_INT > 29) {
-								addDevicesToList(device.ip + " | " + "N/A" + " (Your Device)");
-							} else {
-								addDevicesToList(device.ip + " | " + getMACAddress() + " (Your Device)");
-							}
-						} else if (!device.ip.equalsIgnoreCase(getWiFiLocalIPv4Address()) && !device.ip.equalsIgnoreCase(getGateway())) {
-							if (device.mac == null) {
-								addDevicesToList(device.ip + " | " + "N/A");
-							} else {
-								addDevicesToList(device.ip + " | " + device.mac.toUpperCase());
-							}
-						} else if (device.ip.equalsIgnoreCase(getGateway())) {
-							if (device.mac == null) {
-								addDevicesToList(device.ip + " | " + "N/A");
-							} else {
-								addDevicesToList(device.ip + " | " + device.mac.toUpperCase() + " (Gateway)");
-							}
-						}
-					}
-					
-					if (cellular_connected) {
-						if (device.ip.equalsIgnoreCase(getCellularLocalIPv4Address())) {
-							addDevicesToList(device.ip + " (Your Device)");
+			@Override
+			public void onDeviceFound(Device device) {
+				if (wifi_connected) {
+					if (device.ip.equals(getWiFiLocalIPv4Address()) && !device.ip.equals(getGateway())) {
+						if (getMACAddress() == null || Build.VERSION.SDK_INT > 29) {
+							addDevicesToList(device.ip + " | " + "MAC: N/A" + " (Your Device)");
 						} else {
-							addDevicesToList(device.ip);
+							addDevicesToList(device.ip + " | " + "MAC: " + getMACAddress() + " (Your Device)");
+						}
+					} else if (!device.ip.equals(getWiFiLocalIPv4Address()) && !device.ip.equals(getGateway())) {
+						if (device.mac == null) {
+							addDevicesToList(device.ip + " | " + "MAC: N/A");
+						} else {
+							addDevicesToList(device.ip + " | " + "MAC: " + device.mac.toUpperCase());
+						}
+					} else if (device.ip.equals(getGateway())) {
+						if (device.mac == null) {
+							addDevicesToList(device.ip + " | " + "MAC: N/A" + " (Gateway)");
+						} else {
+							addDevicesToList(device.ip + " | " + "MAC: " + device.mac.toUpperCase() + " (Gateway)");
 						}
 					}
 				}
 
-				@Override
-				public void onFinished(final ArrayList<Device> devicesFound) {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							devices_found_text.setText("Devices Found: " + devicesFound.size());
-							sortListByIP();
-							adapter.notifyDataSetChanged();
-						}
-					});
-					setEnabled(lan_scan_button, true);
+				if (cellular_connected) {
+					if (device.ip.equals(getCellularLocalIPv4Address())) {
+						addDevicesToList(device.ip + " (Your Device)");
+					} else {
+						addDevicesToList(device.ip);
+					}
 				}
+			}
+
+			@Override
+			public void onFinished(final ArrayList<Device> devicesFound) {
+				runOnUiThread(() -> {
+					devices_found_text.setText("Devices Found: " + devicesFound.size());
+					sortListByIP();
+					adapter.notifyDataSetChanged();
+				});
+				setEnabled(lan_scan_button, true);
+			}
 		});
     }
 	
@@ -358,18 +338,17 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 	@Override
 	protected void onStart()
 	{
+		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
-		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterReceiver(NetworkConnectivityReceiver);
 		super.onStop();
+		unregisterReceiver(NetworkConnectivityReceiver);
 	}
-	
 }

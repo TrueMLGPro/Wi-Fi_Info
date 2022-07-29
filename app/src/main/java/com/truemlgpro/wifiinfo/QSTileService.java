@@ -59,20 +59,17 @@ public class QSTileService extends TileService {
 			qs_tile.setLabel("Local IP");
 			qs_tile.setState(Tile.STATE_ACTIVE);
 			qs_tile.updateTile();
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					SystemClock.sleep(500);
-					if (WiFiCheck.isConnected() || CellularCheck.isConnected()) {
-						qs_tile.setLabel(getIPv4Address());
-						qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_success));
-					} else {
-						qs_tile.setLabel("No Connection");
-						qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
-					}
-					qs_tile.setState(Tile.STATE_INACTIVE);
-					qs_tile.updateTile();
+			new Thread(() -> {
+				SystemClock.sleep(500);
+				if (WiFiCheck.isConnected() || CellularCheck.isConnected()) {
+					qs_tile.setLabel(getIPv4Address());
+					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_success));
+				} else {
+					qs_tile.setLabel("No Connection");
+					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
 				}
+				qs_tile.setState(Tile.STATE_INACTIVE);
+				qs_tile.updateTile();
 			}).start();
 		} else {
 			// Public IP
@@ -80,40 +77,37 @@ public class QSTileService extends TileService {
 			qs_tile.setLabel("Public IP");
 			qs_tile.setState(Tile.STATE_INACTIVE);
 			qs_tile.updateTile();
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					SystemClock.sleep(500);
-					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi));
-					qs_tile.setState(Tile.STATE_ACTIVE);
-					qs_tile.updateTile();
-					if (WiFiCheck.isConnected() || CellularCheck.isConnected()) {
-						QSTileService.PublicIPRunnable runnableIP = new QSTileService.PublicIPRunnable();
-						new Thread(runnableIP).start();
-					} else {
-						qs_tile.setLabel("No Connection");
-						qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
-					}
-					qs_tile.setState(Tile.STATE_INACTIVE);
-					qs_tile.updateTile();
+			new Thread(() -> {
+				SystemClock.sleep(500);
+				qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi));
+				qs_tile.setState(Tile.STATE_ACTIVE);
+				qs_tile.updateTile();
+				if (WiFiCheck.isConnected() || CellularCheck.isConnected()) {
+					PublicIPRunnable runnableIP = new PublicIPRunnable();
+					new Thread(runnableIP).start();
+				} else {
+					qs_tile.setLabel("No Connection");
+					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
 				}
+				qs_tile.setState(Tile.STATE_INACTIVE);
+				qs_tile.updateTile();
 			}).start();
 		}
 	}
 
 	private String getIPv4Address() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-				NetworkInterface intf = en.nextElement();
-				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+			for (Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface.getNetworkInterfaces(); enumNetworkInterfaces.hasMoreElements();) {
+				NetworkInterface networkInterface = enumNetworkInterfaces.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = networkInterface.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-						return inetAddress.getHostAddress().toString();
+						return inetAddress.getHostAddress();
 					}
 				}
 			}
 		} catch (SocketException ex) {
-			Log.e("Wi-Fi Info", ex.toString());
+			Log.e("getIPv4Address()", ex.toString());
 		}
 		return null;
 	}
@@ -130,7 +124,7 @@ public class QSTileService extends TileService {
 		return publicIP;
 	}
 
-	public boolean isReachable(String url) throws IOException {
+	public boolean isReachable(String url) {
 		boolean reachable = false;
 		int code;
 
@@ -153,22 +147,19 @@ public class QSTileService extends TileService {
 		return reachable;
 	}
 
+	@SuppressWarnings("deprecation")
 	class PublicIPRunnable implements Runnable {
 		@Override
 		public void run() {
 			new AsyncTask<String, Void, Void>() {
 				@Override
 				protected Void doInBackground(String[] voids) {
-					publicIPFetched = getPublicIPAddress();
-					String url_ip = "https://api.ipify.org";
-					try {
-						if (isReachable(url_ip)) {
-							siteReachable = true;
-						} else {
-							siteReachable = false;
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
+					String url = "https://api.ipify.org";
+					siteReachable = isReachable(url);
+					if (siteReachable) {
+						publicIPFetched = getPublicIPAddress();
+					} else {
+						publicIPFetched = "N/A";
 					}
 					return null;
 				}
@@ -180,9 +171,7 @@ public class QSTileService extends TileService {
 						qs_tile.setLabel(publicIPFetched);
 						qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_success));
 						qs_tile.updateTile();
-					}
-
-					if (!siteReachable) {
+					} else {
 						qs_tile.setLabel("No Connection");
 						qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
 						qs_tile.updateTile();

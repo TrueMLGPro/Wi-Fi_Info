@@ -8,7 +8,6 @@
 	android:background="?attr/BackgroundColor">
 
 	<android.support.v7.widget.Toolbar
-		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
 		android:layout_height="?attr/actionBarSize"
@@ -47,7 +46,8 @@
 				android:id="@+id/local_ip_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_margin="8dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginBottom="8dp"
 				android:textSize="20sp"
 				android:textColor="?TextColor"
 				android:text="IP"/>

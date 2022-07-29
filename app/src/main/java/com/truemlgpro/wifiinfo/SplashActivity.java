@@ -91,14 +91,13 @@ public class SplashActivity extends AppCompatActivity
 			@Override
 			public void run() {
 				SystemClock.sleep(2500);
-				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+				Intent intent = new Intent(SplashActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();
 			}
 		};
 		splashThread.start();
 	}
-
 
 	@Override
 	public void onBackPressed()
@@ -107,5 +106,4 @@ public class SplashActivity extends AppCompatActivity
 			super.onBackPressed();
 		}
 	}
-	
 }

@@ -5,7 +5,7 @@
 	
 	<uses-sdk
 		android:minSdkVersion="21"
-		android:targetSdkVersion="30"
+		android:targetSdkVersion="31"
 		tools:overrideLibrary="thecollectiveweb.com.tcwhois" />
 	
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -24,13 +24,16 @@
 		android:theme="@style/DarkTheme"
 		android:largeHeap="true"
 		android:usesCleartextTraffic="true">
+
+	    <meta-data android:name="android.webkit.WebView.MetricsOptOut"
+		    android:value="true" />
         
 		<activity
             android:name="com.truemlgpro.wifiinfo.SplashActivity"
-			android:screenOrientation="portrait">
+			android:screenOrientation="portrait"
+			android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -94,6 +97,11 @@
 			android:label="Whois Tool"
 			android:screenOrientation="portrait">
 		</activity>
+	    <activity
+		    android:name="com.truemlgpro.wifiinfo.DNSLookupActivity"
+		    android:label="DNS Lookup"
+		    android:screenOrientation="portrait">
+		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.SettingsActivity"
 			android:label="Settings"
@@ -118,49 +126,62 @@
 		    android:name=".QSTileService"
 		    android:label="IP Address"
 		    android:icon="@drawable/ic_wifi_qs_tile"
-		    android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+		    android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+		    android:exported="true">
 		    <intent-filter>
 			    <action android:name="android.service.quicksettings.action.QS_TILE" />
 		    </intent-filter>
 	    </service>
 
-	    <receiver android:name=".ConnectionStateReceiver">
+	    <receiver android:name=".ConnectionStateReceiver"
+		    android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name=".WiFiConnectivityReceiver">
+		<receiver android:name=".WiFiConnectivityReceiver"
+			android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name=".CellularDataConnectivityReceiver">
+		<receiver android:name=".CellularDataConnectivityReceiver"
+			android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name=".NetworkConnectivityReceiver">
+		<receiver android:name=".NetworkConnectivityReceiver"
+			android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name=".BootReceiver">
+		<receiver android:name=".BootReceiver"
+			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
 		
-		<receiver android:name=".ActionButtonReceiver">
+		<receiver android:name=".ActionButtonReceiver"
+			android:exported="false">
 			<intent-filter>
 				<action android:name="ACTION_STOP" />
 				<action android:name="ACTION_STOP_CONN_STATE_SERVICE" />
 				<action android:name="ACTION_NTFC_SETTINGS" />
 			</intent-filter>
 		</receiver>
-		
+
+		<receiver android:name=".NotificationServiceStopReceiver"
+			android:exported="false">
+			<intent-filter>
+				<action android:name="ACTION_STOP_FOREGROUND" />
+			</intent-filter>
+		</receiver>
     </application>
 </manifest>

@@ -8,7 +8,6 @@
 	android:background="?attr/BackgroundColor">
 
 	<android.support.v7.widget.Toolbar
-		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
 		android:layout_height="?attr/actionBarSize"
@@ -30,7 +29,6 @@
 			android:orientation="vertical">
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_1"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -50,7 +48,7 @@
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#2087DF"/>
+					android:background="#006DDE"/>
 
 				<LinearLayout
 					android:id="@+id/linear_layout1"
@@ -60,7 +58,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_1"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -100,7 +97,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_2"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -120,7 +116,7 @@
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#2087DF"/>
+					android:background="#664AFF"/>
 
 				<LinearLayout
 					android:id="@+id/linear_layout2"
@@ -130,7 +126,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_2"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -170,7 +165,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_3"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -190,7 +184,7 @@
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#2087DF"/>
+					android:background="#A24AFF"/>
 
 				<LinearLayout
 					android:id="@+id/linear_layout3"
@@ -200,7 +194,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_3"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -240,7 +233,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_4"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -261,7 +253,7 @@
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#2087DF"/>
+					android:background="#C84AFF"/>
 
 				<LinearLayout
 					android:id="@+id/linear_layout4"
@@ -271,7 +263,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_4"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -311,7 +302,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_5"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -331,7 +321,7 @@
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#2087DF"/>
+					android:background="#F169FF"/>
 
 				<LinearLayout
 					android:id="@+id/linear_layout5"
@@ -341,7 +331,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_5"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -359,7 +348,7 @@
 							android:layout_width="48dp"
 							android:layout_height="48dp"
 							android:layout_margin="8dp"
-							android:src="@drawable/ic_lan_devices_scanner_light"/>
+							android:src="@drawable/ic_lan_devices_scanner_light" />
 
 					</android.support.v7.widget.CardView>
 
@@ -381,7 +370,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_6"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -401,7 +389,7 @@
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#2087DF"/>
+					android:background="#FF53B9"/>
 
 				<LinearLayout
 					android:id="@+id/linear_layout6"
@@ -411,7 +399,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_6"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -451,7 +438,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_7"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -471,7 +457,7 @@
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#2087DF"/>
+					android:background="#FF506A"/>
 
 				<LinearLayout
 					android:id="@+id/linear_layout7"
@@ -481,7 +467,6 @@
 					android:layout_gravity="center">
 
 					<android.support.v7.widget.CardView
-						xmlns:card_view="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/cardview_bg_icon_7"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -515,6 +500,74 @@
 						android:textSize="18sp"
 						android:textColor="?attr/TextColor"
 						android:text="Whois Tool"/>
+
+				</LinearLayout>
+
+			</android.support.v7.widget.CardView>
+
+			<android.support.v7.widget.CardView
+				android:id="@+id/cardview_8"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:minHeight="100dp"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="16dp"
+				android:layout_marginBottom="16dp"
+				android:foreground="?android:attr/selectableItemBackground"
+				app:cardCornerRadius="8dp"
+				app:cardElevation="8dp"
+				app:cardBackgroundColor="?CardBackgroundColor">
+
+				<LinearLayout
+					android:id="@+id/sidebar8"
+					android:layout_width="8dp"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+					android:gravity="left"
+					android:background="#E4354F"/>
+
+				<LinearLayout
+					android:id="@+id/linear_layout8"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+
+					<android.support.v7.widget.CardView
+						android:id="@+id/cardview_bg_icon_8"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="32dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="left|center_vertical"
+						app:cardCornerRadius="32dp"
+						app:cardElevation="4dp"
+						app:cardBackgroundColor="#E4354F">
+
+						<ImageView
+							android:id="@+id/icon_8"
+							android:layout_width="48dp"
+							android:layout_height="48dp"
+							android:layout_margin="8dp"
+							android:src="@drawable/ic_dns_lookup_light"/>
+
+					</android.support.v7.widget.CardView>
+
+					<TextView
+						android:id="@+id/textview_8"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="16dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="center"
+						android:textSize="18sp"
+						android:textColor="?attr/TextColor"
+						android:text="DNS Lookup"/>
 
 				</LinearLayout>
 

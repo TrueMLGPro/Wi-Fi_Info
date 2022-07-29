@@ -9,11 +9,15 @@ import android.net.DhcpInfo;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,16 +29,16 @@ import android.widget.Toast;
 import com.stealthcopter.networktools.Ping;
 import com.stealthcopter.networktools.ping.PingResult;
 import com.stealthcopter.networktools.ping.PingStats;
-import com.stealthcopter.networktools.ping.PingTools;
 
+import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class PingActivity extends AppCompatActivity
 {
-	
-	private Toolbar toolbar;
+
 	private TextView textview_nonetworkconn;
 	private TextInputLayout textInputLayoutPing;
 	private TextInputLayout textInputLayoutTimeout;
@@ -49,6 +53,8 @@ public class PingActivity extends AppCompatActivity
 	private TextView ping_text;
 	private Button ping_button;
 	private Button ping_button_cancel;
+
+	private Menu toolbarPingMenu;
 	
 	private BroadcastReceiver NetworkConnectivityReceiver;
 	private ConnectivityManager CM;
@@ -57,11 +63,17 @@ public class PingActivity extends AppCompatActivity
 	
 	private Ping pinger;
 
+	private HandlerThread pingHandlerThread;
+	private Handler pingHandler;
+
 	public Boolean wifi_connected;
 	public Boolean cellular_connected;
 
+	private String url_ip = "";
+	private final String lineSeparator = "\n----------------------------\n";
+
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
@@ -82,8 +94,8 @@ public class PingActivity extends AppCompatActivity
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ping_activity);
-		
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 		textInputLayoutPing = (TextInputLayout) findViewById(R.id.input_layout_ping);
 		edit_text_ping = (EditText) findViewById(R.id.edit_text_ping);
@@ -107,28 +119,19 @@ public class PingActivity extends AppCompatActivity
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 		
-		ping_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ping();
-			}
-		});
+		ping_button.setOnClickListener(v -> preparePinger());
 		
-		ping_button_cancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		ping_button_cancel.setOnClickListener(v -> {
+			if (pinger != null) {
 				pinger.cancel();
 			}
 		});
@@ -143,11 +146,11 @@ public class PingActivity extends AppCompatActivity
 		int ip = dhcp.gateway;
 		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
 	}
-	
-	public void ping() {
+
+	private void preparePinger() {
 		setEnabled(ping_button, false);
 		setEnabled(ping_button_cancel, true);
-		String url_ip = edit_text_ping.getText().toString();
+		url_ip = edit_text_ping.getText().toString();
 
 		if (TextUtils.isEmpty(url_ip)) {
 			if (wifi_connected) {
@@ -158,59 +161,99 @@ public class PingActivity extends AppCompatActivity
 				Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Google URL: " + url_ip, Toast.LENGTH_LONG).show();
 			}
 		}
-		
+
+		if (!TextUtils.isEmpty(edit_text_timeout.getText().toString())) {
+			if (Integer.parseInt(edit_text_timeout.getText().toString()) < 1) {
+				appendResultsText("Timeout value cannot be lower than 1 ms");
+				appendResultsText("Changing timeout to the default value");
+				edit_text_timeout.setText("3000");
+			}
+		} else {
+			appendResultsText("Timeout text field cannot be empty");
+			appendResultsText("Changing timeout to the default value");
+			edit_text_timeout.setText("3000");
+		}
+
+		if (!TextUtils.isEmpty(edit_text_ttl.getText().toString())) {
+			if (Integer.parseInt(edit_text_ttl.getText().toString()) < 1) {
+				appendResultsText("TTL value cannot be lower than 1");
+				appendResultsText("Changing it to the default value");
+				edit_text_ttl.setText("30");
+			}
+		} else {
+			appendResultsText("TTL text field cannot be empty");
+			appendResultsText("Changing it to the default value");
+			edit_text_ttl.setText("30");
+		}
+
+		if (!TextUtils.isEmpty(edit_text_times.getText().toString())) {
+			if (Integer.parseInt(edit_text_times.getText().toString()) < 1) {
+				appendResultsText("You cannot ping a host " + edit_text_times.getText().toString() + " times");
+				appendResultsText("Changing it to the default value");
+				edit_text_times.setText("5");
+			}
+		} else {
+			appendResultsText("You cannot ping a host if you don't define how many packets you want to send");
+			appendResultsText("Changing it to the default value");
+			edit_text_times.setText("5");
+		}
+
 		int ping_timeout = Integer.parseInt(edit_text_timeout.getText().toString());
 		int ping_ttl = Integer.parseInt(edit_text_ttl.getText().toString());
 		int ping_times = Integer.parseInt(edit_text_times.getText().toString());
-		
-		PingResult pingResultInfo = null;
-		try {
-			pingResultInfo = Ping.onAddress(url_ip).setTimeOutMillis(ping_timeout).doPing();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			appendResultsText(e.getMessage());
-            setEnabled(ping_button, true);
-			setEnabled(ping_button_cancel, false);
-            return;
-		}
-		
-		appendResultsText("Pinging IP: " + pingResultInfo.getAddress().getHostAddress());
-        appendResultsText("Hostname: " + pingResultInfo.getAddress().getHostName());
-		
-		try {
-			pinger = Ping.onAddress(url_ip).setTimeOutMillis(ping_timeout).setDelayMillis(500).setTimeToLive(ping_ttl).setTimes(ping_times).doPing(new Ping.PingListener() {
-				@Override
-				public void onResult(PingResult pingResult) {
-					if (pingResult.isReachable()) {
-						appendResultsText(String.format("%.2f ms", pingResult.getTimeTaken()));
-					} else {
-						appendResultsText("Connection Timeout");
-					}	
-				}
 
-				@Override
-				public void onFinished(PingStats pingStats) {
-					appendResultsText(String.format("Pings: %d, Packets lost: %d",
-							pingStats.getNoPings(), pingStats.getPacketsLost()));
-					appendResultsText(String.format("Min / Avg / Max Latency:\n%.2f / %.2f / %.2f ms",
-							pingStats.getMinTimeTaken(), pingStats.getAverageTimeTaken(), pingStats.getMaxTimeTaken()));
-					setEnabled(ping_button, true);
-					setEnabled(ping_button_cancel, false);
-				}
+		pingHandlerThread = new HandlerThread("BackgroundPingHandlerThread", android.os.Process.THREAD_PRIORITY_BACKGROUND);
+		pingHandlerThread.start();
+		pingHandler = new Handler(pingHandlerThread.getLooper());
 
-				@Override
-				public void onError(Exception e) {
-					e.printStackTrace();
-					setEnabled(ping_button, true);
-					setEnabled(ping_button_cancel, false);
+		pingHandler.post(() -> {
+			try {
+				String pingHostAddress = URLandIPConverter.convertUrl("https://" + url_ip);
+				InetAddress inetAddress = InetAddress.getByName(url_ip);
+				String pingHostname = inetAddress.getHostName();
+				appendResultsText("Pinging IP: " + pingHostAddress);
+				appendResultsText("Hostname: " + pingHostname);
+			} catch (UnknownHostException | MalformedURLException e) {
+				e.printStackTrace();
+				setEnabled(ping_button, true);
+				setEnabled(ping_button_cancel, false);
+				appendResultsText(lineSeparator);
+			}
+		});
+
+		startPinger(url_ip, ping_timeout, ping_ttl, ping_times);
+	}
+
+	private void startPinger(String url_ip, int timeout, int ttl, int times) {
+		pinger = Ping.onAddress(url_ip).setTimeOutMillis(timeout).setDelayMillis(500).setTimeToLive(ttl).setTimes(times).doPing(new Ping.PingListener() {
+			@Override
+			public void onResult(PingResult pingResult) {
+				if (pingResult.isReachable()) {
+					appendResultsText(String.format("%.2f ms", pingResult.getTimeTaken()));
+				} else {
+					appendResultsText("Connection Timeout");
 				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-			appendResultsText(e.getMessage());
-			setEnabled(ping_button, true);
-			setEnabled(ping_button_cancel, false);
-		}
+			}
+
+			@Override
+			public void onFinished(PingStats pingStats) {
+				appendResultsText(String.format("Pings: %d, Packets lost: %d",
+						pingStats.getNoPings(), pingStats.getPacketsLost()));
+				appendResultsText(String.format("Min / Avg / Max Latency:\n%.2f / %.2f / %.2f ms",
+						pingStats.getMinTimeTaken(), pingStats.getAverageTimeTaken(), pingStats.getMaxTimeTaken()));
+				appendResultsText(lineSeparator);
+				setEnabled(ping_button, true);
+				setEnabled(ping_button_cancel, false);
+			}
+
+			@Override
+			public void onError(Exception e) {
+				e.printStackTrace();
+				appendResultsText(e.getMessage());
+				setEnabled(ping_button, true);
+				setEnabled(ping_button_cancel, false);
+			}
+		});
 	}
 
 	class NetworkConnectivityReceiver extends BroadcastReceiver
@@ -218,26 +261,37 @@ public class PingActivity extends AppCompatActivity
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			checkNetworkConnectivity();
+			checkNetworkConnectivity(false);
 		}
 	}
 	
-	public void checkNetworkConnectivity() {
+	public void checkNetworkConnectivity(Boolean calledFromToolbarAction) {
 		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+		if (!calledFromToolbarAction) {
+			ping_text.setText("...\n");
+			edit_text_ping.setText("");
+		}
 
 		// WI-FI Connectivity Check
 
 		if (WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
 			showWidgets();
-			ping_text.setText("...\n");
-			edit_text_ping.setText("");
+			if (toolbarPingMenu != null) {
+				if (!toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_ping_log, true);
+				}
+			}
 			wifi_connected = true;
 			cellular_connected = false;
 		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
-			ping_text.setText("...\n");
-			edit_text_ping.setText("");
+			if (toolbarPingMenu != null) {
+				if (toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_ping_log, false);
+				}
+			}
 			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
@@ -247,13 +301,19 @@ public class PingActivity extends AppCompatActivity
 
 		if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
 			showWidgets();
-			ping_text.setText("...\n");
-			edit_text_ping.setText("");
+			if (toolbarPingMenu != null) {
+				if (!toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_ping_log, true);
+				}
+			}
 			wifi_connected = false;
 			cellular_connected = true;
 		} else if (!CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
-			ping_text.setText("...\n");
-			edit_text_ping.setText("");
+			if (toolbarPingMenu != null) {
+				if (toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_ping_log, false);
+				}
+			}
 			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
@@ -285,46 +345,73 @@ public class PingActivity extends AppCompatActivity
 	}
 	
 	private void setEnabled(final View view, final boolean enabled) {
-        runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (view != null) {
-					view.setEnabled(enabled);
-				}
-			}
-		});
+        runOnUiThread(() -> {
+	        if (view != null) {
+		        view.setEnabled(enabled);
+	        }
+        });
     }
 	
 	private void appendResultsText(final String text) {
-        runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				ping_text.append(text + "\n");
-				ping_results_scroll.post(new Runnable() {
-					@Override
-					public void run() {
-						ping_results_scroll.fullScroll(View.FOCUS_DOWN);
-					}
-				});
-			}
-		});
+        runOnUiThread(() -> {
+	        ping_text.append(text + "\n");
+	        ping_results_scroll.post(() -> ping_results_scroll.fullScroll(View.FOCUS_DOWN));
+        });
     }
 	
 	@Override
 	protected void onStart()
 	{
+		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
-		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterReceiver(NetworkConnectivityReceiver);
 		super.onStop();
+		if (pinger != null) {
+			pinger.cancel();
+		}
+		if (pingHandlerThread != null) {
+			pingHandlerThread.quit();
+			pingHandlerThread = null;
+		}
+		if (pingHandler != null) {
+			pingHandler.removeCallbacks(null);
+			pingHandler.getLooper().quit();
+		}
+		unregisterReceiver(NetworkConnectivityReceiver);
 	}
-	
+
+	private void setToolbarItemEnabled(int item, Boolean enabled) {
+		if (toolbarPingMenu != null) {
+			toolbarPingMenu.findItem(item).setEnabled(enabled);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.ping_tool_action_bar_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		toolbarPingMenu = menu;
+		checkNetworkConnectivity(true);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.clear_ping_log) {
+			ping_text.setText("...\n");
+		}
+		return true;
+	}
 }

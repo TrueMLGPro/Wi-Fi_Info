@@ -5,10 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.DhcpInfo;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +27,20 @@ import com.stealthcopter.networktools.PortScan;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class PortScannerActivity extends AppCompatActivity
 {
 
-	private Toolbar toolbar;
 	private TextView textview_nonetworkconn;
+	private TextInputLayout text_input_layout_ip;
+	private TextInputLayout text_input_layout_threads;
 	private EditText edittext_ip;
+	private EditText edittext_threads;
+	private Spinner spinner_packet_types;
 	private TextView ports_open_text;
 	private Button port_scan_button;
 	private Button port_scan_stop_button;
@@ -49,11 +56,17 @@ public class PortScannerActivity extends AppCompatActivity
 	private NetworkInfo WiFiCheck;
 	private NetworkInfo CellularCheck;
 
+	private HandlerThread portScannerHandlerThread;
+	private Handler portScannerHandler;
+
 	public Boolean wifi_connected;
 	public Boolean cellular_connected;
 
+	private String url_ip = "";
+	private int threads = 8;
+
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
 		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
@@ -75,9 +88,13 @@ public class PortScannerActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.port_scanner_activity);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
+		text_input_layout_ip = (TextInputLayout) findViewById(R.id.input_layout_ip);
+		text_input_layout_threads = (TextInputLayout) findViewById(R.id.input_layout_threads);
 		edittext_ip = (EditText) findViewById(R.id.edittext_ip);
+		edittext_threads = (EditText) findViewById(R.id.edittext_threads);
+		spinner_packet_types = (Spinner) findViewById(R.id.spinner_packet_types);
 		ports_open_text = (TextView) findViewById(R.id.ports_open_text);
 		port_scan_button = (Button) findViewById(R.id.port_scan_button);
 		port_scan_stop_button = (Button) findViewById(R.id.port_scan_stop_button);
@@ -95,105 +112,129 @@ public class PortScannerActivity extends AppCompatActivity
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Back button pressed
-				finish();
-			}
+		toolbar.setNavigationOnClickListener(v -> {
+			// Back button pressed
+			finish();
 		});
 
-		port_scan_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setEnabled(port_scan_stop_button, true);
-				try {
-					findOpenPorts();
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
-				ports_open_text.setText("Ports Open: -");
-				adapter.clear();
-			}
+		port_scan_button.setOnClickListener(v -> {
+			setEnabled(port_scan_stop_button, true);
+			startPortScanner();
+			ports_open_text.setText("Ports Open: -");
+			adapter.clear();
 		});
 		
-		port_scan_stop_button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		port_scan_stop_button.setOnClickListener(v -> {
+			if (portScanner != null) {
 				portScanner.cancel();
-				setEnabled(port_scan_button, true);
-				setEnabled(port_scan_stop_button, false);
 			}
+			setEnabled(port_scan_button, true);
+			setEnabled(port_scan_stop_button, false);
 		});
 
 	}
 
 	private void setEnabled(final View view, final boolean enabled) {
-        runOnUiThread(new Runnable() {
-        	@Override
-	        public void run() {
-        		if (view != null) {
-        			view.setEnabled(enabled);
-        		}
-        	}
+        runOnUiThread(() -> {
+	        if (view != null) {
+		        view.setEnabled(enabled);
+	        }
         });
     }
 
 	private void addPortsToList(final String text) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				adapter.add(text);
-				adapter.notifyDataSetChanged();
+		Comparator<String> portComparator = (port1, port2) -> Integer.parseInt(port1) - Integer.parseInt(port2);
+		int index = Collections.binarySearch(ports_arrayList, text, portComparator);
+
+		runOnUiThread(() -> {
+			if (!ports_arrayList.contains(text)) {
+				ports_arrayList.add((index < 0) ? (-index - 1) : index, text);
 			}
+			adapter.notifyDataSetChanged();
 		});
 	}
-	
-	private String getGateway() {
-		if (!WiFiCheck.isConnected()) {
-			return "0.0.0.0";
-		}
-		WifiManager mainWifi = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-		DhcpInfo dhcp = mainWifi.getDhcpInfo();
-		int ip = dhcp.gateway;
-		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
+
+	public void sortListByPort() {
+		Collections.sort(ports_arrayList, (port1, port2) -> Integer.parseInt(port1) - Integer.parseInt(port2));
 	}
 
-	private void findOpenPorts() throws UnknownHostException {
+	private void startPortScanner() {
         setEnabled(port_scan_button, false);
 		
-		String url_ip = edittext_ip.getText().toString();
+		url_ip = edittext_ip.getText().toString();
+		threads = Integer.parseInt(edittext_threads.getText().toString());
 		
 		if (TextUtils.isEmpty(url_ip)) {
 			url_ip = "google.com";
 			Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Google URL: " + url_ip, Toast.LENGTH_LONG).show();
 		}
-		
-        portScanner = PortScan.onAddress(url_ip).setTimeOutMillis(1000).setPortsAll().setMethodTCP().doScan(new PortScan.PortListener() {
-				@Override
-				public void onResult(int portNo, boolean open) {
-					if (open) {
-						String portNoString = String.valueOf(portNo);
-						addPortsToList(portNoString);
-					}
-				}
 
-				@Override
-				public void onFinished(ArrayList<Integer> openPorts) {
-					setEnabled(port_scan_button, true);
-					setEnabled(port_scan_stop_button, false);
-					runOnUiThread(new Runnable() {
+		if (TextUtils.isEmpty(edittext_threads.getText().toString()) || threads <= 0) {
+			threads = 8;
+		}
+
+		portScannerHandlerThread = new HandlerThread("BackgroundPortScannerHandlerThread", android.os.Process.THREAD_PRIORITY_BACKGROUND);
+		portScannerHandlerThread.start();
+		portScannerHandler = new Handler(portScannerHandlerThread.getLooper());
+
+		portScannerHandler.post(() -> {
+			String packet_type = spinner_packet_types.getSelectedItem().toString();
+			if (packet_type.equals("TCP")) {
+				try {
+					portScanner = PortScan.onAddress(url_ip).setTimeOutMillis(1000).setPortsAll().setNoThreads(threads).setMethodTCP().doScan(new PortScan.PortListener() {
 						@Override
-						public void run() {
-							ports_open_text.setText("Ports Open: " + ports_arrayList.size());
+						public void onResult(int portNo, boolean open) {
+							if (open) {
+								String portNoString = String.valueOf(portNo);
+								addPortsToList(portNoString);
+							}
+						}
+
+						@Override
+						public void onFinished(ArrayList<Integer> openPorts) {
+							setEnabled(port_scan_button, true);
+							setEnabled(port_scan_stop_button, false);
+							runOnUiThread(() -> {
+								ports_open_text.setText("Ports Open: " + ports_arrayList.size());
+								sortListByPort();
+								adapter.notifyDataSetChanged();
+							});
 						}
 					});
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
 				}
-			});
+			} else if (packet_type.equals("UDP")) {
+				try {
+					portScanner = PortScan.onAddress(url_ip).setTimeOutMillis(1000).setPortsAll().setNoThreads(threads).setMethodUDP().doScan(new PortScan.PortListener() {
+						@Override
+						public void onResult(int portNo, boolean open) {
+							if (open) {
+								String portNoString = String.valueOf(portNo);
+								addPortsToList(portNoString);
+							}
+						}
+
+						@Override
+						public void onFinished(ArrayList<Integer> openPorts) {
+							setEnabled(port_scan_button, true);
+							setEnabled(port_scan_stop_button, false);
+							runOnUiThread(() -> {
+								ports_open_text.setText("Ports Open: " + ports_arrayList.size());
+								sortListByPort();
+								adapter.notifyDataSetChanged();
+							});
+						}
+					});
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+			}
+		});
     }
 
 	class NetworkConnectivityReceiver extends BroadcastReceiver
@@ -240,7 +281,11 @@ public class PortScannerActivity extends AppCompatActivity
 	}
 
 	public void showWidgets() {
+		text_input_layout_ip.setVisibility(View.VISIBLE);
+		text_input_layout_threads.setVisibility(View.VISIBLE);
 		edittext_ip.setVisibility(View.VISIBLE);
+		edittext_threads.setVisibility(View.VISIBLE);
+		spinner_packet_types.setVisibility(View.VISIBLE);
 		ports_open_text.setVisibility(View.VISIBLE);
 		port_scan_button.setVisibility(View.VISIBLE);
 		port_scan_stop_button.setVisibility(View.VISIBLE);
@@ -249,7 +294,11 @@ public class PortScannerActivity extends AppCompatActivity
 	}
 
 	public void hideWidgets() {
+		text_input_layout_ip.setVisibility(View.GONE);
+		text_input_layout_threads.setVisibility(View.GONE);
 		edittext_ip.setVisibility(View.GONE);
+		edittext_threads.setVisibility(View.GONE);
+		spinner_packet_types.setVisibility(View.GONE);
 		ports_open_text.setVisibility(View.GONE);
 		port_scan_button.setVisibility(View.GONE);
 		port_scan_stop_button.setVisibility(View.GONE);
@@ -260,18 +309,28 @@ public class PortScannerActivity extends AppCompatActivity
 	@Override
 	protected void onStart()
 	{
+		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		NetworkConnectivityReceiver = new NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
-		super.onStart();
 	}
 
 	@Override
 	protected void onStop()
 	{
-		unregisterReceiver(NetworkConnectivityReceiver);
 		super.onStop();
+		if (portScanner != null) {
+			portScanner.cancel();
+		}
+		if (portScannerHandlerThread != null) {
+			portScannerHandlerThread.quit();
+			portScannerHandlerThread = null;
+		}
+		if (portScannerHandler != null) {
+			portScannerHandler.removeCallbacks(null);
+			portScannerHandler.getLooper().quit();
+		}
+		unregisterReceiver(NetworkConnectivityReceiver);
 	}
-
 }
