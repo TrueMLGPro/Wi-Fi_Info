@@ -131,8 +131,6 @@ public class RouterSetupActivity extends AppCompatActivity
 
 	public void initLoginDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		LayoutInflater layoutInflater = LayoutInflater.from(this);
-		final View editTextLoginPasswordView = layoutInflater.inflate(R.layout.edit_text_dialog, null);
 		builder.setTitle("Router Login — " + getGatewayIP())
 			.setView(R.layout.edit_text_dialog)
 			.setPositiveButton("Ok", (dialog, which) -> {
@@ -143,7 +141,8 @@ public class RouterSetupActivity extends AppCompatActivity
 				password = edittext_password.getText().toString();
 				loadWebview();
 			})
-			.setNegativeButton("Cancel", (dialog, which) -> finish());
+			.setNegativeButton("Cancel", (dialog, which) -> finish())
+			.setNeutralButton("Use Web Interface", (dialog, which) -> loadWebview());
 		builder.setCancelable(false);
 		alert = builder.create();
 	}

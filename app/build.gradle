@@ -20,16 +20,16 @@ android {
 		applicationId "com.truemlgpro.wifiinfo"
 		minSdkVersion 21
 		targetSdkVersion 31
-		versionCode 1500
-		versionName "1.5"
+		versionCode 1510
+		versionName "1.5.1"
 	}
 	buildTypes {
 		release {
 			debuggable false
 			minifyEnabled true
 			shrinkResources true
-			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 			signingConfig signingConfigs.release
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 		debug {
 			versionNameSuffix "_dev"
@@ -42,6 +42,7 @@ android {
             debuggable true
             minifyEnabled true
             shrinkResources true
+			signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 	}
@@ -52,20 +53,20 @@ android {
 }
 
 dependencies {
-	implementation 'com.android.support:design:27.1.0'
-	implementation 'com.android.support:support-v4:27.1.0'
-	implementation 'com.android.support:appcompat-v7:27.1.0'
-	implementation 'com.android.support:cardview-v7:27.1.0'
-	implementation 'com.android.support:preference-v7:27.1.0'
-	implementation 'com.android.support:preference-v14:27.1.0'
+	implementation 'com.android.support:design:28.0.0'
+	implementation 'com.android.support:support-v4:28.0.0'
+	implementation 'com.android.support:appcompat-v7:28.0.0'
+	implementation 'com.android.support:cardview-v7:28.0.0'
+	implementation 'com.android.support:preference-v7:28.0.0'
+	implementation 'com.android.support:preference-v14:28.0.0'
 	implementation 'me.anwarshahriar:calligrapher:1.0'
 	implementation 'com.github.bloder:magic:1.1'
-	implementation 'com.mikhaellopez:circularimageview:3.2.0'
+	implementation 'com.mikhaellopez:circularimageview:4.3.1'
 	implementation 'com.github.clans:fab:1.6.4'
 	implementation 'com.github.stealthcopter:AndroidNetworkTools:0.4.5.3'
 	implementation 'com.github.100rabhkr:TCWHOIS:master' // Minimum SDK version is 22, ignored in AndroidManifest.xml
-	implementation 'org.minidns:minidns-hla:1.0.2'
-	implementation 'org.minidns:minidns-android21:1.0.2'
+	implementation 'org.minidns:minidns-hla:1.0.4'
+	implementation 'org.minidns:minidns-android21:1.0.4'
 	// api 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
 	// api 'com.pes.materialcolorpicker:library:1.2.5'
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
