@@ -89,6 +89,10 @@
     <li><strong>DNS Lookup Tool</strong></li>
 </ul>
 
+<h2>Contribute</h2>
+
+For contributor guidelines see <code><a href="CONTRIBUTING.md">CONTRIBUTING.md</a></code>
+
 <h2>Links</h2>
 
 <p>

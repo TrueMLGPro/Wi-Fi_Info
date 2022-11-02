@@ -1,7 +1,6 @@
 package com.truemlgpro.wifiinfo;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,11 +11,6 @@ import android.net.DhcpInfo;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.HttpAuthHandler;
 import android.webkit.WebChromeClient;
@@ -28,6 +22,12 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
@@ -130,7 +130,7 @@ public class RouterSetupActivity extends AppCompatActivity
 	}
 
 	public void initLoginDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		AlertDialog.Builder builder = new AlertDialog.Builder(RouterSetupActivity.this);
 		builder.setTitle("Router Login — " + getGatewayIP())
 			.setView(R.layout.edit_text_dialog)
 			.setPositiveButton("Ok", (dialog, which) -> {
@@ -162,7 +162,6 @@ public class RouterSetupActivity extends AppCompatActivity
 		ws.setLoadWithOverviewMode(true);
 		ws.setUseWideViewPort(true);
 		ws.setUserAgentString(userAgent);
-
 		webview_main.loadUrl("http://" + getGatewayIP());
 		webview_main.setWebChromeClient(new WebChromeClient() {
 			@Override

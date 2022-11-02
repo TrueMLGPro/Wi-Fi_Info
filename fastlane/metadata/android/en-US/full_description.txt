@@ -1,0 +1,34 @@
+Shows all possible information about Wi-Fi network you are connected to.
+
+• Public IP Address
+• SSID
+• BSSID
+• IPv4 (Local)
+• IPv6 (Local)
+• Gateway IP
+• DNS (1)
+• DNS (2)
+• Subnet Mask
+• Network ID
+• MAC Address
+• Network Interface
+• Loopback Address
+• Frequency
+• Network Channel (2.4 GHz & 5 GHz)
+• RSSI (with percentage!)
+• Lease Duration
+• Network Speed
+• Transmit Link Speed
+• Receive Link Speed
+• WPA Supplicant State
+• Feature Support Detection
+
+Tools
+• URL to IP Converter
+• Cellular Data IP
+• Router Setup Tool
+• Ping Tool
+• LAN Devices Scanner
+• Port Scanner
+• Whois Tool
+• DNS Lookup Tool

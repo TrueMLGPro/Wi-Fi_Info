@@ -8,7 +8,7 @@
 	android:orientation="vertical"
 	android:background="?attr/BackgroundColor">
 
-	<android.support.v7.widget.Toolbar
+	<androidx.appcompat.widget.Toolbar
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
 		android:layout_height="?attr/actionBarSize"
@@ -32,70 +32,69 @@
 				android:id="@+id/supporters_textview"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="72dp"
 				android:textSize="32sp"
 				android:textColor="?attr/TextColor"
-				android:text="Supporters"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="72dp" />
+				android:text="Supporters" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/pab_pfp"
 				android:layout_width="64dp"
 				android:layout_height="64dp"
-				android:src="@drawable/pab"
+				android:layout_below="@+id/supporters_textview"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="16dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
-				app:civ_shadow_radius="4"
+				app:civ_shadow_radius="4dp"
 				app:civ_shadow_color="#151515"
-				android:layout_centerHorizontal="true"
-				android:layout_below="@+id/supporters_textview"
-				android:layout_marginTop="16dp" />
+				android:src="@drawable/pab" />
 
 			<TextView
+				android:id="@+id/pab_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="Pab#2631"
 				android:layout_below="@+id/pab_pfp"
-				android:layout_gravity="center"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:id="@+id/pab_text" />
+				android:textSize="24sp"
+				android:textColor="?attr/TextColor"
+				android:text="Pab#2631" />
 
 			<TextView
+				android:id="@+id/pab_patron"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Patron - Diamond Tier (5$)"
 				android:layout_below="@+id/pab_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="18sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/pab_patron" />
+				android:text="• Patron - Diamond Tier (5$)" />
 
 			<TextView
+				android:id="@+id/pab_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/pab_patron"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/pab_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/pab_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/pab_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/pab_idea" />
+				android:text="• Idea Provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/anyx_pfp"
@@ -104,57 +103,56 @@
 				android:layout_below="@+id/pab_idea"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="16dp"
-				android:src="@drawable/anyx"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
 				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4" />
+				app:civ_shadow_radius="4dp"
+				android:src="@drawable/anyx" />
 
 			<TextView
+				android:id="@+id/anyx_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="Anyx#1040"
 				android:layout_below="@+id/anyx_pfp"
-				android:layout_gravity="center"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:id="@+id/anyx_text" />
+				android:textSize="24sp"
+				android:textColor="?attr/TextColor"
+				android:text="Anyx#1040" />
 
 			<TextView
+				android:id="@+id/anyx_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/anyx_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/anyx_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/anyx_contributor"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Contributor"
 				android:layout_below="@+id/anyx_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/anyx_contributor" />
+				android:text="• Contributor" />
 
 			<TextView
+				android:id="@+id/anyx_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/anyx_contributor"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/anyx_idea" />
+				android:text="• Idea Provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/andrew_pfp"
@@ -163,12 +161,12 @@
 				android:layout_below="@+id/anyx_idea"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="16dp"
-				android:src="@drawable/andre_asfi_rouge"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
 				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4" />
+				app:civ_shadow_radius="4dp"
+				android:src="@drawable/andrebtw" />
 
 			<TextView
 				android:id="@+id/andrew_text"
@@ -176,58 +174,57 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/andrew_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_gravity="center"
 				android:layout_marginTop="8dp"
-				android:text="andre btw.#3452"
+				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:textSize="24sp" />
+				android:text="andre btw.#3452" />
 
 			<TextView
+				android:id="@+id/andrew_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/andrew_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/andrew_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/andrew_contributor"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Contributor"
 				android:layout_below="@+id/andrew_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/andrew_contributor" />
+				android:text="• Contributor" />
 
 			<TextView
+				android:id="@+id/andrew_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/andrew_contributor"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/andrew_idea" />
+				android:text="• Idea Provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/rouge_pfp"
 				android:layout_width="64dp"
 				android:layout_height="64dp"
-				android:src="@drawable/andre_asfi_rouge"
+				android:layout_below="@+id/andrew_idea"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="16dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
-				app:civ_shadow_radius="4"
+				app:civ_shadow_radius="4dp"
 				app:civ_shadow_color="#151515"
-				android:layout_centerHorizontal="true"
-				android:layout_below="@+id/andrew_idea"
-				android:layout_marginTop="16dp" />
+				android:src="@drawable/asfi_rouge" />
 
 			<TextView
 				android:id="@+id/rouge_text"
@@ -235,103 +232,101 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/rouge_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_gravity="center"
 				android:layout_marginTop="8dp"
-				android:text="air conditioner#7639"
+				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:textSize="24sp" />
+				android:text="air conditioner#7639" />
 
 			<TextView
+				android:id="@+id/rouge_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/rouge_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/rouge_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/rouge_contributor"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Contributor"
 				android:layout_below="@+id/rouge_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/rouge_contributor" />
+				android:text="• Contributor" />
 
 			<TextView
+				android:id="@+id/rouge_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/rouge_contributor"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/rouge_idea" />
+				android:text="• Idea Provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/madcodez_pfp"
 				android:layout_width="64dp"
 				android:layout_height="64dp"
-				android:src="@drawable/madcodez"
+				android:layout_below="@+id/rouge_idea"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="16dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
-				app:civ_shadow_radius="4"
+				app:civ_shadow_radius="4dp"
 				app:civ_shadow_color="#151515"
-				android:layout_centerHorizontal="true"
-				android:layout_below="@+id/rouge_idea"
-				android:layout_marginTop="16dp" />
+				android:src="@drawable/madcodez" />
 
 			<TextView
+				android:id="@+id/madcodez_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="madcodez#1517"
 				android:layout_below="@+id/madcodez_pfp"
-				android:layout_gravity="center"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:id="@+id/madcodez_text" />
+				android:textSize="24sp"
+				android:textColor="?attr/TextColor"
+				android:text="madcodez#1517" />
 
 			<TextView
+				android:id="@+id/madcodez_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/madcodez_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/madcodez_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/madcodez_contributor"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Contributor"
 				android:layout_below="@+id/madcodez_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/madcodez_contributor" />
+				android:text="• Contributor" />
 
 			<TextView
+				android:id="@+id/madcodez_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/madcodez_contributor"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/madcodez_idea" />
+				android:text="• Idea Provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/asfi_pfp"
@@ -340,46 +335,45 @@
 				android:layout_below="@+id/madcodez_idea"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="16dp"
-				android:src="@drawable/andre_asfi_rouge"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
 				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4" />
+				app:civ_shadow_radius="4dp"
+				android:src="@drawable/asfi_rouge" />
 
 			<TextView
+				android:id="@+id/asfi_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="asfi#4034"
 				android:layout_below="@+id/asfi_pfp"
-				android:layout_gravity="center"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:id="@+id/asfi_text" />
+				android:textSize="24sp"
+				android:textColor="?attr/TextColor"
+				android:text="asfi#4034" />
 
 			<TextView
+				android:id="@+id/asfi_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/asfi_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/asfi_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/asfi_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/asfi_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/asfi_idea" />
+				android:text="• Idea Provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/akebi_pfp"
@@ -388,12 +382,12 @@
 				android:layout_below="@+id/asfi_idea"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="16dp"
-				android:src="@drawable/akebi"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
 				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4" />
+				app:civ_shadow_radius="4dp"
+				android:src="@drawable/akebi" />
 
 			<TextView
 				android:id="@+id/akebi_text"
@@ -401,33 +395,32 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/akebi_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_gravity="center"
 				android:layout_marginTop="8dp"
-				android:text="Akebi7204#7204"
 				android:textColor="?attr/TextColor"
-				android:textSize="24sp" />
+				android:textSize="24sp" 
+				android:text="Akebi7204#7204" />
 
 			<TextView
+				android:id="@+id/akebi_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/akebi_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/akebi_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/akebi_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/akebi_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/akebi_idea" />
+				android:text="• Idea Provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/artem_pfp"
@@ -436,142 +429,139 @@
 				android:layout_below="@+id/akebi_idea"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="16dp"
-				android:src="@drawable/artem"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
 				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4" />
+				app:civ_shadow_radius="4dp"
+				android:src="@drawable/artem" />
 
 			<TextView
+				android:id="@+id/artem_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="Apтем#8524"
 				android:layout_below="@+id/artem_pfp"
-				android:layout_gravity="center"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:id="@+id/artem_text" />
+				android:textSize="24sp"
+				android:textColor="?attr/TextColor"
+				android:text="Apтем#8524" />
 
 			<TextView
+				android:id="@+id/artem_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/artem_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/artem_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/artem_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/artem_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/artem_idea" />
+				android:text="• Idea Provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/terrin_pfp"
 				android:layout_width="64dp"
 				android:layout_height="64dp"
-				android:src="@drawable/terrin_tin"
+				android:layout_below="@+id/artem_idea"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="16dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
-				app:civ_shadow_radius="4"
+				app:civ_shadow_radius="4dp"
 				app:civ_shadow_color="#151515"
-				android:layout_centerHorizontal="true"
-				android:layout_below="@+id/artem_idea"
-				android:layout_marginTop="16dp" />
+				android:src="@drawable/terrin_tin" />
 
 			<TextView
+				android:id="@+id/terrin_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="Terrin Tin#5462"
 				android:layout_below="@+id/terrin_pfp"
-				android:layout_gravity="center"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:id="@+id/terrin_text" />
+				android:textSize="24sp"
+				android:textColor="?attr/TextColor"
+				android:text="Terrin Tin#5462" />
 
 			<TextView
+				android:id="@+id/terrin_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/terrin_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/terrin_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/terrin_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/terrin_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/terrin_idea" />
+				android:text="• Idea Provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/torneix_pfp"
 				android:layout_width="64dp"
 				android:layout_height="64dp"
-				android:src="@drawable/torneix"
+				android:layout_below="@+id/terrin_idea"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="16dp" 
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
-				app:civ_shadow_radius="4"
+				app:civ_shadow_radius="4dp"
 				app:civ_shadow_color="#151515"
-				android:layout_centerHorizontal="true"
-				android:layout_below="@+id/terrin_idea"
-				android:layout_marginTop="16dp" />
+				android:src="@drawable/torneix" />
 
 			<TextView
+				android:id="@+id/torneix_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="bajsjägaremästaren#7593"
 				android:layout_below="@+id/torneix_pfp"
-				android:layout_gravity="center"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:id="@+id/torneix_text" />
+				android:textSize="24sp"
+				android:textColor="?attr/TextColor"
+				android:text="bajsjägaremästaren#7593" />
 
 			<TextView
+				android:id="@+id/torneix_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/torneix_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/torneix_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/torneix_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/torneix_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/torneix_idea" />
+				android:text="• Idea Provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/killbayne_pfp"
@@ -580,12 +570,12 @@
 				android:layout_below="@+id/torneix_idea"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="16dp"
-				android:src="@drawable/killbayne"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
 				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4" />
+				app:civ_shadow_radius="4dp"
+				android:src="@drawable/killbayne" />
 
 			<TextView
 				android:id="@+id/killbayne_text"
@@ -595,36 +585,35 @@
 				android:layout_centerHorizontal="true"
 				android:layout_gravity="center"
 				android:layout_marginTop="8dp"
-				android:text="Killbayne#2294"
+				android:textSize="24sp" 
 				android:textColor="?attr/TextColor"
-				android:textSize="24sp" />
+				android:text="Killbayne#2294" />
 
 			<TextView
+				android:id="@+id/killbayne_tester"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• App Tester"
 				android:layout_below="@+id/killbayne_text"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
-				android:textColor="?attr/TextColor"
 				android:textSize="16sp"
-				android:id="@+id/killbayne_tester" />
+				android:textColor="?attr/TextColor"
+				android:text="• App Tester" />
 
 			<TextView
+				android:id="@+id/killbayne_idea"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="• Idea Provider"
 				android:layout_below="@+id/killbayne_tester"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="8dp"
+				android:layout_marginBottom="16dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:id="@+id/killbayne_idea"
-				android:layout_marginBottom="16dp" />
+				android:text="• Idea Provider" />
 
 		</RelativeLayout>
 
 	</ScrollView>
 
 </FrameLayout>
-

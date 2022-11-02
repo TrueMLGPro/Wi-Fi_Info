@@ -1,0 +1,9 @@
+Added Tools screen!
+Added Cellular IP Tool! Check your IP even if you're using mobile internet!
+Added Router Setup Tool! Easily set up your router from your phone!
+Added Ping Tool! Ping any website or IP!
+Added Port Scanner! Scan ports of any website or IP!
+Added background dimming for FloatingActionMenu on MainActivity!
+Added "Visualize Signal Strength" which shows the signal strength by changing notification color (green, yellow or red)
+
+and more...

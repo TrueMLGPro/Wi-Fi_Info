@@ -1,0 +1,9 @@
+Added Github icon on Toolbar!
+Added Whois Tool!
+Added Quick Settings Tile which shows local and public IP addresses!
+Fixed #39 [Android 11] Service crash on MainActivity
+Fixed permission request dialog on Android 11!
+Refactored MainActivity.java and other scripts!
+Optimized URLtoIPActivity!
+Optimized SplashActivity!
+Organized imports and removed unused ones!
