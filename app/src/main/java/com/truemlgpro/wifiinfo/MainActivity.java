@@ -2,7 +2,6 @@ package com.truemlgpro.wifiinfo;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -33,20 +32,22 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -417,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		/// END ///
 
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+		setContentView(R.layout.main);
 
 		/// Initialize ///
 
@@ -540,8 +541,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 		/// Set default preferences ///
 
-		android.support.v7.preference.PreferenceManager
-			.setDefaultValues(this, R.xml.preferences, false);
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
 		/// END ///
 
@@ -1786,7 +1786,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 					builder.setTitle("Background Location Permission (Optional)")
-							.setMessage("Due to the changes in Android 11+ you need to go to Settings to enable it" + "\n" + "Once Background Location permission is granted you'll be able to see SSID in the notification even if you close the app")
+							.setMessage("Due to the changes in Android 11+ you need to go to Settings to enable it" + "\n" + "Once Background Location permission is granted you'll be able to see the SSID in notification even if you close the app")
 							.setPositiveButton("Ok", (dialog, id) -> {
 								Toast.makeText(MainActivity.this, "Go to Permissions -> Location", Toast.LENGTH_LONG).show();
 								Toast.makeText(MainActivity.this, "Select \"Allow all the time\"", Toast.LENGTH_LONG).show();

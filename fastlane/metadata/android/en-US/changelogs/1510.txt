@@ -1,0 +1,8 @@
+Now supports Android 13 (API 33)!
+Migrated to AndroidX! 🎉
+Implemented a "Use Web Interface" button in a dialog in RouterSetupActivity to allow users log into the admin panel using the built in login page (if router supports it)!
+Improved SettingsActivity! List options now show the currently selected entries, moved some settings in Notification category to a collapsed group section!
+Switched from using JCenter to Maven, updated dependencies
+Organized imports
+
+and more...

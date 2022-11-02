@@ -1,0 +1,9 @@
+Now supports Android 12 (API 31)!
+Added a DNS Resolver tool!
+Added a "Copy All" menu item in MainActivity to generate and copy the info from all the TextViews!
+Added a TCP/UDP drop-down menu in Port Scanner Tool!
+Added an EditText to specify a number of threads for Port Scanner Tool!
+Added action bar menus in Ping Tool and URL to IP Tool which allow users to clear the ping / URL to IP conversion logs!
+Made notifications expandable on Android 10+ again!
+
+and more...

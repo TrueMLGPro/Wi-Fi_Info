@@ -7,7 +7,7 @@
 	android:layout_height="match_parent"
 	android:background="?BackgroundColor">
 	
-	<android.support.v7.widget.Toolbar
+	<androidx.appcompat.widget.Toolbar
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
 		android:layout_height="?attr/actionBarSize"
@@ -39,7 +39,7 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
 				
-			<android.support.v7.widget.CardView
+			<androidx.cardview.widget.CardView
 				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_1"
 				android:layout_width="match_parent"
@@ -107,9 +107,9 @@
 					
 				</LinearLayout>
 				
-			</android.support.v7.widget.CardView>
+			</androidx.cardview.widget.CardView>
 			
-			<android.support.v7.widget.CardView
+			<androidx.cardview.widget.CardView
 				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_2"
 				android:layout_width="match_parent"
@@ -218,9 +218,9 @@
 					
 				</LinearLayout>
 			
-			</android.support.v7.widget.CardView>
+			</androidx.cardview.widget.CardView>
 			
-			<android.support.v7.widget.CardView
+			<androidx.cardview.widget.CardView
 				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_3"
 				android:layout_width="match_parent"
@@ -338,9 +338,9 @@
 
 				</LinearLayout>
 
-			</android.support.v7.widget.CardView>
+			</androidx.cardview.widget.CardView>
 				
-			<android.support.v7.widget.CardView
+			<androidx.cardview.widget.CardView
 				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_4"
 				android:layout_width="match_parent"
@@ -467,9 +467,9 @@
 
 				</LinearLayout>
 
-			</android.support.v7.widget.CardView>
+			</androidx.cardview.widget.CardView>
 				
-			<android.support.v7.widget.CardView
+			<androidx.cardview.widget.CardView
 				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_5"
 				android:layout_width="match_parent"
@@ -524,9 +524,9 @@
 
 				</LinearLayout>
 
-			</android.support.v7.widget.CardView>
+			</androidx.cardview.widget.CardView>
 				
-			<android.support.v7.widget.CardView
+			<androidx.cardview.widget.CardView
 				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_6"
 				android:layout_width="match_parent"
@@ -618,7 +618,7 @@
 						
 				</LinearLayout>
 
-			</android.support.v7.widget.CardView>
+			</androidx.cardview.widget.CardView>
 			
 		</LinearLayout>
 			

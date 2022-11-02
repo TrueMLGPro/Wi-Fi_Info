@@ -15,7 +15,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
 
 public class ConnectionStateService extends Service 
 {
@@ -426,7 +427,7 @@ public class ConnectionStateService extends Service
 				
 				Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
 				intentActionStop.setAction("ACTION_STOP_CONN_STATE_SERVICE");
-				PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT);
+				PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 				
 				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi_fail)
 					.setContentTitle(state_offline)

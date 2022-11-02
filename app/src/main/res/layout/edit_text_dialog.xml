@@ -2,10 +2,10 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
+	android:layout_height="wrap_content"
 	android:orientation="vertical">
 
-	<android.support.design.widget.TextInputLayout
+	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/input_layout_1"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
 		android:layout_marginBottom="4dp"
 		android:hint="Login">
 
-		<android.support.design.widget.TextInputEditText
+		<com.google.android.material.textfield.TextInputEditText
 			android:id="@+id/edit_text_user"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -23,9 +23,9 @@
 			android:imeOptions="actionGo"
 			android:text="admin" />
 
-	</android.support.design.widget.TextInputLayout>
+	</com.google.android.material.textfield.TextInputLayout>
 
-	<android.support.design.widget.TextInputLayout
+	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/input_layout_2"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
 		android:layout_marginBottom="8dp"
 		android:hint="Password">
 
-		<android.support.design.widget.TextInputEditText
+		<com.google.android.material.textfield.TextInputEditText
 			android:id="@+id/edit_text_password"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
 			android:singleLine="true"
 			android:imeOptions="actionGo"/>
 
-	</android.support.design.widget.TextInputLayout>
+	</com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>
 

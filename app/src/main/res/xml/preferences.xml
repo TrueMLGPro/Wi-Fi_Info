@@ -1,73 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="App">
-		<android.support.v7.preference.SwitchPreferenceCompat
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+	<androidx.preference.PreferenceCategory android:title="App">
+		<androidx.preference.SwitchPreference
 			android:defaultValue="true"
 			android:key="theme_switch"
 			android:title="Dark Mode"
 			android:summary="Enable or Disable dark mode" />
-		<CheckBoxPreference
+		<androidx.preference.CheckBoxPreference
 			android:defaultValue="false"
 			android:key="amoled_theme_checkbox"
 			android:dependency="theme_switch"
-			android:title="AMOLED Theme"
-			android:summary="Enable or Disable AMOLED theme" />
-		<ListPreference
+			android:title="AMOLED Mode"
+			android:summary="Enable or Disable AMOLED mode" />
+		<androidx.preference.ListPreference
 			android:defaultValue="fonts/Gilroy-Semibold.ttf"
 			android:key="app_font_list"
-			android:title="App Font"
-			android:summary="Choose font to be used by app"
+			android:title="Font"
+			app:useSimpleSummaryProvider="true"
 			android:negativeButtonText="Ok"
 			android:entries="@array/app_font_entries"
 			android:entryValues="@array/app_font_values" />
-		<ListPreference
+		<androidx.preference.ListPreference
 			android:defaultValue="1000"
 			android:key="card_update_freq"
 			android:title="Card Update Interval"
-			android:summary="Set how frequently cards will update"
+			app:useSimpleSummaryProvider="true"
 			android:negativeButtonText="Ok"
 			android:entries="@array/card_update_freq_entries"
 			android:entryValues="@array/card_update_freq_values" />
-	</PreferenceCategory>
-	<PreferenceCategory android:title="Boot">
-		<android.support.v7.preference.SwitchPreferenceCompat
+	</androidx.preference.PreferenceCategory>
+	<androidx.preference.PreferenceCategory android:title="Boot">
+		<androidx.preference.SwitchPreference
 			android:defaultValue="false"
 			android:key="boot_switch"
 			android:title="Start on Boot"
 			android:summary="Start services on boot" />
-	</PreferenceCategory>
-	<PreferenceCategory android:title="Notification">
-		<android.support.v7.preference.SwitchPreferenceCompat
+	</androidx.preference.PreferenceCategory>
+	<androidx.preference.PreferenceCategory
+		android:key="notification_preference_category"
+		android:title="Notification"
+		app:initialExpandedChildrenCount="2">
+		<androidx.preference.SwitchPreference
 			android:defaultValue="true"
 			android:key="notification_switch"
 			android:title="Show Notification"
 			android:summary="Show notification with network info" />
-		<CheckBoxPreference
+		<androidx.preference.ListPreference
+			android:defaultValue="1000"
+			android:key="notification_update_freq"
+			android:dependency="notification_switch"
+			android:title="Notification Update Interval"
+			app:useSimpleSummaryProvider="true"
+			android:negativeButtonText="Ok"
+			android:entries="@array/ntfc_update_freq_entries"
+			android:entryValues="@array/ntfc_update_freq_values" />
+		<androidx.preference.CheckBoxPreference
 			android:defaultValue="false"
 			android:key="colorize_ntfc_checkbox"
 			android:dependency="notification_switch"
 			android:title="Colorize Notification"
 			android:summary="Fill notification using accent color" />
-		<CheckBoxPreference
+		<androidx.preference.CheckBoxPreference
 			android:defaultValue="false"
 			android:key="visualize_signal_strength_ntfc_checkbox"
 			android:dependency="notification_switch"
 			android:title="Visualize Signal Strength"
 			android:summary="Colorize notification depending on signal strength" />
-		<CheckBoxPreference
+		<androidx.preference.CheckBoxPreference
 			android:defaultValue="false"
 			android:key="start_stop_service_screen_state_ntfc_checkbox"
 			android:dependency="notification_switch"
-			android:title="Show / Hide Notification (Screen State)"
-			android:summary="Show or hide notification depending on screen state\n(on / off)" />
-		<ListPreference
-			android:defaultValue="1000"
-			android:key="notification_update_freq"
-			android:dependency="notification_switch"
-			android:title="Notification Update Interval"
-			android:summary="Set how frequently notification will update"
-			android:negativeButtonText="Ok"
-			android:entries="@array/ntfc_update_freq_entries"
-			android:entryValues="@array/ntfc_update_freq_values" />
-	</PreferenceCategory>
-</PreferenceScreen>
+			android:title="Show / Hide Notification"
+			android:summary="Show or hide notification depending on screen state (on / off)" />
+	</androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>

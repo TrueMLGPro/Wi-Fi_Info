@@ -1,0 +1,1 @@
+An app which shows all possible information about Wi-Fi network you are connected to.
