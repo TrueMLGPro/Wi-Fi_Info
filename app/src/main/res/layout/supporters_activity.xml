@@ -177,7 +177,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:text="andre btw.#3452" />
+				android:text="andrebtw.#3452" />
 
 			<TextView
 				android:id="@+id/andrew_tester"
