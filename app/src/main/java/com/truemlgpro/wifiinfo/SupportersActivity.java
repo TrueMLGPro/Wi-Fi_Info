@@ -86,7 +86,7 @@ public class SupportersActivity extends AppCompatActivity
 	public void initializeOnClickListeners() {
 		pab_text.setOnClickListener(v -> copyToClipboard("Pab#2631"));
 		anyx_text.setOnClickListener(v -> copyToClipboard("Anyx#1040"));
-		andrew_text.setOnClickListener(v -> copyToClipboard("andre btw.#3452"));
+		andrew_text.setOnClickListener(v -> copyToClipboard("andrebtw.#3452"));
 		rouge_text.setOnClickListener(v -> copyToClipboard("air conditioner#7639"));
 		madcodez_text.setOnClickListener(v -> copyToClipboard("madcodez#1517"));
 		asfi_text.setOnClickListener(v -> copyToClipboard("asfi#4034"));
