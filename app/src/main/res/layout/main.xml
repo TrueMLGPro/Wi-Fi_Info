@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="?BackgroundColor">
+	android:background="?attr/BackgroundColor">
 	
 	<androidx.appcompat.widget.Toolbar
 		android:id="@+id/toolbar"
@@ -24,6 +24,7 @@
 		android:textSize="18sp"
 		android:textColor="?TextColor"
 		android:layout_gravity="center"
+		android:layout_centerInParent="true"
 		android:visibility="gone"
 		android:text="No Wi-Fi Connection" />
 		
@@ -31,23 +32,21 @@
 		android:id="@+id/scroll_view"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_below="@+id/toolbar"
 		android:fillViewport="true">
 			
 		<LinearLayout
 			android:id="@+id/linear_layout_cards"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:padding="16dp"
 			android:orientation="vertical">
 				
 			<androidx.cardview.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_1"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
-				android:layout_marginTop="72dp"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
@@ -72,10 +71,7 @@
 							android:id="@+id/textview_header1"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:layout_marginTop="8dp"
-							android:layout_marginLeft="8dp"
-							android:layout_marginRight="8dp"
-							android:layout_marginBottom="8dp"
+							android:layout_margin="8dp"
 							android:textSize="12sp"
 							android:textColor="?attr/TextColor"
 							android:text="Public IP Address" />
@@ -104,20 +100,17 @@
 						fab:fab_colorDisabled="?FAB_IPColorDisabled"
 						fab:fab_colorRipple="#30FFFFFF"
 						fab:fab_size="mini" />
-					
+
 				</LinearLayout>
 				
 			</androidx.cardview.widget.CardView>
 			
 			<androidx.cardview.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_2"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
@@ -142,10 +135,7 @@
 							android:id="@+id/textview_header2"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:layout_marginTop="8dp"
-							android:layout_marginLeft="8dp"
-							android:layout_marginRight="8dp"
-							android:layout_marginBottom="8dp"
+							android:layout_margin="8dp"
 							android:textSize="12sp"
 							android:textColor="?attr/TextColor"
 							android:text="SSID, BSSID, etc." />
@@ -159,7 +149,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="SSID: N/A" />
 					
 					<TextView
 						android:id="@+id/textview_hidden_ssid"
@@ -168,7 +158,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Hidden SSID: N/A" />
 					
 					<TextView
 						android:id="@+id/textview_bssid"
@@ -177,7 +167,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="BSSID: N/A" />
 					
 					<TextView
 						android:id="@+id/textview_ipv4"
@@ -186,7 +176,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="IPv4: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_ipv6"
@@ -195,7 +185,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="IPv6: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_gateway_ip"
@@ -204,7 +194,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Gateway IP: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_hostname"
@@ -214,21 +204,18 @@
 						android:layout_marginBottom="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Hostname: N/A" />
 					
 				</LinearLayout>
 			
 			</androidx.cardview.widget.CardView>
 			
 			<androidx.cardview.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_3"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
@@ -253,10 +240,7 @@
 							android:id="@+id/textview_header3"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:layout_marginTop="8dp"
-							android:layout_marginLeft="8dp"
-							android:layout_marginRight="8dp"
-							android:layout_marginBottom="8dp"
+							android:layout_margin="8dp"
 							android:textSize="12sp"
 							android:textColor="?attr/TextColor"
 							android:text="DNS, Subnet Mask, etc." />
@@ -270,7 +254,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="DNS (1): N/A" />
 
 					<TextView
 						android:id="@+id/textview_dns2"
@@ -279,7 +263,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="DNS (2): N/A" />
 						
 					<TextView
 						android:id="@+id/textview_subnet_mask"
@@ -288,7 +272,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Subnet Mask: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_network_id"
@@ -297,7 +281,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Network ID: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_mac_address"
@@ -306,7 +290,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="MAC Address: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_network_interface"
@@ -315,7 +299,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Network Interface: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_loopback_address"
@@ -324,7 +308,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Loopback Address: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_localhost"
@@ -334,21 +318,18 @@
 						android:layout_marginBottom="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Localhost: N/A" />
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
 				
 			<androidx.cardview.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_4"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
@@ -373,10 +354,7 @@
 							android:id="@+id/textview_header4"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:layout_marginTop="8dp"
-							android:layout_marginLeft="8dp"
-							android:layout_marginRight="8dp"
-							android:layout_marginBottom="8dp"
+							android:layout_margin="8dp"
 							android:textSize="12sp"
 							android:textColor="?attr/TextColor"
 							android:text="Frequency, Channel, etc." />
@@ -390,7 +368,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Frequency: N/A" />
 
 					<TextView
 						android:id="@+id/textview_network_channel"
@@ -399,7 +377,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Network Channel: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_rssi"
@@ -408,7 +386,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="RSSI (Signal Strength): N/A" />
 						
 					<TextView
 						android:id="@+id/textview_lease_duration"
@@ -417,7 +395,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Lease Duration: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_transmit_link_speed"
@@ -426,7 +404,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Transmit Link Speed: N/A" />
 
 					<TextView
 						android:id="@+id/textview_receive_link_speed"
@@ -435,7 +413,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Receive Link Speed: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_network_speed"
@@ -444,7 +422,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Network Speed: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_transmitted_data"
@@ -453,7 +431,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Transmitted MBs/GBs: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_received_data"
@@ -463,21 +441,18 @@
 						android:layout_marginBottom="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Received MBs/GBs: N/A" />
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
 				
 			<androidx.cardview.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_5"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
@@ -502,10 +477,7 @@
 							android:id="@+id/textview_header5"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:layout_marginTop="8dp"
-							android:layout_marginLeft="8dp"
-							android:layout_marginRight="8dp"
-							android:layout_marginBottom="8dp"
+							android:layout_margin="8dp"
 							android:textSize="12sp"
 							android:textColor="?attr/TextColor"
 							android:text="WPA Supplicant State" />
@@ -520,22 +492,18 @@
 						android:layout_marginBottom="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="WPA Supplicant State: N/A" />
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
 				
 			<androidx.cardview.widget.CardView
-				xmlns:card_view="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/cardview_6"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
-				android:layout_marginBottom="16dp"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
@@ -577,7 +545,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="5GHz Band Support: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_wifi_direct_support"
@@ -586,7 +554,7 @@
 						android:layout_marginTop="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="Wi-Fi Direct Support: N/A" />
 
 					<TextView
 						android:id="@+id/textview_tdls_support"
@@ -596,7 +564,7 @@
 						android:layout_marginBottom="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="TDLS Support: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_wpa3_sae_support"
@@ -604,7 +572,7 @@
 						android:layout_height="wrap_content"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="WPA3 SAE Support: N/A" />
 						
 					<TextView
 						android:id="@+id/textview_wpa3_suite_b_support"
@@ -614,7 +582,7 @@
 						android:layout_marginBottom="16dp"
 						android:textSize="16sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="" />
+						android:text="WPA3 Suite B Support: N/A" />
 						
 				</LinearLayout>
 
@@ -623,7 +591,7 @@
 		</LinearLayout>
 			
 	</ScrollView>
-		
+
 	<com.github.clans.fab.FloatingActionMenu
 		xmlns:fab="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/fam"
@@ -662,7 +630,7 @@
 		fab:menu_openDirection="up"
 		fab:menu_backgroundColor="#90000000"
 		fab:menu_fab_label="">
-			
+
 		<com.github.clans.fab.FloatingActionButton
 			android:id="@+id/menu_item_1"
 			android:layout_width="wrap_content"
@@ -673,7 +641,7 @@
 			fab:fab_colorRipple="?FAB_MainColorRipple"
 			fab:fab_size="mini"
 			fab:fab_label="Developer Info" />
-			
+
 		<com.github.clans.fab.FloatingActionButton
 			android:id="@+id/menu_item_2"
 			android:layout_width="wrap_content"
@@ -684,7 +652,7 @@
 			fab:fab_colorRipple="?FAB_MainColorRipple"
 			fab:fab_size="mini"
 			fab:fab_label="Discord Server" />
-			
+
 		<com.github.clans.fab.FloatingActionButton
 			android:id="@+id/menu_item_3"
 			android:layout_width="wrap_content"
@@ -695,7 +663,7 @@
 			fab:fab_colorRipple="?FAB_MainColorRipple"
 			fab:fab_size="mini"
 			fab:fab_label="Supporters" />
-			
+
 		<com.github.clans.fab.FloatingActionButton
 			android:id="@+id/menu_item_4"
 			android:layout_width="wrap_content"
@@ -706,7 +674,7 @@
 			fab:fab_colorRipple="?FAB_MainColorRipple"
 			fab:fab_size="mini"
 			fab:fab_label="Tools" />
-			
+
 		<com.github.clans.fab.FloatingActionButton
 			android:id="@+id/menu_item_5"
 			android:layout_width="wrap_content"
@@ -717,7 +685,7 @@
 			fab:fab_colorRipple="?FAB_MainColorRipple"
 			fab:fab_size="mini"
 			fab:fab_label="Settings" />
-		
+
 	</com.github.clans.fab.FloatingActionMenu>
-		
-</FrameLayout>
+
+</RelativeLayout>

@@ -6,6 +6,6 @@
 		android:id="@+id/clear_url_to_ip_log"
 		android:title="Clear URL to IP Log"
 		android:orderInCategory="101"
-		app:showAsAction="never"/>
+		app:showAsAction="never" />
 
 </menu>

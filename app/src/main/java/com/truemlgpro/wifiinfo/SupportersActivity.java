@@ -12,9 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class SupportersActivity extends AppCompatActivity
-{
-
+public class SupportersActivity extends AppCompatActivity {
 	private TextView pab_text;
 	private TextView anyx_text;
 	private TextView andrew_text;
@@ -30,22 +28,7 @@ public class SupportersActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.supporters_activity);

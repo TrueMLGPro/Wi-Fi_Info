@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
@@ -24,12 +24,15 @@
 		android:textSize="18sp"
 		android:textColor="?TextColor"
 		android:layout_gravity="center"
+		android:layout_centerInParent="true"
 		android:visibility="gone"
 		android:text="No Cellular Connection" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_below="@+id/toolbar"
+		android:padding="16dp"
 		android:orientation="vertical">
 
 		<androidx.cardview.widget.CardView
@@ -37,9 +40,6 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
-			android:layout_marginTop="72dp"
-			android:layout_marginLeft="16dp"
-			android:layout_marginRight="16dp"
 			app:cardCornerRadius="8dp"
 			app:cardElevation="8dp"
 			app:cardBackgroundColor="?CardBackgroundColor">
@@ -64,10 +64,7 @@
 						android:id="@+id/textview_header_ip"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="8dp"
-						android:layout_marginLeft="8dp"
-						android:layout_marginRight="8dp"
-						android:layout_marginBottom="8dp"
+						android:layout_margin="8dp"
 						android:textSize="12sp"
 						android:textColor="?attr/TextColor"
 						android:text="Public IP Address" />
@@ -107,8 +104,6 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
 			android:layout_marginTop="16dp"
-			android:layout_marginLeft="16dp"
-			android:layout_marginRight="16dp"
 			app:cardCornerRadius="8dp"
 			app:cardElevation="8dp"
 			app:cardBackgroundColor="?CardBackgroundColor">
@@ -133,10 +128,7 @@
 						android:id="@+id/textview_header_local_ip"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="8dp"
-						android:layout_marginLeft="8dp"
-						android:layout_marginRight="8dp"
-						android:layout_marginBottom="8dp"
+						android:layout_margin="8dp"
 						android:textSize="12sp"
 						android:textColor="?attr/TextColor"
 						android:text="IP" />
@@ -151,7 +143,7 @@
 					android:layout_marginBottom="16dp"
 					android:textSize="16sp"
 					android:textColor="?attr/CardTextColor"
-					android:text="" />
+					android:text="IP: N/A" />
 			
 			</LinearLayout>
 			
@@ -159,4 +151,4 @@
 		
 	</LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>

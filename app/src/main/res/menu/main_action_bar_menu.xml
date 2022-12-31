@@ -6,11 +6,11 @@
 		android:title="Github"
 		android:icon="?ToolbarGithubIconColor"
 		android:orderInCategory="101"
-		app:showAsAction="always"/>
+		app:showAsAction="always" />
 
 	<item
 		android:id="@+id/copy_all"
 		android:title="Copy All Network Info"
-		app:showAsAction="never"/>
+		app:showAsAction="never" />
     
 </menu>

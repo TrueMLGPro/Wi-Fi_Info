@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
@@ -8,7 +8,6 @@
 	android:background="?attr/BackgroundColor">
 
 	<androidx.appcompat.widget.Toolbar
-		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
 		android:layout_height="?attr/actionBarSize"
@@ -25,16 +24,15 @@
 		android:textSize="18sp"
 		android:textColor="?TextColor"
 		android:layout_gravity="center"
+		android:layout_centerInParent="true"
 		android:visibility="gone"
 		android:text="No Connection" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginTop="64dp"
-		android:layout_marginBottom="8dp"
-		android:layout_marginLeft="8dp"
-		android:layout_marginRight="8dp"
+		android:layout_below="@+id/toolbar"
+		android:layout_margin="8dp"
 		android:orientation="vertical"
 		android:gravity="top">
 
@@ -46,16 +44,12 @@
 			android:baselineAligned="false">
 
 			<com.google.android.material.textfield.TextInputLayout
-				xmlns:app="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/input_layout_dns"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:hint="Enter IP or URL"
-				android:layout_marginLeft="4dp"
-				android:layout_marginRight="4dp"
-				android:layout_marginTop="4dp"
-				android:layout_marginBottom="4dp">
+				android:layout_margin="4dp">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:id="@+id/edit_text_dns"
@@ -78,55 +72,47 @@
 
 			<Button
 				android:id="@+id/get_dns_info_button"
+				style="@style/Widget.AppCompat.Button.Colored"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:text="Start"
 				android:textColor="#FFFFFF"
-				style="@style/Widget.AppCompat.Button.Colored"
 				android:layout_marginLeft="4dp"
 				android:layout_marginRight="2dp"
 				android:layout_marginBottom="4dp"
 				android:layout_marginTop="4dp"
-				android:layout_weight="0.5"/>
+				android:layout_weight="1" />
 
 			<Spinner
 				android:id="@+id/spinner_dns_record_types"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"
-				android:layout_weight="0.5"
 				android:layout_marginLeft="2dp"
 				android:layout_marginRight="4dp"
 				android:layout_marginTop="4dp"
 				android:layout_marginBottom="4dp"
-				android:entries="@array/dns_record_types" />
+				android:entries="@array/dns_record_types"
+				android:layout_weight="1" />
 
 		</LinearLayout>
 
-		<LinearLayout
-			android:id="@+id/layout_dns_lookup_results"
-			android:orientation="vertical"
+		<ScrollView
+			android:id="@+id/dns_lookup_results_scroll"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:background="?EmbedBackgroundColor"
+			android:layout_margin="8dp"
 			android:padding="8dp">
 
-			<ScrollView
-				android:id="@+id/dns_lookup_results_scroll"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:background="?EmbedBackgroundColor"
-				android:padding="8dp">
+			<TextView
+				android:id="@+id/dns_lookup_textview"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="?TextColor"
+				android:textIsSelectable="true" />
 
-				<TextView
-					android:id="@+id/dns_lookup_textview"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textColor="?TextColor"
-					android:textIsSelectable="true"/>
-
-			</ScrollView>
-
-		</LinearLayout>
+		</ScrollView>
 
 	</LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>

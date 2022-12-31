@@ -9,9 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class SettingsActivity extends AppCompatActivity
-{
-
+public class SettingsActivity extends AppCompatActivity {
 	public static final String KEY_PREF_SWITCH = "theme_switch";
 	public static final String KEY_PREF_AMOLED_CHECK = "amoled_theme_checkbox";
 	public static final String KEY_PREF_APP_FONT = "app_font_list";
@@ -26,22 +24,7 @@ public class SettingsActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings_activity);
@@ -71,9 +54,9 @@ public class SettingsActivity extends AppCompatActivity
 	}
 	
 	private void restartActivity() {
+		Intent mainActivityIntent = new Intent(SettingsActivity.this, MainActivity.class);
 		finish();
 		overridePendingTransition(0, 0);
-		Intent mainActivityIntent = new Intent(SettingsActivity.this, MainActivity.class);
 		startActivity(mainActivityIntent);
 		overridePendingTransition(0, 0);
 	}

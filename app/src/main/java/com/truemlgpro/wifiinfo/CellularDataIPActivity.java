@@ -31,9 +31,7 @@ import java.util.Scanner;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class CellularDataIPActivity extends AppCompatActivity
-{
-
+public class CellularDataIPActivity extends AppCompatActivity {
 	private TextView textview_nocellconn;
 	private CardView cardview_ip;
 	private CardView cardview_local_ip;
@@ -41,33 +39,15 @@ public class CellularDataIPActivity extends AppCompatActivity
 	private TextView textview_header_local_ip;
 	private TextView textview_local_ip_cell;
 	private FloatingActionButton fab_update_ip;
-	private ConnectivityManager CM;
-	private NetworkInfo CellularCheck;
 	private String publicIPFetched;
 	private boolean siteReachable = false;
-	private Scanner scanner;
 
 	private BroadcastReceiver CellularDataConnectivityReceiver;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cellular_data_ip_activity);
@@ -133,7 +113,7 @@ public class CellularDataIPActivity extends AppCompatActivity
 	public String getPublicIPAddress() {
 		String publicIP = "";
 		try {
-			scanner = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A");
+			Scanner scanner = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A");
 			publicIP = scanner.next();
 			scanner.close();
 		} catch (IOException e) {
@@ -193,8 +173,8 @@ public class CellularDataIPActivity extends AppCompatActivity
 	}
 	
 	public void checkCellularConnectivity() {
-		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
 		if (CellularCheck.isConnected()) {
 			showWidgets();

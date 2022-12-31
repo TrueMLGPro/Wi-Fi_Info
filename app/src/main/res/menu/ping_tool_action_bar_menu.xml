@@ -6,6 +6,6 @@
 		android:id="@+id/clear_ping_log"
 		android:title="Clear Ping Log"
 		android:orderInCategory="101"
-		app:showAsAction="never"/>
+		app:showAsAction="never" />
 
 </menu>

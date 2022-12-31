@@ -100,6 +100,11 @@
 		<item name="IconPlusColor">@drawable/ic_plus_light</item>
 		<item name="ToolbarGithubIconColor">@drawable/ic_action_github_dark</item>
 	</style>
+
+	<style name="SplashDark" parent="Theme.SplashScreen">
+		<item name="windowSplashScreenBackground">@color/backgroundColorDark</item>
+		<item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen_icon_layered_vector</item>
+	</style>
 	
 	<style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@drawable/rounded_shape</item>

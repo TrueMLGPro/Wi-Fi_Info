@@ -13,10 +13,8 @@
 		android:layout_height="?attr/actionBarSize"
 		android:background="?attr/colorPrimary"
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:navigationIcon="?attr/homeAsUpIndicator"
 		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor"
-		android:layout_alignParentTop="true" />
+		app:subtitleTextColor="?attr/SubtitleTextColor" />
 
 	<RelativeLayout
 		android:id="@+id/relative_layout"
@@ -31,7 +29,7 @@
 			android:textColor="?attr/TextColor"
 			android:text="Developer Info"
 			android:textSize="30sp"
-			android:layout_marginBottom="20dp"
+			android:layout_marginBottom="16dp"
 			android:layout_centerHorizontal="true" />
 
 		<TextView

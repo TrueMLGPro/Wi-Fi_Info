@@ -5,8 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
-public class URLandIPConverter
-{
+public class URLandIPConverter {
 	public static String convertUrl(String url) throws MalformedURLException, UnknownHostException {
 		String ip = "";
 		try {

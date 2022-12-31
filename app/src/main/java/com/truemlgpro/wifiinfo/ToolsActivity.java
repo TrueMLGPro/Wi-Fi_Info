@@ -10,27 +10,11 @@ import androidx.cardview.widget.CardView;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class ToolsActivity extends AppCompatActivity
-{
+public class ToolsActivity extends AppCompatActivity {
 	@Override
     protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 		
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tools_activity);
@@ -53,7 +37,7 @@ public class ToolsActivity extends AppCompatActivity
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
 
