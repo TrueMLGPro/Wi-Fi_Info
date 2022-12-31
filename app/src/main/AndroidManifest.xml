@@ -2,13 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	package="com.truemlgpro.wifiinfo">
-	
+
 	<uses-sdk
 		android:minSdkVersion="21"
 		android:targetSdkVersion="33"
 		tools:overrideLibrary="thecollectiveweb.com.tcwhois"
 		tools:ignore="GradleOverrides" />
-	
+
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -17,10 +17,9 @@
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	
+
     <application
 		android:icon="@mipmap/ic_launcher"
-		android:roundIcon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:theme="@style/DarkTheme"
 		android:largeHeap="true"
@@ -28,20 +27,22 @@
 
 	    <meta-data android:name="android.webkit.WebView.MetricsOptOut"
 		    android:value="true" />
-        
+
 		<activity
             android:name="com.truemlgpro.wifiinfo.SplashActivity"
 			android:screenOrientation="portrait"
 			android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.MainActivity"
 			android:label="@string/app_name"
-			android:screenOrientation="portrait">
+			android:screenOrientation="portrait"
+			android:theme="@style/SplashDark"
+			android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.DevInfoActivity"
@@ -112,12 +113,12 @@
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.truemlgpro.wifiinfo.MainActivity" />
 		</activity>
-		
+
 		<service
 			android:name=".NotificationService"
 			android:enabled="true">
 		</service>
-		
+
 		<service
 			android:name=".ConnectionStateService"
 			android:enabled="true">
@@ -140,35 +141,35 @@
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
-		
+
 		<receiver android:name=".WiFiConnectivityReceiver"
 			android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
-		
+
 		<receiver android:name=".CellularDataConnectivityReceiver"
 			android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
-		
+
 		<receiver android:name=".NetworkConnectivityReceiver"
 			android:exported="false">
 			<intent-filter>
 				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 			</intent-filter>
 		</receiver>
-		
+
 		<receiver android:name=".BootReceiver"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
-		
+
 		<receiver android:name=".ActionButtonReceiver"
 			android:exported="false">
 			<intent-filter>

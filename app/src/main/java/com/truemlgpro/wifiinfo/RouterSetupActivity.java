@@ -18,7 +18,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,12 +28,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.util.Objects;
+
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class RouterSetupActivity extends AppCompatActivity
-{
+public class RouterSetupActivity extends AppCompatActivity {
 	private Toolbar toolbar;
-	private FrameLayout frame_layout_nonetworkconn;
 	private TextView textview_nonetworkconn;
 	private WebView webview_main;
 	private ProgressBar progressBarLoading;
@@ -59,28 +58,12 @@ public class RouterSetupActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.router_setup_activity);
 		
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		frame_layout_nonetworkconn = (FrameLayout) findViewById(R.id.frame_layout_nonetworkconn);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 		webview_main = (WebView) findViewById(R.id.webview_main);
 		progressBarLoading = (ProgressBar) findViewById(R.id.progressBarLoading);
@@ -97,13 +80,16 @@ public class RouterSetupActivity extends AppCompatActivity
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
+
+		boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
+		boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
 		
 		if (keyTheme) {
 			swipeRefresh.setProgressBackgroundColorSchemeResource(R.color.cardBackgroundDark);
 		}
 		
-		if (keyTheme) {
-			if (keyAmoledTheme) {
+		if (keyAmoledTheme) {
+			if (keyTheme) {
 				swipeRefresh.setProgressBackgroundColorSchemeResource(R.color.cardBackgroundDarkAmoled);
 			}
 		}
@@ -188,7 +174,7 @@ public class RouterSetupActivity extends AppCompatActivity
 				if (swipeRefresh.isRefreshing()) {
 					swipeRefresh.setRefreshing(false);
 				}
-				getSupportActionBar().setSubtitle(view.getTitle());
+				Objects.requireNonNull(getSupportActionBar()).setSubtitle(view.getTitle());
 				isLoggedIn = true;
 			}
 			
@@ -258,8 +244,7 @@ public class RouterSetupActivity extends AppCompatActivity
 		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
 	}
 
-	class NetworkConnectivityReceiver extends BroadcastReceiver
-	{
+	class NetworkConnectivityReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
@@ -292,7 +277,6 @@ public class RouterSetupActivity extends AppCompatActivity
 	public void showWidgets() {
 		webview_main.setVisibility(View.VISIBLE);
 		swipeRefresh.setVisibility(View.VISIBLE);
-		frame_layout_nonetworkconn.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.GONE);
 	}
 
@@ -300,7 +284,6 @@ public class RouterSetupActivity extends AppCompatActivity
 		webview_main.setVisibility(View.GONE);
 		progressBarLoading.setVisibility(View.GONE);
 		swipeRefresh.setVisibility(View.GONE);
-		frame_layout_nonetworkconn.setVisibility(View.VISIBLE);
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
 	}
 

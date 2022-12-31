@@ -13,7 +13,6 @@
 		android:layout_height="?attr/actionBarSize"
 		android:background="?attr/colorPrimary"
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:navigationIcon="?attr/homeAsUpIndicator"
 		app:titleTextColor="?TitleTextColor"
 		app:subtitleTextColor="?SubtitleTextColor"/>
 	
@@ -21,7 +20,6 @@
 		android:id="@+id/content_frame"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:orientation="vertical">
-	</FrameLayout>
+		android:orientation="vertical" />
 	
 </LinearLayout>

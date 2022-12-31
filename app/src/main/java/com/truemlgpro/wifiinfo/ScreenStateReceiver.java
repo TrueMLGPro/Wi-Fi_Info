@@ -4,10 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-public class ScreenStateReceiver extends BroadcastReceiver
-{
-	
-	public static Boolean screenState = true;
+public class ScreenStateReceiver extends BroadcastReceiver {
+	public static Boolean screenState = false;
 	
 	@Override
 	public void onReceive(Context context, Intent intent)

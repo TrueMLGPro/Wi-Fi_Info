@@ -11,28 +11,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class DiscordServersActivity extends AppCompatActivity
-{
-
+public class DiscordServersActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.discord_servers_activity);

@@ -9,8 +9,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -28,9 +26,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-public class NotificationService extends Service
-{
-
+public class NotificationService extends Service {
 	private BroadcastReceiver NotificationServiceStopReceiver;
 	private Notification notification26_28;
 	private Notification notification29;
@@ -62,7 +58,6 @@ public class NotificationService extends Service
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
 		/// Notification Settings Button Receiver ///
-		
 		try {
 			if (intent.getAction() != null && intent.getAction().equals("ACTION_NTFC_SETTINGS")) {
 				startNtfcSettingsActivity();
@@ -70,8 +65,6 @@ public class NotificationService extends Service
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-		
-		/// END ///
 		
 		if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
 			/// Android 8 - Android 9 ///
@@ -91,7 +84,6 @@ public class NotificationService extends Service
 	}
 	
 	/// Handler for Notification Updates ///
-	
 	private final Handler handler = new Handler(Looper.getMainLooper());
 	private final Runnable runnable = new Runnable() {
 		@Override
@@ -110,8 +102,6 @@ public class NotificationService extends Service
 			handler.postDelayed(runnable, keyNtfcFreqFormatted);
 		}
 	};
-	
-	/// END ///
 
 	public class NotificationServiceStopReceiver extends BroadcastReceiver {
 		@Override
@@ -128,7 +118,6 @@ public class NotificationService extends Service
 	}
 
 	/// Notification Settings Activity ///
-	
 	public void startNtfcSettingsActivity() {
 		Intent Ntfc_Intent = new Intent();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -143,16 +132,10 @@ public class NotificationService extends Service
 		}
 		startActivity(Ntfc_Intent);
 	}
-	
-	/// END ///
 
 	/// ANDROID 8 - ANDROID 9 ///
-
 	@RequiresApi(api = Build.VERSION_CODES.O)
 	public void showNotificationAPI26_28() {
-		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
 		int NOTIFICATION_ID = 1301;
 
 		Intent NotificationIntent = new Intent(this, MainActivity.class);
@@ -170,8 +153,8 @@ public class NotificationService extends Service
 		String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 		builder = new Notification.Builder(this, channelID);
 		
-		Boolean keyNtfcClr = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
-		Boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
+		boolean keyNtfcColor = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
+		boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
 
 		WifiManager mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
@@ -191,7 +174,7 @@ public class NotificationService extends Service
 		}
 
 		int rssi = wInfo.getRssi();
-		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
+		int RSSIconv = WifiManager.calculateSignalLevel(rssi, 101);
 		if (keyVisSigStrgNtfc) {
 			if (RSSIconv >= 75) {
 				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalHigh);
@@ -211,19 +194,19 @@ public class NotificationService extends Service
 			network_id = "N/A";
 		}
 
-		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
+		String collapsedInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
 		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
 			"Frequency: " + freq + "MHz" + "\n" + "Network Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "Network ID: " + network_id;
 
 		notification26_28 = builder.setContentIntent(content_intent)
 			.setSmallIcon(R.drawable.ic_wifi)
 			.setContentTitle("Local IP: " + ip)
-			.setContentText(smallInfo)
+			.setContentText(collapsedInfo)
 			.setWhen(System.currentTimeMillis())
 			.addAction(R.drawable.ic_stop, "Stop Services", pIntentActionStop)
 			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
 			.setChannelId(channelID)
-			.setColorized(keyNtfcClr)
+			.setColorized(keyNtfcColor)
 			.setColor(visSigStrgNtfcColor)
 			.setCategory(Notification.CATEGORY_SERVICE)
 			.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
@@ -237,12 +220,8 @@ public class NotificationService extends Service
 	}
 
 	/// ANDROID 10 & higher ///
-
 	@RequiresApi(api = Build.VERSION_CODES.O)
 	public void showNotificationAPI29() {
-		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
 		int NOTIFICATION_ID = 1302;
 
 		Intent NotificationIntent = new Intent(this, MainActivity.class);
@@ -260,8 +239,8 @@ public class NotificationService extends Service
 		String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 		builder = new Notification.Builder(this, channelID);
 		
-		Boolean keyNtfcClr = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
-		Boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
+		boolean keyNtfcColor = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
+		boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
 		
 		WifiManager mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
@@ -281,7 +260,7 @@ public class NotificationService extends Service
 		}
 
 		int rssi = wInfo.getRssi();
-		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
+		int RSSIconv = WifiManager.calculateSignalLevel(rssi, 101);
 		if (keyVisSigStrgNtfc) {
 			if (RSSIconv >= 75) {
 				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalHigh);
@@ -313,7 +292,7 @@ public class NotificationService extends Service
 			.addAction(R.drawable.ic_stop, "Stop Services", pIntentActionStop)
 			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
 			.setChannelId(channelID)
-			.setColorized(keyNtfcClr)
+			.setColorized(keyNtfcColor)
 			.setColor(visSigStrgNtfcColor)
 			.setCategory(Notification.CATEGORY_SERVICE)
 			.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
@@ -327,11 +306,7 @@ public class NotificationService extends Service
 	}
 
 	/// ANDROID 5 - ANDROID 7 ///
-
 	public void showNotificationAPI21_25() {
-		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
 		int NOTIFICATION_ID = 1303;
 
 		Intent NotificationIntent = new Intent(this, MainActivity.class);
@@ -345,7 +320,7 @@ public class NotificationService extends Service
 		intentActionSettings.setAction("ACTION_NTFC_SETTINGS");
 		PendingIntent pIntentActionSettings = PendingIntent.getBroadcast(this, 0, intentActionSettings, PendingIntent.FLAG_UPDATE_CURRENT);
 		
-		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		NotificationManager notificationManager;
 		builder = new Notification.Builder(this);
 
 		WifiManager mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -362,20 +337,20 @@ public class NotificationService extends Service
 			bssid = "N/A";
 		}
 		int rssi = wInfo.getRssi();
-		int RSSIconv = mainWifi.calculateSignalLevel(rssi, 101);
+		int RSSIconv = WifiManager.calculateSignalLevel(rssi, 101);
 		int freq = wInfo.getFrequency();
 		int channel = convertFrequencyToChannel(freq);
 		int networkSpeed = wInfo.getLinkSpeed();
 		int network_id = wInfo.getNetworkId();
 
-		String smallInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")";
+		String collapsedInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
 		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
 			"Frequency: " + freq + "MHz" + "\n" + "Network Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
 
 		notification21_25 = builder.setContentIntent(content_intent)
 			.setSmallIcon(R.drawable.ic_wifi)
 			.setContentTitle("Local IP: " + ip)
-			.setContentText(smallInfo)
+			.setContentText(collapsedInfo)
 			.setWhen(System.currentTimeMillis())
 			.addAction(R.drawable.ic_stop, "Stop Services", pIntentActionStop)
 			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)

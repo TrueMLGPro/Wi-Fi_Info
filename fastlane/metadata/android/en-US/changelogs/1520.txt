@@ -1,0 +1,7 @@
+Implemented a consistent Splash Screen across all Android versions!
+Revamped app logo and implemented an adaptive icon (including Android 13 themed monochrome icon)!
+Extracted all theme initialization code into an external `ThemeManager.java` class!
+Added checks to `DNSLookupActivity` and `WhoIsToolActivity` to prevent crashes on uncaught `NumberFormatExceptions` of float values
+Made Android 10+ notification title contents match older notification implementations
+
+and more...

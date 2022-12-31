@@ -4,14 +4,14 @@ import android.os.Bundle;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
-public class SettingsFragment extends PreferenceFragmentCompat
-{
+public class SettingsFragment extends PreferenceFragmentCompat {
 	@Override
 	public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
 		setPreferencesFromResource(R.xml.preferences, rootKey);
 		
 		if (android.os.Build.VERSION.SDK_INT < 26) {
-			CheckBoxPreference prefState = (CheckBoxPreference) findPreference("colorize_ntfc_checkbox");
+			CheckBoxPreference prefState = findPreference("colorize_ntfc_checkbox");
+			assert prefState != null;
 			prefState.setEnabled(false);
 			if (prefState.isChecked()) {
 				prefState.setChecked(false);

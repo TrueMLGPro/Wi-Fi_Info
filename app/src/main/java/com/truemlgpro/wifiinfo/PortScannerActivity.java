@@ -33,9 +33,7 @@ import java.util.Comparator;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class PortScannerActivity extends AppCompatActivity
-{
-
+public class PortScannerActivity extends AppCompatActivity {
 	private TextView textview_nonetworkconn;
 	private TextInputLayout text_input_layout_ip;
 	private TextInputLayout text_input_layout_threads;
@@ -53,9 +51,6 @@ public class PortScannerActivity extends AppCompatActivity
 	private ArrayAdapter<String> adapter;
 
 	private BroadcastReceiver NetworkConnectivityReceiver;
-	private ConnectivityManager CM;
-	private NetworkInfo WiFiCheck;
-	private NetworkInfo CellularCheck;
 
 	private HandlerThread portScannerHandlerThread;
 	private Handler portScannerHandler;
@@ -69,22 +64,7 @@ public class PortScannerActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.port_scanner_activity);
@@ -101,8 +81,8 @@ public class PortScannerActivity extends AppCompatActivity
 		port_scan_stop_button = (Button) findViewById(R.id.port_scan_stop_button);
 		listview_open_ports = (ListView) findViewById(R.id.listview_open_ports);
 
-		ports_arrayList = new ArrayList<String>();
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ports_arrayList);
+		ports_arrayList = new ArrayList<>();
+		adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ports_arrayList);
 		listview_open_ports.setAdapter(adapter);
 
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -128,7 +108,7 @@ public class PortScannerActivity extends AppCompatActivity
 			ports_open_text.setText("Ports Open: -");
 			adapter.clear();
 		});
-		
+
 		port_scan_stop_button.setOnClickListener(v -> {
 			if (portScanner != null) {
 				portScanner.cancel();
@@ -136,7 +116,6 @@ public class PortScannerActivity extends AppCompatActivity
 			setEnabled(port_scan_button, true);
 			setEnabled(port_scan_stop_button, false);
 		});
-
 	}
 
 	private void setEnabled(final View view, final boolean enabled) {
@@ -164,18 +143,18 @@ public class PortScannerActivity extends AppCompatActivity
 	}
 
 	private void startPortScanner() {
-        setEnabled(port_scan_button, false);
+		setEnabled(port_scan_button, false);
 		
 		url_ip = edittext_ip.getText().toString();
+		if (TextUtils.isEmpty(edittext_threads.getText().toString()) || !isStringInt(edittext_threads.getText().toString()) || threads <= 0) {
+			edittext_threads.setText("8");
+		}
+
 		threads = Integer.parseInt(edittext_threads.getText().toString());
-		
+
 		if (TextUtils.isEmpty(url_ip)) {
 			url_ip = "google.com";
 			Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Google URL: " + url_ip, Toast.LENGTH_LONG).show();
-		}
-
-		if (TextUtils.isEmpty(edittext_threads.getText().toString()) || threads <= 0) {
-			threads = 8;
 		}
 
 		portScannerHandlerThread = new HandlerThread("BackgroundPortScannerHandlerThread", android.os.Process.THREAD_PRIORITY_BACKGROUND);
@@ -248,9 +227,9 @@ public class PortScannerActivity extends AppCompatActivity
 	}
 
 	public void checkNetworkConnectivity() {
-		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		NetworkInfo CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
 		// WI-FI Connectivity Check
 
@@ -278,6 +257,15 @@ public class PortScannerActivity extends AppCompatActivity
 			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
+		}
+	}
+
+	private boolean isStringInt(String s)  {
+		try {
+			Integer.parseInt(s);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
 		}
 	}
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+	<!-- The background color, preferably the same as your normal theme -->
+	<item>
+		<shape>
+			<size android:height="108dp" android:width="108dp" />
+			<gradient android:startColor="#2D3233" android:endColor="#1C1F20" android:angle="315" />
+		</shape>
+	</item>
+
+	<!-- Your product logo - 144dp color version of your app icon -->
+	<item
+		android:top="24dp"
+		android:bottom="24dp"
+		android:left="24dp"
+		android:right="24dp"
+		android:drawable="@drawable/splash_screen_icon"
+		android:gravity="center" />
+</layer-list>

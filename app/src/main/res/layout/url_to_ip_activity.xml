@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:orientation="vertical"
 	android:background="?attr/BackgroundColor">
 
 	<androidx.appcompat.widget.Toolbar
-		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
 		android:layout_height="?attr/actionBarSize"
 		android:background="?attr/colorPrimary"
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor"/>
+		app:subtitleTextColor="?attr/SubtitleTextColor" />
 
 	<TextView
 		android:id="@+id/textview_nonetworkconn"
@@ -25,8 +24,9 @@
 		android:textSize="18sp"
 		android:textColor="?TextColor"
 		android:layout_gravity="center"
+		android:layout_centerInParent="true"
 		android:visibility="gone"
-		android:text="No Connection"/>
+		android:text="No Connection" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -45,7 +45,6 @@
 			android:orientation="vertical">
 
 			<com.google.android.material.textfield.TextInputLayout
-				xmlns:app="http://schemas.android.com/apk/res-auto"
 				android:id="@+id/input_layout"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -61,7 +60,7 @@
 					android:layout_height="wrap_content"
 					android:imeOptions="actionGo"
 					android:inputType="text"
-					android:singleLine="true"/>
+					android:singleLine="true" />
 
 			</com.google.android.material.textfield.TextInputLayout>
 
@@ -78,32 +77,24 @@
 
 		</LinearLayout>
 
-		<LinearLayout
-			android:id="@+id/layout_url_to_ip_results"
-			android:orientation="vertical"
+		<ScrollView
+			android:id="@+id/url_to_ip_scroll"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:background="?EmbedBackgroundColor"
+			android:layout_margin="8dp"
 			android:padding="8dp">
 
-			<ScrollView
-				android:id="@+id/url_to_ip_scroll"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:background="?EmbedBackgroundColor"
-				android:padding="8dp">
+			<TextView
+				android:id="@+id/textview_ipFromURL"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="?TextColor"
+				android:textIsSelectable="true" />
 
-				<TextView
-					android:id="@+id/textview_ipFromURL"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textColor="?TextColor"
-					android:textIsSelectable="true"/>
-
-			</ScrollView>
-
-		</LinearLayout>
+		</ScrollView>
 
 	</LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>
 

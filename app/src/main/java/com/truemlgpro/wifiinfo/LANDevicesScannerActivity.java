@@ -38,9 +38,7 @@ import java.util.Scanner;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class LANDevicesScannerActivity extends AppCompatActivity
-{
-
+public class LANDevicesScannerActivity extends AppCompatActivity {
 	private TextView textview_nonetworkconn;
 	private TextView local_ip_text;
 	private TextView devices_found_text;
@@ -63,22 +61,7 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lan_devices_scanner_activity);
@@ -90,8 +73,8 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 		lan_scan_button = (Button) findViewById(R.id.lan_scan_button);
 		listview_lan_devices = (ListView) findViewById(R.id.listview_lan_devices);
 		
-		devices_arrayList = new ArrayList<String>();
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, devices_arrayList);
+		devices_arrayList = new ArrayList<>();
+		adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, devices_arrayList);
 		listview_lan_devices.setAdapter(adapter);
 		
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -225,9 +208,9 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 	}
 	
 	private void findSubnetDevices() {
-        setEnabled(lan_scan_button, false);
-		
-        SubnetDevices subnetDevices = SubnetDevices.fromLocalAddress().findDevices(new SubnetDevices.OnSubnetDeviceFound() {
+		setEnabled(lan_scan_button, false);
+
+		SubnetDevices.fromLocalAddress().findDevices(new SubnetDevices.OnSubnetDeviceFound() {
 			@Override
 			public void onDeviceFound(Device device) {
 				if (wifi_connected) {
@@ -272,7 +255,7 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 			}
 		});
     }
-	
+
 	class NetworkConnectivityReceiver extends BroadcastReceiver
 	{
 		@Override
@@ -281,7 +264,7 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 			checkNetworkConnectivity();
 		}
 	}
-	
+
 	public void checkNetworkConnectivity() {
 		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -304,7 +287,7 @@ public class LANDevicesScannerActivity extends AppCompatActivity
 		}
 
 		// Cellular Connectivity Check
-		
+
 		if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
 			showWidgets();
 			local_ip_text.setText("Your IP: " + getCellularLocalIPv4Address());

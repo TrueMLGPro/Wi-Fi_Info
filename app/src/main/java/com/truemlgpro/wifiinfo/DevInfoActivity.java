@@ -17,9 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import br.com.bloder.magic.view.MagicButton;
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class DevInfoActivity extends AppCompatActivity
-{
-
+public class DevInfoActivity extends AppCompatActivity {
 	private TextView alt_ds_txt;
 	private TextView alt_gh_txt;
 	private TextView alt_pr_txt;
@@ -37,22 +35,7 @@ public class DevInfoActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dev_info_activity);

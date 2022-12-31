@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
@@ -14,7 +14,7 @@
 		android:background="?attr/colorPrimary"
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor"/>
+		app:subtitleTextColor="?attr/SubtitleTextColor" />
 
 	<TextView
 		android:id="@+id/textview_nonetworkconn"
@@ -24,23 +24,24 @@
 		android:textSize="18sp"
 		android:textColor="?TextColor"
 		android:layout_gravity="center"
+		android:layout_centerInParent="true"
 		android:visibility="gone"
 		android:text="No Connection" />
-	
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginTop="64dp"
-		android:layout_marginBottom="8dp"
-		android:layout_marginLeft="8dp"
-		android:layout_marginRight="8dp"
+		android:layout_below="@+id/toolbar"
+		android:layout_margin="8dp"
+		android:layout_marginStart="8dp"
+		android:layout_marginEnd="8dp"
 		android:orientation="vertical">
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:gravity="center">
+			android:gravity="center"
+			android:orientation="vertical">
 
 			<TextView
 				android:id="@+id/local_ip_text"
@@ -48,20 +49,20 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
 				android:layout_marginBottom="8dp"
-				android:textSize="20sp"
+				android:text="IP: N/A"
 				android:textColor="?TextColor"
-				android:text="IP"/>
+				android:textSize="20sp" />
 
 			<TextView
 				android:id="@+id/devices_found_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="8dp"
 				android:layout_marginLeft="8dp"
 				android:layout_marginRight="8dp"
-				android:textSize="20sp"
+				android:layout_marginBottom="8dp"
+				android:text="Devices Found: -"
 				android:textColor="?TextColor"
-				android:text="Devices Found: -"/>
+				android:textSize="20sp" />
 
 		</LinearLayout>
 
@@ -71,17 +72,17 @@
 			android:layout_height="wrap_content"
 			android:text="Scan"
 			android:textColor="#FFFFFF"
-			style="@style/Widget.AppCompat.Button.Colored"/>
+			style="@style/Widget.AppCompat.Button.Colored" />
 
 		<ListView
 			android:id="@+id/listview_lan_devices"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_marginTop="8dp"
-			android:transcriptMode="alwaysScroll"
-			android:textColor="?TextColor"/>
+			android:textColor="?TextColor"
+			android:transcriptMode="alwaysScroll" />
 
 	</LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>
 

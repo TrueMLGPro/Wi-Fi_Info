@@ -9,11 +9,12 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,20 +38,17 @@ import java.util.Set;
 import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class DNSLookupActivity extends AppCompatActivity {
-
 	private TextView textview_nonetworkconn;
 	private Button get_dns_info_button;
 	private TextInputLayout input_layout_dns;
 	private EditText edit_text_dns;
 	private Spinner spinner_dns_record_types;
-	private LinearLayout layout_dns_lookup_results;
 	private ScrollView dns_lookup_results_scroll;
 	private TextView dns_lookup_textview;
 
+	private Menu toolbarDnsMenu;
+
 	private BroadcastReceiver NetworkConnectivityReceiver;
-	private ConnectivityManager CM;
-	private NetworkInfo WiFiCheck;
-	private NetworkInfo CellularCheck;
 
 	private String url_ip;
 	private String dns_record_type;
@@ -61,23 +59,9 @@ public class DNSLookupActivity extends AppCompatActivity {
 	String lineSeparator = "\n---------------------\n";
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dns_lookup_activity);
@@ -88,7 +72,6 @@ public class DNSLookupActivity extends AppCompatActivity {
 		input_layout_dns = (TextInputLayout) findViewById(R.id.input_layout_dns);
 		edit_text_dns = (EditText) findViewById(R.id.edit_text_dns);
 		spinner_dns_record_types = (Spinner) findViewById(R.id.spinner_dns_record_types);
-		layout_dns_lookup_results = (LinearLayout) findViewById(R.id.layout_dns_lookup_results);
 		dns_lookup_results_scroll = (ScrollView) findViewById(R.id.dns_lookup_results_scroll);
 		dns_lookup_textview = (TextView) findViewById(R.id.dns_lookup_textview);
 
@@ -200,26 +183,37 @@ public class DNSLookupActivity extends AppCompatActivity {
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			checkNetworkConnectivity();
+			checkNetworkConnectivity(false);
 		}
 	}
 
-	public void checkNetworkConnectivity() {
-		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+	public void checkNetworkConnectivity(Boolean calledFromToolbarAction) {
+		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		NetworkInfo CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+		if (!calledFromToolbarAction) {
+			dns_lookup_textview.setText("...\n");
+			edit_text_dns.setText("");
+		}
 
 		// WI-FI Connectivity Check
 
 		if (WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
 			showWidgets();
-			dns_lookup_textview.setText("...\n");
-			edit_text_dns.setText("");
+			if (toolbarDnsMenu != null) {
+				if (!toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_dns_log, true);
+				}
+			}
 			wifi_connected = true;
 			cellular_connected = false;
 		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
-			dns_lookup_textview.setText("...\n");
-			edit_text_dns.setText("");
+			if (toolbarDnsMenu != null) {
+				if (toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_dns_log, false);
+				}
+			}
 			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
@@ -229,13 +223,19 @@ public class DNSLookupActivity extends AppCompatActivity {
 
 		if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
 			showWidgets();
-			dns_lookup_textview.setText("...\n");
-			edit_text_dns.setText("");
+			if (toolbarDnsMenu != null) {
+				if (!toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_dns_log, true);
+				}
+			}
 			wifi_connected = false;
 			cellular_connected = true;
 		} else if (!CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
-			dns_lookup_textview.setText("...\n");
-			edit_text_dns.setText("");
+			if (toolbarDnsMenu != null) {
+				if (toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
+					setToolbarItemEnabled(R.id.clear_dns_log, false);
+				}
+			}
 			hideWidgets();
 			wifi_connected = false;
 			cellular_connected = false;
@@ -247,7 +247,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 		get_dns_info_button.setVisibility(View.VISIBLE);
 		spinner_dns_record_types.setVisibility(View.VISIBLE);
 		input_layout_dns.setVisibility(View.VISIBLE);
-		layout_dns_lookup_results.setVisibility(View.VISIBLE);
+		dns_lookup_results_scroll.setVisibility(View.VISIBLE);
 		textview_nonetworkconn.setVisibility(View.GONE);
 	}
 
@@ -256,7 +256,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 		get_dns_info_button.setVisibility(View.GONE);
 		spinner_dns_record_types.setVisibility(View.GONE);
 		input_layout_dns.setVisibility(View.GONE);
-		layout_dns_lookup_results.setVisibility(View.GONE);
+		dns_lookup_results_scroll.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
 	}
 
@@ -275,5 +275,33 @@ public class DNSLookupActivity extends AppCompatActivity {
 	{
 		super.onStop();
 		unregisterReceiver(NetworkConnectivityReceiver);
+	}
+
+	private void setToolbarItemEnabled(int item, Boolean enabled) {
+		if (toolbarDnsMenu != null) {
+			toolbarDnsMenu.findItem(item).setEnabled(enabled);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.dns_tool_action_bar_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		toolbarDnsMenu = menu;
+		checkNetworkConnectivity(true);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.clear_dns_log) {
+			dns_lookup_textview.setText("...\n");
+		}
+		return true;
 	}
 }

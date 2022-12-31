@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -27,23 +26,16 @@ import java.net.UnknownHostException;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class URLtoIPActivity extends AppCompatActivity
-{
-
+public class URLtoIPActivity extends AppCompatActivity {
     private TextInputLayout mTextInputLayout;
     private EditText mEditText;
 	private TextView textview_ipFromURL;
 	private TextView textview_nonetworkconn;
 	private Button convert_button;
-	private LinearLayout layout_url_to_ip_results;
 	private ScrollView url_to_ip_scroll;
 
 	private Menu toolbarURLtoIPToolMenu;
 
-	private ConnectivityManager CM;
-	private NetworkInfo WiFiCheck;
-	private NetworkInfo CellularCheck;
-	
 	public Boolean wifi_connected;
 	public Boolean cellular_connected;
 
@@ -57,22 +49,7 @@ public class URLtoIPActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.url_to_ip_activity);
@@ -82,7 +59,6 @@ public class URLtoIPActivity extends AppCompatActivity
         mEditText = (EditText) findViewById(R.id.edittext_main);
 		convert_button = (Button) findViewById(R.id.convert_button);
 		textview_ipFromURL = (TextView) findViewById(R.id.textview_ipFromURL);
-		layout_url_to_ip_results = (LinearLayout) findViewById(R.id.layout_url_to_ip_results);
 		url_to_ip_scroll = (ScrollView) findViewById(R.id.url_to_ip_scroll);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 
@@ -157,9 +133,9 @@ public class URLtoIPActivity extends AppCompatActivity
 	}
 
 	public void checkNetworkConnectivity(Boolean calledFromToolbarAction) {
-		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		NetworkInfo CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
 		if (!calledFromToolbarAction) {
 			textview_ipFromURL.setText("...\n");
@@ -213,7 +189,6 @@ public class URLtoIPActivity extends AppCompatActivity
 
 	public void showWidgets() {
 		textview_ipFromURL.setVisibility(View.VISIBLE);
-		layout_url_to_ip_results.setVisibility(View.VISIBLE);
 		mTextInputLayout.setVisibility(View.VISIBLE);
 		mEditText.setVisibility(View.VISIBLE);
 		convert_button.setVisibility(View.VISIBLE);
@@ -222,7 +197,6 @@ public class URLtoIPActivity extends AppCompatActivity
 
 	public void hideWidgets() {
 		textview_ipFromURL.setVisibility(View.GONE);
-		layout_url_to_ip_results.setVisibility(View.GONE);
 		mTextInputLayout.setVisibility(View.GONE);
 		mEditText.setVisibility(View.GONE);
 		convert_button.setVisibility(View.GONE);

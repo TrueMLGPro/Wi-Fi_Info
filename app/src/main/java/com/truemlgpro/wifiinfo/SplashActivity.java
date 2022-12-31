@@ -15,10 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-@SuppressLint("CustomSplashScreen")
-public class SplashActivity extends AppCompatActivity
-{
-
+@SuppressLint("CustomSplashScreen") // Legacy
+public class SplashActivity extends AppCompatActivity {
 	private TextView splash_text;
 	private TextView dev_name;
 	private TextView version_txt;
@@ -28,22 +26,7 @@ public class SplashActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash_activity);

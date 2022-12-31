@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,9 +36,7 @@ import java.net.UnknownHostException;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class PingActivity extends AppCompatActivity
-{
-
+public class PingActivity extends AppCompatActivity {
 	private TextView textview_nonetworkconn;
 	private TextInputLayout textInputLayoutPing;
 	private TextInputLayout textInputLayoutTimeout;
@@ -49,7 +46,6 @@ public class PingActivity extends AppCompatActivity
 	private EditText edit_text_timeout;
 	private EditText edit_text_ttl;
 	private EditText edit_text_times;
-	private LinearLayout layout_ping_results;
 	private ScrollView ping_results_scroll;
 	private TextView ping_text;
 	private Button ping_button;
@@ -76,22 +72,7 @@ public class PingActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
+		new ThemeManager().initializeThemes(this, getApplicationContext());
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ping_activity);
@@ -108,7 +89,6 @@ public class PingActivity extends AppCompatActivity
 		edit_text_times = (EditText) findViewById(R.id.edit_text_times);
 		ping_button = (Button) findViewById(R.id.ping_button);
 		ping_button_cancel = (Button) findViewById(R.id.ping_button_cancel);
-		layout_ping_results = (LinearLayout) findViewById(R.id.layout_ping_results);
 		ping_results_scroll = (ScrollView) findViewById(R.id.ping_scroll);
 		ping_text = (TextView) findViewById(R.id.ping_textview);
 		
@@ -163,38 +143,56 @@ public class PingActivity extends AppCompatActivity
 			}
 		}
 
-		if (!TextUtils.isEmpty(edit_text_timeout.getText().toString())) {
-			if (Integer.parseInt(edit_text_timeout.getText().toString()) < 1) {
-				appendResultsText("Timeout value cannot be lower than 1 ms");
-				appendResultsText("Changing timeout to the default value");
-				edit_text_timeout.setText("3000");
-			}
-		} else {
+		if (TextUtils.isEmpty(edit_text_timeout.getText().toString())) {
 			appendResultsText("Timeout text field cannot be empty");
 			appendResultsText("Changing timeout to the default value");
 			edit_text_timeout.setText("3000");
 		}
 
-		if (!TextUtils.isEmpty(edit_text_ttl.getText().toString())) {
-			if (Integer.parseInt(edit_text_ttl.getText().toString()) < 1) {
-				appendResultsText("TTL value cannot be lower than 1");
-				appendResultsText("Changing it to the default value");
-				edit_text_ttl.setText("30");
-			}
-		} else {
+		if (!isStringInt(edit_text_timeout.getText().toString())) {
+			appendResultsText("Timeout value is not an integer");
+			appendResultsText("Changing timeout to the default value");
+			edit_text_timeout.setText("3000");
+		}
+
+		if (Integer.parseInt(edit_text_timeout.getText().toString()) < 1) {
+			appendResultsText("Timeout value cannot be lower than 1 ms");
+			appendResultsText("Changing timeout to the default value");
+			edit_text_timeout.setText("3000");
+		}
+
+		if (TextUtils.isEmpty(edit_text_ttl.getText().toString())) {
 			appendResultsText("TTL text field cannot be empty");
 			appendResultsText("Changing it to the default value");
 			edit_text_ttl.setText("30");
 		}
 
-		if (!TextUtils.isEmpty(edit_text_times.getText().toString())) {
-			if (Integer.parseInt(edit_text_times.getText().toString()) < 1) {
-				appendResultsText("You cannot ping a host " + edit_text_times.getText().toString() + " times");
-				appendResultsText("Changing it to the default value");
-				edit_text_times.setText("5");
-			}
-		} else {
+		if (!isStringInt(edit_text_ttl.getText().toString())) {
+			appendResultsText("TTL value is not an integer");
+			appendResultsText("Changing timeout to the default value");
+			edit_text_ttl.setText("30");
+		}
+
+		if (Integer.parseInt(edit_text_ttl.getText().toString()) < 1) {
+			appendResultsText("TTL value cannot be lower than 1");
+			appendResultsText("Changing it to the default value");
+			edit_text_ttl.setText("30");
+		}
+
+		if (TextUtils.isEmpty(edit_text_times.getText().toString())) {
 			appendResultsText("You cannot ping a host if you don't define how many packets you want to send");
+			appendResultsText("Changing it to the default value");
+			edit_text_times.setText("5");
+		}
+
+		if (!isStringInt(edit_text_times.getText().toString())) {
+			appendResultsText("You cannot ping a host since " + edit_text_times.getText().toString() + " is not an integer");
+			appendResultsText("Changing timeout to the default value");
+			edit_text_times.setText("5");
+		}
+
+		if (Integer.parseInt(edit_text_times.getText().toString()) < 1) {
+			appendResultsText("You cannot ping a host " + edit_text_times.getText().toString() + " times");
 			appendResultsText("Changing it to the default value");
 			edit_text_times.setText("5");
 		}
@@ -329,7 +327,7 @@ public class PingActivity extends AppCompatActivity
 		textInputLayoutTimeout.setVisibility(View.VISIBLE);
 		textInputLayoutTTL.setVisibility(View.VISIBLE);
 		textInputLayoutTimes.setVisibility(View.VISIBLE);
-		layout_ping_results.setVisibility(View.VISIBLE);
+		ping_results_scroll.setVisibility(View.VISIBLE);
 		textview_nonetworkconn.setVisibility(View.GONE);
 	}
 
@@ -341,7 +339,7 @@ public class PingActivity extends AppCompatActivity
 		textInputLayoutTimeout.setVisibility(View.GONE);
 		textInputLayoutTTL.setVisibility(View.GONE);
 		textInputLayoutTimes.setVisibility(View.GONE);
-		layout_ping_results.setVisibility(View.GONE);
+		ping_results_scroll.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
 	}
 	
@@ -359,6 +357,15 @@ public class PingActivity extends AppCompatActivity
 	        ping_results_scroll.post(() -> ping_results_scroll.fullScroll(View.FOCUS_DOWN));
         });
     }
+
+	private boolean isStringInt(String s)  {
+		try {
+			Integer.parseInt(s);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 	
 	@Override
 	protected void onStart()

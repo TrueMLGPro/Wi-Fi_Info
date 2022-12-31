@@ -18,13 +18,11 @@ import android.os.Looper;
 
 import androidx.annotation.RequiresApi;
 
-public class ConnectionStateService extends Service 
-{
-
+public class ConnectionStateService extends Service {
 	private BroadcastReceiver ConnectionStateReceiver;
 	private Notification.Builder builder;
-	private String state_online = "Connection Status — Online";
-	private String state_offline = "Connection Status — Offline";
+	private final String state_online = "Connection Status — Online";
+	private final String state_offline = "Connection Status — Offline";
 	
 	private ScreenStateReceiver ScrStateRec;
 	private IntentFilter intentFilter;
@@ -42,9 +40,8 @@ public class ConnectionStateService extends Service
 			NetworkInfo WiFi_NI = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 			boolean isConnected = WiFi_NI != null && WiFi_NI.isConnected();
 
+			Intent ServiceIntent = new Intent(ConnectionStateService.this, NotificationService.class);
 			if (isConnected) {
-				Intent ServiceIntent = new Intent(ConnectionStateService.this, NotificationService.class);
-
 				if (android.os.Build.VERSION.SDK_INT < 26) {
 					startService(ServiceIntent);
 				} else {
@@ -59,7 +56,7 @@ public class ConnectionStateService extends Service
 					showOnlineNotificationAPI21(context);
 				}
 
-				Boolean keyStartStopScrnStateNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, MainActivity.startStopSrvcScrnState);
+				boolean keyStartStopScrnStateNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, MainActivity.startStopSrvcScrnState);
 
 				if (keyStartStopScrnStateNtfc) {
 					registerReceiver(ScrStateRec, intentFilter);
@@ -77,10 +74,8 @@ public class ConnectionStateService extends Service
 						isHandlerPosted = false;
 					}
 				}
-
 				isNotificationServiceRunning = true;
 			} else {
-				Intent ServiceIntent = new Intent(ConnectionStateService.this, NotificationService.class);
 				if (isNotificationServiceRunning) {
 					sendBroadcast(new Intent(ConnectionStateService.this, NotificationService.NotificationServiceStopReceiver.class).setAction("ACTION_STOP_FOREGROUND"));
 					stopService(ServiceIntent);
@@ -264,25 +259,22 @@ public class ConnectionStateService extends Service
 		/// END ///
 	}
 	
-	private Handler handler = new Handler(Looper.getMainLooper());
-	private Runnable runnable = new Runnable() {
+	private final Handler handler = new Handler(Looper.getMainLooper());
+	private final Runnable runnable = new Runnable() {
 		@Override
 		public void run() {
 			Intent ServiceIntent = new Intent(ConnectionStateService.this, NotificationService.class);
-			if (ScreenStateReceiver.screenState == true) {
-				if (isNotificationServiceRunning == false) {
+			if (ScreenStateReceiver.screenState) {
+				if (!isNotificationServiceRunning) {
 					if (android.os.Build.VERSION.SDK_INT < 26) {
 						startService(ServiceIntent);
-						isNotificationServiceRunning = true;
 					} else {
 						startForegroundService(ServiceIntent);
-						isNotificationServiceRunning = true;
 					}
+					isNotificationServiceRunning = true;
 				}
-			}
-				
-			if (ScreenStateReceiver.screenState == false) {
-				if (isNotificationServiceRunning == true) {
+			} else {
+				if (isNotificationServiceRunning) {
 					sendBroadcast(new Intent(ConnectionStateService.this, NotificationService.NotificationServiceStopReceiver.class).setAction("ACTION_STOP_FOREGROUND"));
 					stopService(ServiceIntent);
 					isNotificationServiceRunning = false;
@@ -428,7 +420,7 @@ public class ConnectionStateService extends Service
 				Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
 				intentActionStop.setAction("ACTION_STOP_CONN_STATE_SERVICE");
 				PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
-				
+
 				Notification notification = builder.setSmallIcon(R.drawable.ic_wifi_fail)
 					.setContentTitle(state_offline)
 					.setWhen(System.currentTimeMillis())
@@ -445,7 +437,6 @@ public class ConnectionStateService extends Service
 				/// ANDROID 5 - ANDROID 7 ///
 				int NOTIFICATION_ID = 1306;
 
-				NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				builder = new Notification.Builder(this);
 				
 				Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
@@ -485,5 +476,4 @@ public class ConnectionStateService extends Service
 	{
 		return null;
 	}
-
 }

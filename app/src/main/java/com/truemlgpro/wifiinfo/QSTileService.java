@@ -24,7 +24,6 @@ import java.util.Scanner;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class QSTileService extends TileService {
-
 	Tile qs_tile;
 
 	NetworkInfo WiFiCheck;
@@ -126,7 +125,7 @@ public class QSTileService extends TileService {
 	}
 
 	public boolean isReachable(String url) {
-		boolean reachable = false;
+		boolean reachable;
 		int code;
 
 		try {
@@ -137,11 +136,7 @@ public class QSTileService extends TileService {
 			connection.connect();
 			code = connection.getResponseCode();
 			connection.disconnect();
-			if (code == 200) {
-				reachable = true;
-			} else {
-				reachable = false;
-			}
+			reachable = code == 200;
 		} catch (Exception e) {
 			reachable = false;
 		}

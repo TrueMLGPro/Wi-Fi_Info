@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
@@ -20,6 +20,7 @@
 		android:id="@+id/cards_scrollview"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_below="@+id/toolbar"
 		android:clipToPadding="false">
 
 		<LinearLayout
@@ -34,7 +35,7 @@
 				android:layout_height="wrap_content"
 				android:minHeight="100dp"
 				android:layout_gravity="center_horizontal"
-				android:layout_marginTop="72dp"
+				android:layout_marginTop="16dp"
 				android:layout_marginLeft="16dp"
 				android:layout_marginRight="16dp"
 				android:foreground="?android:attr/selectableItemBackground"
@@ -577,5 +578,5 @@
 
 	</ScrollView>
 
-</FrameLayout>
+</RelativeLayout>
 

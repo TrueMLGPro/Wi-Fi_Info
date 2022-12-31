@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:orientation="vertical"
 	android:background="?attr/BackgroundColor">
 
 	<androidx.appcompat.widget.Toolbar
@@ -14,7 +13,6 @@
 		android:layout_height="?attr/actionBarSize"
 		android:background="?attr/colorPrimary"
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:navigationIcon="?attr/homeAsUpIndicator"
 		app:titleTextColor="?attr/TitleTextColor"
 		app:subtitleTextColor="?attr/SubtitleTextColor"/>
 
@@ -22,6 +20,7 @@
 		android:id="@+id/scrollView"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_below="@+id/toolbar"
 		android:fillViewport="true">
 
 		<RelativeLayout
@@ -33,7 +32,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="72dp"
+				android:layout_marginTop="16dp"
 				android:textSize="32sp"
 				android:textColor="?attr/TextColor"
 				android:text="Supporters" />
@@ -616,4 +615,4 @@
 
 	</ScrollView>
 
-</FrameLayout>
+</RelativeLayout>

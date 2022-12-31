@@ -1,7 +1,6 @@
 package com.truemlgpro.wifiinfo;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -40,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,6 +47,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.preference.PreferenceManager;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -70,9 +71,7 @@ import java.util.Scanner;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
-public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback
-{
-
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 	private Toolbar toolbar;
 	private Menu toolbarMenu;
 	private TextView textview_public_ip;
@@ -154,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	String info_30 = "";
 
 	private final int LocationPermissionCode = 123;
-	private Boolean permissionGranted = true;
 
 	private ConnectivityManager CM;
 	private NetworkInfo WiFiCheck;
@@ -170,13 +168,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	public static Boolean visualizeSigStrg = false;
 	public static Boolean startStopSrvcScrnState = false;
 	public static Boolean colorizeNtfc = false;
-	private Boolean neverShowGeoDialog = false;
-	private Boolean isHandlerRunning = false;
+	private boolean neverShowGeoDialog = false;
+	private boolean neverShowPermissionReqDialog = false;
+	private final String keyNeverShowGeoDialog = "NeverShowGeoDialog";
+	private final String keyNeverShowPermissionReqDialog = "NeverShowPermissionDialog";
+	private boolean isHandlerRunning = false;
 	public static String ntfcUpdateInterval = "1000";
 	private String cardUpdateInterval = "1000";
 	public static String appFont = "fonts/Gilroy-Semibold.ttf";
-	private AlertDialog alertAPI25;
-	private AlertDialog alertAPI27;
 	private String publicIPFetched;
 	private boolean siteReachable = false;
 	private String version;
@@ -192,324 +191,47 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onCreate(Bundle savedInstanceState)
     {
 		/// Shared Preferences ///
-
-		Boolean keyTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode);
-		Boolean keyAmoledTheme = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode);
-
-		if (keyTheme) {
-			setTheme(R.style.DarkTheme);
-		}
-
-		if (keyAmoledTheme) {
-			if (keyTheme) {
-				setTheme(R.style.AmoledDarkTheme);
-			}
-		}
-
-		if (!keyTheme) {
-			setTheme(R.style.LightTheme);
-		}
-
-		listener = (prefs, key) -> {
-			if (key.equals(SettingsActivity.KEY_PREF_SWITCH)) {
-				if (prefs.getBoolean(SettingsActivity.KEY_PREF_SWITCH, true) == true) {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode = true);
-				} else {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode = false);
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_AMOLED_CHECK)) {
-				if (prefs.getBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, false) == true) {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode = true);
-				} else {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode = false);
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_BOOT_SWITCH)) {
-				if (prefs.getBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, false) == true) {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, startOnBoot = true);
-				} else {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, startOnBoot = false);
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_NTFC_SWITCH)) {
-				if (prefs.getBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, true) == true) {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc = true);
-				} else {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc = false);
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK)) {
-				if (prefs.getBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, false) == true) {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, visualizeSigStrg = true);
-				} else {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, visualizeSigStrg = false);
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK)) {
-				if (prefs.getBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, false) == true) {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, startStopSrvcScrnState = true);
-					Intent restartConnectionStateService = new Intent(MainActivity.this, ConnectionStateService.class);
-					Intent restartNotificationService = new Intent(MainActivity.this, NotificationService.class);
-					if (ConnectionStateService.isNotificationServiceRunning) {
-						stopService(restartNotificationService);
-					}
-					if (ConnectionStateService.isConnectionStateServiceRunning) {
-						stopService(restartConnectionStateService);
-						if (Build.VERSION.SDK_INT < 26) {
-							startService(restartConnectionStateService);
-						} else {
-							startForegroundService(restartConnectionStateService);
-						}
-					}
-				} else {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, startStopSrvcScrnState = false);
-					Intent restartConnectionStateService = new Intent(MainActivity.this, ConnectionStateService.class);
-					Intent restartNotificationService = new Intent(MainActivity.this, NotificationService.class);
-					if (ConnectionStateService.isNotificationServiceRunning) {
-						stopService(restartNotificationService);
-					}
-					if (ConnectionStateService.isConnectionStateServiceRunning) {
-						stopService(restartConnectionStateService);
-						if (Build.VERSION.SDK_INT < 26) {
-							startService(restartConnectionStateService);
-						} else {
-							startForegroundService(restartConnectionStateService);
-						}
-					}
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_CLR_CHECK)) {
-				if (prefs.getBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, false) == true) {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, colorizeNtfc = true);
-				} else {
-					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, colorizeNtfc = false);
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_NTFC_FREQ)) {
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("500")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "500");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("1000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "1000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("2000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "2000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("3000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "3000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("4000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "4000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("5000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "5000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("10000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "10000");
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_CARD_FREQ)) {
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("500")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "500");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("1000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "1000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("2000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "2000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("3000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "3000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("4000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "4000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("5000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "5000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("10000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "10000");
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_APP_FONT)) {
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Gilroy-Semibold.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Gilroy-Semibold.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CircularStd-Bold.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CircularStd-Bold.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Comfortaa-Regular.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Comfortaa-Regular.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CondellBio-Medium.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CondellBio-Medium.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/FilsonPro-Regular.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/FilsonPro-Regular.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Hellix-Medium.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Hellix-Medium.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Moderat-Regular.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Moderat-Regular.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Newson-Medium.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Newson-Medium.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/NoirText-Bold.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/NoirText-Bold.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Poligon-Regular.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Poligon-Regular.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/ProximaSoft-Medium.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/ProximaSoft-Medium.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Squalo-Regular.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Squalo-Regular.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Tomkin-Regular.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Tomkin-Regular.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Urbani-Regular.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Urbani-Regular.ttf");
-				}
-			}
-		};
-
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		prefs.registerOnSharedPreferenceChangeListener(listener);
-
-		/// END ///
+		new ThemeManager().initializeThemes(this, getApplicationContext());
+		initSharedPrefs();
 
 		super.onCreate(savedInstanceState);
+	    /// Splash Screen API ///
+		SplashScreen.installSplashScreen(this);
 		setContentView(R.layout.main);
 
 		/// Initialize ///
-
-		initializeViews();
-		initializeOnClickListeners();
-		initializeCopyableText();
-
-		/// END ///
+		initViews();
+		initOnClickListeners();
+		initCopyableText();
 
 		/// Request permissions ///
-
 		if (Build.VERSION.SDK_INT >= 26) {
-			requestPermissionsOnStart();
-		}
-
-		/// END ///
-
-		/// Notify if GPS is disabled ///
-
-	    if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 31) {
-		    // Android 8.1 - Android 11
-		    permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-	    } else if (Build.VERSION.SDK_INT >= 31) {
-		    // Android 12+
-		    permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION);
-	    }
-
-		if (permissionGranted) {
-			if (Build.VERSION.SDK_INT == 26) {
-				Boolean keyNeverShow25 = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean("dialogNeverShowAPI25", neverShowGeoDialog);
-				if (!keyNeverShow25) {
-					requestGPS_API25();
+			if (!isLocationPermissionGranted()) {
+				// If user didn't choose to hide the permission request dialog
+				if (!new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(keyNeverShowPermissionReqDialog, neverShowPermissionReqDialog)) {
+					requestPermissionsOnStart();
 				}
-			} else if (Build.VERSION.SDK_INT >= 27) {
-				Boolean keyNeverShow27 = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean("dialogNeverShowAPI27", neverShowGeoDialog);
-				if (!keyNeverShow27) {
-					requestGPS_API27();
+			} else {
+				/// Notify if GPS is disabled ///
+				// If user didn't choose to hide the GPS request dialog
+				if (!new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(keyNeverShowGeoDialog, neverShowGeoDialog)) {
+					requestGPSFeature();
 				}
 			}
 		}
 
-		/// END ///
-
-		/// Service startup ///
-
-		Boolean keyNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc);
-
-		if (keyNtfc) {
-			if (!isServiceRunning) {
-				Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
-				if (android.os.Build.VERSION.SDK_INT < 26) {
-					startService(ConnectionStateServiceIntent);
-				} else {
-					startForegroundService(ConnectionStateServiceIntent);
-				}
-				isServiceRunning = true;
-			}
-		} else {
-			if (isServiceRunning) {
-				ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-				WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-				Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
-				Intent NotificationServiceIntent = new Intent(MainActivity.this, NotificationService.class);
-
-				stopService(ConnectionStateServiceIntent);
-				isServiceRunning = false;
-				if (WiFiCheck.isConnected()) {
-					stopService(NotificationServiceIntent);
-				}
-			}
-		}
-
-		/// END ///
+		/// Services ///
+		initForegroundServices();
 
 		/// Create dynamic shortcuts ///
-
-		if (android.os.Build.VERSION.SDK_INT > 25) {
+		if (Build.VERSION.SDK_INT >= 26) {
 			createShortcuts();
 		}
 
-		/// END ///
-
 		/// Keep screen on ///
-
 		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		/// END ///
-
 		/// Get app version ///
-
 		try {
 			PackageInfo pi = this.getPackageManager().getPackageInfo(getPackageName(), 0);
 			version = pi.versionName;
@@ -517,48 +239,32 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			e.printStackTrace();
 		}
 
-		/// END ///
+		/// Initialize font and ActionBar ///
+		initFontAndActionbar();
 
-		/// Initialize font and ActionBar
+	    /// Set up FloatingActionMenu ///
+		fam.setClosedOnTouchOutside(true);
 
+		/// Set default preferences ///
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+		/// Check Wi-Fi Connectivity ///
+		initConnectivityCheck();
+    }
+
+	private void initFontAndActionbar() {
 		Calligrapher calligrapher = new Calligrapher(this);
 		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, appFont);
 		calligrapher.setFont(this, font, true);
 
 		setSupportActionBar(toolbar);
-	    ActionBar actionbar = getSupportActionBar();
-	    actionbar.setDisplayHomeAsUpEnabled(false);
+		ActionBar actionbar = getSupportActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(false);
 		actionbar.setSubtitle("Release v" + version);
 		actionbar.setElevation(20);
-
-		/// END ///
-
-		/// Set up FloatingActionMenu options ///
-
-		fam.setClosedOnTouchOutside(true);
-
-		/// END ///
-
-		/// Set default preferences ///
-
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
-		/// END ///
-
-		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-		if (!WiFiCheck.isConnected()) {
-			textview_noconn.setVisibility(View.VISIBLE);
-			hideWidgets(); // Hides CardViews and TextViews
-			textview_public_ip.setText("Your IP: N/A");
-		} else {
-			textview_noconn.setVisibility(View.GONE);
-			showWidgets(); // Makes CardViews and TextViews visible
-		}
 	}
 
-	public void getAllNetworkInformation() {
+	private void getAllNetworkInformation() {
 		mainWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		wInfo = mainWifiManager.getConnectionInfo();
 		dhcp = mainWifiManager.getDhcpInfo();
@@ -710,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 	}
 
-	public void updateTextviews() {
+	private void updateTextviews() {
 		textview_ssid.setText(info_1);
 		textview_hidden_ssid.setText(info_2);
 		textview_bssid.setText(info_3);
@@ -818,69 +524,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			}
 		}
 	}
-	
-	public void showToastOnEnable() {
-		Toast toast = Toast.makeText(this, "Enable Location to show SSID and BSSID of current network", Toast.LENGTH_LONG);
-		toast.show();
-	}
-	
-	public void showToastOnCancel() {
-		Toast toast = Toast.makeText(this, "SSID and BSSID of current network won't be shown", Toast.LENGTH_LONG);
-		toast.show();
-	}
-	
-	public void showToastOnEnableAPI27() {
-		Toast toast = Toast.makeText(this, "Enable Location to show SSID, BSSID and Network ID of current network", Toast.LENGTH_LONG);
-		toast.show();
-	}
-	
-	public void showToastOnCancelAPI27() {
-		Toast toast = Toast.makeText(this, "SSID, BSSID and Network ID of current network won't be shown", Toast.LENGTH_LONG);
-		toast.show();
-	}
-	
-	public void hideWidgets() {
-		textview_public_ip.setVisibility(View.GONE);
-		textview_ssid.setVisibility(View.GONE);
-		textview_hidden_ssid.setVisibility(View.GONE);
-		textview_bssid.setVisibility(View.GONE);
-		textview_ipv4.setVisibility(View.GONE);
-		textview_ipv6.setVisibility(View.GONE);
-		textview_gateway_ip.setVisibility(View.GONE);
-		textview_hostname.setVisibility(View.GONE);
-		textview_dns1.setVisibility(View.GONE);
-		textview_dns2.setVisibility(View.GONE);
-		textview_subnet_mask.setVisibility(View.GONE);
-		textview_network_id.setVisibility(View.GONE);
-		textview_mac_address.setVisibility(View.GONE);
-		textview_network_interface.setVisibility(View.GONE);
-		textview_loopback_address.setVisibility(View.GONE);
-		textview_localhost.setVisibility(View.GONE);
-		textview_frequency.setVisibility(View.GONE);
-		textview_network_channel.setVisibility(View.GONE);
-		textview_rssi.setVisibility(View.GONE);
-		textview_lease_duration.setVisibility(View.GONE);
-		textview_transmit_link_speed.setVisibility(View.GONE);
-		textview_receive_link_speed.setVisibility(View.GONE);
-		textview_network_speed.setVisibility(View.GONE);
-		textview_transmitted_data.setVisibility(View.GONE);
-		textview_received_data.setVisibility(View.GONE);
-		textview_supplicant_state.setVisibility(View.GONE);
-		textview_5ghz_support.setVisibility(View.GONE);
-		textview_wifi_direct_support.setVisibility(View.GONE);
-		textview_tdls_support.setVisibility(View.GONE);
-		textview_wpa3_sae_support.setVisibility(View.GONE);
-		textview_wpa3_suite_b_support.setVisibility(View.GONE);
-		cardview_1.setVisibility(View.GONE);
-		cardview_2.setVisibility(View.GONE);
-		cardview_3.setVisibility(View.GONE);
-		cardview_4.setVisibility(View.GONE);
-		cardview_5.setVisibility(View.GONE);
-		cardview_6.setVisibility(View.GONE);
-		fab_update.setVisibility(View.GONE);
-	}
-	
-	public void showWidgets() {
+
+	private void showWidgets() {
 		textview_public_ip.setVisibility(View.VISIBLE);
 		textview_ssid.setVisibility(View.VISIBLE);
 		textview_hidden_ssid.setVisibility(View.VISIBLE);
@@ -931,12 +576,53 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		fab_update.setVisibility(View.VISIBLE);
 	}
 	
-	public boolean isLocationEnabled() {
+	private void hideWidgets() {
+		textview_public_ip.setVisibility(View.GONE);
+		textview_ssid.setVisibility(View.GONE);
+		textview_hidden_ssid.setVisibility(View.GONE);
+		textview_bssid.setVisibility(View.GONE);
+		textview_ipv4.setVisibility(View.GONE);
+		textview_ipv6.setVisibility(View.GONE);
+		textview_gateway_ip.setVisibility(View.GONE);
+		textview_hostname.setVisibility(View.GONE);
+		textview_dns1.setVisibility(View.GONE);
+		textview_dns2.setVisibility(View.GONE);
+		textview_subnet_mask.setVisibility(View.GONE);
+		textview_network_id.setVisibility(View.GONE);
+		textview_mac_address.setVisibility(View.GONE);
+		textview_network_interface.setVisibility(View.GONE);
+		textview_loopback_address.setVisibility(View.GONE);
+		textview_localhost.setVisibility(View.GONE);
+		textview_frequency.setVisibility(View.GONE);
+		textview_network_channel.setVisibility(View.GONE);
+		textview_rssi.setVisibility(View.GONE);
+		textview_lease_duration.setVisibility(View.GONE);
+		textview_transmit_link_speed.setVisibility(View.GONE);
+		textview_receive_link_speed.setVisibility(View.GONE);
+		textview_network_speed.setVisibility(View.GONE);
+		textview_transmitted_data.setVisibility(View.GONE);
+		textview_received_data.setVisibility(View.GONE);
+		textview_supplicant_state.setVisibility(View.GONE);
+		textview_5ghz_support.setVisibility(View.GONE);
+		textview_wifi_direct_support.setVisibility(View.GONE);
+		textview_tdls_support.setVisibility(View.GONE);
+		textview_wpa3_sae_support.setVisibility(View.GONE);
+		textview_wpa3_suite_b_support.setVisibility(View.GONE);
+		cardview_1.setVisibility(View.GONE);
+		cardview_2.setVisibility(View.GONE);
+		cardview_3.setVisibility(View.GONE);
+		cardview_4.setVisibility(View.GONE);
+		cardview_5.setVisibility(View.GONE);
+		cardview_6.setVisibility(View.GONE);
+		fab_update.setVisibility(View.GONE);
+	}
+	
+	private boolean isLocationEnabled() {
 		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
-	
-	public static boolean hasPermissions(Context context, String... permissions) {
+
+	private boolean hasPermissions(Context context, String... permissions) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
 			for (String permission: permissions) {
 				if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -946,8 +632,68 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 		return true;
 	}
-	
-	public static String getMACAddress() {
+
+	private String getPublicIPAddress() {
+		String publicIP = "";
+		try {
+			Scanner scanner = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A");
+			publicIP = scanner.next();
+			scanner.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return publicIP;
+	}
+
+	private boolean isReachable(String url) {
+		boolean reachable;
+		int response_code;
+
+		try {
+			URL siteURL = new URL(url);
+			HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setConnectTimeout(3000);
+			connection.connect();
+			response_code = connection.getResponseCode();
+			connection.disconnect();
+			reachable = response_code == 200;
+		} catch (Exception e) {
+			reachable = false;
+		}
+		return reachable;
+	}
+
+	@SuppressWarnings("deprecation")
+	class PublicIPRunnable implements Runnable {
+		@Override
+		public void run() {
+			new AsyncTask<String, Void, Void>() {
+				@Override
+				protected Void doInBackground(String[] voids) {
+					String url = "https://api.ipify.org";
+					siteReachable = isReachable(url);
+					if (siteReachable) {
+						publicIPFetched = getPublicIPAddress();
+					} else {
+						publicIPFetched = "N/A";
+					}
+					return null;
+				}
+
+				@Override
+				protected void onPostExecute(Void aVoid) {
+					super.onPostExecute(aVoid);
+					textview_public_ip.setText("Your IP: " + publicIPFetched);
+				}
+			}.execute();
+
+			Handler handlerEnableFAB = new Handler(Looper.getMainLooper());
+			handlerEnableFAB.postDelayed(() -> fab_update.setEnabled(true), 5000);
+		}
+	}
+
+	private String getMACAddress() {
 		try {
 			List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
 			for (NetworkInterface networkInterface : allNetworkInterfaces) {
@@ -975,18 +721,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 		return "";
 	}
-	
+
 	private String getGatewayIP() {
 		if (!WiFiCheck.isConnected()) {
 			return "0.0.0.0";
 		}
 		mainWifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
 		DhcpInfo dhcp = mainWifiManager.getDhcpInfo();
-		int ip = dhcp.gateway;
-		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
+		int gatewayIP = dhcp.gateway;
+		return intToIp(gatewayIP);
 	}
 	
-	public String getIPv4Address() {
+	private String getIPv4Address() {
 		try {
 			for (Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface.getNetworkInterfaces(); enumNetworkInterfaces.hasMoreElements();) {
 				NetworkInterface networkInterface = enumNetworkInterfaces.nextElement();
@@ -1002,8 +748,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 		return null;
 	}
-	
-	public String getIPv6Address() {
+
+	private String getIPv6Address() {
 		try {
 			for (Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface.getNetworkInterfaces(); enumNetworkInterfaces.hasMoreElements();) {
 				NetworkInterface networkInterface = enumNetworkInterfaces.nextElement();
@@ -1020,7 +766,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		return null;
 	}
 
-	public String getHostname() {
+	private String getHostname() {
 		String hostname = null;
 		try {
 			InetAddress hostnameAddr = InetAddress.getByName(getGatewayIP());
@@ -1032,7 +778,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		return hostname;
 	}
 
-	public String getNetworkInterface() {
+	private String getNetworkInterface() {
 		String interfc = null;
 		for (Network network : CM.getAllNetworks()) {
 			LinkProperties linkProp = CM.getLinkProperties(network);
@@ -1041,7 +787,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		return interfc;
 	}
 
-	public String getLocalhostAddress() {
+	private String getLocalhostAddress() {
 		String localHost_converted = null;
 		try {
 			InetAddress localHost = InetAddress.getLocalHost();
@@ -1052,15 +798,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 		return localHost_converted;
 	}
-	
-	public String intToIp(int ipInt) {
+
+	private String intToIp(int ipInt) {
 		return ((ipInt & 0xFF) + "."
 		+ ((ipInt >> 8) & 0xFF) + "."
 		+ ((ipInt >> 16) & 0xFF) + "."
 		+ ((ipInt >> 24) & 0xFF));
 	}
-	
-	public static int convertFrequencyToChannel(int freq) {
+
+	private int convertFrequencyToChannel(int freq) {
 		if (freq >= 2412 && freq <= 2484) {
 			return (freq - 2412) / 5 + 1;
 		} else if (freq >= 5170 && freq <= 5825) {
@@ -1069,56 +815,68 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			return -1;
 		}
 	}
-	
-	public void requestGPS_API25() {
+
+	private void requestGPSFeature() {
 		// Notify User if GPS is disabled
-		isLocationEnabled();
 		if (!isLocationEnabled()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 			builder.setTitle("Location is Disabled")
-				.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) on Android 8+\n\nClick \"Enable\" to grant Wi-Fi Info permission to show SSID and BSSID")
-				.setIcon(R.drawable.location)
 				.setPositiveButton("Enable", (dialog, id) -> {
-					showToastOnEnable();
+					if (Build.VERSION.SDK_INT == 26) {
+						Toast.makeText(this, "Enable Location to show SSID and BSSID of current network", Toast.LENGTH_LONG).show();
+					} else if (Build.VERSION.SDK_INT >= 27) {
+						Toast.makeText(this, "Enable Location to show SSID, BSSID and Network ID of current network", Toast.LENGTH_LONG).show();
+					}
 					startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 				})
 				.setNegativeButton("Cancel", (dialog, id) -> {
-					showToastOnCancel();
+					if (Build.VERSION.SDK_INT == 26) {
+						Toast.makeText(this, "SSID and BSSID of current network won't be shown", Toast.LENGTH_LONG).show();
+					} else if (Build.VERSION.SDK_INT >= 27) {
+						Toast.makeText(this, "SSID, BSSID and Network ID of current network won't be shown", Toast.LENGTH_LONG).show();
+					}
 					dialog.cancel();
 				})
-				.setNeutralButton("Don't show again", (dialog, id) -> new SharedPreferencesManager(getApplicationContext()).storeBoolean("dialogNeverShowAPI25", neverShowGeoDialog = true));
+				.setNeutralButton("Don't Show Again", (dialog, id) -> new SharedPreferencesManager(getApplicationContext()).storeBoolean(keyNeverShowGeoDialog, neverShowGeoDialog = true));
+			if (Build.VERSION.SDK_INT == 26) {
+				builder.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) " +
+						"on Android 8+\n\nClick \"Enable\" to grant Wi-Fi Info permission to show SSID and BSSID");
+			} else if (Build.VERSION.SDK_INT >= 27) {
+				builder.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) and Network ID " +
+						"on Android 8.1\n\nClick \"Enable\" to grant Wi-Fi Info permission to show SSID, BSSID and Network ID");
+			}
 			builder.setCancelable(false);
-			alertAPI25 = builder.create();
-			alertAPI25.show();
+			AlertDialog alertDialog = builder.create();
+			alertDialog.show();
 		}
 	}
 
-	public void requestGPS_API27() {
-		// Notify User if GPS is disabled
-		isLocationEnabled();
-		if (!isLocationEnabled()) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-			builder.setTitle("Location is Disabled")
-				.setMessage("Wi-Fi Info needs Location to show SSID (network name) and BSSID (network MAC address) and Network ID on Android 8.1\n\nClick \"Enable\" to grant Wi-Fi Info permission to show SSID, BSSID and Network ID")
-				.setIcon(R.drawable.location)
-				.setPositiveButton("Enable", (dialog, id) -> {
-					showToastOnEnableAPI27();
-					startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-				})
-				.setNegativeButton("Cancel", (dialog, id) -> {
-					showToastOnCancelAPI27();
-					dialog.cancel();
-				})
-				.setNeutralButton("Don't show again", (dialog, id) -> new SharedPreferencesManager(getApplicationContext()).storeBoolean("dialogNeverShowAPI27", neverShowGeoDialog = true));
-			builder.setCancelable(false);
-			alertAPI27 = builder.create();
-			alertAPI27.show();
-		}
+	private void requestPermissionsOnStart() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		builder.setTitle("Permission required!")
+			.setMessage("Location permission is necessary to show SSID, BSSID and Network ID on devices running Android 8.1 and higher")
+			.setPositiveButton("Ok", (dialog, id) -> {
+				// Android 8.1 - Android 10
+				String[] ForegroundCoarseLocationPermission_API27 = {Manifest.permission.ACCESS_COARSE_LOCATION};
+				// Android 11+
+				String[] ForegroundFineLocationPermission_API30 = {Manifest.permission.ACCESS_FINE_LOCATION};
+				if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 30) {
+					ActivityCompat.requestPermissions(MainActivity.this, ForegroundCoarseLocationPermission_API27, LocationPermissionCode);
+				} else if (Build.VERSION.SDK_INT >= 30) {
+					ActivityCompat.requestPermissions(MainActivity.this, ForegroundFineLocationPermission_API30, LocationPermissionCode);
+				}
+			})
+			.setNegativeButton("No Thanks", null)
+			.setNeutralButton("Don't Show Again", (dialog, id) -> new SharedPreferencesManager(getApplicationContext()).storeBoolean(keyNeverShowPermissionReqDialog, neverShowPermissionReqDialog = true))
+			.setCancelable(false);
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 
-	public void requestPermissionsOnStart() {
+	private boolean isLocationPermissionGranted() {
 		// In Android 8.1 (API 27) - 11 (API 30) ACCESS_COARSE_LOCATION needs to be granted to access network information
 		// Android 12+ (API 31) needs ACCESS_FINE_LOCATION to be granted though
+		boolean permissionGranted = false;
 		if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 31) {
 			// Android 8.1 - Android 11
 			permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -1126,31 +884,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			// Android 12+
 			permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION);
 		}
-
-		if (!permissionGranted) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-			builder.setTitle("Permission required!")
-					.setMessage("Location permission is needed to show SSID, BSSID and Network ID on Android 8.1+, grant it to get full info")
-					.setPositiveButton("Ok", (dialog, id) -> {
-						// Android 8.1 - Android 10
-						String[] ForegroundCoarseLocationPermission_API27 = {Manifest.permission.ACCESS_COARSE_LOCATION};
-						// Android 11+
-						String[] ForegroundFineLocationPermission_API30 = {Manifest.permission.ACCESS_FINE_LOCATION};
-						if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 30) {
-							ActivityCompat.requestPermissions(MainActivity.this, ForegroundCoarseLocationPermission_API27, LocationPermissionCode);
-						} else if (Build.VERSION.SDK_INT >= 30) {
-							ActivityCompat.requestPermissions(MainActivity.this, ForegroundFineLocationPermission_API30, LocationPermissionCode);
-						}
-					})
-					.setNegativeButton("No Thanks", null)
-					.setCancelable(false);
-			AlertDialog alert = builder.create();
-			alert.show();
-		}
+		return permissionGranted;
 	}
 
-	@SuppressLint("NewApi")
-	public void createShortcuts() {
+	@RequiresApi(api = Build.VERSION_CODES.N_MR1)
+	private void createShortcuts() {
 		ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
 		ShortcutInfo githubShortcut = new ShortcutInfo.Builder(this, "shortcut_github")
 			.setShortLabel("GitHub Repo")
@@ -1168,8 +906,202 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			.build();
 		shortcutManager.setDynamicShortcuts(Arrays.asList(githubShortcut, releasesShortcut));
 	}
+
+	private void initSharedPrefs() {
+		listener = (prefs, key) -> {
+			if (key.equals(SettingsActivity.KEY_PREF_SWITCH)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_SWITCH, true)) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_SWITCH, darkMode = false);
+				}
+			}
+
+			if (key.equals(SettingsActivity.KEY_PREF_AMOLED_CHECK)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, false)) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, amoledMode = false);
+				}
+			}
+
+			if (key.equals(SettingsActivity.KEY_PREF_BOOT_SWITCH)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, false)) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, startOnBoot = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, startOnBoot = false);
+				}
+			}
+
+			if (key.equals(SettingsActivity.KEY_PREF_NTFC_SWITCH)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, true)) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc = false);
+				}
+			}
+
+			if (key.equals(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, false)) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, visualizeSigStrg = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, visualizeSigStrg = false);
+				}
+			}
+
+			if (key.equals(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, false)) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, startStopSrvcScrnState = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, startStopSrvcScrnState = false);
+				}
+				Intent restartConnectionStateService = new Intent(MainActivity.this, ConnectionStateService.class);
+				Intent restartNotificationService = new Intent(MainActivity.this, NotificationService.class);
+				if (ConnectionStateService.isNotificationServiceRunning) {
+					stopService(restartNotificationService);
+				}
+				if (ConnectionStateService.isConnectionStateServiceRunning) {
+					stopService(restartConnectionStateService);
+					if (Build.VERSION.SDK_INT < 26) {
+						startService(restartConnectionStateService);
+					} else {
+						startForegroundService(restartConnectionStateService);
+					}
+				}
+			}
+
+			if (key.equals(SettingsActivity.KEY_PREF_CLR_CHECK)) {
+				if (prefs.getBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, false)) {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, colorizeNtfc = true);
+				} else {
+					new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, colorizeNtfc = false);
+				}
+			}
+
+			if (key.equals(SettingsActivity.KEY_PREF_NTFC_FREQ)) {
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("500")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "500");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("1000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "1000");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("2000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "2000");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("3000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "3000");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("4000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "4000");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("5000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "5000");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("10000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, ntfcUpdateInterval = "10000");
+				}
+			}
+
+			if (key.equals(SettingsActivity.KEY_PREF_CARD_FREQ)) {
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("500")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "500");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("1000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "1000");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("2000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "2000");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("3000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "3000");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("4000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "4000");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("5000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "5000");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("10000")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval = "10000");
+				}
+			}
+
+			if (key.equals(SettingsActivity.KEY_PREF_APP_FONT)) {
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Gilroy-Semibold.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Gilroy-Semibold.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CircularStd-Bold.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CircularStd-Bold.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Comfortaa-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Comfortaa-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CondellBio-Medium.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/CondellBio-Medium.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/FilsonPro-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/FilsonPro-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Hellix-Medium.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Hellix-Medium.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Moderat-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Moderat-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Newson-Medium.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Newson-Medium.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/NoirText-Bold.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/NoirText-Bold.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Poligon-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Poligon-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/ProximaSoft-Medium.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/ProximaSoft-Medium.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Squalo-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Squalo-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Tomkin-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Tomkin-Regular.ttf");
+				}
+
+				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Urbani-Regular.ttf")) {
+					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, appFont = "fonts/Urbani-Regular.ttf");
+				}
+			}
+		};
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs.registerOnSharedPreferenceChangeListener(listener);
+	}
 	
-	public void initializeViews() {
+	private void initViews() {
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		textview_public_ip = (TextView) findViewById(R.id.textview_public_ip);
 		textview_ssid = (TextView) findViewById(R.id.textview_ssid);
@@ -1217,8 +1149,51 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		fab_settings = (FloatingActionButton) findViewById(R.id.menu_item_5);
 		fab_update = (FloatingActionButton) findViewById(R.id.fab_update_ip);
 	}
-	
-	public void initializeOnClickListeners() {
+
+	private void initForegroundServices() {
+		boolean keyNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc);
+		if (keyNtfc) {
+			if (!isServiceRunning) {
+				Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
+				if (Build.VERSION.SDK_INT < 26) {
+					startService(ConnectionStateServiceIntent);
+				} else {
+					startForegroundService(ConnectionStateServiceIntent);
+				}
+				isServiceRunning = true;
+			}
+		} else {
+			if (isServiceRunning) {
+				ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+				WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+				Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
+				Intent NotificationServiceIntent = new Intent(MainActivity.this, NotificationService.class);
+
+				stopService(ConnectionStateServiceIntent);
+				isServiceRunning = false;
+				if (WiFiCheck.isConnected()) {
+					stopService(NotificationServiceIntent);
+				}
+			}
+		}
+	}
+
+	private void initConnectivityCheck() {
+		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if (!WiFiCheck.isConnected()) {
+			textview_noconn.setVisibility(View.VISIBLE);
+			hideWidgets(); // Hides CardViews and TextViews
+			textview_public_ip.setText("Your IP: N/A");
+		} else {
+			textview_noconn.setVisibility(View.GONE);
+			showWidgets(); // Makes CardViews and TextViews visible
+		}
+	}
+
+	private void initOnClickListeners() {
 		fab_info.setOnClickListener(v -> {
 			Intent intent_info = new Intent(MainActivity.this, DevInfoActivity.class);
 			startActivity(intent_info);
@@ -1258,7 +1233,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		});
 	}
 	
-	public void initializeCopyableText() {
+	private void initCopyableText() {
 		textview_public_ip.setOnLongClickListener(v -> {
 			if (textview_public_ip.getText().equals("Your IP: N/A")) {
 				ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
@@ -1681,70 +1656,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		Toast.makeText(getBaseContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 	}
 
-	private String getPublicIPAddress() {
-		String publicIP = "";
-		try {
-			Scanner scanner = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A");
-			publicIP = scanner.next();
-			scanner.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return publicIP;
-	}
-
-	private boolean isReachable(String url) {
-		boolean reachable;
-		int response_code;
-
-		try {
-			URL siteURL = new URL(url);
-			HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setConnectTimeout(3000);
-			connection.connect();
-			response_code = connection.getResponseCode();
-			connection.disconnect();
-			if (response_code == 200) {
-				reachable = true;
-			} else {
-				reachable = false;
-			}
-		} catch (Exception e) {
-			reachable = false;
-		}
-		return reachable;
-	}
-
-	@SuppressWarnings("deprecation")
-	class PublicIPRunnable implements Runnable {
-		@Override
-		public void run() {
-			new AsyncTask<String, Void, Void>() {
-				@Override
-				protected Void doInBackground(String[] voids) {
-					String url = "https://api.ipify.org";
-					siteReachable = isReachable(url);
-					if (siteReachable) {
-						publicIPFetched = getPublicIPAddress();
-					} else {
-						publicIPFetched = "N/A";
-					}
-					return null;
-				}
-
-				@Override
-				protected void onPostExecute(Void aVoid) {
-					super.onPostExecute(aVoid);
-					textview_public_ip.setText("Your IP: " + publicIPFetched);
-				}
-			}.execute();
-
-			Handler handlerEnableFAB = new Handler(Looper.getMainLooper());
-			handlerEnableFAB.postDelayed(() -> fab_update.setEnabled(true), 5000);
-		}
-	}
-
 	@Override
 	protected void onPause()
 	{
@@ -1810,7 +1721,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 		builder.setTitle("Are you sure?")
 				.setMessage("Do you want to exit?")
-				.setIcon(R.drawable.exit)
 				.setPositiveButton("Exit", (dialog, id) -> finish())
 				.setNegativeButton("Cancel", null);
 		builder.setCancelable(false);
