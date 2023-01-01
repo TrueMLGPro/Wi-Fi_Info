@@ -262,6 +262,7 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	}
 
 	public void showWidgets() {
+		who_is_scroll.setVisibility(View.VISIBLE);
 		textview_who_is_results.setVisibility(View.VISIBLE);
 		input_layout.setVisibility(View.VISIBLE);
 		edittext_main.setVisibility(View.VISIBLE);
@@ -270,6 +271,7 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	}
 
 	public void hideWidgets() {
+		who_is_scroll.setVisibility(View.GONE);
 		textview_who_is_results.setVisibility(View.GONE);
 		input_layout.setVisibility(View.GONE);
 		edittext_main.setVisibility(View.GONE);
