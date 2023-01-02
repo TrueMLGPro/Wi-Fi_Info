@@ -1,0 +1,2 @@
+Fixed some widgets in `URLToIPActivity` and `WhoIsToolActivity` not getting hidden if there was no network connection
+Fixed `No Wi-Fi Connection` text alignment in `RouterSetupActivity`

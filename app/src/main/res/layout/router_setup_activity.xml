@@ -17,16 +17,23 @@
 		app:titleTextColor="?attr/TitleTextColor"
 		app:subtitleTextColor="?attr/SubtitleTextColor" />
 
-	<TextView
-		android:id="@+id/textview_nonetworkconn"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_margin="16dp"
-		android:textSize="18sp"
-		android:textColor="?TextColor"
-		android:layout_gravity="center"
-		android:visibility="gone"
-		android:text="No Connection" />
+	<LinearLayout
+		android:id="@+id/textview_nonetworkconn_container"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="center"
+		android:visibility="gone">
+
+		<TextView
+			android:id="@+id/textview_nonetworkconn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="18sp"
+			android:textColor="?TextColor"
+			android:visibility="gone"
+			android:text="No Wi-Fi Connection" />
+
+	</LinearLayout>
 
 	<ProgressBar
 		android:id="@+id/progressBarLoading"
@@ -37,6 +44,7 @@
 		android:visibility="gone" />
 
 	<LinearLayout
+		android:id="@+id/webview_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"

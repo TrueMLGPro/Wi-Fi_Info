@@ -188,6 +188,7 @@ public class URLtoIPActivity extends AppCompatActivity {
 	}
 
 	public void showWidgets() {
+		url_to_ip_scroll.setVisibility(View.VISIBLE);
 		textview_ipFromURL.setVisibility(View.VISIBLE);
 		mTextInputLayout.setVisibility(View.VISIBLE);
 		mEditText.setVisibility(View.VISIBLE);
@@ -196,6 +197,7 @@ public class URLtoIPActivity extends AppCompatActivity {
 	}
 
 	public void hideWidgets() {
+		url_to_ip_scroll.setVisibility(View.GONE);
 		textview_ipFromURL.setVisibility(View.GONE);
 		mTextInputLayout.setVisibility(View.GONE);
 		mEditText.setVisibility(View.GONE);

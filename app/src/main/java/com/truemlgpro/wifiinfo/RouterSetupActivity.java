@@ -18,6 +18,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +35,9 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class RouterSetupActivity extends AppCompatActivity {
 	private Toolbar toolbar;
+	private LinearLayout textview_nonetworkconn_container;
 	private TextView textview_nonetworkconn;
+	private LinearLayout webview_container;
 	private WebView webview_main;
 	private ProgressBar progressBarLoading;
 	private SwipeRefreshLayout swipeRefresh;
@@ -64,7 +67,9 @@ public class RouterSetupActivity extends AppCompatActivity {
 		setContentView(R.layout.router_setup_activity);
 		
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		textview_nonetworkconn_container = (LinearLayout) findViewById(R.id.textview_nonetworkconn_container);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
+		webview_container = (LinearLayout) findViewById(R.id.webview_container);
 		webview_main = (WebView) findViewById(R.id.webview_main);
 		progressBarLoading = (ProgressBar) findViewById(R.id.progressBarLoading);
 		swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
@@ -275,15 +280,19 @@ public class RouterSetupActivity extends AppCompatActivity {
 	}
 
 	public void showWidgets() {
+		webview_container.setVisibility(View.VISIBLE);
 		webview_main.setVisibility(View.VISIBLE);
 		swipeRefresh.setVisibility(View.VISIBLE);
+		textview_nonetworkconn_container.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.GONE);
 	}
 
 	public void hideWidgets() {
+		webview_container.setVisibility(View.GONE);
 		webview_main.setVisibility(View.GONE);
 		progressBarLoading.setVisibility(View.GONE);
 		swipeRefresh.setVisibility(View.GONE);
+		textview_nonetworkconn_container.setVisibility(View.VISIBLE);
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
 	}
 

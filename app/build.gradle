@@ -21,8 +21,8 @@ android {
 		applicationId "com.truemlgpro.wifiinfo"
 		minSdkVersion 21
 		targetSdkVersion 33
-		versionCode 1520
-		versionName "1.5.2"
+		versionCode 1521
+		versionName "1.5.2.1"
 	}
 	buildTypes {
 		release {
