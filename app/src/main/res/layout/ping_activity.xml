@@ -26,19 +26,31 @@
 		android:layout_gravity="center"
 		android:layout_centerInParent="true"
 		android:visibility="gone"
-		android:text="No Connection" />
+		android:text="@string/no_connection" />
+
+	<ProgressBar
+		android:id="@+id/ping_progress_bar"
+		style="?android:attr/progressBarStyleHorizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="-7dp"
+		android:layout_marginBottom="-7dp"
+		android:layout_below="@+id/toolbar"
+		android:indeterminate="true"
+		android:visibility="invisible" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_below="@+id/toolbar"
-		android:layout_margin="8dp"
-		android:orientation="vertical"
-		android:gravity="top">
+		android:animateLayoutChanges="true"
+		android:padding="8dp"
+		android:orientation="vertical">
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
 			android:orientation="vertical"
 			android:gravity="center">
 
@@ -46,8 +58,7 @@
 				android:id="@+id/input_layout_ping"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:hint="Enter IP or URL"
-				android:layout_margin="4dp">
+				android:hint="@string/enter_ip_or_url">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:id="@+id/edit_text_ping"
@@ -56,7 +67,7 @@
 					android:layout_gravity="center_horizontal"
 					android:inputType="text"
 					android:singleLine="true"
-					android:imeOptions="actionGo"/>
+					android:imeOptions="actionGo" />
 
 			</com.google.android.material.textfield.TextInputLayout>
 
@@ -66,14 +77,14 @@
 				android:orientation="horizontal"
 				android:gravity="center_horizontal"
 				android:baselineAligned="false"
-				android:padding="4dp">
+				android:layout_marginTop="8dp">
 
 				<com.google.android.material.textfield.TextInputLayout
 					android:id="@+id/input_layout_timeout"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:hint="Timeout (ms)">
+					android:hint="@string/timeout_ms">
 
 					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/edit_text_timeout"
@@ -93,7 +104,7 @@
 					android:layout_weight="1"
 					android:layout_marginLeft="4dp"
 					android:layout_marginRight="4dp"
-					android:hint="Time-To-Live (TTL)">
+					android:hint="@string/time_to_live_ttl">
 
 					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/edit_text_ttl"
@@ -111,7 +122,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:hint="Times">
+					android:hint="@string/packets">
 
 					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/edit_text_times"
@@ -130,19 +141,18 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal"
-				android:gravity="center_horizontal">
+				android:gravity="center_horizontal"
+				android:paddingTop="4dp"
+				android:paddingBottom="4dp">
 
 				<Button
 					android:id="@+id/ping_button"
 					style="@style/Widget.AppCompat.Button.Colored"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:text="Ping"
+					android:text="@string/start"
 					android:textColor="#FFFFFF"
-					android:layout_marginLeft="4dp"
-					android:layout_marginRight="2dp"
-					android:layout_marginBottom="4dp"
-					android:layout_marginTop="4dp"
+					android:layout_marginEnd="2dp"
 					android:layout_weight="1" />
 
 				<Button
@@ -150,13 +160,10 @@
 					style="@style/Widget.AppCompat.Button.Colored"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:text="Cancel"
+					android:text="@android:string/cancel"
 					android:textColor="#FFFFFF"
 					android:enabled="false"
-					android:layout_marginLeft="2dp"
-					android:layout_marginRight="4dp"
-					android:layout_marginBottom="4dp"
-					android:layout_marginTop="4dp"
+					android:layout_marginStart="2dp"
 					android:layout_weight="1" />
 
 			</LinearLayout>
@@ -167,8 +174,11 @@
 			android:id="@+id/ping_scroll"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:layout_marginTop="8dp"
+			android:layout_marginStart="4dp"
+			android:layout_marginEnd="4dp"
+			android:layout_marginBottom="4dp"
 			android:background="?EmbedBackgroundColor"
-			android:layout_margin="8dp"
 			android:padding="8dp">
 
 			<TextView

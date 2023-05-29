@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+	<string name="shortcut_main_short">Старт</string>
+	<string name="shortcut_main_long">Запустить главную активность</string>
+	<string name="shortcut_disabled">Ярлык недоступен</string>
+
+	<!-- Dynamic Shortcut Strings -->
+	<string name="github_repo">Репозиторий GitHub</string>
+	<string name="open_github_repository">Открыть GitHub репозиторий</string>
+	<string name="releases">Релизы</string>
+	<string name="open_github_releases">Открыть релизы на GitHub</string>
+
+	<!-- MainActivity Strings -->
+	<string name="permission_required">Требуется разрешение!</string>
+	<string name="location_permission_is_required_android_8_1_plus">На устройствах с Android 8.1 и выше, требуется разрешение к данным о местоположении, чтобы посмотреть SSID, BSSID и ID сети</string>
+	<string name="enable_location_to_show_ssid_bssid">Включите местоположение, чтобы посмотреть SSID и BSSID сети, к которой вы подключены</string>
+	<string name="enable_location_to_show_ssid_bssid_net_id">Включите местоположение, чтобы посмотреть SSID, BSSID и ID сети, к которой вы подключены</string>
+	<string name="ssid_bssid_not_displayed">SSID и BSSID текущей сети отображаться не будут</string>
+	<string name="ssid_bssid_net_id_not_displayed">SSID, BSSID и ID сети текущей сети отображаться не будут</string>
+	<string name="location_is_disabled">Местоположение отключено</string>
+	<string name="wifi_info_needs_location_api_26">Для работы приложения на Android 8 требуется разрешение на местоположение для просмотра SSID (имени сети) и BSSID (MAC-адреса сети).\n\nНажмите "Включить", чтобы предоставить приложению Wi-Fi Info разрешение на просмотр SSID и BSSID</string>
+	<string name="wifi_info_needs_location_api_27">Для работы приложения на Android 8.1 и выше требуется разрешение на местоположение для просмотра SSID (имени сети) и BSSID (MAC-адреса сети) и ID сети.\n\nНажмите "Включить", чтобы предоставить приложению Wi-Fi Info разрешение на просмотр SSID, BSSID и ID сети</string>
+
+	<string name="copied_to_clipboard">Скопировано в буфер обмена</string>
+	<string name="background_location_permission">Разрешение на местоположение в фоновом режиме (не обязательно)</string>
+	<string name="due_to_the_changes_in_android_11">В связи с изменениями в Android 11 и выше, вам необходимо вручную включить разрешение в Настройках. После предоставления разрешения на местоположение в фоновом режиме вы сможете видеть SSID, BSSID и ID сети в уведомлении, даже когда приложение закрыто.</string>
+	<string name="go_to_permissions_and_location">Перейдите в Разрешения -> Местоположение</string>
+	<string name="select_allow_all_the_time">Выберите "Разрешить в любом режиме"</string>
+
+	<string name="na">Н/Д</string>
+	<!-- Dialog Strings -->
+	<string name="no">Нет</string>
+	<string name="yes">Да</string>
+	<string name="enable">Включить</string>
+	<string name="dont_show_again">Больше не показывать</string>
+	<string name="no_thanks">Нет, спасибо</string>
+	<string name="are_you_sure">Вы уверены?</string>
+	<string name="do_you_want_to_exit">Вы хотите выйти?</string>
+	<string name="exit">Выход</string>
+
+	<!-- Widget Strings -->
+	<string name="no_wifi_connection">Нет подключения к Wi-Fi</string>
+	<string name="no_connection">Нет подключения</string>
+	<string name="public_ip_address">Публичный IP-адрес</string>
+	<string name="your_ip">Ваш IP: <xliff:g id="ip" example="192.168.0.1">%s</xliff:g></string>
+	<string name="your_ip_na">Ваш IP: Н/Д</string>
+
+	<string name="local_ip_address">Локальный IP-адрес</string>
+
+	<string name="ssid_bssid_etc">SSID, BSSID и т.д.</string>
+	<string name="hidden_ssid">Скрытый SSID</string>
+	<string name="gateway_ip">Шлюз</string>
+	<string name="hostname">Имя хоста</string>
+	<string name="wifi_standard">Стандарт Wi-Fi</string>
+
+	<string name="frequency_channel_etc">Частота, канал сети и т.д.</string>
+	<string name="frequency">Частота</string>
+	<string name="network_channel">Канал сети</string>
+	<string name="rssi_signal_strength">RSSI (сила сигнала)</string>
+	<string name="distance">Расстояние</string>
+	<string name="ip_lease_duration">Длительность аренды IP</string>
+	<string name="network_speed">Скорость сети (↓ / ↑)</string>
+	<string name="transmitted_mbs_gbs">Переданные МБ/ГБ</string>
+	<string name="received_mbs_gbs">Полученные МБ/ГБ</string>
+
+	<string name="dns_subnet_mask_etc">DNS, маска подсети и т.д.</string>
+	<string name="subnet_mask">Маска подсети</string>
+	<string name="broadcast_address">Broadcast адрес</string>
+	<string name="network_id">ID сети</string>
+	<string name="mac_address">MAC адрес</string>
+	<string name="network_interface">Интерфейс сети</string>
+	<string name="loopback_address">Loopback адрес</string>
+	<string name="localhost_address">Адрес локального хоста</string>
+
+	<string name="wpa_supplicant_state">Статус WPA Supplicant</string>
+
+	<string name="feature_support">Поддержка функций</string>
+	<string name="_5ghz_band_support">Поддержка 5 GHz</string>
+	<string name="_6ghz_band_support">Поддержка 6 GHz</string>
+	<string name="_60ghz_band_support">Поддержка 60 GHz</string>
+	<string name="wifi_direct_support">Поддержка Wi-Fi Direct</string>
+	<string name="tdls_support">Поддержка TDLS</string>
+	<string name="wpa3_sae_support">Поддержка WPA3 SAE</string>
+	<string name="wpa3_suite_b_support">Поддержка WPA3 Suite B</string>
+
+	<!-- FAB Strings -->
+	<string name="tools">Инструменты</string>
+	<string name="settings">Настройки</string>
+
+	<!-- Toolbar Menu Strings -->
+	<string name="toolbar_copy_all_network_info">Копировать всю информацию о сети</string>
+	<string name="toolbar_clear_dns_lookup_log">Очистить журнал DNS-запросов</string>
+	<string name="toolbar_clear_ping_log">Очистить журнал пинг-запросов</string>
+	<string name="toolbar_clear_whois_tool_log">Очистить журнал инструмента Whois</string>
+
+	<!-- Data -->
+	<string name="megabyte">МБ</string>
+	<string name="gigabyte">ГБ</string>
+
+	<!-- ConnectionStateService Strings -->
+	<string name="connection_status_online">Состояние подключения — Онлайн</string>
+	<string name="connection_status_offline">Состояние подключения — Оффлайн</string>
+	<string name="stop_service">Остановить службу</string>
+
+	<!-- NotificationService Strings -->
+	<string name="local_ip">Локальный IP адрес</string>
+	<string name="stop_services">Остановить службы</string>
+	<string name="notification_settings">Настройки уведомлений</string>
+
+	<!-- SupportersActivity Strings -->
+	<string name="patron_diamond_tier">• Patron – Алмаз (5$)</string>
+	<string name="app_tester">• Тестировщик приложения</string>
+	<string name="idea_provider">• Поставщик идей</string>
+	<string name="contributor">• Участник проекта</string>
+
+	<!-- ToolsActivity Strings -->
+	<string name="cellular_data_ip">IP-адрес мобильного интернета</string>
+	<string name="router_setup">Настройка роутера</string>
+	<string name="ping_tool">Пинг</string>
+	<string name="subnet_scanner">Сканер подсети</string>
+	<string name="port_scanner">Сканер портов</string>
+	<string name="whois_tool">Whois</string>
+	<string name="dns_lookup">Поиск DNS записей</string>
+
+	<!-- SettingsActivity Strings -->
+	<string name="_500_ms_interval">500 миллисекунд</string>
+	<string name="_1_s_interval">1 секунда</string>
+	<string name="_2_s_interval">2 секунды</string>
+	<string name="_3_s_interval">3 секунды</string>
+	<string name="_4_s_interval">4 секунды</string>
+	<string name="_5_s_interval">5 секунд</string>
+	<string name="_10_s_interval">10 секунд</string>
+
+	<string name="general_category">Общие</string>
+	<string name="dark_theme">Темная тема</string>
+	<string name="dark_theme_summary">Включить или выключить темную тему</string>
+	<string name="amoled_theme">AMOLED тема</string>
+	<string name="amoled_theme_summary">Включить или выключить AMOLED тему</string>
+	<string name="language">Язык</string>
+	<string name="ui_font">Шрифт интерфейса</string>
+	<string name="keep_screen_on">Не выключать экран</string>
+	<string name="keep_screen_on_summary">Не выключать экран, пока приложение открыто</string>
+	<string name="card_update_interval">Интервал обновления карточек</string>
+
+	<string name="boot_category">Запуск</string>
+	<string name="start_on_boot">Запускать при включении</string>
+	<string name="start_on_boot_summary">Запускать службы уведомлений при включении устройства</string>
+
+	<string name="notification_category">Уведомление</string>
+	<string name="show_notification">Показать уведомление</string>
+	<string name="show_notification_summary">Отображать информацию о сети в уведомлении</string>
+	<string name="notification_update_interval">Интервал обновления уведомления</string>
+	<string name="colorize_notification">Раскрасить уведомление</string>
+	<string name="colorize_notification_summary">Заполнить фон уведомления цветом акцента</string>
+	<string name="visualize_signal_strength">Визуализировать уровень сигнала</string>
+	<string name="visualize_signal_strength_summary">Менять цвет уведомления в зависимости от уровня сигнала</string>
+	<string name="show_hide_notification">Показать / скрыть уведомление</string>
+	<string name="show_hide_notification_summary">Остановить службу уведомлений, когда вы выключите экран, и перезапустить ее, когда вы снова его включете</string>
+
+	<string name="about_category">О приложении</string>
+	<string name="app_version">Версия приложения</string>
+	<string name="supporters">Сторонники</string>
+	<string name="supporters_summary">Посмотрите список людей, которые помогли улучшить этот проект</string>
+	<string name="discord_server">Discord сервер</string>
+	<string name="discord_server_summary">Присоединяйтесь к сообществу на сервере, обсуждайте новые обновления, предлагайте функции</string>
+	<string name="source_code">Исходный код</string>
+	<string name="source_code_summary">Посмотрите исходный код на GitHub</string>
+	<string name="report_bugs">Сообщить о проблеме</string>
+	<string name="report_bugs_summary">Отправьте отчет об ошибке с помощью GitHub Issues</string>
+	<string name="privacy_policy">Политика конфиденциальности</string>
+	<string name="privacy_policy_summary">Посмотрите нашу политику конфиденциальности относительно защиты ваших данных</string>
+
+	<string name="debug_category">Отладка</string>
+	<string name="android_version">Версия Android</string>
+	<string name="sdk_version_code">Версия SDK</string>
+	<string name="device_model">Модель устройства</string>
+	<string name="product_name">Название продукта</string>
+
+	<!-- Tool Strings -->
+	<string name="enter_ip_or_url">Введите IP-адрес или URL-адрес</string>
+	<string name="threads">Потоки</string>
+	<string name="timeout_ms">Тайм-аут (мс)</string>
+
+	<!-- CellularDataIPActivity Strings -->
+	<string name="no_cellular_connection">Нет подключения к мобильному интернету</string>
+
+	<!-- DNSLookupActivity & PingToolActivity Strings -->
+	<string name="start">Начать</string>
+	<string name="record_type_not_supported">Тип записи <xliff:g id="record_type" example="NSEC">%s</xliff:g> не поддерживается <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_failed_exception">Не удалось выполнить поиск для типа записи <xliff:g id="record_type" example="NSEC">%s</xliff:g> | Сообщение об ошибке: <xliff:g id="record_type" example="ERROR">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_failed_response">Не удалось выполнить поиск для типа записи <xliff:g id="record_type" example="NSEC">%s</xliff:g> | Код ответа: <xliff:g id="response_code" example="503">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_no_records">Нет записей для типа записи <xliff:g id="record_type" example="NSEC">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_record_type">Тип записи DNS -\u0020</string>
+
+	<string name="packets">Пакеты</string>
+	<string name="timeout_field_empty">Поле таймаута не может быть пустым</string>
+	<string name="resetting">Сброс…</string>
+	<string name="timeout_not_integer">Значение таймаута не является целым числом</string>
+	<string name="timeout_lower_than_1_ms">Значение таймаута не может быть меньше 1 мс</string>
+	<string name="ttl_field_empty">Поле TTL не может быть пустым</string>
+	<string name="ttl_not_integer">Значение TTL не является целым числом</string>
+	<string name="ttl_lower_than_1">Значение TTL не может быть меньше 1</string>
+	<string name="packets_amount_not_defined">Не удалось выполнить пинг. Количество пакетов не определено</string>
+	<string name="packets_not_integer">Не удалось выполнить пинг, так как значение <xliff:g id="packet_amount" example="3.14">%s</xliff:g> не является целым числом</string>
+	<string name="packets_lower_than_1">Не удалось выполнить пинг хоста <xliff:g id="packet_amount" example="-1">%s</xliff:g> раз</string>
+
+	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Ответ от <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> мс, TTL = <xliff:g id="ttl" example="30">%d</xliff:g></string>
+	<string name="connection_timeout"><xliff:g id="packet_num" example="1">%d</xliff:g> - Время ожидания истекло</string>
+	<string name="ping_packet_stats"><xliff:g id="packets_sent" example="5">%d</xliff:g> пакетов отправлено, <xliff:g id="packets_received" example="5">%d</xliff:g> получено, <xliff:g id="packets_lost" example="0">%d</xliff:g> потеряно, <xliff:g id="packet_loss" example="0.00">%.2f</xliff:g>%% пакетов потеряно</string>
+	<string name="min_avg_max_latency_stats">Минимальное / Среднее / Максимальное время задержки:\n<xliff:g id="min_latency" example="13.5">%.2f</xliff:g> / <xliff:g id="avg_latency" example="32.0">%.2f</xliff:g> / <xliff:g id="max_latency" example="50.5">%.2f</xliff:g> мс</string>
+	<string name="total_ping_time">Общее время: <xliff:g id="total_time" example="15250">%d</xliff:g> мс</string>
+	<string name="ping_log_ip">IP-адрес: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g></string>
+	<string name="ping_log_hostname">Имя хоста: <xliff:g id="url" example="test.com">%s</xliff:g></string>
+
+	<!-- PortScannerActivity Strings -->
+	<string name="ports">Порты</string>
+	<string name="ports_open_none">Открытых портов: -</string>
+	<string name="ports_open_amount">Открытых портов: <xliff:g id="ports_open" example="10">%d</xliff:g></string>
+	<string name="ports_closed_none">Закрытых портов: -</string>
+	<string name="ports_closed_amount">Закрытых портов: <xliff:g id="ports_closed" example="10">%d</xliff:g></string>
+
+	<!-- RouterSetupActivity Strings -->
+	<string name="router_login_ip">Вход в роутер — <xliff:g id="ip" example="192.168.0.1">%s</xliff:g></string>
+	<string name="use_web_interface">Использовать веб-интерфейс</string>
+	<string name="login">Логин</string>
+	<string name="password">Пароль</string>
+	<string name="page_back">Назад</string>
+	<string name="page_forward">Вперед</string>
+	<string name="page_refresh">Обновить</string>
+	<string name="auth_error">Ошибка аутентификации пользователя на сервере</string>
+	<string name="timeout_error">Время ожидания подключения истекло. Попробуйте позже</string>
+	<string name="too_many_requests_error">Слишком много запросов за этот период</string>
+	<string name="unknown_error">Неизвестная ошибка</string>
+	<string name="connect_error">Не удалось подключиться к серверу</string>
+	<string name="host_lookup_error">Не удалось определить имя сервера или прокси-сервера</string>
+	<string name="proxy_auth_error">Ошибка аутентификации пользователя на прокси-сервере</string>
+	<string name="redirect_loop_error">Слишком много перенаправлений</string>
+	<string name="unsupported_auth_scheme_error">Неподдерживаемая схема аутентификации (не базовая или дайджест)</string>
+	<string name="unsupported_scheme_error">Неподдерживаемая схема URI</string>
+	<string name="io_error">Сервер не смог установить связь. Попробуйте позже</string>
+
+	<!-- SubnetScannerActivity Strings -->
+	<string name="devices_found_na">Обнаруженных устройств: -</string>
+	<string name="devices_found">Обнаруженных устройств: <xliff:g id="amount" example="5">%d</xliff:g></string>
+	<string name="scan">Сканировать</string>
+	<string name="mac_na">MAC: Н/Д</string>
+	<string name="your_device">(Ваше устройство)</string>
+	<string name="gateway">(Шлюз)</string>
+
+	<!-- WhoIsToolActivity Strings -->
+	<string name="field_too_short">Введенный URL слишком короткий…</string>
+	<string name="enter_url">Введите URL</string>
+	<string name="fetch">Найти</string>
+	<string name="error_malformed_url">Ошибка: Неправильный формат URL</string>
+	<string name="error_unknown_host">Ошибка: Неизвестный хост</string>
+	<string name="error_interrupted">Ошибка: Прервано</string>
+	<string name="error_failed_to_execute">Ошибка: Не удалось выполнить</string>
+	<string name="whois_result_output">Получение данных Whois для URL: <xliff:g id="url" example="test.com">%s</xliff:g>\nIP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g>\n<xliff:g id="fetched_whois_data" example="...">%s</xliff:g><xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+</resources>

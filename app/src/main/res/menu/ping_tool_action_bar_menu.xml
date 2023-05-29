@@ -4,7 +4,7 @@
 
 	<item
 		android:id="@+id/clear_ping_log"
-		android:title="Clear Ping Log"
+		android:title="@string/toolbar_clear_ping_log"
 		android:orderInCategory="101"
 		app:showAsAction="never" />
 

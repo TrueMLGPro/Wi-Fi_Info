@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	package="com.truemlgpro.wifiinfo">
+	xmlns:tools="http://schemas.android.com/tools">
 
 	<uses-sdk
 		android:minSdkVersion="21"
@@ -18,105 +17,113 @@
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <application
+	<application
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:theme="@style/DarkTheme"
 		android:largeHeap="true"
-		android:usesCleartextTraffic="true">
+		android:usesCleartextTraffic="true"
+		tools:targetApi="tiramisu"
+		android:localeConfig="@xml/locale_config">
 
-	    <meta-data android:name="android.webkit.WebView.MetricsOptOut"
-		    android:value="true" />
+		<meta-data android:name="android.webkit.WebView.MetricsOptOut"
+			android:value="true" />
 
-		<activity
-            android:name="com.truemlgpro.wifiinfo.SplashActivity"
-			android:screenOrientation="portrait"
-			android:exported="true">
-        </activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.MainActivity"
-			android:label="@string/app_name"
-			android:screenOrientation="portrait"
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:theme="@style/SplashDark"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
+			<intent-filter>
+				<action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+			</intent-filter>
 		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.DevInfoActivity"
-			android:label="Developer Info"
-			android:screenOrientation="portrait">
-		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.DiscordServersActivity"
-			android:label="Discord Server"
-			android:screenOrientation="portrait">
-		</activity>
-		<activity
+	    <activity
 			android:name="com.truemlgpro.wifiinfo.SupportersActivity"
 			android:label="Supporters"
-			android:screenOrientation="portrait">
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".SettingsActivity">
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.ToolsActivity"
 			android:label="Tools"
-			android:screenOrientation="portrait">
-		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.URLtoIPActivity"
-			android:label="URL to IP"
-			android:screenOrientation="portrait">
-		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.CellularDataIPActivity"
-			android:label="Cellular Data IP"
-			android:screenOrientation="portrait">
-		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.RouterSetupActivity"
-			android:label="Router Setup"
-			android:screenOrientation="portrait">
-		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.PingActivity"
-			android:label="Ping"
-			android:screenOrientation="portrait">
-		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.LANDevicesScannerActivity"
-			android:label="LAN Devices Scanner"
-			android:screenOrientation="portrait">
-		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.PortScannerActivity"
-			android:label="Port Scanner"
-			android:screenOrientation="portrait">
-		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.WhoIsToolActivity"
-			android:label="Whois Tool"
-			android:screenOrientation="portrait">
-		</activity>
-	    <activity
-		    android:name="com.truemlgpro.wifiinfo.DNSLookupActivity"
-		    android:label="DNS Lookup"
-		    android:screenOrientation="portrait">
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".MainActivity">
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.SettingsActivity"
 			android:label="Settings"
-			android:screenOrientation="portrait"
-			android:parentActivityName="com.truemlgpro.wifiinfo.MainActivity">
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".MainActivity">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.truemlgpro.wifiinfo.MainActivity" />
 		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.CellularDataIPActivity"
+			android:label="Cellular Data IP"
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".ToolsActivity">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.RouterSetupActivity"
+			android:label="Router Setup"
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".ToolsActivity">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.PingToolActivity"
+			android:label="Ping Tool"
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".ToolsActivity">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.SubnetScannerActivity"
+			android:label="Subnet Scanner"
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".ToolsActivity">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.PortScannerActivity"
+			android:label="Port Scanner"
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".ToolsActivity">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.WhoIsToolActivity"
+			android:label="Whois Tool"
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".ToolsActivity">
+		</activity>
+	    <activity
+			android:name="com.truemlgpro.wifiinfo.DNSLookupActivity"
+			android:label="DNS Lookup"
+			android:screenOrientation="fullSensor"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+		    android:parentActivityName=".ToolsActivity">
+		</activity>
 
 		<service
-			android:name=".NotificationService"
-			android:enabled="true">
+			android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+			android:enabled="false"
+			android:exported="false">
+			<meta-data
+				android:name="autoStoreLocales"
+				android:value="false" />
 		</service>
 
 		<service
@@ -124,44 +131,21 @@
 			android:enabled="true">
 		</service>
 
-	    <service
-		    android:name=".QSTileService"
-		    android:label="IP Address"
-		    android:icon="@drawable/ic_wifi_qs_tile"
-		    android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-		    android:exported="true">
-		    <intent-filter>
-			    <action android:name="android.service.quicksettings.action.QS_TILE" />
-		    </intent-filter>
-	    </service>
+		<service
+			android:name=".NotificationService"
+			android:enabled="true">
+		</service>
 
-	    <receiver android:name=".ConnectionStateReceiver"
-		    android:exported="false">
+		<service
+			android:name=".QSTileService"
+			android:label="IP Address"
+			android:icon="@drawable/wifi_24px"
+			android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+			android:exported="true">
 			<intent-filter>
-				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+				<action android:name="android.service.quicksettings.action.QS_TILE" />
 			</intent-filter>
-		</receiver>
-
-		<receiver android:name=".WiFiConnectivityReceiver"
-			android:exported="false">
-			<intent-filter>
-				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-			</intent-filter>
-		</receiver>
-
-		<receiver android:name=".CellularDataConnectivityReceiver"
-			android:exported="false">
-			<intent-filter>
-				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-			</intent-filter>
-		</receiver>
-
-		<receiver android:name=".NetworkConnectivityReceiver"
-			android:exported="false">
-			<intent-filter>
-				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-			</intent-filter>
-		</receiver>
+		</service>
 
 		<receiver android:name=".BootReceiver"
 			android:exported="true">
@@ -178,12 +162,5 @@
 				<action android:name="ACTION_NTFC_SETTINGS" />
 			</intent-filter>
 		</receiver>
-
-		<receiver android:name=".NotificationServiceStopReceiver"
-			android:exported="false">
-			<intent-filter>
-				<action android:name="ACTION_STOP_FOREGROUND" />
-			</intent-filter>
-		</receiver>
-    </application>
+	</application>
 </manifest>

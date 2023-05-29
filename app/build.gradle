@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
 	namespace "com.truemlgpro.wifiinfo"
 	compileSdk 33
-	buildToolsVersion '33.0.0'
+	buildToolsVersion '33.0.2'
 
 	signingConfigs {
 		release {
@@ -21,8 +21,8 @@ android {
 		applicationId "com.truemlgpro.wifiinfo"
 		minSdkVersion 21
 		targetSdkVersion 33
-		versionCode 1521
-		versionName "1.5.2.1"
+		versionCode 1600
+		versionName "1.6"
 	}
 	buildTypes {
 		release {
@@ -39,37 +39,43 @@ android {
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 		minifiedDebug {
-            versionNameSuffix "_dev"
-            debuggable true
-            minifyEnabled true
-            shrinkResources true
+			versionNameSuffix "_dev_minified"
+			debuggable true
+			minifyEnabled true
+			shrinkResources true
 			signingConfig signingConfigs.debug
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+	}
+	applicationVariants.all { variant ->
+		variant.outputs.all {
+			outputFileName = "${APP_NAME}_${defaultConfig.versionName}_${variant.buildType.name}.apk"
+		}
 	}
 	lint {
 		abortOnError false
 		checkReleaseBuilds false
 	}
+	ext {
+		APP_NAME = "Wi-Fi_Info"
+	}
 }
 
 dependencies {
-	implementation 'androidx.appcompat:appcompat:1.6.0-rc01'
-	implementation 'com.google.android.material:material:1.7.0'
-	implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+	implementation 'androidx.appcompat:appcompat:1.7.0-alpha01'
+	implementation 'com.google.android.material:material:1.9.0'
 	implementation 'androidx.cardview:cardview:1.0.0'
 	implementation 'androidx.preference:preference:1.2.0'
-	implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
-	implementation 'androidx.core:core-splashscreen:1.0.0'
+	implementation 'androidx.core:core-splashscreen:1.0.1'
+
 	implementation 'com.github.AnwarShahriar:Calligrapher:master'
-	implementation 'com.github.bloderxd:MagicButton:1.1'
 	implementation 'com.mikhaellopez:circularimageview:4.3.1'
-	implementation 'com.github.sougata-chatterjee:FloatingActionButton:1.7.0'
-	implementation 'com.github.stealthcopter:AndroidNetworkTools:0.4.5.3'
+	implementation 'com.github.sougata-chatterjee:FloatingActionButton:1.7.1'
+
+	implementation 'com.github.TrueMLGPro:AndroidNetworkTools:76b8feabb6' // Fork of a Kotlin rewrite of stealthcopter/AndroidNetworkTools
 	implementation 'com.github.100rabhkr:TCWHOIS:master' // Minimum SDK version is 22, ignored in AndroidManifest.xml
 	implementation 'org.minidns:minidns-hla:1.0.4'
 	implementation 'org.minidns:minidns-android21:1.0.4'
-	// api 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
-	// api 'com.pes.materialcolorpicker:library:1.2.5'
+
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 }

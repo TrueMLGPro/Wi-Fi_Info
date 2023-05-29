@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/input_layout_login"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginBottom="4dp"
+		android:hint="@string/login">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:id="@+id/edit_text_login"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:singleLine="true"
+			android:imeOptions="actionGo"
+			android:text="admin" />
+
+	</com.google.android.material.textfield.TextInputLayout>
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/input_layout_password"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="4dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginBottom="8dp"
+		android:hint="@string/password">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:id="@+id/edit_text_password"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:inputType="textPassword"
+			android:singleLine="true"
+			android:imeOptions="actionGo" />
+
+	</com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
+

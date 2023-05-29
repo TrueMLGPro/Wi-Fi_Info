@@ -14,7 +14,7 @@
 		android:background="?attr/colorPrimary"
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor"/>
+		app:subtitleTextColor="?attr/SubtitleTextColor" />
 
 	<ScrollView
 		android:id="@+id/cards_scrollview"
@@ -27,61 +27,125 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:gravity="center"
-			android:orientation="vertical">
+			android:orientation="vertical"
+			android:padding="16dp">
 
 			<androidx.cardview.widget.CardView
-				android:id="@+id/cardview_1"
+				android:id="@+id/cardview_cellular_data_ip"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:minHeight="100dp"
+				android:layout_gravity="center_horizontal"
+				android:foreground="?android:attr/selectableItemBackground"
+				app:cardCornerRadius="8dp"
+				app:cardElevation="8dp"
+				app:cardBackgroundColor="?CardBackgroundColor">
+
+				<LinearLayout
+					android:id="@+id/sidebar_cellular_data_ip"
+					android:layout_width="8dp"
+					android:layout_height="match_parent"
+					android:orientation="vertical"
+					android:gravity="left"
+					android:background="@color/toolCardCellularDataIP" />
+
+				<LinearLayout
+					android:id="@+id/linear_layout_cellular_data_ip"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+
+					<androidx.cardview.widget.CardView
+						android:id="@+id/cardview_bg_icon_cellular_data_ip"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginStart="32dp"
+						android:layout_marginEnd="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="start|center_vertical"
+						app:cardCornerRadius="32dp"
+						app:cardElevation="4dp"
+						app:cardBackgroundColor="@color/toolCardCellularDataIP">
+
+						<ImageView
+							android:id="@+id/icon_cellular_data_ip"
+							android:layout_width="48dp"
+							android:layout_height="48dp"
+							android:layout_margin="8dp"
+							android:src="@drawable/ic_cellular_ip_light" />
+
+					</androidx.cardview.widget.CardView>
+
+					<TextView
+						android:id="@+id/textview_cellular_data_ip"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:layout_marginLeft="16dp"
+						android:layout_marginRight="16dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="center"
+						android:textSize="18sp"
+						android:textColor="?attr/TextColor"
+						android:text="@string/cellular_data_ip" />
+
+				</LinearLayout>
+
+			</androidx.cardview.widget.CardView>
+
+			<androidx.cardview.widget.CardView
+				android:id="@+id/cardview_router_setup"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:minHeight="100dp"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
 				android:foreground="?android:attr/selectableItemBackground"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
-					android:id="@+id/sidebar1"
+					android:id="@+id/sidebar_router_setup"
 					android:layout_width="8dp"
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#006DDE"/>
+					android:background="@color/toolCardRouterSetup" />
 
 				<LinearLayout
-					android:id="@+id/linear_layout1"
+					android:id="@+id/linear_layout_router_setup"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:orientation="horizontal"
 					android:layout_gravity="center">
 
 					<androidx.cardview.widget.CardView
-						android:id="@+id/cardview_bg_icon_1"
+						android:id="@+id/cardview_bg_icon_router_setup"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
-						android:layout_marginLeft="32dp"
-						android:layout_marginRight="16dp"
+						android:layout_marginStart="32dp"
+						android:layout_marginEnd="16dp"
 						android:layout_marginBottom="8dp"
-						android:layout_gravity="left|center_vertical"
+						android:layout_gravity="start|center_vertical"
 						app:cardCornerRadius="32dp"
 						app:cardElevation="4dp"
-						app:cardBackgroundColor="#006DDE">
+						app:cardBackgroundColor="@color/toolCardRouterSetup">
 
 						<ImageView
-							android:id="@+id/icon_1"
+							android:id="@+id/icon_router_setup"
 							android:layout_width="48dp"
 							android:layout_height="48dp"
 							android:layout_margin="8dp"
-							android:src="@drawable/ic_convert_light"/>
+							android:src="@drawable/ic_router_setup_light" />
 
 					</androidx.cardview.widget.CardView>
 
 					<TextView
-						android:id="@+id/textview_1"
+						android:id="@+id/textview_router_setup"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
@@ -91,65 +155,63 @@
 						android:layout_gravity="center"
 						android:textSize="18sp"
 						android:textColor="?attr/TextColor"
-						android:text="URL to IP Converter"/>
+						android:text="@string/router_setup" />
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
 
 			<androidx.cardview.widget.CardView
-				android:id="@+id/cardview_2"
+				android:id="@+id/cardview_ping_tool"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:minHeight="100dp"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
 				android:foreground="?android:attr/selectableItemBackground"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
-					android:id="@+id/sidebar2"
+					android:id="@+id/sidebar_ping_tool"
 					android:layout_width="8dp"
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#664AFF"/>
+					android:background="@color/toolCardPingTool" />
 
 				<LinearLayout
-					android:id="@+id/linear_layout2"
+					android:id="@+id/linear_layout_ping_tool"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:orientation="horizontal"
 					android:layout_gravity="center">
 
 					<androidx.cardview.widget.CardView
-						android:id="@+id/cardview_bg_icon_2"
+						android:id="@+id/cardview_bg_icon_ping_tool"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
-						android:layout_marginLeft="32dp"
-						android:layout_marginRight="16dp"
+						android:layout_marginStart="32dp"
+						android:layout_marginEnd="16dp"
 						android:layout_marginBottom="8dp"
-						android:layout_gravity="left|center_vertical"
+						android:layout_gravity="start|center_vertical"
 						app:cardCornerRadius="32dp"
 						app:cardElevation="4dp"
-						app:cardBackgroundColor="#664AFF">
+						app:cardBackgroundColor="@color/toolCardPingTool">
 
 						<ImageView
-							android:id="@+id/icon_2"
+							android:id="@+id/icon_ping_tool"
 							android:layout_width="48dp"
 							android:layout_height="48dp"
 							android:layout_margin="8dp"
-							android:src="@drawable/ic_cellular_ip_light"/>
+							android:src="@drawable/ic_ping_light" />
 
 					</androidx.cardview.widget.CardView>
 
 					<TextView
-						android:id="@+id/textview_2"
+						android:id="@+id/textview_ping_tool"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
@@ -159,65 +221,63 @@
 						android:layout_gravity="center"
 						android:textSize="18sp"
 						android:textColor="?attr/TextColor"
-						android:text="Cellular Data IPs"/>
+						android:text="@string/ping_tool" />
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
 
 			<androidx.cardview.widget.CardView
-				android:id="@+id/cardview_3"
+				android:id="@+id/cardview_subnet_scanner"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:minHeight="100dp"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
 				android:foreground="?android:attr/selectableItemBackground"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
-					android:id="@+id/sidebar3"
+					android:id="@+id/sidebar_subnet_scanner"
 					android:layout_width="8dp"
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#A24AFF"/>
+					android:background="@color/toolCardSubnetScanner" />
 
 				<LinearLayout
-					android:id="@+id/linear_layout3"
+					android:id="@+id/linear_layout_subnet_scanner"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:orientation="horizontal"
 					android:layout_gravity="center">
 
 					<androidx.cardview.widget.CardView
-						android:id="@+id/cardview_bg_icon_3"
+						android:id="@+id/cardview_bg_icon_subnet_scanner"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
-						android:layout_marginLeft="32dp"
-						android:layout_marginRight="16dp"
+						android:layout_marginStart="32dp"
+						android:layout_marginEnd="16dp"
 						android:layout_marginBottom="8dp"
-						android:layout_gravity="left|center_vertical"
+						android:layout_gravity="start|center_vertical"
 						app:cardCornerRadius="32dp"
 						app:cardElevation="4dp"
-						app:cardBackgroundColor="#A24AFF">
+						app:cardBackgroundColor="@color/toolCardSubnetScanner">
 
 						<ImageView
-							android:id="@+id/icon_3"
+							android:id="@+id/icon_subnet_scanner"
 							android:layout_width="48dp"
 							android:layout_height="48dp"
 							android:layout_margin="8dp"
-							android:src="@drawable/ic_router_setup_light"/>
+							android:src="@drawable/ic_subnet_scanner_light" />
 
 					</androidx.cardview.widget.CardView>
 
 					<TextView
-						android:id="@+id/textview_3"
+						android:id="@+id/textview_subnet_scanner"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
@@ -227,66 +287,63 @@
 						android:layout_gravity="center"
 						android:textSize="18sp"
 						android:textColor="?attr/TextColor"
-						android:text="Router Setup"/>
+						android:text="@string/subnet_scanner" />
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
 
 			<androidx.cardview.widget.CardView
-				android:id="@+id/cardview_4"
+				android:id="@+id/cardview_port_scanner"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:minHeight="100dp"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
-				android:layout_marginBottom="16dp"
 				android:foreground="?android:attr/selectableItemBackground"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
-					android:id="@+id/sidebar4"
+					android:id="@+id/sidebar_port_scanner"
 					android:layout_width="8dp"
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#C84AFF"/>
+					android:background="@color/toolCardPortScanner" />
 
 				<LinearLayout
-					android:id="@+id/linear_layout4"
+					android:id="@+id/linear_layout_port_scanner"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:orientation="horizontal"
 					android:layout_gravity="center">
 
 					<androidx.cardview.widget.CardView
-						android:id="@+id/cardview_bg_icon_4"
+						android:id="@+id/cardview_bg_icon_port_scanner"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
-						android:layout_marginLeft="32dp"
-						android:layout_marginRight="16dp"
+						android:layout_marginStart="32dp"
+						android:layout_marginEnd="16dp"
 						android:layout_marginBottom="8dp"
-						android:layout_gravity="left|center_vertical"
+						android:layout_gravity="start|center_vertical"
 						app:cardCornerRadius="32dp"
 						app:cardElevation="4dp"
-						app:cardBackgroundColor="#C84AFF">
+						app:cardBackgroundColor="@color/toolCardPortScanner">
 
 						<ImageView
-							android:id="@+id/icon_4"
+							android:id="@+id/icon_port_scanner"
 							android:layout_width="48dp"
 							android:layout_height="48dp"
 							android:layout_margin="8dp"
-							android:src="@drawable/ic_ping_light"/>
+							android:src="@drawable/ic_port_scan_light" />
 
 					</androidx.cardview.widget.CardView>
 
 					<TextView
-						android:id="@+id/textview_4"
+						android:id="@+id/textview_port_scanner"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
@@ -296,65 +353,63 @@
 						android:layout_gravity="center"
 						android:textSize="18sp"
 						android:textColor="?attr/TextColor"
-						android:text="Ping"/>
+						android:text="@string/port_scanner" />
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
 
 			<androidx.cardview.widget.CardView
-				android:id="@+id/cardview_5"
+				android:id="@+id/cardview_whois_tool"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:minHeight="100dp"
 				android:layout_gravity="center_horizontal"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
-				android:layout_marginBottom="16dp"
+				android:layout_marginTop="16dp"
 				android:foreground="?android:attr/selectableItemBackground"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
-					android:id="@+id/sidebar5"
+					android:id="@+id/sidebar_whois_tool"
 					android:layout_width="8dp"
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#F169FF"/>
+					android:background="@color/toolCardWhoisTool" />
 
 				<LinearLayout
-					android:id="@+id/linear_layout5"
+					android:id="@+id/linear_layout_whois_tool"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:orientation="horizontal"
 					android:layout_gravity="center">
 
 					<androidx.cardview.widget.CardView
-						android:id="@+id/cardview_bg_icon_5"
+						android:id="@+id/cardview_bg_icon_whois_tool"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
-						android:layout_marginLeft="32dp"
-						android:layout_marginRight="16dp"
+						android:layout_marginStart="32dp"
+						android:layout_marginEnd="16dp"
 						android:layout_marginBottom="8dp"
-						android:layout_gravity="left|center_vertical"
+						android:layout_gravity="start|center_vertical"
 						app:cardCornerRadius="32dp"
 						app:cardElevation="4dp"
-						app:cardBackgroundColor="#F169FF">
+						app:cardBackgroundColor="@color/toolCardWhoisTool">
 
 						<ImageView
-							android:id="@+id/icon_5"
+							android:id="@+id/icon_whois_tool"
 							android:layout_width="48dp"
 							android:layout_height="48dp"
 							android:layout_margin="8dp"
-							android:src="@drawable/ic_lan_devices_scanner_light" />
+							android:src="@drawable/ic_whois_tool_light" />
 
 					</androidx.cardview.widget.CardView>
 
 					<TextView
-						android:id="@+id/textview_5"
+						android:id="@+id/textview_whois_tool"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
@@ -364,65 +419,63 @@
 						android:layout_gravity="center"
 						android:textSize="18sp"
 						android:textColor="?attr/TextColor"
-						android:text="LAN Devices Scanner"/>
+						android:text="@string/whois_tool" />
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
 
 			<androidx.cardview.widget.CardView
-				android:id="@+id/cardview_6"
+				android:id="@+id/cardview_dns_lookup"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:minHeight="100dp"
 				android:layout_gravity="center_horizontal"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
-				android:layout_marginBottom="16dp"
+				android:layout_marginTop="16dp"
 				android:foreground="?android:attr/selectableItemBackground"
 				app:cardCornerRadius="8dp"
 				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
-					android:id="@+id/sidebar6"
+					android:id="@+id/sidebar_dns_lookup"
 					android:layout_width="8dp"
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="left"
-					android:background="#FF53B9"/>
+					android:background="@color/toolCardDNSLookup" />
 
 				<LinearLayout
-					android:id="@+id/linear_layout6"
+					android:id="@+id/linear_layout_dns_lookup"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:orientation="horizontal"
 					android:layout_gravity="center">
 
 					<androidx.cardview.widget.CardView
-						android:id="@+id/cardview_bg_icon_6"
+						android:id="@+id/cardview_bg_icon_dns_lookup"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
-						android:layout_marginLeft="32dp"
-						android:layout_marginRight="16dp"
+						android:layout_marginStart="32dp"
+						android:layout_marginEnd="16dp"
 						android:layout_marginBottom="8dp"
-						android:layout_gravity="left|center_vertical"
+						android:layout_gravity="start|center_vertical"
 						app:cardCornerRadius="32dp"
 						app:cardElevation="4dp"
-						app:cardBackgroundColor="#FF53B9">
+						app:cardBackgroundColor="@color/toolCardDNSLookup">
 
 						<ImageView
-							android:id="@+id/icon_6"
+							android:id="@+id/icon_dns_lookup"
 							android:layout_width="48dp"
 							android:layout_height="48dp"
 							android:layout_margin="8dp"
-							android:src="@drawable/ic_port_scan_light"/>
+							android:src="@drawable/ic_dns_lookup_light" />
 
 					</androidx.cardview.widget.CardView>
 
 					<TextView
-						android:id="@+id/textview_6"
+						android:id="@+id/textview_dns_lookup"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="8dp"
@@ -432,143 +485,7 @@
 						android:layout_gravity="center"
 						android:textSize="18sp"
 						android:textColor="?attr/TextColor"
-						android:text="Port Scanner"/>
-
-				</LinearLayout>
-
-			</androidx.cardview.widget.CardView>
-
-			<androidx.cardview.widget.CardView
-				android:id="@+id/cardview_7"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:minHeight="100dp"
-				android:layout_gravity="center_horizontal"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
-				android:layout_marginBottom="16dp"
-				android:foreground="?android:attr/selectableItemBackground"
-				app:cardCornerRadius="8dp"
-				app:cardElevation="8dp"
-				app:cardBackgroundColor="?CardBackgroundColor">
-
-				<LinearLayout
-					android:id="@+id/sidebar7"
-					android:layout_width="8dp"
-					android:layout_height="match_parent"
-					android:orientation="vertical"
-					android:gravity="left"
-					android:background="#FF506A"/>
-
-				<LinearLayout
-					android:id="@+id/linear_layout7"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:orientation="horizontal"
-					android:layout_gravity="center">
-
-					<androidx.cardview.widget.CardView
-						android:id="@+id/cardview_bg_icon_7"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="8dp"
-						android:layout_marginLeft="32dp"
-						android:layout_marginRight="16dp"
-						android:layout_marginBottom="8dp"
-						android:layout_gravity="left|center_vertical"
-						app:cardCornerRadius="32dp"
-						app:cardElevation="4dp"
-						app:cardBackgroundColor="#FF506A">
-
-						<ImageView
-							android:id="@+id/icon_7"
-							android:layout_width="48dp"
-							android:layout_height="48dp"
-							android:layout_margin="8dp"
-							android:src="@drawable/ic_whois_tool_light"/>
-
-					</androidx.cardview.widget.CardView>
-
-					<TextView
-						android:id="@+id/textview_7"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="8dp"
-						android:layout_marginLeft="16dp"
-						android:layout_marginRight="16dp"
-						android:layout_marginBottom="8dp"
-						android:layout_gravity="center"
-						android:textSize="18sp"
-						android:textColor="?attr/TextColor"
-						android:text="Whois Tool"/>
-
-				</LinearLayout>
-
-			</androidx.cardview.widget.CardView>
-
-			<androidx.cardview.widget.CardView
-				android:id="@+id/cardview_8"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:minHeight="100dp"
-				android:layout_gravity="center_horizontal"
-				android:layout_marginLeft="16dp"
-				android:layout_marginRight="16dp"
-				android:layout_marginBottom="16dp"
-				android:foreground="?android:attr/selectableItemBackground"
-				app:cardCornerRadius="8dp"
-				app:cardElevation="8dp"
-				app:cardBackgroundColor="?CardBackgroundColor">
-
-				<LinearLayout
-					android:id="@+id/sidebar8"
-					android:layout_width="8dp"
-					android:layout_height="match_parent"
-					android:orientation="vertical"
-					android:gravity="left"
-					android:background="#E4354F"/>
-
-				<LinearLayout
-					android:id="@+id/linear_layout8"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:orientation="horizontal"
-					android:layout_gravity="center">
-
-					<androidx.cardview.widget.CardView
-						android:id="@+id/cardview_bg_icon_8"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="8dp"
-						android:layout_marginLeft="32dp"
-						android:layout_marginRight="16dp"
-						android:layout_marginBottom="8dp"
-						android:layout_gravity="left|center_vertical"
-						app:cardCornerRadius="32dp"
-						app:cardElevation="4dp"
-						app:cardBackgroundColor="#E4354F">
-
-						<ImageView
-							android:id="@+id/icon_8"
-							android:layout_width="48dp"
-							android:layout_height="48dp"
-							android:layout_margin="8dp"
-							android:src="@drawable/ic_dns_lookup_light"/>
-
-					</androidx.cardview.widget.CardView>
-
-					<TextView
-						android:id="@+id/textview_8"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="8dp"
-						android:layout_marginLeft="16dp"
-						android:layout_marginRight="16dp"
-						android:layout_marginBottom="8dp"
-						android:layout_gravity="center"
-						android:textSize="18sp"
-						android:textColor="?attr/TextColor"
-						android:text="DNS Lookup"/>
+						android:text="@string/dns_lookup" />
 
 				</LinearLayout>
 

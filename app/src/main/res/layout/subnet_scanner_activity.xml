@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/content_frame"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="?attr/BackgroundColor">
+
+	<androidx.appcompat.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+		app:titleTextColor="?attr/TitleTextColor"
+		app:subtitleTextColor="?attr/SubtitleTextColor" />
+
+	<TextView
+		android:id="@+id/textview_nonetworkconn"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="16dp"
+		android:textSize="18sp"
+		android:textColor="?TextColor"
+		android:layout_gravity="center"
+		android:layout_centerInParent="true"
+		android:visibility="gone"
+		android:text="@string/no_wifi_connection" />
+
+	<ProgressBar
+		android:id="@+id/subnet_scanner_progress_bar"
+		style="?android:attr/progressBarStyleHorizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="-7dp"
+		android:layout_marginBottom="-7dp"
+		android:layout_below="@+id/toolbar"
+		android:indeterminate="true"
+		android:visibility="invisible" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/toolbar"
+		android:animateLayoutChanges="true"
+		android:padding="8dp"
+		android:orientation="vertical">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:orientation="vertical">
+
+			<TextView
+				android:id="@+id/local_ip_text"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:layout_marginBottom="8dp"
+				android:text="@string/na"
+				android:textColor="?TextColor"
+				android:textSize="20sp" />
+
+			<TextView
+				android:id="@+id/devices_found_text"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="8dp"
+				android:text="@string/devices_found_na"
+				android:textColor="?TextColor"
+				android:textSize="20sp" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center"
+			android:baselineAligned="false">
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/input_layout_timeout_subnet_scanner"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:layout_marginEnd="2dp"
+				android:hint="@string/timeout_ms">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/edittext_timeout_subnet_scanner"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:singleLine="true"
+					android:imeOptions="actionGo"
+					android:inputType="numberDecimal"
+					android:text="3000" />
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/input_layout_threads_subnet_scanner"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:layout_marginStart="2dp"
+				android:hint="@string/threads">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/edittext_threads_subnet_scanner"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:singleLine="true"
+					android:imeOptions="actionGo"
+					android:inputType="numberDecimal"
+					android:text="256" />
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center">
+
+			<Button
+				android:id="@+id/subnet_scan_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:layout_marginEnd="2dp"
+				android:text="@string/scan"
+				android:textColor="#FFFFFF"
+				style="@style/Widget.AppCompat.Button.Colored" />
+
+			<Button
+				android:id="@+id/subnet_scan_cancel_button"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:layout_marginStart="2dp"
+				android:text="@android:string/cancel"
+				android:textColor="#FFFFFF"
+				android:enabled="false"
+				style="@style/Widget.AppCompat.Button.Colored" />
+
+		</LinearLayout>
+
+		<ListView
+			android:id="@+id/listview_subnet_devices"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginTop="8dp"
+			android:layout_marginStart="4dp"
+			android:layout_marginEnd="4dp"
+			android:layout_marginBottom="4dp"
+			android:textColor="?TextColor"
+			android:transcriptMode="alwaysScroll" />
+
+	</LinearLayout>
+
+</RelativeLayout>
+

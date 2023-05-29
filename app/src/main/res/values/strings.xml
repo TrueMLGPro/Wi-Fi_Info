@@ -1,9 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="app_name">Wi-Fi Info</string>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+	<string name="app_name" translatable="false">Wi-Fi Info</string>
 	<string name="shortcut_main_short">Start</string>
 	<string name="shortcut_main_long">Start the main activity</string>
 	<string name="shortcut_disabled">Shortcut is not available</string>
 
+	<!-- Dynamic Shortcut Strings -->
+	<string name="github_repo">GitHub Repo</string>
+	<string name="open_github_repository">Open GitHub repository</string>
+	<string name="releases">Releases</string>
+	<string name="open_github_releases">Open GitHub Releases</string>
+
+	<!-- MainActivity Strings -->
+	<string name="permission_required">Permission required!</string>
+	<string name="location_permission_is_required_android_8_1_plus">On devices running Android 8.1+, location permission is required to view the SSID, BSSID and Network ID</string>
+	<string name="enable_location_to_show_ssid_bssid">Enable Location to view the SSID and BSSID of the network you are currently connected to</string>
+	<string name="enable_location_to_show_ssid_bssid_net_id">Enable Location to view the SSID, BSSID and Network ID of the network you are currently connected to</string>
+	<string name="ssid_bssid_not_displayed">SSID and BSSID of current network won\'t be displayed</string>
+	<string name="ssid_bssid_net_id_not_displayed">SSID, BSSID and Network ID of current network won\'t be displayed</string>
+	<string name="location_is_disabled">Location is Disabled</string>
+	<string name="wifi_info_needs_location_api_26">Wi-Fi Info requires Location to show SSID (network name) and BSSID (network MAC address) on Android 8\n\nClick Enable to give Wi-Fi Info permission to show SSID and BSSID</string>
+	<string name="wifi_info_needs_location_api_27">Wi-Fi Info requires Location to show SSID (network name) and BSSID (network MAC address) and Network ID on Android 8.1+\n\nClick Enable to give Wi-Fi Info permission to show SSID, BSSID and Network ID</string>
+
+	<string name="copied_to_clipboard">Copied to Clipboard</string>
+	<string name="background_location_permission">Background Location Permission (Optional)</string>
+	<string name="due_to_the_changes_in_android_11">Due to the changes in Android 11+, you\'ll need to go to Settings to enable it manually\nOnce Background Location permission is granted, you\'ll be able to see the SSID, BSSID and Network ID in the notification even when you close the app</string>
+	<string name="go_to_permissions_and_location">Go to Permissions -> Location</string>
+	<string name="select_allow_all_the_time">Select "Allow all the time"</string>
+
+	<string name="na">N/A</string>
+	<!-- Dialog Strings -->
+	<string name="no">No</string>
+	<string name="yes">Yes</string>
+	<string name="enable">Enable</string>
+	<string name="dont_show_again">Don\'t show again</string>
+	<string name="no_thanks">No Thanks</string>
+	<string name="are_you_sure">Are you sure?</string>
+	<string name="do_you_want_to_exit">Do you want to exit?</string>
+	<string name="exit">Exit</string>
+
+	<!-- Widget Strings -->
+	<string name="no_wifi_connection">No Wi-Fi Connection</string>
+	<string name="no_connection">No Connection</string>
+	<string name="public_ip_address">Public IP Address</string>
+	<string name="your_ip">Your IP: <xliff:g id="ip" example="192.168.0.1">%s</xliff:g></string>
+	<string name="your_ip_na">Your IP: N/A</string>
+
+	<string name="local_ip_address">Local IP Address</string>
+	<string name="ipv4" translatable="false">IPv4</string>
+	<string name="ipv6" translatable="false">IPv6</string>
+
+	<string name="ssid_bssid_etc">SSID, BSSID, etc.</string>
+	<string name="ssid" translatable="false">SSID</string>
+	<string name="bssid" translatable="false">BSSID</string>
+	<string name="hidden_ssid">Hidden SSID</string>
+	<string name="gateway_ip">Gateway IP</string>
+	<string name="hostname">Hostname</string>
+	<string name="wifi_standard">Wi-Fi Standard</string>
+
+	<string name="frequency_channel_etc">Frequency, Channel, etc.</string>
+	<string name="frequency">Frequency</string>
+	<string name="network_channel">Network Channel</string>
+	<!-- RSSI string in NotificationService -->
+	<string name="rssi" translatable="false">RSSI</string>
+	<!-- END -->
+	<string name="rssi_signal_strength">RSSI (Signal Strength)</string>
+	<string name="distance">Distance</string>
+	<string name="ip_lease_duration">IP Lease Duration</string>
+	<string name="network_speed">Network Speed (↓ / ↑)</string>
+	<string name="transmitted_mbs_gbs">Transmitted MBs/GBs</string>
+	<string name="received_mbs_gbs">Received MBs/GBs</string>
+
+	<string name="dns_subnet_mask_etc">DNS, Subnet Mask, etc.</string>
+	<string name="dns_1" translatable="false">DNS (1)</string>
+	<string name="dns_2" translatable="false">DNS (2)</string>
+	<string name="subnet_mask">Subnet Mask</string>
+	<string name="broadcast_address">Broadcast Address</string>
+	<string name="network_id">Network ID</string>
+	<string name="mac_address">MAC Address</string>
+	<string name="network_interface">Network Interface</string>
+	<string name="loopback_address">Loopback Address</string>
+	<string name="localhost_address">Localhost Address</string>
+
+	<string name="wpa_supplicant_state">WPA Supplicant State</string>
+
+	<string name="feature_support">Feature Support</string>
+	<string name="_5ghz_band_support">5 GHz Band Support</string>
+	<string name="_6ghz_band_support">6 GHz Band Support</string>
+	<string name="_60ghz_band_support">60 GHz Band Support</string>
+	<string name="wifi_direct_support">Wi-Fi Direct Support</string>
+	<string name="tdls_support">TDLS Support</string>
+	<string name="wpa3_sae_support">WPA3 SAE Support</string>
+	<string name="wpa3_suite_b_support">WPA3 Suite B Support</string>
+
+	<!-- FAB Strings -->
+	<string name="tools">Tools</string>
+	<string name="settings">Settings</string>
+
+	<!-- Toolbar Menu Strings -->
+	<string name="toolbar_copy_all_network_info">Copy All Network Info</string>
+	<string name="toolbar_clear_dns_lookup_log">Clear DNS Lookup Log</string>
+	<string name="toolbar_clear_ping_log">Clear Ping Log</string>
+	<string name="toolbar_clear_whois_tool_log">Clear Whois Tool Log</string>
+
+	<!-- Data -->
+	<string name="megabyte">MB</string>
+	<string name="gigabyte">GB</string>
+
+	<!-- ConnectionStateService Strings -->
+	<string name="connection_status_online">Connection Status — Online</string>
+	<string name="connection_status_offline">Connection Status — Offline</string>
+	<string name="stop_service">Stop Service</string>
+
+	<!-- NotificationService Strings -->
+	<string name="local_ip">Local IP</string>
+	<string name="stop_services">Stop Services</string>
+	<string name="notification_settings">Notification Settings</string>
+
+	<!-- SupportersActivity Strings -->
+	<string name="patron_diamond_tier">• Patron - Diamond Tier (5$)</string>
+	<string name="app_tester">• App Tester</string>
+	<string name="idea_provider">• Idea Provider</string>
+	<string name="contributor">• Contributor</string>
+
+	<!-- ToolsActivity Strings -->
+	<string name="cellular_data_ip">Cellular Data IP</string>
+	<string name="router_setup">Router Setup</string>
+	<string name="ping_tool">Ping Tool</string>
+	<string name="subnet_scanner">Subnet Scanner</string>
+	<string name="port_scanner">Port Scanner</string>
+	<string name="whois_tool">Whois Tool</string>
+	<string name="dns_lookup">DNS Lookup</string>
+
+	<!-- SettingsActivity Strings -->
+	<string name="_500_ms_interval">500 milliseconds</string>
+	<string name="_1_s_interval">1 second</string>
+	<string name="_2_s_interval">2 seconds</string>
+	<string name="_3_s_interval">3 seconds</string>
+	<string name="_4_s_interval">4 seconds</string>
+	<string name="_5_s_interval">5 seconds</string>
+	<string name="_10_s_interval">10 seconds</string>
+
+	<string name="general_category">General</string>
+	<string name="dark_theme">Dark Theme</string>
+	<string name="dark_theme_summary">Enable or disable dark theme</string>
+	<string name="amoled_theme">AMOLED Theme</string>
+	<string name="amoled_theme_summary">Enable or disable AMOLED theme</string>
+	<string name="language">Language</string>
+	<string name="ui_font">UI Font</string>
+	<string name="keep_screen_on">Keep Screen On</string>
+	<string name="keep_screen_on_summary">Keep screen on while the app is open</string>
+	<string name="card_update_interval">Card Update Interval</string>
+
+	<string name="boot_category">Boot</string>
+	<string name="start_on_boot">Start on Boot</string>
+	<string name="start_on_boot_summary">Start notification services on boot</string>
+
+	<string name="notification_category">Notification</string>
+	<string name="show_notification">Show Notification</string>
+	<string name="show_notification_summary">Display network information in a notification</string>
+	<string name="notification_update_interval">Notification Update Interval</string>
+	<string name="colorize_notification">Colorize Notification</string>
+	<string name="colorize_notification_summary">Fill notification background using accent color</string>
+	<string name="visualize_signal_strength">Visualize Signal Strength</string>
+	<string name="visualize_signal_strength_summary">Colorize notification depending on signal strength</string>
+	<string name="show_hide_notification">Show / Hide Notification</string>
+	<string name="show_hide_notification_summary">Stop the notification service when you turn your screen off and restart it when you turn it back on</string>
+
+	<string name="about_category">About</string>
+	<string name="app_version">App Version</string>
+	<string name="supporters">Supporters</string>
+	<string name="supporters_summary">Check out the list of people who helped making this project better</string>
+	<string name="discord_server">Discord Server</string>
+	<string name="discord_server_summary">Join the community server, discuss new updates, suggest features</string>
+	<string name="source_code">Source Code</string>
+	<string name="source_code_summary">View the source code on GitHub</string>
+	<string name="report_bugs">Report Bugs</string>
+	<string name="report_bugs_summary">Submit a bug report using GitHub Issues</string>
+	<string name="privacy_policy">Privacy Policy</string>
+	<string name="privacy_policy_summary">View our Privacy Policy regarding your data security</string>
+
+	<string name="debug_category">Debug</string>
+	<string name="android_version">Android Version</string>
+	<string name="sdk_version_code">SDK Version Code</string>
+	<string name="device_model">Device Model</string>
+	<string name="product_name">Product Name</string>
+
+	<!-- SupporterActivity Strigns -->
+	<string name="supporter_pab" translatable="false">Pab#2631</string>
+	<string name="supporter_anyx" translatable="false">Anyx#1040</string>
+	<string name="supporter_andrebtw" translatable="false">andrebtw.#3452</string>
+	<string name="supporter_air_conditioner" translatable="false">air conditioner#7639</string>
+	<string name="supporter_madcodez" translatable="false">madcodez#1517</string>
+	<string name="supporter_asfi" translatable="false">asfi#4034</string>
+	<string name="supporter_akebi" translatable="false">Akebi#7204</string>
+	<string name="supporter_artem" translatable="false">Apтем#8524</string>
+	<string name="supporter_terrin_tin" translatable="false">Terrin Tin#5462</string>
+	<string name="supporter_torneix" translatable="false">balkan bro#7593</string>
+	<string name="supporter_killbayne" translatable="false">Killbayne#2294</string>
+
+	<!-- Tool Strings -->
+	<string name="enter_ip_or_url">Enter IP or URL</string>
+	<string name="threads">Threads</string>
+	<string name="timeout_ms">Timeout (ms)</string>
+
+	<!-- CellularDataIPActivity Strings -->
+	<string name="no_cellular_connection">No Cellular Connection</string>
+	<string name="ip" translatable="false">IP</string>
+
+	<!-- DNSLookupActivity & PingToolActivity Strings -->
+	<string name="start">Start</string>
+	<string name="record_type_not_supported">Record type <xliff:g id="record_type" example="NSEC">%s</xliff:g> is not supported <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_failed_exception">Failed to perform a lookup for record type <xliff:g id="record_type" example="NSEC">%s</xliff:g> | Error message: <xliff:g id="record_type" example="ERROR">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_failed_response">Failed to perform a lookup for record type <xliff:g id="record_type" example="NSEC">%s</xliff:g> | Response code: <xliff:g id="response_code" example="503">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_no_records">No records available for record type <xliff:g id="record_type" example="NSEC">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_record_type">DNS Record Type -\u0020</string>
+	<string name="url_ip" translatable="false">URL/IP:\u0020</string>
+
+	<string name="time_to_live_ttl" translatable="false">TTL</string>
+	<string name="packets">Packets</string>
+	<string name="timeout_field_empty">Timeout text field cannot be empty</string>
+	<string name="resetting">Resetting…</string>
+	<string name="timeout_not_integer">Timeout value is not an integer</string>
+	<string name="timeout_lower_than_1_ms">Timeout value cannot be lower than 1 ms</string>
+	<string name="ttl_field_empty">TTL text field cannot be empty</string>
+	<string name="ttl_not_integer">TTL value is not an integer</string>
+	<string name="ttl_lower_than_1">TTL value cannot be lower than 1</string>
+	<string name="packets_amount_not_defined">Unable to ping the host. Packet amount is not defined</string>
+	<string name="packets_not_integer">Unable to ping the host since <xliff:g id="packet_amount" example="3.14">%s</xliff:g> is not an integer</string>
+	<string name="packets_lower_than_1">Unable to ping the host <xliff:g id="packet_amount" example="-1">%s</xliff:g> times</string>
+	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Response from <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> ms, TTL = <xliff:g id="ttl" example="30">%d</xliff:g></string>
+	<string name="connection_timeout"><xliff:g id="packet_num" example="1">%d</xliff:g> - Connection timeout</string>
+	<string name="ping_packet_stats"><xliff:g id="packets_sent" example="5">%d</xliff:g> packets sent, <xliff:g id="packets_received" example="5">%d</xliff:g> received, <xliff:g id="packets_lost" example="0">%d</xliff:g> lost, <xliff:g id="packet_loss" example="0.00">%.2f</xliff:g>%% packet loss</string>
+	<string name="min_avg_max_latency_stats">Min / Avg / Max Latency:\n<xliff:g id="min_latency" example="13.5">%.2f</xliff:g> / <xliff:g id="avg_latency" example="32.0">%.2f</xliff:g> / <xliff:g id="max_latency" example="50.5">%.2f</xliff:g> ms</string>
+	<string name="total_ping_time">Total time: <xliff:g id="total_time" example="15250">%d</xliff:g> ms</string>
+	<string name="ping_log_ip">IP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g></string>
+	<string name="ping_log_hostname">Hostname: <xliff:g id="url" example="test.com">%s</xliff:g></string>
+
+	<!-- PortScannerActivity Strings -->
+	<string name="ports">Ports</string>
+	<string name="ports_open_none">Ports Open: -</string>
+	<string name="ports_open_amount">Ports Open: <xliff:g id="ports_open" example="10">%d</xliff:g></string>
+	<string name="ports_closed_none">Ports Closed: -</string>
+	<string name="ports_closed_amount">Ports Closed: <xliff:g id="ports_closed" example="10">%d</xliff:g></string>
+
+	<!-- RouterSetupActivity Strings -->
+	<string name="router_login_ip">Router Login — <xliff:g id="ip" example="192.168.0.1">%s</xliff:g></string>
+	<string name="use_web_interface">Use Web Interface</string>
+	<string name="login">Login</string>
+	<string name="password">Password</string>
+	<string name="page_back">Back</string>
+	<string name="page_forward">Forward</string>
+	<string name="page_refresh">Refresh</string>
+	<string name="auth_error">User authentication failed on server</string>
+	<string name="timeout_error">Connection timeout. Try again later</string>
+	<string name="too_many_requests_error">Too many requests during this load</string>
+	<string name="unknown_error">Unknown error</string>
+	<string name="connect_error">Failed to connect to the server</string>
+	<string name="host_lookup_error">Server or proxy hostname lookup failed</string>
+	<string name="proxy_auth_error">User authentication failed on proxy</string>
+	<string name="redirect_loop_error">Too many redirects</string>
+	<string name="unsupported_auth_scheme_error">Unsupported authentication scheme (not basic or digest)</string>
+	<string name="unsupported_scheme_error">Unsupported URI scheme</string>
+	<string name="io_error">The server failed to communicate. Try again later</string>
+
+	<!-- SubnetScannerActivity Strings -->
+	<string name="devices_found_na">Devices Found: -</string>
+	<string name="devices_found">Devices Found: <xliff:g id="amount" example="5">%d</xliff:g></string>
+	<string name="scan">Scan</string>
+	<string name="mac_na">MAC: N/A</string>
+	<string name="mac" translatable="false">MAC: <xliff:g id="mac" example="3C:22:FB:4D:8E:6A">%s</xliff:g></string>
+	<string name="your_device">(Your Device)</string>
+	<string name="gateway">(Gateway)</string>
+
+	<!-- WhoIsToolActivity Strings -->
+	<string name="field_too_short">Entered URL is too short…</string>
+	<string name="enter_url">Enter URL</string>
+	<string name="fetch">Fetch</string>
+	<string name="error_malformed_url">Error: Malformed URL</string>
+	<string name="error_unknown_host">Error: Unknown Host</string>
+	<string name="error_interrupted">Error: Interrupted</string>
+	<string name="error_failed_to_execute">Error: Failed to execute</string>
+	<string name="whois_result_output">Getting Whois data for URL: <xliff:g id="url" example="test.com">%s</xliff:g>\nIP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g>\n<xliff:g id="fetched_whois_data" example="...">%s</xliff:g><xliff:g id="line_sep" example="--------">%s</xliff:g></string>
 </resources>

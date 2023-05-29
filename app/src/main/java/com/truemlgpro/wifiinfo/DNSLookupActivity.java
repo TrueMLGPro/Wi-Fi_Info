@@ -15,10 +15,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +39,7 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class DNSLookupActivity extends AppCompatActivity {
 	private TextView textview_nonetworkconn;
+	private ProgressBar dns_lookup_progress_bar;
 	private Button get_dns_info_button;
 	private TextInputLayout input_layout_dns;
 	private EditText edit_text_dns;
@@ -61,13 +62,14 @@ public class DNSLookupActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		new ThemeManager().initializeThemes(this, getApplicationContext());
+		ThemeManager.initializeThemes(this, getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dns_lookup_activity);
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
+		dns_lookup_progress_bar = (ProgressBar) findViewById(R.id.dns_lookup_progress_bar);
 		get_dns_info_button = (Button) findViewById(R.id.get_dns_info_button);
 		input_layout_dns = (TextInputLayout) findViewById(R.id.input_layout_dns);
 		edit_text_dns = (EditText) findViewById(R.id.edit_text_dns);
@@ -75,7 +77,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 		dns_lookup_results_scroll = (ScrollView) findViewById(R.id.dns_lookup_results_scroll);
 		dns_lookup_textview = (TextView) findViewById(R.id.dns_lookup_textview);
 
-		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		KeepScreenOnManager.init(getWindow(), getApplicationContext());
 
 		Calligrapher calligrapher = new Calligrapher(this);
 		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
@@ -96,7 +98,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 			url_ip = edit_text_dns.getText().toString();
 			if (TextUtils.isEmpty(url_ip)) {
 				url_ip = "google.com";
-				Toast.makeText(getBaseContext(), "No IP or URL given...\nUsing Google URL: " + url_ip, Toast.LENGTH_LONG).show();
+				edit_text_dns.setText(url_ip);
 			}
 			startDnsLookup();
 		});
@@ -121,6 +123,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			setEnabled(get_dns_info_button, false);
+			dns_lookup_progress_bar.setVisibility(View.VISIBLE);
 		}
 
 		@Override
@@ -130,28 +133,28 @@ public class DNSLookupActivity extends AppCompatActivity {
 				AndroidUsingLinkProperties.setup(getApplicationContext());
 				Class<Data> recordDataClass = Record.TYPE.valueOf(dns_record_type).getDataClass();
 				if (recordDataClass == null) {
-					return "Record type " + dns_record_type + " is not supported" + lineSeparator;
+					return String.format(getString(R.string.record_type_not_supported), dns_record_type, lineSeparator);
 				}
 				result = ResolverApi.INSTANCE.resolve(url_ip, recordDataClass);
 			} catch (IOException e) {
-				return "Failed to perform a lookup for record type " + dns_record_type + " | Error message: " + e.getMessage() + lineSeparator;
+				return String.format(getString(R.string.dns_lookup_failed_exception), dns_record_type, e.getMessage(), lineSeparator);
 			}
 
 			if (!result.wasSuccessful()) {
-				return "Failed to perform a lookup for record type " + dns_record_type + " | Response code: " + result.getResponseCode() + lineSeparator;
+				return String.format(getString(R.string.dns_lookup_failed_response), dns_record_type, result.getResponseCode(), lineSeparator);
 			}
 
 			Set<? extends Data> answers = result.getAnswers();
 			if (answers.isEmpty()) {
-				return "No records available for record type " + dns_record_type + lineSeparator;
+				return String.format(getString(R.string.dns_lookup_no_records), dns_record_type, lineSeparator);
 			}
 
 			StringBuilder out = new StringBuilder();
-			out.append("DNS Record Type - ").append(dns_record_type).append("\nURL/IP: ").append(url_ip).append(lineSeparator);
-			for (Data answer : answers) {
+			out.append(getString(R.string.dns_record_type)).append(dns_record_type).append("\n")
+				.append(getString(R.string.url_ip)).append(url_ip).append(lineSeparator);
+			for (Data answer: answers) {
 				out.append(answer).append("\n");
 			}
-
 			return out.toString();
 		}
 
@@ -159,6 +162,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			setEnabled(get_dns_info_button, true);
+			dns_lookup_progress_bar.setVisibility(View.INVISIBLE);
 			appendResultsText(result);
 		}
 	}
@@ -174,32 +178,31 @@ public class DNSLookupActivity extends AppCompatActivity {
 	private void appendResultsText(final String text) {
 		runOnUiThread(() -> {
 			dns_lookup_textview.append(text + "\n");
-			dns_lookup_results_scroll.post(() -> dns_lookup_results_scroll.fullScroll(View.FOCUS_DOWN));
+			dns_lookup_results_scroll.post(() -> {
+				View lastChild = dns_lookup_results_scroll.getChildAt(dns_lookup_results_scroll.getChildCount() - 1);
+				int bottom = lastChild.getBottom() + dns_lookup_results_scroll.getPaddingBottom();
+				int sy = dns_lookup_results_scroll.getScrollY();
+				int sh = dns_lookup_results_scroll.getHeight();
+				int delta = bottom - (sy + sh);
+
+				dns_lookup_results_scroll.smoothScrollBy(0, delta);
+			});
 		});
 	}
 
-	class NetworkConnectivityReceiver extends BroadcastReceiver
-	{
+	class NetworkConnectivityReceiver extends BroadcastReceiver {
 		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			checkNetworkConnectivity(false);
+		public void onReceive(Context context, Intent intent) {
+			checkNetworkConnectivity(true);
 		}
 	}
 
-	public void checkNetworkConnectivity(Boolean calledFromToolbarAction) {
-		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		NetworkInfo CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+	public void checkNetworkConnectivity(Boolean shouldClearLog) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		NetworkInfo wifiCheck = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		NetworkInfo cellularCheck = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-		if (!calledFromToolbarAction) {
-			dns_lookup_textview.setText("...\n");
-			edit_text_dns.setText("");
-		}
-
-		// WI-FI Connectivity Check
-
-		if (WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
+		if (wifiCheck.isConnected() && !cellularCheck.isConnected()) { // Wi-Fi Connectivity Check
 			showWidgets();
 			if (toolbarDnsMenu != null) {
 				if (!toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
@@ -208,20 +211,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 			}
 			wifi_connected = true;
 			cellular_connected = false;
-		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
-			if (toolbarDnsMenu != null) {
-				if (toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
-					setToolbarItemEnabled(R.id.clear_dns_log, false);
-				}
-			}
-			hideWidgets();
-			wifi_connected = false;
-			cellular_connected = false;
-		}
-
-		// Cellular Connectivity Check
-
-		if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
+		} else if (cellularCheck.isConnected() && !wifiCheck.isConnected()) { // Cellular Connectivity Check
 			showWidgets();
 			if (toolbarDnsMenu != null) {
 				if (!toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
@@ -230,7 +220,8 @@ public class DNSLookupActivity extends AppCompatActivity {
 			}
 			wifi_connected = false;
 			cellular_connected = true;
-		} else if (!CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
+		} else if (!wifiCheck.isConnected() && !cellularCheck.isConnected()) {
+			if (shouldClearLog) { dns_lookup_textview.setText(""); }
 			if (toolbarDnsMenu != null) {
 				if (toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_dns_log, false);
@@ -248,6 +239,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 		spinner_dns_record_types.setVisibility(View.VISIBLE);
 		input_layout_dns.setVisibility(View.VISIBLE);
 		dns_lookup_results_scroll.setVisibility(View.VISIBLE);
+		dns_lookup_progress_bar.setVisibility(View.INVISIBLE);
 		textview_nonetworkconn.setVisibility(View.GONE);
 	}
 
@@ -257,12 +249,12 @@ public class DNSLookupActivity extends AppCompatActivity {
 		spinner_dns_record_types.setVisibility(View.GONE);
 		input_layout_dns.setVisibility(View.GONE);
 		dns_lookup_results_scroll.setVisibility(View.GONE);
+		dns_lookup_progress_bar.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
 	}
 
 	@Override
-	protected void onStart()
-	{
+	protected void onStart() {
 		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -271,8 +263,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 	}
 
 	@Override
-	protected void onStop()
-	{
+	protected void onStop() {
 		super.onStop();
 		unregisterReceiver(NetworkConnectivityReceiver);
 	}
@@ -292,7 +283,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		toolbarDnsMenu = menu;
-		checkNetworkConnectivity(true);
+		checkNetworkConnectivity(false);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -300,7 +291,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.clear_dns_log) {
-			dns_lookup_textview.setText("...\n");
+			dns_lookup_textview.setText("");
 		}
 		return true;
 	}

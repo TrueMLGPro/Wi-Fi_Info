@@ -26,18 +26,31 @@
 		android:layout_gravity="center"
 		android:layout_centerInParent="true"
 		android:visibility="gone"
-		android:text="No Connection" />
+		android:text="@string/no_connection" />
+
+	<ProgressBar
+		android:id="@+id/port_scanner_progress_bar"
+		style="?android:attr/progressBarStyleHorizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="-7dp"
+		android:layout_marginBottom="-7dp"
+		android:layout_below="@+id/toolbar"
+		android:indeterminate="true"
+		android:visibility="invisible" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_below="@+id/toolbar"
-		android:layout_margin="8dp"
+		android:animateLayoutChanges="true"
+		android:padding="8dp"
 		android:orientation="vertical">
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
 			android:orientation="vertical"
 			android:gravity="center">
 
@@ -53,8 +66,8 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:layout_margin="4dp"
-					android:hint="Enter IP or URL">
+					android:layout_marginEnd="4dp"
+					android:hint="@string/enter_ip_or_url">
 
 					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/edittext_ip"
@@ -62,6 +75,24 @@
 						android:layout_height="wrap_content"
 						android:singleLine="true"
 						android:imeOptions="actionGo" />
+
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/input_layout_ports"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginStart="4dp"
+					android:hint="@string/ports">
+
+					<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/edittext_ports"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:singleLine="true"
+						android:imeOptions="actionGo"
+						android:text="1-65535" />
 
 				</com.google.android.material.textfield.TextInputLayout>
 
@@ -77,9 +108,11 @@
 					android:id="@+id/input_layout_threads"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:layout_weight="0.5"
-					android:layout_margin="4dp"
-					android:hint="Threads">
+					android:layout_weight="1"
+					android:layout_marginTop="4dp"
+					android:layout_marginBottom="4dp"
+					android:layout_marginEnd="4dp"
+					android:hint="@string/threads">
 
 					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/edittext_threads"
@@ -88,7 +121,7 @@
 						android:singleLine="true"
 						android:imeOptions="actionGo"
 						android:inputType="numberDecimal"
-						android:text="8" />
+						android:text="64" />
 
 				</com.google.android.material.textfield.TextInputLayout>
 
@@ -96,25 +129,60 @@
 					android:id="@+id/spinner_packet_types"
 					android:layout_width="0dp"
 					android:layout_height="match_parent"
-					android:layout_weight="0.5"
-					android:layout_marginRight="4dp"
+					android:layout_weight="1"
 					android:layout_marginTop="4dp"
 					android:layout_marginBottom="4dp"
+					android:layout_marginStart="4dp"
 					android:entries="@array/packet_types" />
 
 			</LinearLayout>
 
-			<TextView
-				android:id="@+id/ports_open_text"
-				android:layout_width="wrap_content"
+			<LinearLayout
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="4dp"
-				android:layout_marginBottom="4dp"
-				android:layout_marginLeft="8dp"
-				android:layout_marginRight="8dp"
-				android:textSize="20sp"
-				android:textColor="?TextColor"
-				android:text="Ports Open: -" />
+				android:orientation="horizontal"
+				android:gravity="center"
+				android:baselineAligned="false">
+
+				<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:gravity="center"
+					android:paddingTop="4dp"
+					android:paddingBottom="4dp"
+					android:layout_weight="1">
+
+					<TextView
+						android:id="@+id/ports_open_text"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="14sp"
+						android:textColor="?TextColor"
+						android:text="@string/ports_open_none" />
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:gravity="center"
+					android:paddingTop="4dp"
+					android:paddingBottom="4dp"
+					android:layout_weight="1">
+
+					<TextView
+						android:id="@+id/ports_closed_text"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="14sp"
+						android:textColor="?TextColor"
+						android:text="@string/ports_closed_none" />
+
+				</LinearLayout>
+
+			</LinearLayout>
 
 		</LinearLayout>
 
@@ -128,7 +196,7 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:text="Scan"
+				android:text="@string/scan"
 				android:textColor="#FFFFFF"
 				style="@style/Widget.AppCompat.Button.Colored" />
 
@@ -138,7 +206,7 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:enabled="false"
-				android:text="Stop"
+				android:text="@android:string/cancel"
 				android:textColor="#FFFFFF"
 				style="@style/Widget.AppCompat.Button.Colored" />
 
@@ -149,6 +217,9 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_marginTop="8dp"
+			android:layout_marginStart="4dp"
+			android:layout_marginEnd="4dp"
+			android:layout_marginBottom="4dp"
 			android:transcriptMode="alwaysScroll"
 			android:textColor="?TextColor" />
 

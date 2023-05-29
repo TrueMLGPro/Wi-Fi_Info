@@ -8,13 +8,13 @@ import android.content.Context;
  */
 public class ThemeManager {
 	/**
-	 * Initializes themes for Activities based on selected Theme preferences
+	 * Initializes themes for Activities based on selected Theme preference
 	 * @param activity an activity which called this method
-	 * @param context a context to pass, has to be an Application Context
+	 * @param appContext a context to pass, has to be an Application Context
 	 */
-	public void initializeThemes(Activity activity, Context context) {
-		boolean keyTheme = new SharedPreferencesManager(context).retrieveBoolean(SettingsActivity.KEY_PREF_SWITCH, MainActivity.darkMode);
-		boolean keyAmoledTheme = new SharedPreferencesManager(context).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_CHECK, MainActivity.amoledMode);
+	public static void initializeThemes(Activity activity, Context appContext) {
+		boolean keyTheme = new SharedPreferencesManager(appContext).retrieveBoolean(SettingsActivity.KEY_PREF_DARK_MODE_SWITCH, MainActivity.darkMode);
+		boolean keyAmoledTheme = new SharedPreferencesManager(appContext).retrieveBoolean(SettingsActivity.KEY_PREF_AMOLED_MODE_CHECK, MainActivity.amoledMode);
 
 		if (keyAmoledTheme) {
 			if (keyTheme) {

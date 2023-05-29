@@ -31,12 +31,12 @@
 			android:textSize="18sp"
 			android:textColor="?TextColor"
 			android:visibility="gone"
-			android:text="No Wi-Fi Connection" />
+			android:text="@string/no_wifi_connection" />
 
 	</LinearLayout>
 
 	<ProgressBar
-		android:id="@+id/progressBarLoading"
+		android:id="@+id/router_setup_progress_bar"
 		style="?android:attr/progressBarStyleHorizontal"
 		android:layout_width="match_parent"
 		android:layout_height="4dp"
@@ -46,21 +46,15 @@
 	<LinearLayout
 		android:id="@+id/webview_container"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="match_parent"
+		android:animateLayoutChanges="true"
 		android:gravity="center"
 		android:orientation="vertical">
-
-		<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-			android:id="@+id/swipe_refresh"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
 
 			<WebView
 				android:id="@+id/webview_main"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent" />
-
-		</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 	</LinearLayout>
 

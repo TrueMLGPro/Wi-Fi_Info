@@ -14,7 +14,7 @@
 		android:background="?attr/colorPrimary"
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor"/>
+		app:subtitleTextColor="?attr/SubtitleTextColor" />
 
 	<ScrollView
 		android:id="@+id/scrollView"
@@ -35,7 +35,7 @@
 				android:layout_marginTop="16dp"
 				android:textSize="32sp"
 				android:textColor="?attr/TextColor"
-				android:text="Supporters" />
+				android:text="@string/supporters" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/pab_pfp"
@@ -60,7 +60,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:text="Pab#2631" />
+				android:text="@string/supporter_pab" />
 
 			<TextView
 				android:id="@+id/pab_patron"
@@ -71,7 +71,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="18sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Patron - Diamond Tier (5$)" />
+				android:text="@string/patron_diamond_tier" />
 
 			<TextView
 				android:id="@+id/pab_tester"
@@ -82,7 +82,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/pab_idea"
@@ -93,7 +93,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/anyx_pfp"
@@ -118,7 +118,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:text="Anyx#1040" />
+				android:text="@string/supporter_anyx" />
 
 			<TextView
 				android:id="@+id/anyx_tester"
@@ -129,7 +129,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/anyx_contributor"
@@ -140,7 +140,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Contributor" />
+				android:text="@string/contributor" />
 
 			<TextView
 				android:id="@+id/anyx_idea"
@@ -151,7 +151,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/andrew_pfp"
@@ -176,7 +176,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:text="andre btw.#3452" />
+				android:text="@string/supporter_andrebtw" />
 
 			<TextView
 				android:id="@+id/andrew_tester"
@@ -187,7 +187,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/andrew_contributor"
@@ -198,7 +198,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Contributor" />
+				android:text="@string/contributor" />
 
 			<TextView
 				android:id="@+id/andrew_idea"
@@ -209,7 +209,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/rouge_pfp"
@@ -234,7 +234,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:text="air conditioner#7639" />
+				android:text="@string/supporter_air_conditioner" />
 
 			<TextView
 				android:id="@+id/rouge_tester"
@@ -245,7 +245,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/rouge_contributor"
@@ -256,7 +256,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Contributor" />
+				android:text="@string/contributor" />
 
 			<TextView
 				android:id="@+id/rouge_idea"
@@ -267,7 +267,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/madcodez_pfp"
@@ -292,7 +292,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:text="madcodez#1517" />
+				android:text="@string/supporter_madcodez" />
 
 			<TextView
 				android:id="@+id/madcodez_tester"
@@ -303,7 +303,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/madcodez_contributor"
@@ -314,7 +314,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Contributor" />
+				android:text="@string/contributor" />
 
 			<TextView
 				android:id="@+id/madcodez_idea"
@@ -325,7 +325,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/asfi_pfp"
@@ -350,7 +350,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:text="asfi#4034" />
+				android:text="@string/supporter_asfi" />
 
 			<TextView
 				android:id="@+id/asfi_tester"
@@ -361,7 +361,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/asfi_idea"
@@ -372,7 +372,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/akebi_pfp"
@@ -397,7 +397,7 @@
 				android:layout_marginTop="8dp"
 				android:textColor="?attr/TextColor"
 				android:textSize="24sp" 
-				android:text="Akebi7204#7204" />
+				android:text="@string/supporter_akebi" />
 
 			<TextView
 				android:id="@+id/akebi_tester"
@@ -408,7 +408,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/akebi_idea"
@@ -419,7 +419,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/artem_pfp"
@@ -444,7 +444,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:text="Apтем#8524" />
+				android:text="@string/supporter_artem" />
 
 			<TextView
 				android:id="@+id/artem_tester"
@@ -455,7 +455,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/artem_idea"
@@ -466,7 +466,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/terrin_pfp"
@@ -491,7 +491,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:text="Terrin Tin#5462" />
+				android:text="@string/supporter_terrin_tin" />
 
 			<TextView
 				android:id="@+id/terrin_tester"
@@ -502,7 +502,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/terrin_idea"
@@ -513,7 +513,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/torneix_pfp"
@@ -538,7 +538,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
-				android:text="bajsjägaremästaren#7593" />
+				android:text="@string/supporter_torneix" />
 
 			<TextView
 				android:id="@+id/torneix_tester"
@@ -549,7 +549,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/torneix_idea"
@@ -560,7 +560,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/killbayne_pfp"
@@ -586,7 +586,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="24sp" 
 				android:textColor="?attr/TextColor"
-				android:text="Killbayne#2294" />
+				android:text="@string/supporter_killbayne" />
 
 			<TextView
 				android:id="@+id/killbayne_tester"
@@ -597,7 +597,7 @@
 				android:layout_marginTop="8dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• App Tester" />
+				android:text="@string/app_tester" />
 
 			<TextView
 				android:id="@+id/killbayne_idea"
@@ -609,7 +609,7 @@
 				android:layout_marginBottom="16dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="• Idea Provider" />
+				android:text="@string/idea_provider" />
 
 		</RelativeLayout>
 

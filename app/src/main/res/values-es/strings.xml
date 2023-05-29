@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+	<string name="shortcut_main_short">Inicio</string>
+	<string name="shortcut_main_long">Inicia la actividad principal</string>
+	<string name="shortcut_disabled">El acceso directo no está disponible</string>
+
+	<!-- Dynamic Shortcut Strings -->
+	<string name="github_repo">Repositorio de GitHub</string>
+	<string name="open_github_repository">Abrir el repositorio de GitHub</string>
+	<string name="releases">Versiones</string>
+	<string name="open_github_releases">Abrir versiones de GitHub</string>
+
+	<!-- MainActivity Strings -->
+	<string name="permission_required">Permiso requerido</string>
+	<string name="location_permission_is_required_android_8_1_plus">En dispositivos con Android 8.1+, se requiere permiso de ubicación para ver el SSID, BSSID y el ID de red</string>
+	<string name="enable_location_to_show_ssid_bssid">Habilita la ubicación para ver el SSID y BSSID de la red a la que estás conectado actualmente</string>
+	<string name="enable_location_to_show_ssid_bssid_net_id">Habilita la ubicación para ver el SSID, BSSID y ID de red de la red a la que estás conectado actualmente</string>
+	<string name="ssid_bssid_not_displayed">El SSID y BSSID de la red actual no se mostrarán</string>
+	<string name="ssid_bssid_net_id_not_displayed">El SSID, BSSID y ID de red de la red actual no se mostrarán</string>
+	<string name="location_is_disabled">La ubicación está desactivada</string>
+	<string name="wifi_info_needs_location_api_26">Se requiere ubicación para mostrar SSID (nombre de la red) y BSSID (dirección MAC de la red) en Android 8\n\nHaz clic en "Habilitar" para dar permiso a Wi-Fi Info para mostrar SSID y BSSID</string>
+	<string name="wifi_info_needs_location_api_27">Se requiere ubicación para mostrar SSID (nombre de la red), BSSID (dirección MAC de la red) e ID de red en Android 8.1+\n\nHaz clic en "Habilitar" para dar permiso a Wi-Fi Info para mostrar SSID, BSSID e ID de red</string>
+
+	<string name="copied_to_clipboard">Copiado al portapapeles</string>
+	<string name="background_location_permission">Permiso de ubicación en segundo plano (opcional)</string>
+	<string name="due_to_the_changes_in_android_11">Debido a los cambios en Android 11+, tendrás que ir a Configuración para habilitarlo manualmente\nUna vez que se otorgue el permiso de ubicación en segundo plano, podrás ver el SSID, BSSID y ID de red en la notificación incluso cuando cierres la aplicación</string>
+	<string name="go_to_permissions_and_location">Ir a Permisos -> Ubicación</string>
+	<string name="select_allow_all_the_time">Seleccionar "Permitir todo el tiempo"</string>
+
+	<string name="na">N/D</string>
+	<!-- Dialog Strings -->
+	<string name="no">No</string>
+	<string name="yes">Sí</string>
+	<string name="enable">Habilitar</string>
+	<string name="dont_show_again">No mostrar de nuevo</string>
+	<string name="no_thanks">No, gracias</string>
+	<string name="are_you_sure">¿Estás seguro?</string>
+	<string name="do_you_want_to_exit">¿Quieres salir?</string>
+	<string name="exit">Salir</string>
+
+	<!-- Widget Strings -->
+	<string name="no_wifi_connection">Sin conexión Wi-Fi</string>
+	<string name="no_connection">Sin conexión</string>
+	<string name="public_ip_address">Dirección IP pública</string>
+	<string name="your_ip">Tu IP: <xliff:g id="ip" example="192.168.0.1">%s</xliff:g></string>
+	<string name="your_ip_na">Tu IP: N/D</string>
+
+	<string name="local_ip_address">Dirección IP local</string>
+
+	<string name="ssid_bssid_etc">SSID, BSSID, etc.</string>
+	<string name="hidden_ssid">SSID oculto</string>
+	<string name="gateway_ip">IP del Gateway</string>
+	<string name="hostname">Nombre del host</string>
+	<string name="wifi_standard">Estándar de Wi-Fi</string>
+
+	<string name="frequency_channel_etc">Frecuencia, Canal, etc.</string>
+	<string name="frequency">Frecuencia</string>
+	<string name="network_channel">Canal de red</string>
+	<string name="rssi_signal_strength">RSSI (Fuerza de la señal)</string>
+	<string name="distance">Distancia</string>
+	<string name="ip_lease_duration">Duración del alquiler de IP</string>
+	<string name="network_speed">Velocidad de red (↓ / ↑)</string>
+	<string name="transmitted_mbs_gbs">MB/GB transmitidos</string>
+	<string name="received_mbs_gbs">MB/GB recibidos</string>
+
+	<string name="dns_subnet_mask_etc">DNS, Máscara de subred, etc.</string>
+	<string name="subnet_mask">Máscara de subred</string>
+	<string name="broadcast_address">Dirección de difusión</string>
+	<string name="network_id">ID de red</string>
+	<string name="mac_address">Dirección MAC</string>
+	<string name="network_interface">Interfaz de red</string>
+	<string name="loopback_address">Dirección Loopback</string>
+	<string name="localhost_address">Dirección Localhost</string>
+
+	<string name="wpa_supplicant_state">Estado del Suplicante de WPA</string>
+
+	<string name="feature_support">Soporte de funciones</string>
+	<string name="_5ghz_band_support">Soporte de banda de 5 GHz</string>
+	<string name="_6ghz_band_support">Soporte de banda de 6 GHz</string>
+	<string name="_60ghz_band_support">Soporte de banda de 60 GHz</string>
+	<string name="wifi_direct_support">Soporte de Wi-Fi Direct</string>
+	<string name="tdls_support">Soporte de TDLS</string>
+	<string name="wpa3_sae_support">Soporte de WPA3 SAE</string>
+	<string name="wpa3_suite_b_support">Soporte de WPA3 Suite B</string>
+
+	<!-- FAB Strings -->
+	<string name="tools">Herramientas</string>
+	<string name="settings">Configuración</string>
+
+	<!-- Toolbar Menu Strings -->
+	<string name="toolbar_copy_all_network_info">Copiar toda la información de red</string>
+	<string name="toolbar_clear_dns_lookup_log">Borrar registro de búsqueda DNS</string>
+	<string name="toolbar_clear_ping_log">Borrar registro de ping</string>
+	<string name="toolbar_clear_whois_tool_log">Borrar registro de herramienta Whois</string>
+
+	<!-- Data -->
+	<string name="megabyte">MB</string>
+	<string name="gigabyte">GB</string>
+
+	<!-- ConnectionStateService Strings -->
+	<string name="connection_status_online">Estado de la conexión - En línea</string>
+	<string name="connection_status_offline">Estado de la conexión - Sin conexión</string>
+	<string name="stop_service">Detener servicio</string>
+
+	<!-- NotificationService Strings -->
+	<string name="local_ip">IP local</string>
+	<string name="stop_services">Detener servicios</string>
+	<string name="notification_settings">Configuración de notificaciones</string>
+
+	<!-- SupportersActivity Strings -->
+	<string name="patron_diamond_tier">• Patrocinador - Nivel Diamante (5$)</string>
+	<string name="app_tester">• Probador de aplicaciones</string>
+	<string name="idea_provider">• Proveedor de ideas</string>
+	<string name="contributor">• Colaborador</string>
+
+	<!-- ToolsActivity Strings -->
+	<string name="cellular_data_ip">Dirección IP de datos móviles</string>
+	<string name="router_setup">Configuración del enrutador</string>
+	<string name="ping_tool">Herramienta de ping</string>
+	<string name="subnet_scanner">Escáner de subredes</string>
+	<string name="port_scanner">Escáner de puertos</string>
+	<string name="whois_tool">Herramienta Whois</string>
+	<string name="dns_lookup">Búsqueda de DNS</string>
+
+	<!-- SettingsActivity Strings -->
+	<string name="_500_ms_interval">500 milisegundos</string>
+	<string name="_1_s_interval">1 segundo</string>
+	<string name="_2_s_interval">2 segundos</string>
+	<string name="_3_s_interval">3 segundos</string>
+	<string name="_4_s_interval">4 segundos</string>
+	<string name="_5_s_interval">5 segundos</string>
+	<string name="_10_s_interval">10 segundos</string>
+
+	<string name="general_category">General</string>
+	<string name="dark_theme">Tema oscuro</string>
+	<string name="dark_theme_summary">Habilitar o deshabilitar el tema oscuro</string>
+	<string name="amoled_theme">Tema AMOLED</string>
+	<string name="amoled_theme_summary">Habilitar o deshabilitar el tema AMOLED</string>
+	<string name="language">Idioma</string>
+	<string name="ui_font">Fuente de la interfaz de usuario</string>
+	<string name="keep_screen_on">Mantener pantalla encendida</string>
+	<string name="keep_screen_on_summary">Mantener la pantalla encendida mientras la aplicación está abierta</string>
+	<string name="card_update_interval">Intervalo de actualización de la tarjeta</string>
+
+	<string name="boot_category">Arranque</string>
+	<string name="start_on_boot">Iniciar en el arranque</string>
+	<string name="start_on_boot_summary">Iniciar servicios de notificación en el arranque</string>
+
+	<string name="notification_category">Notificación</string>
+	<string name="show_notification">Mostrar notificación</string>
+	<string name="show_notification_summary">Mostrar información de red en una notificación</string>
+	<string name="notification_update_interval">Intervalo de actualización de la notificación</string>
+	<string name="colorize_notification">Colorear notificación</string>
+	<string name="colorize_notification_summary">Rellenar el fondo de la notificación usando el color de acento</string>
+	<string name="visualize_signal_strength">Visualizar la intensidad de señal</string>
+	<string name="visualize_signal_strength_summary">Colorear la notificación según la intensidad de señal</string>
+	<string name="show_hide_notification">Mostrar / Ocultar notificación</string>
+	<string name="show_hide_notification_summary">Detener el servicio de notificación cuando apague la pantalla y reiniciarlo cuando la encienda de nuevo</string>
+
+	<string name="about_category">Acerca de</string>
+	<string name="app_version">Versión de la aplicación</string>
+	<string name="supporters">Colaboradores</string>
+	<string name="supporters_summary">Consulte la lista de personas que ayudaron a mejorar este proyecto</string>
+	<string name="discord_server">Servidor de Discord</string>
+	<string name="discord_server_summary">Únase al servidor de la comunidad, discuta nuevas actualizaciones, sugiera características</string>
+	<string name="source_code">Código fuente</string>
+	<string name="source_code_summary">Ver el código fuente en GitHub</string>
+	<string name="report_bugs">Informar errores</string>
+	<string name="report_bugs_summary">Enviar un informe de error utilizando los problemas de GitHub</string>
+	<string name="privacy_policy">Política de privacidad</string>
+	<string name="privacy_policy_summary">Vea nuestra política de privacidad con respecto a la seguridad de sus datos</string>
+
+	<string name="debug_category">Depurar</string>
+	<string name="android_version">Versión de Android</string>
+	<string name="sdk_version_code">Código de versión de SDK</string>
+	<string name="device_model">Modelo de dispositivo</string>
+	<string name="product_name">Nombre del producto</string>
+
+	<!-- Tool Strings -->
+	<string name="enter_ip_or_url">Ingrese la dirección IP o URL</string>
+	<string name="threads">Hilos</string>
+	<string name="timeout_ms">Tiempo de espera (ms)</string>
+
+	<!-- CellularDataIPActivity Strings -->
+	<string name="no_cellular_connection">Sin conexión celular</string>
+
+	<!-- DNSLookupActivity & PingToolActivity Strings -->
+	<string name="start">Iniciar</string>
+	<string name="record_type_not_supported">El tipo de registro <xliff:g id="record_type" example="NSEC">%s</xliff:g> no es compatible <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_failed_exception">No se pudo realizar una búsqueda para el tipo de registro <xliff:g id="record_type" example="NSEC">%s</xliff:g> | Mensaje de error: <xliff:g id="record_type" example="ERROR">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_failed_response">No se pudo realizar una búsqueda para el tipo de registro <xliff:g id="record_type" example="NSEC">%s</xliff:g> | Código de respuesta: <xliff:g id="response_code" example="503">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_no_records">No hay registros disponibles para el tipo de registro <xliff:g id="record_type" example="NSEC">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_record_type">Tipo de registro DNS -\u0020</string>
+
+	<string name="packets">Paquetes</string>
+	<string name="timeout_field_empty">El campo de texto de tiempo de espera no puede estar vacío</string>
+	<string name="resetting">Reiniciando…</string>
+	<string name="timeout_not_integer">El valor de tiempo de espera no es un número entero</string>
+	<string name="timeout_lower_than_1_ms">El valor de tiempo de espera no puede ser menor a 1 ms</string>
+	<string name="ttl_field_empty">El campo de texto TTL no puede estar vacío</string>
+	<string name="ttl_not_integer">El valor TTL no es un número entero</string>
+	<string name="ttl_lower_than_1">El valor TTL no puede ser menor a 1</string>
+	<string name="packets_amount_not_defined">No se puede hacer ping al host. La cantidad de paquetes no está definida</string>
+	<string name="packets_not_integer">No se puede hacer ping al host porque <xliff:g id="packet_amount" example="3.14">%s</xliff:g> no es un número entero</string>
+	<string name="packets_lower_than_1">No se puede hacer ping al host <xliff:g id="packet_amount" example="-1">%s</xliff:g> veces</string>
+	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Respuesta de <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> ms, TTL = <xliff:g id="ttl" example="30">%d</xliff:g></string>
+	<string name="connection_timeout"><xliff:g id="packet_num" example="1">%d</xliff:g> - Tiempo de espera de conexión agotado</string>
+	<string name="ping_packet_stats"><xliff:g id="packets_sent" example="5">%d</xliff:g> paquetes enviados, <xliff:g id="packets_received" example="5">%d</xliff:g> recibidos, <xliff:g id="packets_lost" example="0">%d</xliff:g> perdidos, pérdida de paquetes del <xliff:g id="packet_loss" example="0.00">%.2f</xliff:g>%%</string>
+	<string name="min_avg_max_latency_stats">Latencia mínima / media / máxima:\n<xliff:g id="min_latency" example="13.5">%.2f</xliff:g> / <xliff:g id="avg_latency" example="32.0">%.2f</xliff:g> / <xliff:g id="max_latency" example="50.5">%.2f</xliff:g> ms</string>
+	<string name="total_ping_time">Tiempo total: <xliff:g id="total_time" example="15250">%d</xliff:g> ms</string>
+	<string name="ping_log_ip">IP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g></string>
+	<string name="ping_log_hostname">Nombre de host: <xliff:g id="url" example="test.com">%s</xliff:g></string>
+
+	<!-- PortScannerActivity Strings -->
+	<string name="ports">Puertos</string>
+	<string name="ports_open_none">Puertos abiertos: -</string>
+	<string name="ports_open_amount">Puertos abiertos: <xliff:g id="ports_open" example="10">%d</xliff:g></string>
+	<string name="ports_closed_none">Puertos cerrados: -</string>
+	<string name="ports_closed_amount">Puertos cerrados: <xliff:g id="ports_closed" example="10">%d</xliff:g></string>
+
+	<!-- RouterSetupActivity Strings -->
+	<string name="router_login_ip">Inicio de sesión del enrutador: <xliff:g id="ip" example="192.168.0.1">%s</xliff:g></string>
+	<string name="use_web_interface">Usar la interfaz web</string>
+	<string name="login">Iniciar sesión</string>
+	<string name="password">Contraseña</string>
+	<string name="page_back">Atrás</string>
+	<string name="page_forward">Adelante</string>
+	<string name="page_refresh">Actualizar</string>
+	<string name="auth_error">Error de autenticación del usuario en el servidor</string>
+	<string name="timeout_error">Tiempo de espera agotado. Inténtelo de nuevo más tarde</string>
+	<string name="too_many_requests_error">Demasiadas solicitudes durante esta carga</string>
+	<string name="unknown_error">Error desconocido</string>
+	<string name="connect_error">Error al conectarse al servidor</string>
+	<string name="host_lookup_error">Error en la búsqueda del nombre del servidor o del proxy</string>
+	<string name="proxy_auth_error">Error de autenticación del usuario en el proxy</string>
+	<string name="redirect_loop_error">Demasiadas redirecciones</string>
+	<string name="unsupported_auth_scheme_error">Esquema de autenticación no compatible (no básico ni de resumen)</string>
+	<string name="unsupported_scheme_error">Esquema de URI no compatible</string>
+	<string name="io_error">El servidor no pudo comunicarse. Inténtelo de nuevo más tarde</string>
+
+	<!-- SubnetScannerActivity Strings -->
+	<string name="devices_found_na">Dispositivos encontrados: -</string>
+	<string name="devices_found">Dispositivos encontrados: <xliff:g id="amount" example="5">%d</xliff:g></string>
+	<string name="scan">Explorar</string>
+	<string name="mac_na">MAC: N/D</string>
+	<string name="your_device">(Su dispositivo)</string>
+	<string name="gateway">(Puerta de enlace)</string>
+
+	<!-- WhoIsToolActivity Strings -->
+	<string name="field_too_short">La URL ingresada es demasiado corta…</string>
+	<string name="enter_url">Ingresar URL</string>
+	<string name="fetch">Obtener</string>
+	<string name="error_malformed_url">Error: URL mal formada</string>
+	<string name="error_unknown_host">Error: Host desconocido</string>
+	<string name="error_interrupted">Error: Interrumpido</string>
+	<string name="error_failed_to_execute">Error: Fallo al ejecutar</string>
+	<string name="whois_result_output">Obteniendo datos de Whois para la URL: <xliff:g id="url" example="test.com">%s</xliff:g>\nIP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g>\n<xliff:g id="fetched_whois_data" example="...">%s</xliff:g><xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+</resources>

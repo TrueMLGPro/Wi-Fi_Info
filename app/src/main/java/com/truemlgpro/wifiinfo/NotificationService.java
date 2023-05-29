@@ -5,10 +5,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -24,62 +22,57 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.util.Enumeration;
+import java.util.Collections;
+import java.util.List;
 
 public class NotificationService extends Service {
-	private BroadcastReceiver NotificationServiceStopReceiver;
 	private Notification notification26_28;
 	private Notification notification29;
 	private Notification notification21_25;
 	private Notification.Builder builder;
-	
+
+	private final int NOTIFICATION_ID_API26_28 = 1001;
+	private final int NOTIFICATION_ID_API29 = 1002;
+	private final int NOTIFICATION_ID_API21_25 = 1003;
+
+	private boolean shouldPostAnUpdate = true;
+
 	private int visSigStrgNtfcColor;
 
 	@Override
-	public void onCreate()
-	{
+	public void onCreate() {
 		super.onCreate();
 		handler.post(runnable);
-		IntentFilter filter = new IntentFilter();
-		filter.addAction("ACTION_STOP_FOREGROUND");
-		NotificationServiceStopReceiver = new NotificationServiceStopReceiver();
-		registerReceiver(NotificationServiceStopReceiver, filter);
 	}
 
 	@Override
-	public void onDestroy()
-	{
+	public void onDestroy() {
 		super.onDestroy();
+		shouldPostAnUpdate = false;
 		handler.removeCallbacks(runnable);
-		unregisterReceiver(NotificationServiceStopReceiver);
+		if (Build.VERSION.SDK_INT < 24) {
+			stopForeground(true);
+		} else {
+			stopForeground(STOP_FOREGROUND_REMOVE);
+		}
+		stopSelf();
 	}
 
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startId)
-	{
-		/// Notification Settings Button Receiver ///
-		try {
-			if (intent.getAction() != null && intent.getAction().equals("ACTION_NTFC_SETTINGS")) {
-				startNtfcSettingsActivity();
-			}
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-		
-		if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		if (Build.VERSION.SDK_INT >= 26 && Build.VERSION.SDK_INT < 29) {
 			/// Android 8 - Android 9 ///
 			showNotificationAPI26_28();
-			startForeground(1301, notification26_28);
-		} else if (android.os.Build.VERSION.SDK_INT >= 29) {
+			startForeground(NOTIFICATION_ID_API26_28, notification26_28);
+		} else if (Build.VERSION.SDK_INT >= 29) {
 			/// Android 10 & higher ///
 			showNotificationAPI29();
-			startForeground(1302, notification29);
-		} else if (android.os.Build.VERSION.SDK_INT < 26) {
+			startForeground(NOTIFICATION_ID_API29, notification29);
+		} else if (Build.VERSION.SDK_INT < 26) {
 			/// Android 5 - Android 7 ///
 			showNotificationAPI21_25();
-			startForeground(1303, notification21_25);
+			startForeground(NOTIFICATION_ID_API21_25, notification21_25);
 		}
-		
 		return START_NOT_STICKY;
 	}
 	
@@ -88,71 +81,51 @@ public class NotificationService extends Service {
 	private final Runnable runnable = new Runnable() {
 		@Override
 		public void run() {
-			String keyNtfcFreq = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_NTFC_FREQ, MainActivity.ntfcUpdateInterval);
-			int keyNtfcFreqFormatted = Integer.parseInt(keyNtfcFreq);
-			
-			if (android.os.Build.VERSION.SDK_INT >= 29) {
+			if (!shouldPostAnUpdate) {
+				return;
+			}
+			int keyNtfcFreqFormatted = Integer.parseInt(new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_NTFC_FREQ, MainActivity.ntfcUpdateInterval));
+			if (Build.VERSION.SDK_INT >= 29) {
 				showNotificationAPI29();
-			} else if (android.os.Build.VERSION.SDK_INT >= 26 && android.os.Build.VERSION.SDK_INT < 29) {
+			} else if (Build.VERSION.SDK_INT >= 26 && Build.VERSION.SDK_INT < 29) {
 				showNotificationAPI26_28();
-			} else if (android.os.Build.VERSION.SDK_INT < 26) {
+			} else if (Build.VERSION.SDK_INT < 26) {
 				showNotificationAPI21_25();
 			}
-
 			handler.postDelayed(runnable, keyNtfcFreqFormatted);
 		}
 	};
 
-	public class NotificationServiceStopReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction() != null && intent.getAction().equals("ACTION_STOP_FOREGROUND")) {
-				handler.removeCallbacks(runnable);
-				if (Build.VERSION.SDK_INT < 24) {
-					stopForeground(true);
-				} else {
-					stopForeground(STOP_FOREGROUND_REMOVE);
-				}
-			}
-		}
-	}
-
-	/// Notification Settings Activity ///
-	public void startNtfcSettingsActivity() {
-		Intent Ntfc_Intent = new Intent();
+	private Intent getNtfcSettingsActivityIntent() {
+		Intent intentActionSettings = new Intent();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			Ntfc_Intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-			Ntfc_Intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
-			Ntfc_Intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-			Ntfc_Intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-			Ntfc_Intent.putExtra("app_package", getPackageName());
-			Ntfc_Intent.putExtra("app_uid", getApplicationInfo().uid);
-			Ntfc_Intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intentActionSettings.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+			intentActionSettings.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+			intentActionSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		} else {
+			intentActionSettings.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+			intentActionSettings.putExtra("app_package", getPackageName());
+			intentActionSettings.putExtra("app_uid", getApplicationInfo().uid);
+			intentActionSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		}
-		startActivity(Ntfc_Intent);
+		return intentActionSettings;
 	}
 
 	/// ANDROID 8 - ANDROID 9 ///
 	@RequiresApi(api = Build.VERSION_CODES.O)
 	public void showNotificationAPI26_28() {
-		int NOTIFICATION_ID = 1301;
-
-		Intent NotificationIntent = new Intent(this, MainActivity.class);
-		PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+		Intent notificationIntent = new Intent(this, MainActivity.class);
+		PendingIntent content_intent = PendingIntent.getActivity(this, 10011, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
 		intentActionStop.setAction("ACTION_STOP");
-		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		Intent intentActionSettings = new Intent(this, ActionButtonReceiver.class);
-		intentActionSettings.setAction("ACTION_NTFC_SETTINGS");
-		PendingIntent pIntentActionSettings = PendingIntent.getBroadcast(this, 0, intentActionSettings, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 10012, intentActionStop, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent pIntentActionSettings = PendingIntent.getActivity(this, 10013, getNtfcSettingsActivityIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
 
 		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 		builder = new Notification.Builder(this, channelID);
-		
+
 		boolean keyNtfcColor = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
 		boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
 
@@ -161,18 +134,17 @@ public class NotificationService extends Service {
 		String ip = getIPv4Address();
 		String ssid = wInfo.getSSID();
 		if (ssid.equals("<unknown ssid>")) {
-			ssid = "N/A";
+			ssid = getString(R.string.na);
+		} else {
+			ssid = ssid.replaceAll("^\"|\"$", "");
 		}
-
 		String bssid = "";
 		if (wInfo.getBSSID() != null) {
 			bssid = wInfo.getBSSID().toUpperCase();
 		}
-
 		if (bssid.contains("02:00:00:00:00:00")) {
-			bssid = "N/A";
+			bssid = getString(R.string.na);
 		}
-
 		int rssi = wInfo.getRssi();
 		int RSSIconv = WifiManager.calculateSignalLevel(rssi, 101);
 		if (keyVisSigStrgNtfc) {
@@ -187,24 +159,22 @@ public class NotificationService extends Service {
 			visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColor);
 		}
 		int freq = wInfo.getFrequency();
+		String distanceFromRssiRounded = String.format("~%.1fm", freqRssiToDistance(freq, rssi));
 		int channel = convertFrequencyToChannel(freq);
 		int networkSpeed = wInfo.getLinkSpeed();
-		String network_id = String.valueOf(wInfo.getNetworkId());
-		if (network_id.contains("-1")) {
-			network_id = "N/A";
-		}
 
-		String collapsedInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
-		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
-			"Frequency: " + freq + "MHz" + "\n" + "Network Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "Network ID: " + network_id;
+		String collapsedInfo = getString(R.string.ssid) + ": " + ssid + " | " + getString(R.string.rssi) + ": " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
+		String extendedInfo = getString(R.string.ssid) + ": " + ssid + "\n" + getString(R.string.bssid) + ": " + bssid + "\n" + getString(R.string.rssi) + ": " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" +
+			getString(R.string.distance) + ": " + distanceFromRssiRounded + "\n" + getString(R.string.frequency) + ": " + freq + "MHz" + "\n" + getString(R.string.network_channel) + ": " + channel + "\n" +
+			getString(R.string.network_speed) + ": " + networkSpeed + " / " + networkSpeed + " Mbps";
 
 		notification26_28 = builder.setContentIntent(content_intent)
-			.setSmallIcon(R.drawable.ic_wifi)
-			.setContentTitle("Local IP: " + ip)
+			.setSmallIcon(R.drawable.wifi_24px)
+			.setContentTitle(getString(R.string.local_ip) + ": " + ip)
 			.setContentText(collapsedInfo)
 			.setWhen(System.currentTimeMillis())
-			.addAction(R.drawable.ic_stop, "Stop Services", pIntentActionStop)
-			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
+			.addAction(R.drawable.stop_24px, getString(R.string.stop_services), pIntentActionStop)
+			.addAction(R.drawable.settings_24px, getString(R.string.notification_settings), pIntentActionSettings)
 			.setChannelId(channelID)
 			.setColorized(keyNtfcColor)
 			.setColor(visSigStrgNtfcColor)
@@ -216,49 +186,43 @@ public class NotificationService extends Service {
 			.build();
 
 			notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-			notificationManager.notify(NOTIFICATION_ID, notification26_28);
+			notificationManager.notify(NOTIFICATION_ID_API26_28, notification26_28);
 	}
 
 	/// ANDROID 10 & higher ///
-	@RequiresApi(api = Build.VERSION_CODES.O)
+	@RequiresApi(api = Build.VERSION_CODES.Q)
 	public void showNotificationAPI29() {
-		int NOTIFICATION_ID = 1302;
-
-		Intent NotificationIntent = new Intent(this, MainActivity.class);
-		PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+		Intent notificationIntent = new Intent(this, MainActivity.class);
+		PendingIntent content_intent = PendingIntent.getActivity(this, 10021, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 		Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
 		intentActionStop.setAction("ACTION_STOP");
-		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 10022, intentActionStop, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+		PendingIntent pIntentActionSettings = PendingIntent.getActivity(this, 10023, getNtfcSettingsActivityIntent(), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-		Intent intentActionSettings = new Intent(this, ActionButtonReceiver.class);
-		intentActionSettings.setAction("ACTION_NTFC_SETTINGS");
-		PendingIntent pIntentActionSettings = PendingIntent.getBroadcast(this, 0, intentActionSettings, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-		
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		String channelID = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
 		builder = new Notification.Builder(this, channelID);
-		
+
 		boolean keyNtfcColor = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, MainActivity.colorizeNtfc);
 		boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
-		
+
 		WifiManager mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ip = getIPv4Address();
 		String ssid = wInfo.getSSID();
 		if (ssid.equals("<unknown ssid>")) {
-			ssid = "N/A";
+			ssid = getString(R.string.na);
+		} else {
+			ssid = ssid.replaceAll("^\"|\"$", "");
 		}
-
 		String bssid = "";
 		if (wInfo.getBSSID() != null) {
 			bssid = wInfo.getBSSID().toUpperCase();
 		}
-
 		if (bssid.contains("02:00:00:00:00:00")) {
-			bssid = "N/A";
+			bssid = getString(R.string.na);
 		}
-
 		int rssi = wInfo.getRssi();
 		int RSSIconv = WifiManager.calculateSignalLevel(rssi, 101);
 		if (keyVisSigStrgNtfc) {
@@ -273,24 +237,24 @@ public class NotificationService extends Service {
 			visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColor);
 		}
 		int freq = wInfo.getFrequency();
+		String distanceFromRssiRounded = String.format("~%.1fm", freqRssiToDistance(freq, rssi));
 		int channel = convertFrequencyToChannel(freq);
-		int networkSpeed = wInfo.getLinkSpeed();
-		String network_id = String.valueOf(wInfo.getNetworkId());
-		if (network_id.contains("-1")) {
-			network_id = "N/A";
-		}
+		int TXLinkSpd = wInfo.getTxLinkSpeedMbps();
+		int RXLinkSpd = wInfo.getRxLinkSpeedMbps();
+		String networkSpeed = RXLinkSpd + " / " + TXLinkSpd + " Mbps";
 
-		String collapsedInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
-		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" +
-				"Frequency: " + freq + "MHz" + "\n" + "Network Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
+		String collapsedInfo = getString(R.string.ssid) + ": " + ssid + " | " + getString(R.string.rssi) + ": " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
+		String extendedInfo = getString(R.string.ssid) + ": " + ssid + "\n" + getString(R.string.bssid) + ": " + bssid + "\n" + getString(R.string.rssi) + ": " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" +
+			getString(R.string.distance) + ": " + distanceFromRssiRounded + "\n" + getString(R.string.frequency) + ": " + freq + "MHz" + "\n" + getString(R.string.network_channel) + ": " + channel + "\n" +
+			getString(R.string.network_speed) + ": " + networkSpeed;
 
 		notification29 = builder.setContentIntent(content_intent)
-			.setSmallIcon(R.drawable.ic_wifi)
-			.setContentTitle("Local IP: " + ip)
+			.setSmallIcon(R.drawable.wifi_24px)
+			.setContentTitle(getString(R.string.local_ip) + ": " + ip)
 			.setContentText(collapsedInfo)
 			.setWhen(System.currentTimeMillis())
-			.addAction(R.drawable.ic_stop, "Stop Services", pIntentActionStop)
-			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
+			.addAction(R.drawable.stop_24px, getString(R.string.stop_services), pIntentActionStop)
+			.addAction(R.drawable.settings_24px, getString(R.string.notification_settings), pIntentActionSettings)
 			.setChannelId(channelID)
 			.setColorized(keyNtfcColor)
 			.setColor(visSigStrgNtfcColor)
@@ -302,60 +266,70 @@ public class NotificationService extends Service {
 			.build();
 
 		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		notificationManager.notify(NOTIFICATION_ID, notification29);
+		notificationManager.notify(NOTIFICATION_ID_API29, notification29);
 	}
 
 	/// ANDROID 5 - ANDROID 7 ///
 	public void showNotificationAPI21_25() {
-		int NOTIFICATION_ID = 1303;
-
-		Intent NotificationIntent = new Intent(this, MainActivity.class);
-		PendingIntent content_intent = PendingIntent.getActivity(this, 0, NotificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+		Intent notificationIntent = new Intent(this, MainActivity.class);
+		PendingIntent content_intent = PendingIntent.getActivity(this, 10031, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		Intent intentActionStop = new Intent(this, ActionButtonReceiver.class);
 		intentActionStop.setAction("ACTION_STOP");
-		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 0, intentActionStop, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent pIntentActionStop = PendingIntent.getBroadcast(this, 10032, intentActionStop, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent pIntentActionSettings = PendingIntent.getActivity(this, 10033, getNtfcSettingsActivityIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
 
-		Intent intentActionSettings = new Intent(this, ActionButtonReceiver.class);
-		intentActionSettings.setAction("ACTION_NTFC_SETTINGS");
-		PendingIntent pIntentActionSettings = PendingIntent.getBroadcast(this, 0, intentActionSettings, PendingIntent.FLAG_UPDATE_CURRENT);
-		
 		NotificationManager notificationManager;
 		builder = new Notification.Builder(this);
+		boolean keyVisSigStrgNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, MainActivity.visualizeSigStrg);
 
 		WifiManager mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wInfo = mainWifi.getConnectionInfo();
 		String ip = getIPv4Address();
 		String ssid = wInfo.getSSID();
 		if (ssid.equals("<unknown ssid>")) {
-			ssid = "N/A";
+			ssid = getString(R.string.na);
+		} else {
+			ssid = ssid.replaceAll("^\"|\"$", "");
 		}
 		String bssid;
 		if (wInfo.getBSSID() != null) {
 			bssid = wInfo.getBSSID().toUpperCase();
 		} else {
-			bssid = "N/A";
+			bssid = getString(R.string.na);
 		}
 		int rssi = wInfo.getRssi();
 		int RSSIconv = WifiManager.calculateSignalLevel(rssi, 101);
+		if (keyVisSigStrgNtfc) {
+			if (RSSIconv >= 75) {
+				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalHigh);
+			} else if (RSSIconv >= 50 && RSSIconv < 75) {
+				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalAvg);
+			} else if (RSSIconv >= 1 && RSSIconv < 50) {
+				visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColorSignalLow);
+			}
+		} else {
+			visSigStrgNtfcColor = getResources().getColor(R.color.ntfcColor);
+		}
 		int freq = wInfo.getFrequency();
+		String distanceFromRssiRounded = String.format("~%.1fm", freqRssiToDistance(freq, rssi));
 		int channel = convertFrequencyToChannel(freq);
 		int networkSpeed = wInfo.getLinkSpeed();
-		int network_id = wInfo.getNetworkId();
 
-		String collapsedInfo = "SSID: " + ssid + " | " + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
-		String extendedInfo = "SSID: " + ssid + "\n" + "BSSID: " + bssid + "\n" + "Signal Strength: " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" + 
-			"Frequency: " + freq + "MHz" + "\n" + "Network Channel: " + channel + "\n" + "Network Speed: " + networkSpeed + "MB/s" + "\n" + "ID: " + network_id;
+		String collapsedInfo = getString(R.string.ssid) + ": " + ssid + " | " + getString(R.string.rssi) + ": " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + " | " + freq + " MHz " + "(Ch: " + channel + ")";
+		String extendedInfo = getString(R.string.ssid) + ": " + ssid + "\n" + getString(R.string.bssid) + ": " + bssid + "\n" + getString(R.string.rssi) + ": " + RSSIconv + "%" + " (" + rssi + "dBm" + ")" + "\n" +
+			getString(R.string.distance) + ": " + distanceFromRssiRounded + "\n" + getString(R.string.frequency) + ": " + freq + "MHz" + "\n" + getString(R.string.network_channel) + ": " + channel + "\n" +
+			getString(R.string.network_speed) + ": " + networkSpeed + " / " + networkSpeed + " Mbps";
 
 		notification21_25 = builder.setContentIntent(content_intent)
-			.setSmallIcon(R.drawable.ic_wifi)
-			.setContentTitle("Local IP: " + ip)
+			.setSmallIcon(R.drawable.wifi_24px)
+			.setContentTitle(getString(R.string.local_ip) + ": " + ip)
 			.setContentText(collapsedInfo)
 			.setWhen(System.currentTimeMillis())
-			.addAction(R.drawable.ic_stop, "Stop Services", pIntentActionStop)
-			.addAction(R.drawable.ic_settings_light, "Notification Settings", pIntentActionSettings)
+			.addAction(R.drawable.stop_24px, getString(R.string.stop_services), pIntentActionStop)
+			.addAction(R.drawable.settings_24px, getString(R.string.notification_settings), pIntentActionSettings)
 			.setPriority(Notification.PRIORITY_LOW)
-			.setColor(getResources().getColor(R.color.ntfcColor))
+			.setColor(visSigStrgNtfcColor)
 			.setCategory(Notification.CATEGORY_SERVICE)
 			.setStyle(new Notification.BigTextStyle().bigText(extendedInfo))
 			.setOngoing(true)
@@ -364,38 +338,54 @@ public class NotificationService extends Service {
 			.build();
 
 		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		notificationManager.notify(NOTIFICATION_ID, notification21_25);
+		notificationManager.notify(NOTIFICATION_ID_API21_25, notification21_25);
 	}
-	
+
 	/// END ///
 
-	public String getIPv4Address() {
+	private String getIPv4Address() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-				NetworkInterface intf = en.nextElement();
-				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-					InetAddress inetAddress = enumIpAddr.nextElement();
-					if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-						return inetAddress.getHostAddress();
+			List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface networkInterface : allNetworkInterfaces) {
+				if (!networkInterface.getName().equalsIgnoreCase("wlan0"))
+					continue;
+				List<InetAddress> allInetAddresses = Collections.list(networkInterface.getInetAddresses());
+				for (InetAddress inetAddr : allInetAddresses) {
+					if (!inetAddr.isLoopbackAddress() && inetAddr instanceof Inet4Address) {
+						return inetAddr.getHostAddress();
 					}
 				}
 			}
 		} catch (SocketException ex) {
-			Log.e("Wi-Fi Info", ex.toString());
+			Log.e("getIPv4Address()", ex.toString());
 		}
 		return null;
 	}
-	
-	public static int convertFrequencyToChannel(int freq) {
-		if (freq >= 2412 && freq <= 2484) {
-			return (freq - 2412) / 5 + 1;
-		} else if (freq >= 5170 && freq <= 5825) {
-			return (freq - 5170) / 5 + 34;
+
+	private int convertFrequencyToChannel(int freq) {
+		if (freq == 2484) { // 2.4GHz Channel 14
+			return 14;
+		} else if (freq < 2484) { // 2.4GHz (802.11b/g/n/ax)
+			return (freq - 2407) / 5;
+		} else if (freq >= 4910 && freq <= 4980) { // 4.9GHz (802.11j)
+			return (freq - 4000) / 5;
+		} else if (freq < 5925) { // 5GHz (802.11a/h/j/n/ac/ax) - 5.9 GHz (802.11p)
+			return (freq - 5000) / 5;
+		} else if (freq == 5935) {
+			return 2;
+		} else if (freq <= 45000) { // 6 GHz+ (802.11ax and 802.11be)
+			return (freq - 5950) / 5;
+		} else if (freq >= 58320 && freq <= 70200) { // 60GHz (802.11ad/ay)
+			return (freq - 56160) / 2160;
 		} else {
 			return -1;
 		}
 	}
-	
+
+	private double freqRssiToDistance(int frequency, int rssi) {
+		return Math.pow(10.0D, (27.55D - 20 * Math.log10((double) frequency) + Math.abs(rssi)) / 20.0D);
+	}
+
 	@RequiresApi(Build.VERSION_CODES.O)
 	private String createNotificationChannel(NotificationManager notificationManager) {
 		String channelID = "wifi_info";
@@ -406,11 +396,9 @@ public class NotificationService extends Service {
 		notificationManager.createNotificationChannel(channel);
 		return channelID;
 	}
-	
+
 	@Override
-	public IBinder onBind(Intent intent)
-	{
+	public IBinder onBind(Intent intent) {
 		return null;
 	}
-		
 }

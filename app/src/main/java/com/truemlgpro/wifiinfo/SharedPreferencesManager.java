@@ -9,15 +9,15 @@ import androidx.preference.PreferenceManager;
  * Helper class for managing SharedPreferences
  */
 public class SharedPreferencesManager {
-	private final SharedPreferences sPreferences;
-	private SharedPreferences.Editor sEditor;
+	private final SharedPreferences sharedPreferences;
+	private SharedPreferences.Editor sharedPrefsEditor;
 
 	public SharedPreferencesManager(Context context) {
-		sPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
 	private SharedPreferences.Editor getEditor() {
-		return sPreferences.edit();
+		return sharedPreferences.edit();
 	}
 
 	/**
@@ -26,9 +26,9 @@ public class SharedPreferencesManager {
 	 * @param value the value itself
 	 */
 	public void storeBoolean(String tag, boolean value) {
-		sEditor = getEditor();
-		sEditor.putBoolean(tag, value);
-		sEditor.commit();
+		sharedPrefsEditor = getEditor();
+		sharedPrefsEditor.putBoolean(tag, value);
+		sharedPrefsEditor.commit();
 	}
 
 	/**
@@ -37,49 +37,49 @@ public class SharedPreferencesManager {
 	 * @param str the string itself
 	 */
 	public void storeString(String tag, String str) {
-		sEditor = getEditor();
-		sEditor.putString(tag, str);
-		sEditor.commit();
+		sharedPrefsEditor = getEditor();
+		sharedPrefsEditor.putString(tag, str);
+		sharedPrefsEditor.commit();
 	}
 
 	/**
-    * Store an integer in SharedPreferences
-    * @param tag identifies the value
-    * @param defValue the value itself
-    */
+	* Store an integer in SharedPreferences
+	* @param tag identifies the value
+	* @param defValue the value itself
+	*/
 	public void storeInt(String tag, int defValue) {
-		sEditor = getEditor();
-		sEditor.putInt(tag, defValue);
-		sEditor.commit();
+		sharedPrefsEditor = getEditor();
+		sharedPrefsEditor.putInt(tag, defValue);
+		sharedPrefsEditor.commit();
 	}
 
 	/**
-	 * Retrieve a boolean from SharedPreferences
-	 * @param tag identifies the value
-	 * @param defValue default value
-	 * @return the stored or default value
-	 */
+	* Retrieve a boolean from SharedPreferences
+	* @param tag identifies the value
+	* @param defValue default value
+	* @return the stored or default value
+	*/
 	public boolean retrieveBoolean(String tag, boolean defValue) {
-		return sPreferences.getBoolean(tag, defValue);
+		return sharedPreferences.getBoolean(tag, defValue);
 	}
 
 	/**
-	 * Retrieve a string from SharedPreferences
-	 * @param tag identifies the string
-	 * @param defStr default string
-	 * @return the stored or default string
-	 */
+	* Retrieve a string from SharedPreferences
+	* @param tag identifies the string
+	* @param defStr default string
+	* @return the stored or default string
+	*/
 	public String retrieveString(String tag, String defStr) {
-		return sPreferences.getString(tag, defStr);
+		return sharedPreferences.getString(tag, defStr);
 	}
 
 	/**
-	 * Retrieve an integer from SharedPreferences
-	 * @param tag identifies the value
-	 * @param defValue default value
-	 * @return the stored or default value
-	 */
+	* Retrieve an integer from SharedPreferences
+	* @param tag identifies the value
+	* @param defValue default value
+	* @return the stored or default value
+	*/
 	public int retrieveInt(String tag, int defValue) {
-		return sPreferences.getInt(tag, defValue);
+		return sharedPreferences.getInt(tag, defValue);
 	}
 }

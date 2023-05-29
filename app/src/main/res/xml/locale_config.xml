@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- English -->
+	<locale android:name="en" />
+
+	<!-- French -->
+	<locale android:name="fr" />
+
+	<!-- German -->
+	<locale android:name="de" />
+
+	<!-- Portuguese -->
+	<locale android:name="pt" />
+
+	<!-- Russian -->
+	<locale android:name="ru" />
+
+	<!-- Spanish -->
+	<locale android:name="es" />
+
+	<!-- Ukrainian -->
+	<locale android:name="uk" />
+</locale-config>
