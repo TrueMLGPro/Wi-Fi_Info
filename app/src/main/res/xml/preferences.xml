@@ -1,56 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
-	<androidx.preference.PreferenceCategory android:title="App">
+	<androidx.preference.PreferenceCategory android:title="@string/general_category">
 		<androidx.preference.SwitchPreference
 			android:defaultValue="true"
 			android:key="theme_switch"
-			android:title="Dark Mode"
-			android:summary="Enable or Disable dark mode" />
+			android:title="@string/dark_theme"
+			android:summary="@string/dark_theme_summary"
+			android:icon="@drawable/dark_mode_24px" />
 		<androidx.preference.CheckBoxPreference
 			android:defaultValue="false"
 			android:key="amoled_theme_checkbox"
 			android:dependency="theme_switch"
-			android:title="AMOLED Mode"
-			android:summary="Enable or Disable AMOLED mode" />
+			android:title="@string/amoled_theme"
+			android:summary="@string/amoled_theme_summary"
+			android:icon="@drawable/amoled_mode_24px" />
+		<androidx.preference.ListPreference
+			android:defaultValue="default_lang"
+			android:key="app_language_list"
+			android:title="@string/language"
+			android:icon="@drawable/internet_language_24px"
+			app:useSimpleSummaryProvider="true"
+			android:negativeButtonText="Ok"
+			android:entries="@array/app_language_entries"
+			android:entryValues="@array/app_language_values" />
 		<androidx.preference.ListPreference
 			android:defaultValue="fonts/Gilroy-Semibold.ttf"
 			android:key="app_font_list"
-			android:title="Font"
+			android:title="@string/ui_font"
+			android:icon="@drawable/text_fields_24px"
 			app:useSimpleSummaryProvider="true"
 			android:negativeButtonText="Ok"
 			android:entries="@array/app_font_entries"
 			android:entryValues="@array/app_font_values" />
+		<androidx.preference.CheckBoxPreference
+			android:defaultValue="true"
+			android:key="keep_screen_on_checkbox"
+			android:title="@string/keep_screen_on"
+			android:summary="@string/keep_screen_on_summary"
+			android:icon="@drawable/brightness_high_24px" />
 		<androidx.preference.ListPreference
 			android:defaultValue="1000"
 			android:key="card_update_freq"
-			android:title="Card Update Interval"
+			android:title="@string/card_update_interval"
+			android:icon="@drawable/timer_24px"
 			app:useSimpleSummaryProvider="true"
 			android:negativeButtonText="Ok"
 			android:entries="@array/card_update_freq_entries"
 			android:entryValues="@array/card_update_freq_values" />
 	</androidx.preference.PreferenceCategory>
-	<androidx.preference.PreferenceCategory android:title="Boot">
+	<androidx.preference.PreferenceCategory android:title="@string/boot_category">
 		<androidx.preference.SwitchPreference
 			android:defaultValue="false"
 			android:key="boot_switch"
-			android:title="Start on Boot"
-			android:summary="Start services on boot" />
+			android:title="@string/start_on_boot"
+			android:summary="@string/start_on_boot_summary"
+			android:icon="@drawable/power_settings_new_24px" />
 	</androidx.preference.PreferenceCategory>
 	<androidx.preference.PreferenceCategory
-		android:key="notification_preference_category"
-		android:title="Notification"
+		android:key="notification_pref_category"
+		android:title="@string/notification_category"
 		app:initialExpandedChildrenCount="2">
 		<androidx.preference.SwitchPreference
 			android:defaultValue="true"
 			android:key="notification_switch"
-			android:title="Show Notification"
-			android:summary="Show notification with network info" />
+			android:title="@string/show_notification"
+			android:summary="@string/show_notification_summary"
+			android:icon="@drawable/notifications_24px" />
 		<androidx.preference.ListPreference
 			android:defaultValue="1000"
 			android:key="notification_update_freq"
 			android:dependency="notification_switch"
-			android:title="Notification Update Interval"
+			android:title="@string/notification_update_interval"
+			android:icon="@drawable/timer_24px"
 			app:useSimpleSummaryProvider="true"
 			android:negativeButtonText="Ok"
 			android:entries="@array/ntfc_update_freq_entries"
@@ -59,19 +81,93 @@
 			android:defaultValue="false"
 			android:key="colorize_ntfc_checkbox"
 			android:dependency="notification_switch"
-			android:title="Colorize Notification"
-			android:summary="Fill notification using accent color" />
+			android:title="@string/colorize_notification"
+			android:summary="@string/colorize_notification_summary"
+			android:icon="@drawable/format_color_fill_24px"
+			app:isPreferenceVisible="false" />
 		<androidx.preference.CheckBoxPreference
 			android:defaultValue="false"
 			android:key="visualize_signal_strength_ntfc_checkbox"
 			android:dependency="notification_switch"
-			android:title="Visualize Signal Strength"
-			android:summary="Colorize notification depending on signal strength" />
+			android:title="@string/visualize_signal_strength"
+			android:summary="@string/visualize_signal_strength_summary"
+			android:icon="@drawable/format_paint_24px" />
 		<androidx.preference.CheckBoxPreference
 			android:defaultValue="false"
 			android:key="start_stop_service_screen_state_ntfc_checkbox"
 			android:dependency="notification_switch"
-			android:title="Show / Hide Notification"
-			android:summary="Show or hide notification depending on screen state (on / off)" />
+			android:title="@string/show_hide_notification"
+			android:summary="@string/show_hide_notification_summary"
+			android:icon="@drawable/aod_24px" />
+	</androidx.preference.PreferenceCategory>
+	<androidx.preference.PreferenceCategory android:title="@string/about_category">
+		<androidx.preference.Preference
+			android:key="app_version_pref"
+			android:title="@string/app_version"
+			android:icon="@drawable/info_24px" />
+		<androidx.preference.Preference
+			android:key="supporters_pref"
+			android:title="@string/supporters"
+			android:summary="@string/supporters_summary"
+			android:icon="@drawable/supporters_24px">
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:targetPackage="com.truemlgpro.wifiinfo"
+				android:targetClass="com.truemlgpro.wifiinfo.SupportersActivity" />
+		</androidx.preference.Preference>
+		<androidx.preference.Preference
+			android:key="discord_pref"
+			android:title="@string/discord_server"
+			android:summary="@string/discord_server_summary"
+			android:icon="@drawable/discord_24px">
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://discord.gg/qxE2DFr" />
+		</androidx.preference.Preference>
+		<androidx.preference.Preference
+			android:key="source_code_pref"
+			android:title="@string/source_code"
+			android:summary="@string/source_code_summary"
+			android:icon="@drawable/code_24px">
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://github.com/TrueMLGPro/Wi-Fi_Info" />
+		</androidx.preference.Preference>
+		<androidx.preference.Preference
+			android:key="bug_tracker_pref"
+			android:title="@string/report_bugs"
+			android:summary="@string/report_bugs_summary"
+			android:icon="@drawable/contact_support_24px">
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://github.com/TrueMLGPro/Wi-Fi_Info/issues/new/choose" />
+		</androidx.preference.Preference>
+		<androidx.preference.Preference
+			android:key="privacy_policy_pref"
+			android:title="@string/privacy_policy"
+			android:summary="@string/privacy_policy_summary"
+			android:icon="@drawable/policy_24px">
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://truemlgpro.github.io/wifi_info/privacy" />
+		</androidx.preference.Preference>
+	</androidx.preference.PreferenceCategory>
+	<androidx.preference.PreferenceCategory android:title="@string/debug_category">
+		<androidx.preference.Preference
+			android:key="android_version_pref"
+			android:title="@string/android_version"
+			android:icon="@drawable/android_24px" />
+		<androidx.preference.Preference
+			android:key="sdk_version_code_pref"
+			android:title="@string/sdk_version_code"
+			android:icon="@drawable/code_blocks_24px" />
+		<androidx.preference.Preference
+			android:key="device_model_pref"
+			android:title="@string/device_model"
+			android:icon="@drawable/devices_24px" />
+		<androidx.preference.Preference
+			android:key="product_name_pref"
+			android:title="@string/product_name"
+			android:icon="@drawable/device_info_24px" />
 	</androidx.preference.PreferenceCategory>
 </androidx.preference.PreferenceScreen>

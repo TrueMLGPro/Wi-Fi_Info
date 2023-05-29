@@ -1,16 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
-    
-	<item
-		android:id="@+id/github"
-		android:title="Github"
-		android:icon="?ToolbarGithubIconColor"
-		android:orderInCategory="101"
-		app:showAsAction="always" />
 
 	<item
 		android:id="@+id/copy_all"
-		android:title="Copy All Network Info"
+		android:title="@string/toolbar_copy_all_network_info"
+		android:orderInCategory="101"
 		app:showAsAction="never" />
     
 </menu>

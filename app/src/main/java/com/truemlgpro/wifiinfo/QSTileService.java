@@ -26,13 +26,39 @@ import java.util.Scanner;
 public class QSTileService extends TileService {
 	Tile qs_tile;
 
-	NetworkInfo WiFiCheck;
-	NetworkInfo CellularCheck;
+	NetworkInfo wifiCheck;
+	NetworkInfo cellularCheck;
 
-	private String publicIPFetched;
-	private boolean siteReachable = false;
-
+	String publicIPFetched;
+	boolean siteReachable = false;
 	boolean switchIP = true;
+
+	Icon wifiDefaultIcon;
+	Icon wifiSuccessIcon;
+	Icon wifiFailIcon;
+	Icon updateIcon;
+
+	@Override
+	public void onStartListening() {
+		super.onStartListening();
+		wifiDefaultIcon = Icon.createWithResource(getApplicationContext(), R.drawable.wifi_24px);
+		wifiSuccessIcon = Icon.createWithResource(getApplicationContext(), R.drawable.wifi_success_24px);
+		wifiFailIcon = Icon.createWithResource(getApplicationContext(), R.drawable.wifi_fail_24px);
+		updateIcon = Icon.createWithResource(getApplicationContext(), R.drawable.reload_24px);
+		qs_tile = getQsTile();
+		qs_tile.setIcon(wifiDefaultIcon);
+		qs_tile.setState(Tile.STATE_INACTIVE);
+		qs_tile.updateTile();
+	}
+
+	@Override
+	public void onStopListening() {
+		super.onStopListening();
+		wifiDefaultIcon = null;
+		wifiSuccessIcon = null;
+		wifiFailIcon = null;
+		updateIcon = null;
+	}
 
 	@Override
 	public void onClick() {
@@ -41,58 +67,53 @@ public class QSTileService extends TileService {
 		switchIP = !switchIP;
 	}
 
-	@Override
-	public void onStartListening() {
-		qs_tile = getQsTile();
-		qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_qs_tile));
+	private void showIPAddress() {
+		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		wifiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		cellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		if (switchIP) {
+			// Local IP
+			qs_tile.setIcon(updateIcon);
+			qs_tile.setLabel("Local IP");
+			qs_tile.setState(Tile.STATE_ACTIVE);
+			qs_tile.updateTile();
+			showLocalIP();
+		} else {
+			// Public IP
+			qs_tile.setIcon(updateIcon);
+			qs_tile.setLabel("Public IP");
+			qs_tile.setState(Tile.STATE_ACTIVE);
+			qs_tile.updateTile();
+			showPublicIP();
+		}
+	}
+
+	private void showLocalIP() {
+		SystemClock.sleep(500);
+		if (wifiCheck.isConnected() || cellularCheck.isConnected()) {
+			qs_tile.setLabel(getIPv4Address());
+			qs_tile.setIcon(wifiSuccessIcon);
+		} else {
+			qs_tile.setLabel("No Connection");
+			qs_tile.setIcon(wifiFailIcon);
+		}
 		qs_tile.setState(Tile.STATE_INACTIVE);
 		qs_tile.updateTile();
 	}
 
-	private void showIPAddress() {
-		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		// Local IP
-		if (switchIP) {
-			qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_update));
-			qs_tile.setLabel("Local IP");
-			qs_tile.setState(Tile.STATE_ACTIVE);
-			qs_tile.updateTile();
-			new Thread(() -> {
-				SystemClock.sleep(500);
-				if (WiFiCheck.isConnected() || CellularCheck.isConnected()) {
-					qs_tile.setLabel(getIPv4Address());
-					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_success));
-				} else {
-					qs_tile.setLabel("No Connection");
-					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
-				}
-				qs_tile.setState(Tile.STATE_INACTIVE);
-				qs_tile.updateTile();
-			}).start();
+	private void showPublicIP() {
+		SystemClock.sleep(500);
+		qs_tile.setState(Tile.STATE_ACTIVE);
+		qs_tile.updateTile();
+		if (wifiCheck.isConnected() || cellularCheck.isConnected()) {
+			PublicIPAsyncTask publicIPAsyncTask = new PublicIPAsyncTask();
+			publicIPAsyncTask.execute();
 		} else {
-			// Public IP
-			qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_update));
-			qs_tile.setLabel("Public IP");
-			qs_tile.setState(Tile.STATE_INACTIVE);
-			qs_tile.updateTile();
-			new Thread(() -> {
-				SystemClock.sleep(500);
-				qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi));
-				qs_tile.setState(Tile.STATE_ACTIVE);
-				qs_tile.updateTile();
-				if (WiFiCheck.isConnected() || CellularCheck.isConnected()) {
-					PublicIPRunnable runnableIP = new PublicIPRunnable();
-					new Thread(runnableIP).start();
-				} else {
-					qs_tile.setLabel("No Connection");
-					qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
-				}
-				qs_tile.setState(Tile.STATE_INACTIVE);
-				qs_tile.updateTile();
-			}).start();
+			qs_tile.setLabel("No Connection");
+			qs_tile.setIcon(wifiFailIcon);
 		}
+		qs_tile.setState(Tile.STATE_INACTIVE);
+		qs_tile.updateTile();
 	}
 
 	private String getIPv4Address() {
@@ -112,7 +133,7 @@ public class QSTileService extends TileService {
 		return null;
 	}
 
-	private String getPublicIPAddress() {
+	private static String getPublicIPAddress() {
 		String publicIP = "";
 		try {
 			Scanner scanner = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A");
@@ -124,7 +145,7 @@ public class QSTileService extends TileService {
 		return publicIP;
 	}
 
-	public boolean isReachable(String url) {
+	private static boolean isReachable(String url) {
 		boolean reachable;
 		int code;
 
@@ -143,37 +164,31 @@ public class QSTileService extends TileService {
 		return reachable;
 	}
 
-	@SuppressWarnings("deprecation")
-	class PublicIPRunnable implements Runnable {
+	class PublicIPAsyncTask extends AsyncTask<String, Void, Void> {
 		@Override
-		public void run() {
-			new AsyncTask<String, Void, Void>() {
-				@Override
-				protected Void doInBackground(String[] voids) {
-					String url = "https://api.ipify.org";
-					siteReachable = isReachable(url);
-					if (siteReachable) {
-						publicIPFetched = getPublicIPAddress();
-					} else {
-						publicIPFetched = "N/A";
-					}
-					return null;
-				}
+		protected Void doInBackground(String[] voids) {
+			String url = "https://api.ipify.org";
+			siteReachable = isReachable(url);
+			if (siteReachable) {
+				publicIPFetched = getPublicIPAddress();
+			} else {
+				publicIPFetched = "N/A";
+			}
+			return null;
+		}
 
-				@Override
-				protected void onPostExecute(Void aVoid) {
-					super.onPostExecute(aVoid);
-					if (siteReachable) {
-						qs_tile.setLabel(publicIPFetched);
-						qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_success));
-						qs_tile.updateTile();
-					} else {
-						qs_tile.setLabel("No Connection");
-						qs_tile.setIcon(Icon.createWithResource(QSTileService.this, R.drawable.ic_wifi_fail));
-						qs_tile.updateTile();
-					}
-				}
-			}.execute();
+		@Override
+		protected void onPostExecute(Void aVoid) {
+			super.onPostExecute(aVoid);
+			if (siteReachable) {
+				qs_tile.setLabel(publicIPFetched);
+				qs_tile.setIcon(wifiSuccessIcon);
+				qs_tile.updateTile();
+			} else {
+				qs_tile.setLabel("No Connection");
+				qs_tile.setIcon(wifiFailIcon);
+				qs_tile.updateTile();
+			}
 		}
 	}
 }

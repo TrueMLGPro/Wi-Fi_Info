@@ -6,15 +6,14 @@ import android.content.Intent;
 
 public class ScreenStateReceiver extends BroadcastReceiver {
 	public static Boolean screenState = false;
-	
+
 	@Override
-	public void onReceive(Context context, Intent intent)
-	{
+	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
 		if (action.equals(Intent.ACTION_SCREEN_ON)) {
 			screenState = true;
 		}
-		
+
 		if (action.equals(Intent.ACTION_SCREEN_OFF)) {
 			screenState = false;
 		}

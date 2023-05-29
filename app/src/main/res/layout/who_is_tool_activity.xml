@@ -26,34 +26,44 @@
 		android:layout_gravity="center"
 		android:layout_centerInParent="true"
 		android:visibility="gone"
-		android:text="No Connection" />
+		android:text="@string/no_connection" />
+
+	<ProgressBar
+		android:id="@+id/who_is_progress_bar"
+		style="?android:attr/progressBarStyleHorizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="-7dp"
+		android:layout_marginBottom="-7dp"
+		android:layout_below="@+id/toolbar"
+		android:indeterminate="true"
+		android:visibility="invisible" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:orientation="vertical"
 		android:layout_below="@+id/toolbar"
-		android:layout_margin="8dp"
-		android:gravity="top">
+		android:animateLayoutChanges="true"
+		android:padding="8dp">
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
 			android:gravity="center"
-			android:orientation="vertical">
+			android:orientation="vertical"
+			android:paddingBottom="4dp">
 
 			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/input_layout"
+				android:id="@+id/url_to_ip_input_layout"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="6dp"
-				android:layout_marginRight="6dp"
-				android:layout_marginTop="4dp"
-				android:hint="Enter URL"
+				android:hint="@string/enter_url"
 				app:errorEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
-					android:id="@+id/edittext_main"
+					android:id="@+id/url_to_ip_edit_text"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:imeOptions="actionGo"
@@ -66,10 +76,7 @@
 				android:id="@+id/fetch_whois_info_button"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="4dp"
-				android:layout_marginLeft="4dp"
-				android:layout_marginRight="4dp"
-				android:text="Fetch"
+				android:text="@string/fetch"
 				android:textColor="#FFFFFF"
 				style="@style/Widget.AppCompat.Button.Colored" />
 
@@ -79,8 +86,11 @@
 			android:id="@+id/who_is_scroll"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:layout_marginTop="8dp"
+			android:layout_marginStart="4dp"
+			android:layout_marginEnd="4dp"
+			android:layout_marginBottom="4dp"
 			android:background="?EmbedBackgroundColor"
-			android:layout_margin="8dp"
 			android:padding="8dp">
 
 			<TextView

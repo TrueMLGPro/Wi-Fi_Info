@@ -26,12 +26,13 @@
 		android:layout_gravity="center"
 		android:layout_centerInParent="true"
 		android:visibility="gone"
-		android:text="No Cellular Connection" />
+		android:text="@string/no_cellular_connection" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_below="@+id/toolbar"
+		android:animateLayoutChanges="true"
 		android:padding="16dp"
 		android:orientation="vertical">
 
@@ -41,7 +42,6 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
 			app:cardCornerRadius="8dp"
-			app:cardElevation="8dp"
 			app:cardBackgroundColor="?CardBackgroundColor">
 
 			<LinearLayout
@@ -57,7 +57,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:orientation="horizontal"
-					android:gravity="left"
+					android:gravity="start"
 					android:background="?attr/CardHeaderBackgroundColor">
 
 					<TextView
@@ -67,19 +67,19 @@
 						android:layout_margin="8dp"
 						android:textSize="12sp"
 						android:textColor="?attr/TextColor"
-						android:text="Public IP Address" />
+						android:text="@string/public_ip_address" />
 
 				</LinearLayout>
 
 				<TextView
-					android:id="@+id/textview_ip_cell"
+					android:id="@+id/textview_public_ip_cell"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="16dp"
 					android:layout_marginBottom="16dp"
-					android:textSize="16sp"
+					android:textSize="18sp"
 					android:textColor="?attr/CardTextColor"
-					android:text="Your IP: N/A" />
+					android:text="@string/your_ip_na" />
 
 				<com.github.clans.fab.FloatingActionButton
 					xmlns:fab="http://schemas.android.com/apk/res-auto"
@@ -87,7 +87,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="16dp"
-					android:src="?IconIPColor"
+					android:src="@drawable/reload_24px"
 					fab:fab_colorNormal="?FAB_IPColorEnabled"
 					fab:fab_colorPressed="?FAB_IPColorEnabled"
 					fab:fab_colorDisabled="?FAB_IPColorDisabled"
@@ -105,7 +105,6 @@
 			android:layout_gravity="center_horizontal"
 			android:layout_marginTop="16dp"
 			app:cardCornerRadius="8dp"
-			app:cardElevation="8dp"
 			app:cardBackgroundColor="?CardBackgroundColor">
 
 			<LinearLayout
@@ -121,7 +120,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:orientation="horizontal"
-					android:gravity="left"
+					android:gravity="start"
 					android:background="?attr/CardHeaderBackgroundColor">
 
 					<TextView
@@ -131,20 +130,76 @@
 						android:layout_margin="8dp"
 						android:textSize="12sp"
 						android:textColor="?attr/TextColor"
-						android:text="IP" />
+						android:text="@string/local_ip_address" />
 
 				</LinearLayout>
 
-				<TextView
-					android:id="@+id/textview_local_ip_cell"
-					android:layout_width="wrap_content"
+				<LinearLayout
+					android:id="@+id/linear_layout_textviews_ip"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="16dp"
-					android:layout_marginBottom="16dp"
-					android:textSize="16sp"
-					android:textColor="?attr/CardTextColor"
-					android:text="IP: N/A" />
-			
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:layout_gravity="center"
+					android:baselineAligned="false">
+
+					<RelativeLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:orientation="horizontal">
+
+						<TextView
+							android:id="@+id/textview_local_ipv4_cell_name"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentStart="true"
+							android:layout_toStartOf="@id/textview_local_ipv4_cell_value"
+							android:textSize="14sp"
+							android:textColor="?attr/CardTextColor"
+							android:text="@string/ipv4" />
+
+						<TextView
+							android:id="@+id/textview_local_ipv4_cell_value"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentEnd="true"
+							android:text="@string/na"
+							android:textColor="?attr/CardTextColor"
+							android:textSize="14sp"
+							android:textStyle="bold" />
+
+					</RelativeLayout>
+
+					<RelativeLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:orientation="horizontal"
+						android:layout_marginTop="16dp">
+
+						<TextView
+							android:id="@+id/textview_local_ipv6_cell_name"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentStart="true"
+							android:layout_toStartOf="@id/textview_local_ipv6_cell_value"
+							android:textSize="14sp"
+							android:textColor="?attr/CardTextColor"
+							android:text="@string/ipv6" />
+
+						<TextView
+							android:id="@+id/textview_local_ipv6_cell_value"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentEnd="true"
+							android:text="@string/na"
+							android:textColor="?attr/CardTextColor"
+							android:textSize="14sp"
+							android:textStyle="bold" />
+
+					</RelativeLayout>
+
+				</LinearLayout>
+
 			</LinearLayout>
 			
 		</androidx.cardview.widget.CardView>

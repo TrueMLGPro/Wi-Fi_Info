@@ -2,11 +2,12 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="?attr/BackgroundColor">
-	
+
 	<androidx.appcompat.widget.Toolbar
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
@@ -15,7 +16,7 @@
 		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 		app:titleTextColor="?attr/TitleTextColor"
 		app:subtitleTextColor="?attr/SubtitleTextColor" />
-		
+
 	<TextView
 		android:id="@+id/textview_noconn"
 		android:layout_width="wrap_content"
@@ -26,29 +27,29 @@
 		android:layout_gravity="center"
 		android:layout_centerInParent="true"
 		android:visibility="gone"
-		android:text="No Wi-Fi Connection" />
-		
+		android:text="@string/no_wifi_connection" />
+
 	<ScrollView
 		android:id="@+id/scroll_view"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@+id/toolbar"
 		android:fillViewport="true">
-			
+
 		<LinearLayout
 			android:id="@+id/linear_layout_cards"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:animateLayoutChanges="true"
 			android:padding="16dp"
 			android:orientation="vertical">
-				
+
 			<androidx.cardview.widget.CardView
 				android:id="@+id/cardview_1"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
 				app:cardCornerRadius="8dp"
-				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
@@ -58,25 +59,28 @@
 					android:orientation="vertical"
 					android:layout_gravity="center"
 					android:gravity="center">
-						
-					<LinearLayout
+
+					<RelativeLayout
 						android:id="@+id/header1"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:orientation="horizontal"
-						android:gravity="left"
+						android:gravity="start"
 						android:background="?attr/CardHeaderBackgroundColor">
 
 						<TextView
 							android:id="@+id/textview_header1"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:layout_margin="8dp"
-							android:textSize="12sp"
+							android:layout_marginStart="8dp"
+							android:layout_marginTop="8dp"
+							android:layout_marginEnd="8dp"
+							android:layout_marginBottom="8dp"
+							android:text="@string/public_ip_address"
 							android:textColor="?attr/TextColor"
-							android:text="Public IP Address" />
+							android:textSize="12sp" />
 
-					</LinearLayout>
+					</RelativeLayout>
 
 					<TextView
 						android:id="@+id/textview_public_ip"
@@ -86,15 +90,15 @@
 						android:layout_marginBottom="16dp"
 						android:textSize="18sp"
 						android:textColor="?attr/CardTextColor"
-						android:text="Your IP: N/A" />
-						
+						android:text="@string/your_ip_na" />
+
 					<com.github.clans.fab.FloatingActionButton
 						xmlns:fab="http://schemas.android.com/apk/res-auto"
 						android:id="@+id/fab_update_ip"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="16dp"
-						android:src="?IconIPColor"
+						android:src="@drawable/reload_24px"
 						fab:fab_colorNormal="?FAB_IPColorEnabled"
 						fab:fab_colorPressed="?FAB_IPColorEnabled"
 						fab:fab_colorDisabled="?FAB_IPColorDisabled"
@@ -102,9 +106,115 @@
 						fab:fab_size="mini" />
 
 				</LinearLayout>
-				
+
 			</androidx.cardview.widget.CardView>
-			
+
+			<androidx.cardview.widget.CardView
+				android:id="@+id/cardview_ip"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="16dp"
+				app:cardCornerRadius="8dp"
+				app:cardBackgroundColor="?CardBackgroundColor">
+
+				<LinearLayout
+					android:id="@+id/linear_layout_ip"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:layout_gravity="center"
+					android:gravity="center">
+
+					<LinearLayout
+						android:id="@+id/header_ip"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal"
+						android:gravity="start"
+						android:background="?attr/CardHeaderBackgroundColor">
+
+						<TextView
+							android:id="@+id/textview_header_ip"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_margin="8dp"
+							android:textSize="12sp"
+							android:textColor="?attr/TextColor"
+							android:text="@string/local_ip_address" />
+
+					</LinearLayout>
+
+					<LinearLayout
+						android:id="@+id/linear_layout_textviews_ip"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						android:padding="16dp"
+						android:layout_gravity="center"
+						android:baselineAligned="false">
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<TextView
+								android:id="@+id/textview_ipv4_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_ipv4_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/ipv4" />
+
+							<TextView
+								android:id="@+id/textview_ipv4_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_ipv6_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_ipv6_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/ipv6" />
+
+							<TextView
+								android:id="@+id/textview_ipv6_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+					</LinearLayout>
+
+				</LinearLayout>
+
+			</androidx.cardview.widget.CardView>
+
 			<androidx.cardview.widget.CardView
 				android:id="@+id/cardview_2"
 				android:layout_width="match_parent"
@@ -112,9 +222,8 @@
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
 				app:cardCornerRadius="8dp"
-				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
-				
+
 				<LinearLayout
 					android:id="@+id/linear_layout2"
 					android:layout_width="match_parent"
@@ -122,15 +231,15 @@
 					android:orientation="vertical"
 					android:layout_gravity="center"
 					android:gravity="center">
-					
+
 					<LinearLayout
 						android:id="@+id/header2"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:orientation="horizontal"
-						android:gravity="left"
+						android:gravity="start"
 						android:background="?attr/CardHeaderBackgroundColor">
-							
+
 						<TextView
 							android:id="@+id/textview_header2"
 							android:layout_width="wrap_content"
@@ -138,78 +247,193 @@
 							android:layout_margin="8dp"
 							android:textSize="12sp"
 							android:textColor="?attr/TextColor"
-							android:text="SSID, BSSID, etc." />
-							
+							android:text="@string/ssid_bssid_etc" />
+
 					</LinearLayout>
-			
-					<TextView
-						android:id="@+id/textview_ssid"
-						android:layout_width="wrap_content"
+
+					<LinearLayout
+						android:id="@+id/linear_layout_textviews2"
+						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="SSID: N/A" />
-					
-					<TextView
-						android:id="@+id/textview_hidden_ssid"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Hidden SSID: N/A" />
-					
-					<TextView
-						android:id="@+id/textview_bssid"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="BSSID: N/A" />
-					
-					<TextView
-						android:id="@+id/textview_ipv4"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="IPv4: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_ipv6"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="IPv6: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_gateway_ip"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Gateway IP: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_hostname"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:layout_marginBottom="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Hostname: N/A" />
-					
+						android:orientation="vertical"
+						android:padding="16dp"
+						android:layout_gravity="center"
+						android:baselineAligned="false">
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<TextView
+								android:id="@+id/textview_ssid_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_ssid_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/ssid" />
+
+							<TextView
+								android:id="@+id/textview_ssid_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_hidden_ssid_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_hidden_ssid_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/hidden_ssid" />
+
+							<TextView
+								android:id="@+id/textview_hidden_ssid_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_bssid_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_bssid_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/bssid" />
+
+							<TextView
+								android:id="@+id/textview_bssid_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_gateway_ip_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_gateway_ip_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/gateway_ip" />
+
+							<TextView
+								android:id="@+id/textview_gateway_ip_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_hostname_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_hostname_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/hostname" />
+
+							<TextView
+								android:id="@+id/textview_hostname_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:id="@+id/relativelayout_wifi_standard"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_wifi_standard_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_wifi_standard_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/wifi_standard" />
+
+							<TextView
+								android:id="@+id/textview_wifi_standard_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+					</LinearLayout>
+
 				</LinearLayout>
-			
+
 			</androidx.cardview.widget.CardView>
-			
+
 			<androidx.cardview.widget.CardView
 				android:id="@+id/cardview_3"
 				android:layout_width="match_parent"
@@ -217,7 +441,6 @@
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
 				app:cardCornerRadius="8dp"
-				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
@@ -227,13 +450,13 @@
 					android:orientation="vertical"
 					android:layout_gravity="center"
 					android:gravity="center">
-						
+
 					<LinearLayout
 						android:id="@+id/header3"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:orientation="horizontal"
-						android:gravity="left"
+						android:gravity="start"
 						android:background="?attr/CardHeaderBackgroundColor">
 
 						<TextView
@@ -243,87 +466,281 @@
 							android:layout_margin="8dp"
 							android:textSize="12sp"
 							android:textColor="?attr/TextColor"
-							android:text="DNS, Subnet Mask, etc." />
+							android:text="@string/frequency_channel_etc" />
 
 					</LinearLayout>
 
-					<TextView
-						android:id="@+id/textview_dns1"
-						android:layout_width="wrap_content"
+					<LinearLayout
+						android:id="@+id/linear_layout_textviews3"
+						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="DNS (1): N/A" />
+						android:orientation="vertical"
+						android:padding="16dp"
+						android:layout_gravity="center"
+						android:gravity="start"
+						android:baselineAligned="false">
 
-					<TextView
-						android:id="@+id/textview_dns2"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="DNS (2): N/A" />
-						
-					<TextView
-						android:id="@+id/textview_subnet_mask"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Subnet Mask: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_network_id"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Network ID: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_mac_address"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="MAC Address: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_network_interface"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Network Interface: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_loopback_address"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Loopback Address: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_localhost"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:layout_marginBottom="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Localhost: N/A" />
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<TextView
+								android:id="@+id/textview_frequency_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_frequency_value"
+								android:text="@string/frequency"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp" />
+
+							<TextView
+								android:id="@+id/textview_frequency_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_network_channel_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_network_channel_value"
+								android:text="@string/network_channel"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp" />
+
+							<TextView
+								android:id="@+id/textview_network_channel_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_rssi_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_rssi_value"
+								android:text="@string/rssi_signal_strength"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp" />
+
+							<TextView
+								android:id="@+id/textview_rssi_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_distance_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_distance_value"
+								android:text="@string/distance"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp" />
+
+							<TextView
+								android:id="@+id/textview_distance_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_ip_lease_duration_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_ip_lease_duration_value"
+								android:text="@string/ip_lease_duration"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp" />
+
+							<TextView
+								android:id="@+id/textview_ip_lease_duration_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:id="@+id/relativelayout_network_speed"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_network_speed_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_network_speed_value"
+								android:text="@string/network_speed"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp" />
+
+							<TextView
+								android:id="@+id/textview_network_speed_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:layout_centerVertical="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:id="@+id/relativelayout_network_speed_legacy"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_network_speed_legacy_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_network_speed_legacy_value"
+								android:text="@string/network_speed"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp" />
+
+							<TextView
+								android:id="@+id/textview_network_speed_legacy_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:layout_centerVertical="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_transmitted_data_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_transmitted_data_value"
+								android:text="@string/transmitted_mbs_gbs"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp" />
+
+							<TextView
+								android:id="@+id/textview_transmitted_data_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_received_data_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_received_data_value"
+								android:text="@string/received_mbs_gbs"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp" />
+
+							<TextView
+								android:id="@+id/textview_received_data_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+					</LinearLayout>
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
-				
+
 			<androidx.cardview.widget.CardView
 				android:id="@+id/cardview_4"
 				android:layout_width="match_parent"
@@ -331,7 +748,6 @@
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
 				app:cardCornerRadius="8dp"
-				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
@@ -341,13 +757,13 @@
 					android:orientation="vertical"
 					android:layout_gravity="center"
 					android:gravity="center">
-						
+
 					<LinearLayout
 						android:id="@+id/header4"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:orientation="horizontal"
-						android:gravity="left"
+						android:gravity="start"
 						android:background="?attr/CardHeaderBackgroundColor">
 
 						<TextView
@@ -357,96 +773,276 @@
 							android:layout_margin="8dp"
 							android:textSize="12sp"
 							android:textColor="?attr/TextColor"
-							android:text="Frequency, Channel, etc." />
+							android:text="@string/dns_subnet_mask_etc" />
 
 					</LinearLayout>
-						
-					<TextView
-						android:id="@+id/textview_frequency"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Frequency: N/A" />
 
-					<TextView
-						android:id="@+id/textview_network_channel"
-						android:layout_width="wrap_content"
+					<LinearLayout
+						android:id="@+id/linear_layout_textviews4"
+						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Network Channel: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_rssi"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="RSSI (Signal Strength): N/A" />
-						
-					<TextView
-						android:id="@+id/textview_lease_duration"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Lease Duration: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_transmit_link_speed"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Transmit Link Speed: N/A" />
+						android:orientation="vertical"
+						android:padding="16dp"
+						android:layout_gravity="center"
+						android:baselineAligned="false">
 
-					<TextView
-						android:id="@+id/textview_receive_link_speed"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Receive Link Speed: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_network_speed"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Network Speed: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_transmitted_data"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Transmitted MBs/GBs: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_received_data"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:layout_marginBottom="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Received MBs/GBs: N/A" />
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<TextView
+								android:id="@+id/textview_dns1_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_dns1_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/dns_1" />
+
+							<TextView
+								android:id="@+id/textview_dns1_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_dns2_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_dns2_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/dns_2" />
+
+							<TextView
+								android:id="@+id/textview_dns2_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_subnet_mask_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_subnet_mask_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/subnet_mask" />
+
+							<TextView
+								android:id="@+id/textview_subnet_mask_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_broadcast_address_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_broadcast_address_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/broadcast_address" />
+
+							<TextView
+								android:id="@+id/textview_broadcast_address_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_network_id_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_network_id_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/network_id" />
+
+							<TextView
+								android:id="@+id/textview_network_id_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_mac_address_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_mac_address_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/mac_address" />
+
+							<TextView
+								android:id="@+id/textview_mac_address_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_network_interface_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_network_interface_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/network_interface" />
+
+							<TextView
+								android:id="@+id/textview_network_interface_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_loopback_address_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_loopback_address_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/loopback_address" />
+
+							<TextView
+								android:id="@+id/textview_loopback_address_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_localhost_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_localhost_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/localhost_address" />
+
+							<TextView
+								android:id="@+id/textview_localhost_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+					</LinearLayout>
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
-				
+
 			<androidx.cardview.widget.CardView
 				android:id="@+id/cardview_5"
 				android:layout_width="match_parent"
@@ -454,7 +1050,6 @@
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
 				app:cardCornerRadius="8dp"
-				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
@@ -464,13 +1059,13 @@
 					android:orientation="vertical"
 					android:layout_gravity="center"
 					android:gravity="center">
-						
+
 					<LinearLayout
 						android:id="@+id/header5"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:orientation="horizontal"
-						android:gravity="left"
+						android:gravity="start"
 						android:background="?attr/CardHeaderBackgroundColor">
 
 						<TextView
@@ -480,24 +1075,52 @@
 							android:layout_margin="8dp"
 							android:textSize="12sp"
 							android:textColor="?attr/TextColor"
-							android:text="WPA Supplicant State" />
+							android:text="@string/wpa_supplicant_state" />
 
 					</LinearLayout>
-						
-					<TextView
-						android:id="@+id/textview_supplicant_state"
-						android:layout_width="wrap_content"
+
+					<LinearLayout
+						android:id="@+id/linear_layout_textviews5"
+						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:layout_marginBottom="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="WPA Supplicant State: N/A" />
+						android:orientation="vertical"
+						android:padding="16dp"
+						android:layout_gravity="center"
+						android:baselineAligned="false">
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<TextView
+								android:id="@+id/textview_wpa_supplicant_state_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_wpa_supplicant_state_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/wpa_supplicant_state" />
+
+							<TextView
+								android:id="@+id/textview_wpa_supplicant_state_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+					</LinearLayout>
 
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
-				
+
 			<androidx.cardview.widget.CardView
 				android:id="@+id/cardview_6"
 				android:layout_width="match_parent"
@@ -505,7 +1128,6 @@
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="16dp"
 				app:cardCornerRadius="8dp"
-				app:cardElevation="8dp"
 				app:cardBackgroundColor="?CardBackgroundColor">
 
 				<LinearLayout
@@ -521,7 +1143,7 @@
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:orientation="horizontal"
-						android:gravity="left"
+						android:gravity="start"
 						android:background="?attr/CardHeaderBackgroundColor">
 
 						<TextView
@@ -534,62 +1156,176 @@
 							android:layout_marginBottom="8dp"
 							android:textSize="12sp"
 							android:textColor="?attr/TextColor"
-							android:text="Feature Support" />
+							android:text="@string/feature_support" />
 
 					</LinearLayout>
-						
-					<TextView
-						android:id="@+id/textview_5ghz_support"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="5GHz Band Support: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_wifi_direct_support"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="Wi-Fi Direct Support: N/A" />
 
-					<TextView
-						android:id="@+id/textview_tdls_support"
-						android:layout_width="wrap_content"
+					<LinearLayout
+						android:id="@+id/linear_layout_textviews6"
+						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:layout_marginBottom="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="TDLS Support: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_wpa3_sae_support"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="WPA3 SAE Support: N/A" />
-						
-					<TextView
-						android:id="@+id/textview_wpa3_suite_b_support"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:layout_marginBottom="16dp"
-						android:textSize="16sp"
-						android:textColor="?attr/CardTextColor"
-						android:text="WPA3 Suite B Support: N/A" />
-						
+						android:orientation="horizontal"
+						android:paddingLeft="16dp"
+						android:paddingRight="16dp"
+						android:layout_gravity="center"
+						android:gravity="start">
+
+						<LinearLayout
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:orientation="vertical">
+
+							<TextView
+								android:id="@+id/textview_5ghz_support"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/_5ghz_band_support" />
+
+							<TextView
+								android:id="@+id/textview_6ghz_support"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/_6ghz_band_support" />
+
+							<TextView
+								android:id="@+id/textview_60ghz_support"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/_60ghz_band_support" />
+
+							<TextView
+								android:id="@+id/textview_wifi_direct_support"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/wifi_direct_support" />
+
+							<TextView
+								android:id="@+id/textview_tdls_support"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:layout_marginBottom="16dp"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/tdls_support" />
+
+							<TextView
+								android:id="@+id/textview_wpa3_sae_support"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/wpa3_sae_support" />
+
+							<TextView
+								android:id="@+id/textview_wpa3_suite_b_support"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:layout_marginBottom="16dp"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/wpa3_suite_b_support" />
+
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:gravity="center_horizontal"
+							android:orientation="vertical">
+
+							<TextView
+								android:id="@+id/textview_5ghz_support_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+							<TextView
+								android:id="@+id/textview_6ghz_support_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/na" />
+
+							<TextView
+								android:id="@+id/textview_60ghz_support_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/na" />
+
+							<TextView
+								android:id="@+id/textview_wifi_direct_support_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+							<TextView
+								android:id="@+id/textview_tdls_support_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:layout_marginBottom="16dp"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+							<TextView
+								android:id="@+id/textview_wpa3_sae_support_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+							<TextView
+								android:id="@+id/textview_wpa3_suite_b_support_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginTop="16dp"
+								android:layout_marginBottom="16dp"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</LinearLayout>
+
+					</LinearLayout>
+
 				</LinearLayout>
 
 			</androidx.cardview.widget.CardView>
-			
+
 		</LinearLayout>
-			
+
 	</ScrollView>
 
 	<com.github.clans.fab.FloatingActionMenu
@@ -598,6 +1334,9 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_gravity="bottom|right"
+		fab:menu_fab_show_animation="@anim/fab_open"
+		fab:menu_fab_hide_animation="@anim/fab_close"
+		fab:menu_buttonToggleAnimation="@anim/fab_icon_backward"
 		fab:menu_fab_size="normal"
 		fab:menu_showShadow="true"
 		fab:menu_shadowColor="#66000000"
@@ -607,8 +1346,8 @@
 		fab:menu_colorNormal="?FAB_MainColorEnabled"
 		fab:menu_colorPressed="?FAB_MainColorEnabled"
 		fab:menu_colorRipple="?FAB_MainColorRipple"
-		fab:menu_animationDelayPerItem="25"
-		fab:menu_icon="?IconPlusColor"
+		fab:menu_animationDelayPerItem="50"
+		fab:menu_icon="@drawable/add_24px"
 		fab:menu_buttonSpacing="-2dp"
 		fab:menu_labels_margin="0dp"
 		fab:menu_labels_paddingTop="2dp"
@@ -629,62 +1368,30 @@
 		fab:menu_labels_position="left"
 		fab:menu_openDirection="up"
 		fab:menu_backgroundColor="#90000000"
-		fab:menu_fab_label="">
+		fab:menu_fab_label=""
+		tools:ignore="RtlHardcoded">
 
 		<com.github.clans.fab.FloatingActionButton
 			android:id="@+id/menu_item_1"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:src="?IconDevColor"
+			android:src="@drawable/tools_24px"
 			fab:fab_colorNormal="?FAB_MainColorEnabled"
 			fab:fab_colorPressed="?FAB_MainColorEnabled"
 			fab:fab_colorRipple="?FAB_MainColorRipple"
 			fab:fab_size="mini"
-			fab:fab_label="Developer Info" />
+			fab:fab_label="@string/tools" />
 
 		<com.github.clans.fab.FloatingActionButton
 			android:id="@+id/menu_item_2"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:src="?IconDiscordColor"
+			android:src="@drawable/settings_24px"
 			fab:fab_colorNormal="?FAB_MainColorEnabled"
 			fab:fab_colorPressed="?FAB_MainColorEnabled"
 			fab:fab_colorRipple="?FAB_MainColorRipple"
 			fab:fab_size="mini"
-			fab:fab_label="Discord Server" />
-
-		<com.github.clans.fab.FloatingActionButton
-			android:id="@+id/menu_item_3"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="?IconSupportersColor"
-			fab:fab_colorNormal="?FAB_MainColorEnabled"
-			fab:fab_colorPressed="?FAB_MainColorEnabled"
-			fab:fab_colorRipple="?FAB_MainColorRipple"
-			fab:fab_size="mini"
-			fab:fab_label="Supporters" />
-
-		<com.github.clans.fab.FloatingActionButton
-			android:id="@+id/menu_item_4"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="?IconToolsColor"
-			fab:fab_colorNormal="?FAB_MainColorEnabled"
-			fab:fab_colorPressed="?FAB_MainColorEnabled"
-			fab:fab_colorRipple="?FAB_MainColorRipple"
-			fab:fab_size="mini"
-			fab:fab_label="Tools" />
-
-		<com.github.clans.fab.FloatingActionButton
-			android:id="@+id/menu_item_5"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="?IconSettingsColor"
-			fab:fab_colorNormal="?FAB_MainColorEnabled"
-			fab:fab_colorPressed="?FAB_MainColorEnabled"
-			fab:fab_colorRipple="?FAB_MainColorRipple"
-			fab:fab_size="mini"
-			fab:fab_label="Settings" />
+			fab:fab_label="@string/settings" />
 
 	</com.github.clans.fab.FloatingActionMenu>
 

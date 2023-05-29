@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string-array name="ntfc_update_freq_entries">
-		<item>500 milliseconds</item>
-		<item>1 second</item>
-		<item>2 seconds</item>
-		<item>3 seconds</item>
-		<item>4 seconds</item>
-		<item>5 seconds</item>
-		<item>10 seconds</item>
+		<item>@string/_500_ms_interval</item>
+		<item>@string/_1_s_interval</item>
+		<item>@string/_2_s_interval</item>
+		<item>@string/_3_s_interval</item>
+		<item>@string/_4_s_interval</item>
+		<item>@string/_5_s_interval</item>
+		<item>@string/_10_s_interval</item>
 	</string-array>
 	<string-array name="ntfc_update_freq_values">
 		<item>500</item>
@@ -19,13 +19,13 @@
 		<item>10000</item>
 	</string-array>
 	<string-array name="card_update_freq_entries">
-		<item>500 milliseconds</item>
-		<item>1 second</item>
-		<item>2 seconds</item>
-		<item>3 seconds</item>
-		<item>4 seconds</item>
-		<item>5 seconds</item>
-		<item>10 seconds</item>
+		<item>@string/_500_ms_interval</item>
+		<item>@string/_1_s_interval</item>
+		<item>@string/_2_s_interval</item>
+		<item>@string/_3_s_interval</item>
+		<item>@string/_4_s_interval</item>
+		<item>@string/_5_s_interval</item>
+		<item>@string/_10_s_interval</item>
 	</string-array>
 	<string-array name="card_update_freq_values">
 		<item>500</item>
@@ -39,34 +39,32 @@
 	<string-array name="app_font_entries">
 		<item>Gilroy</item>
 		<item>Circular Std</item>
-		<item>Comfortaa</item>
-		<item>CondellBio</item>
-		<item>Filson Pro</item>
-		<item>Hellix</item>
-		<item>Moderat</item>
-		<item>Newson</item>
-		<item>Noir Text</item>
-		<item>Poligon</item>
-		<item>Proxima Soft</item>
-		<item>Squalo</item>
-		<item>Tomkin</item>
-		<item>Urbani</item>
+		<item>Nunito</item>
 	</string-array>
 	<string-array name="app_font_values">
 		<item>fonts/Gilroy-Semibold.ttf</item>
 		<item>fonts/CircularStd-Bold.ttf</item>
-		<item>fonts/Comfortaa-Regular.ttf</item>
-		<item>fonts/CondellBio-Medium.ttf</item>
-		<item>fonts/FilsonPro-Regular.ttf</item>
-		<item>fonts/Hellix-Medium.ttf</item>
-		<item>fonts/Moderat-Regular.ttf</item>
-		<item>fonts/Newson-Medium.ttf</item>
-		<item>fonts/NoirText-Bold.ttf</item>
-		<item>fonts/Poligon-Regular.ttf</item>
-		<item>fonts/ProximaSoft-Medium.ttf</item>
-		<item>fonts/Squalo-Regular.ttf</item>
-		<item>fonts/Tomkin-Regular.ttf</item>
-		<item>fonts/Urbani-Regular.ttf</item>
+		<item>fonts/Nunito-Bold.ttf</item>
+	</string-array>
+	<string-array name="app_language_entries">
+		<item>System Default</item>
+		<item>English</item>
+		<item>French</item>
+		<item>German</item>
+		<item>Portuguese</item>
+		<item>Russian</item>
+		<item>Spanish</item>
+		<item>Ukrainian</item>
+	</string-array>
+	<string-array name="app_language_values">
+		<item>default_lang</item>
+		<item>en</item>
+		<item>fr</item>
+		<item>de</item>
+		<item>pt</item>
+		<item>ru</item>
+		<item>es</item>
+		<item>uk</item>
 	</string-array>
 	<string-array name="packet_types">
 		<item>TCP</item>

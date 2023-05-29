@@ -24,16 +24,16 @@ public class SupportersActivity extends AppCompatActivity {
 	private TextView terrin_text;
 	private TextView torneix_text;
 	private TextView killbayne_text;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		new ThemeManager().initializeThemes(this, getApplicationContext());
-		
+		ThemeManager.initializeThemes(this, getApplicationContext());
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.supporters_activity);
 
-		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		KeepScreenOnManager.init(getWindow(), getApplicationContext());
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		pab_text = (TextView) findViewById(R.id.pab_text);
@@ -47,11 +47,11 @@ public class SupportersActivity extends AppCompatActivity {
 		terrin_text = (TextView) findViewById(R.id.terrin_text);
 		torneix_text = (TextView) findViewById(R.id.torneix_text);
 		killbayne_text = (TextView) findViewById(R.id.killbayne_text);
-		
+
 		Calligrapher calligrapher = new Calligrapher(this);
 		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
 		calligrapher.setFont(this, font, true);
-		
+
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
@@ -62,28 +62,28 @@ public class SupportersActivity extends AppCompatActivity {
 			// Back button pressed
 			finish();
 		});
-		
+
 		initializeOnClickListeners();
 	}
-	
+
 	public void initializeOnClickListeners() {
-		pab_text.setOnClickListener(v -> copyToClipboard("Pab#2631"));
-		anyx_text.setOnClickListener(v -> copyToClipboard("Anyx#1040"));
-		andrew_text.setOnClickListener(v -> copyToClipboard("andre btw.#3452"));
-		rouge_text.setOnClickListener(v -> copyToClipboard("air conditioner#7639"));
-		madcodez_text.setOnClickListener(v -> copyToClipboard("madcodez#1517"));
-		asfi_text.setOnClickListener(v -> copyToClipboard("asfi#4034"));
-		akebi_text.setOnClickListener(v -> copyToClipboard("Akebi7204#7204"));
-		artem_text.setOnClickListener(v -> copyToClipboard("Apтем#8524"));
-		terrin_text.setOnClickListener(v -> copyToClipboard("Terrin Tin#5462"));
-		torneix_text.setOnClickListener(v -> copyToClipboard("bajsjägaremästaren#7593"));
-		killbayne_text.setOnClickListener(v -> copyToClipboard("Killbayne#2294"));
+		pab_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_pab)));
+		anyx_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_anyx)));
+		andrew_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_andrebtw)));
+		rouge_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_air_conditioner)));
+		madcodez_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_madcodez)));
+		asfi_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_asfi)));
+		akebi_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_akebi)));
+		artem_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_artem)));
+		terrin_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_terrin_tin)));
+		torneix_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_torneix)));
+		killbayne_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_killbayne)));
 	}
 
-	private void copyToClipboard(String discord_name) {
+	private void copyToClipboard(String discordName) {
 		ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-		ClipData clip = ClipData.newPlainText("Discord", discord_name);
+		ClipData clip = ClipData.newPlainText("Discord", discordName);
 		cbm.setPrimaryClip(clip);
-		Toast.makeText(getBaseContext(), "Copied to Clipboard: " + discord_name, Toast.LENGTH_SHORT).show();
+		Toast.makeText(getBaseContext(), "Copied to Clipboard: " + discordName, Toast.LENGTH_SHORT).show();
 	}
 }

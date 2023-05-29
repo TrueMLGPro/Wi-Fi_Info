@@ -4,7 +4,7 @@
 
 	<item
 		android:id="@+id/clear_dns_log"
-		android:title="Clear DNS Lookup Log"
+		android:title="@string/toolbar_clear_dns_lookup_log"
 		android:orderInCategory="101"
 		app:showAsAction="never" />
 

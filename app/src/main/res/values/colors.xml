@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!-- Dark theme colors -->
+	<color name="colorPrimaryDarkTheme">#303030</color>
+	<color name="colorOnPrimaryDarkTheme">#FFFFFF</color>
 	<color name="primaryTextColorDark">#FFFFFF</color>
 	<color name="cardTextColorDark">#FFFFFF</color>
 	<color name="cardHeaderBackgroundDark">#2C2C2C</color>
@@ -16,8 +18,10 @@
 	<color name="backgroundColorDark">#202020</color>
 	<color name="embedBackgroundColorDark">#1A1A1A</color>
 	<color name="borderColorDark">#EEEEEE</color>
-	
+
 	<!-- AMOLED Dark theme colors -->
+	<color name="colorPrimaryDarkAmoledTheme">#303030</color>
+	<color name="colorOnPrimaryDarkAmoledTheme">#FFFFFF</color>
 	<color name="primaryTextColorDarkAmoled">#FFFFFF</color>
 	<color name="cardTextColorDarkAmoled">#FFFFFF</color>
 	<color name="cardHeaderBackgroundDarkAmoled">#1A1A1A</color>
@@ -33,32 +37,40 @@
 	<color name="backgroundColorDarkAmoled">#000000</color>
 	<color name="embedBackgroundColorDarkAmoled">#1A1A1A</color>
 	<color name="borderColorDarkAmoled">#EEEEEE</color>
-	
+
 	<!-- Light theme colors -->
+	<color name="colorPrimaryLightTheme">#FAFAFA</color>
+	<color name="colorOnPrimaryLightTheme">#000000</color>
+	<color name="disabledButtonColor">#555555</color> <!-- To increase contrast on light background -->
 	<color name="primaryTextColorLight">#000000</color>
 	<color name="cardTextColorLight">#000000</color>
-	<color name="cardHeaderBackgroundLight">#F2F2F2</color>
+	<color name="cardHeaderBackgroundLight">#F4F4F4</color>
 	<color name="cardBackgroundLight">#FFFFFF</color>
 	<color name="fabIPLightEnabled">#ECECEC</color>
-	<color name="fabIPLightDisabled">#C4C4C4</color>
+	<color name="fabIPLightDisabled">#BBBBBB</color>
 	<color name="fabMainLightEnabled">#2F74E7</color>
 	<color name="fabMainLightDisabled">#1D599D</color>
 	<color name="fabMainLightRipple">#30202020</color>
 	<color name="fabMainLightTextColor">#FFFFFF</color>
 	<color name="toolbarTitleColorLight">#000000</color>
 	<color name="toolbarSubtitleColorLight">#000000</color>
-	<color name="backgroundColorLight">#EEEEEE</color>
-	<color name="embedBackgroundColorLight">#D7D7D7</color>
+	<color name="backgroundColorLight">#E6E6E6</color>
+	<color name="embedBackgroundColorLight">#D0D0D0</color>
 	<color name="borderColorLight">#202020</color>
-	
+
+	<!-- Tool card colors -->
+	<color name="toolCardCellularDataIP">#5158E4</color>
+	<color name="toolCardRouterSetup">#825BDD</color>
+	<color name="toolCardPingTool">#A765EE</color>
+	<color name="toolCardSubnetScanner">#CB6AF5</color>
+	<color name="toolCardPortScanner">#F172FF</color>
+	<color name="toolCardWhoisTool">#FF66C2</color>
+	<color name="toolCardDNSLookup">#FD5487</color>
+
 	<!-- Other colors -->
-	<color name="buttonColor">#2087DF</color>
+	<color name="accentColor">#2087DF</color>
 	<color name="ntfcColor">#2087DF</color>
-	<color name="ntfcColorSignalHigh">#3FE054</color>
-	<color name="ntfcColorSignalAvg">#FCFF00</color>
-	<color name="ntfcColorSignalLow">#E33E20</color>
-	<color name="refreshLayoutColor1">#2195DF</color>
-	<color name="refreshLayoutColor2">#32CE93</color>
-	<color name="refreshLayoutColor3">#8345EE</color>
-	<color name="refreshLayoutColor4">#4AC2FF</color>
+	<color name="ntfcColorSignalHigh">#76DC76</color>
+	<color name="ntfcColorSignalAvg">#F1F584</color>
+	<color name="ntfcColorSignalLow">#F05454</color>
 </resources>

@@ -6,8 +6,7 @@ import android.content.Intent;
 
 public class BootReceiver extends BroadcastReceiver {
 	@Override
-	public void onReceive(Context context, Intent intent)
-	{
+	public void onReceive(Context context, Intent intent) {
 		boolean keyBoot = new SharedPreferencesManager(context).retrieveBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, MainActivity.startOnBoot);
 		if (keyBoot) {
 			Intent ServiceIntent = new Intent(context, ConnectionStateService.class);

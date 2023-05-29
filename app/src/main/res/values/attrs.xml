@@ -15,12 +15,4 @@
 	<attr name="FAB_MainTextColor" format="reference|color" />
 	<attr name="EmbedBackgroundColor" format="reference|color" />
 	<attr name="BorderColor" format="reference|color" />
-	<attr name="IconIPColor" format="reference" />
-	<attr name="IconDevColor" format="reference" />
-	<attr name="IconDiscordColor" format="reference" />
-	<attr name="IconSupportersColor" format="reference" />
-	<attr name="IconToolsColor" format="reference" />
-	<attr name="IconSettingsColor" format="reference" />
-	<attr name="IconPlusColor" format="reference" />
-	<attr name="ToolbarGithubIconColor" format="reference" />
 </resources>

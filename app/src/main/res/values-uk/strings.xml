@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+	<string name="shortcut_main_short">Почати</string>
+	<string name="shortcut_main_long">Почати основну активність</string>
+	<string name="shortcut_disabled">Ярлик не доступний</string>
+
+	<!-- Dynamic Shortcut Strings -->
+	<string name="github_repo">Репозиторій GitHub</string>
+	<string name="open_github_repository">Відкрити GitHub репозиторій</string>
+	<string name="releases">Релізи</string>
+	<string name="open_github_releases">Відкрити релізи на GitHub</string>
+
+	<!-- MainActivity Strings -->
+	<string name="permission_required">Потрібен дозвіл!</string>
+	<string name="location_permission_is_required_android_8_1_plus">На пристроях з версією Андроїд 8.1 та вище, потрібен дозвіл на доступ до даних про місцезнаходження аби бачити SSID, BSSID та ID мережі</string>
+	<string name="enable_location_to_show_ssid_bssid">Надайте дозвіл на доступ до даних про місцезнаходження аби бачити SSID та BSSID мережі, до якої ви наразі підключені</string>
+	<string name="enable_location_to_show_ssid_bssid_net_id">Надайте дозвіл на доступ до даних про місцезнаходження аби бачити SSID, BSSID та ID мережі, до якої ви наразі підключені</string>
+	<string name="ssid_bssid_not_displayed">SSID та BSSID поточної мережі не буде показано</string>
+	<string name="ssid_bssid_net_id_not_displayed">SSID, BSSID та ID поточної мережі не буде показано</string>
+	<string name="location_is_disabled">Доступ до місцезнаходження не надано</string>
+	<string name="wifi_info_needs_location_api_26">Wi-Fi Info потребує доступ до місцезнаходження аби показувати SSID (ім\'я мережі) та BSSID (MAC-адреса мережі) на Андроїд 8\n\nНатисніть Надати аби надати Wi-Fi Info дозвіл показувати SSID та BSSID</string>
+	<string name="wifi_info_needs_location_api_27">Wi-Fi Info потребує доступ до місцезнаходження аби показувати SSID (ім\'я мережі) та BSSID (MAC-адреса мережі), та ID мережі на Андроїд 8.1 та вище\n\nНатисніть Надати аби надати Wi-Fi Info дозвіл показувати SSID та BSSID, та ID мережі</string>
+
+	<string name="copied_to_clipboard">Скопійовано до буферу обміну</string>
+	<string name="background_location_permission">Дозвіл на доступ до геоданих у фоновому режимі (за бажанням)</string>
+	<string name="due_to_the_changes_in_android_11">Через зміни у Андроїд 11 та вище, вам потрібно зайти в Налаштування та ввімкнути його власноруч\nКоли дозвіл на доступ до геоданих у фоновому режимі буде надано, ви зможете бачити SSIDID, BSSID та ID мережі у сповіщенні, навіть коли додаток закритий</string>
+	<string name="go_to_permissions_and_location">Перейдіть у Дозволи -> Місцезнаходження</string>
+	<string name="select_allow_all_the_time">Виберіть "Дозволяти завжди"</string>
+
+	<string name="na">н/д</string>
+	<!-- Dialog Strings -->
+	<string name="no">Ні</string>
+	<string name="yes">Так</string>
+	<string name="enable">Надати</string>
+	<string name="dont_show_again">Не показувати знову</string>
+	<string name="no_thanks">Ні, дякую</string>
+	<string name="are_you_sure">Ви впевнені?</string>
+	<string name="do_you_want_to_exit">Ви хочете вийти?</string>
+	<string name="exit">Вийти</string>
+
+	<!-- Widget Strings -->
+	<string name="no_wifi_connection">Немає підключення до Wi-Fi</string>
+	<string name="no_connection">Немає підключення</string>
+	<string name="public_ip_address">Публічна IP-адреса</string>
+	<string name="your_ip">Ваш IP: <xliff:g id="ip" example="192.168.0.1">%s</xliff:g></string>
+	<string name="your_ip_na">Ваш IP: Н/Д</string>
+
+	<string name="local_ip_address">Локальна IP-адреса</string>
+
+	<string name="ssid_bssid_etc">SSID, BSSID тощо</string>
+	<string name="hidden_ssid">Прихований SSID</string>
+	<string name="gateway_ip">Шлюз</string>
+	<string name="hostname">Ім\'я хоста</string>
+	<string name="wifi_standard">Стандарт Wi-Fi</string>
+
+	<string name="frequency_channel_etc">Частота, канал тощо</string>
+	<string name="frequency">Частота</string>
+	<string name="network_channel">Канал мережі</string>
+	<!-- RSSI string in NotificationService -->
+	<!-- END -->
+	<string name="rssi_signal_strength">RSSI (Сила сигналу)</string>
+	<string name="distance">Відстань</string>
+	<string name="ip_lease_duration">Тривалість аренди IP</string>
+	<string name="network_speed">Швидкість мережі (↓ / ↑)</string>
+	<string name="transmitted_mbs_gbs">Передано МБ/ГБ</string>
+	<string name="received_mbs_gbs">Отримано МБ/ГБ</string>
+
+	<string name="dns_subnet_mask_etc">DNS, маска підмережі тощо</string>
+	<string name="subnet_mask">Маска підмережі</string>
+	<string name="broadcast_address">Broadcast адреса</string>
+	<string name="network_id">ID мережі</string>
+	<string name="mac_address">MAC адреса</string>
+	<string name="network_interface">Мережевий інтерфейс</string>
+	<string name="loopback_address">Loopback адреса</string>
+	<string name="localhost_address">Адреса локального хосту</string>
+
+	<string name="wpa_supplicant_state">Стан WPA Supplicant</string>
+
+	<string name="feature_support">Підтримка функцій</string>
+	<string name="_5ghz_band_support">Підтримка 5 ГГц</string>
+	<string name="_6ghz_band_support">Підтримка 6 ГГц</string>
+	<string name="_60ghz_band_support">Підтримка 60 ГГц</string>
+	<string name="wifi_direct_support">Підтримка Wi-Fi Direct</string>
+	<string name="tdls_support">Підтримка TDLS</string>
+	<string name="wpa3_sae_support">Підтримка WPA3 SAE</string>
+	<string name="wpa3_suite_b_support">Підтримка WPA3 Suite B</string>
+
+	<!-- FAB Strings -->
+	<string name="tools">Інструменти</string>
+	<string name="settings">Налаштування</string>
+
+	<!-- Toolbar Menu Strings -->
+	<string name="toolbar_copy_all_network_info">Скопіювати всю інформацію про мережу</string>
+	<string name="toolbar_clear_dns_lookup_log">Очистити історію пошуку DNS</string>
+	<string name="toolbar_clear_ping_log">Очистити історію пінг-запитів</string>
+	<string name="toolbar_clear_whois_tool_log">Очистити історію використання Whois Tool</string>
+
+	<!-- Data -->
+	<string name="megabyte">МБ</string>
+	<string name="gigabyte">ГБ</string>
+
+	<!-- ConnectionStateService Strings -->
+	<string name="connection_status_online">Стан з\'єднання — Онлайн</string>
+	<string name="connection_status_offline">Стан з\'єднання — Офлайн</string>
+	<string name="stop_service">Зупинити сервіс</string>
+
+	<!-- NotificationService Strings -->
+	<string name="local_ip">Локальна IP-адреса</string>
+	<string name="stop_services">Зупинити сервіси</string>
+	<string name="notification_settings">Налаштування сповіщення</string>
+
+	<!-- SupportersActivity Strings -->
+	<string name="patron_diamond_tier">• Patron - Алмаз (5$)</string>
+	<string name="app_tester">• Тестувальник додатку</string>
+	<string name="idea_provider">• Висуватель ідей</string>
+	<string name="contributor">• Помічник</string>
+
+	<!-- ToolsActivity Strings -->
+	<string name="cellular_data_ip">IP мобільного інтернету</string>
+	<string name="router_setup">Налаштування роутера</string>
+	<string name="ping_tool">Пінг</string>
+	<string name="subnet_scanner">Сканер підмережі</string>
+	<string name="port_scanner">Сканер порта</string>
+	<string name="whois_tool">Whois</string>
+	<string name="dns_lookup">Пошук DNS записів</string>
+
+	<!-- SettingsActivity Strings -->
+	<string name="_500_ms_interval">500 мілісекунд</string>
+	<string name="_1_s_interval">1 секунда</string>
+	<string name="_2_s_interval">2 секунди</string>
+	<string name="_3_s_interval">3 секунди</string>
+	<string name="_4_s_interval">4 секунди</string>
+	<string name="_5_s_interval">5 секунд</string>
+	<string name="_10_s_interval">10 секунд</string>
+
+	<string name="general_category">Загальні</string>
+	<string name="dark_theme">Темна тема</string>
+	<string name="dark_theme_summary">Ввімнути або вимкнути темну тему</string>
+	<string name="amoled_theme">AMOLED тема</string>
+	<string name="amoled_theme_summary">Ввімнути або вимкнути AMOLED тему</string>
+	<string name="language">Мова</string>
+	<string name="ui_font">Шрифт інтерфейсу</string>
+	<string name="keep_screen_on">Не вимикати екран</string>
+	<string name="keep_screen_on_summary">Не вимикати екран під час роботи додатку</string>
+	<string name="card_update_interval">Інтервал оновлення карток</string>
+
+	<string name="boot_category">Запуск</string>
+	<string name="start_on_boot">Вмикати разом з пристроєм</string>
+	<string name="start_on_boot_summary">Вмикати сповіщення при ввімкненні пристрою</string>
+
+	<string name="notification_category">Сповіщення</string>
+	<string name="show_notification">показувати сповіщення</string>
+	<string name="show_notification_summary">Показувати інформацію про мережу у сповіщенні</string>
+	<string name="notification_update_interval">Інтервал оновлення сповіщення</string>
+	<string name="colorize_notification">Колір сповіщення</string>
+	<string name="colorize_notification_summary">Зафарбувати фон сповіщення у виділений колір</string>
+	<string name="visualize_signal_strength">Візуалізувати силу сигналу</string>
+	<string name="visualize_signal_strength_summary">Зафарбувати сповіщення залежно від сили сигналу</string>
+	<string name="show_hide_notification">Показати / сховати сповіщення</string>
+	<string name="show_hide_notification_summary">Сховати сповіщення, коли ви вимикаєте екран, та показати, коли знову ввімкнете</string>
+
+	<string name="about_category">Про додаток</string>
+	<string name="app_version">Версія додатку</string>
+	<string name="supporters">Прихильники</string>
+	<string name="supporters_summary">Подивіться список людей, які допомогли зробити цей проєкт краще</string>
+	<string name="discord_server">Сервер у Discord</string>
+	<string name="discord_server_summary">Приєднайтесь до серверу нашої спільноти, обговорюйте оновлення, пропонуйте функції</string>
+	<string name="source_code">Початковий код</string>
+	<string name="source_code_summary">Подивіться початковий код на GitHub</string>
+	<string name="report_bugs">Доповісти про помилку</string>
+	<string name="report_bugs_summary">Надішліть звіт про помилку через GitHub Issues</string>
+	<string name="privacy_policy">Політика приватності</string>
+	<string name="privacy_policy_summary">Подивиться нашу Політику приватності стосовно безпеки Ваших даних</string>
+
+	<string name="debug_category">Налагоджування</string>
+	<string name="android_version">Версія Android</string>
+	<string name="sdk_version_code">Версія SDK</string>
+	<string name="device_model">Модель пристрою</string>
+	<string name="product_name">Назва продукту</string>
+
+	<!-- Tool Strings -->
+	<string name="enter_ip_or_url">Введіть IP або URL</string>
+	<string name="threads">Потоки</string>
+	<string name="timeout_ms">Таймаут (мс)</string>
+
+	<!-- CellularDataIPActivity Strings -->
+	<string name="no_cellular_connection">Нема підключення до мобільного інтернету</string>
+	
+	<!-- DNSLookupActivity & PingToolActivity Strings -->
+	<string name="start">Почати</string>
+	<string name="record_type_not_supported">Тип запису <xliff:g id="record_type" example="NSEC">%s</xliff:g> не підтримується <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_failed_exception">Не вдалося виконати пошук за типом запису <xliff:g id="record_type" example="NSEC">%s</xliff:g> | Повідомлення помилки: <xliff:g id="record_type" example="ERROR">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_failed_response">Не вдалося виконати пошук за типом запису <xliff:g id="record_type" example="NSEC">%s</xliff:g> | Код відповіді: <xliff:g id="response_code" example="503">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_no_records">Немає доступних записів за типом <xliff:g id="record_type" example="NSEC">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_record_type">Тип запису DNS -\u0020</string>
+
+	<string name="packets">Пакети</string>
+	<string name="timeout_field_empty">Поле тексту таймауту не може бути пустим</string>
+	<string name="resetting">Переналаштування…</string>
+	<string name="timeout_not_integer">Вказаний таймаут не є цілим числом</string>
+	<string name="timeout_lower_than_1_ms">Значення таймауту не може бути меншим за 1 мс</string>
+	<string name="ttl_field_empty">Поле тексту TTL не може бути пустим</string>
+	<string name="ttl_not_integer">Вказаний TTL не є цілим числом</string>
+	<string name="ttl_lower_than_1">Значення TTL не може бути меншим за 1</string>
+	<string name="packets_amount_not_defined">Не вдалося запінгувати хоста. Кількість пакетів не визначена</string>
+	<string name="packets_not_integer">Не вдалося запінгувати хоста тому, що <xliff:g id="packet_amount" example="3.14">%s</xliff:g> не є цілим числом</string>
+	<string name="packets_lower_than_1">Не вдалося запінгувати хоста <xliff:g id="packet_amount" example="-1">%s</xliff:g> раз</string>
+	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Відповідь від <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> мс, TTL = <xliff:g id="ttl" example="30">%d</xliff:g></string>
+	<string name="connection_timeout"><xliff:g id="packet_num" example="1">%d</xliff:g> - Перевищено час очікування</string>
+	<string name="ping_packet_stats"><xliff:g id="packets_sent" example="5">%d</xliff:g> пакетів відправлено, <xliff:g id="packets_received" example="5">%d</xliff:g> отримано, <xliff:g id="packets_lost" example="0">%d</xliff:g> втрачено, <xliff:g id="packet_loss" example="0.00">%.2f</xliff:g>%% пакетів втрачено</string>
+	<string name="min_avg_max_latency_stats">Мінімальний / Середній / Максимальний час затримки:\n<xliff:g id="min_latency" example="13.5">%.2f</xliff:g> / <xliff:g id="avg_latency" example="32.0">%.2f</xliff:g> / <xliff:g id="max_latency" example="50.5">%.2f</xliff:g> мс</string>
+	<string name="total_ping_time">Загальний час: <xliff:g id="total_time" example="15250">%d</xliff:g> мс</string>
+	<string name="ping_log_ip">IP-адреса: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g></string>
+	<string name="ping_log_hostname">Ім\'я хосту: <xliff:g id="url" example="test.com">%s</xliff:g></string>
+
+	<!-- PortScannerActivity Strings -->
+	<string name="ports">Порти</string>
+	<string name="ports_open_none">Відкритих портів: -</string>
+	<string name="ports_open_amount">Відкритих портів: <xliff:g id="ports_open" example="10">%d</xliff:g></string>
+	<string name="ports_closed_none">Закритих портів: -</string>
+	<string name="ports_closed_amount">Закритих портів: <xliff:g id="ports_closed" example="10">%d</xliff:g></string>
+
+	<!-- RouterSetupActivity Strings -->
+	<string name="router_login_ip">Вхід в роутер — <xliff:g id="ip" example="192.168.0.1">%s</xliff:g></string>
+	<string name="use_web_interface">Використовувати веб-інтерфейс</string>
+	<string name="login">Логін</string>
+	<string name="password">Пароль</string>
+	<string name="page_back">Назад</string>
+	<string name="page_forward">Вперед</string>
+	<string name="page_refresh">Оновити</string>
+	<string name="auth_error">Автентифікація користувача на сервері провалилася</string>
+	<string name="timeout_error">Вийшов час з\'єднання. Спробуйте знов пізніше</string>
+	<string name="too_many_requests_error">Забагато запитів підчас цього завантаження</string>
+	<string name="unknown_error">Невідома помилка</string>
+	<string name="connect_error">Не вдалося під\'єднатися до сервера</string>
+	<string name="host_lookup_error">Пошук ім\'я хосту на сервері або проксі провалився</string>
+	<string name="proxy_auth_error">Автентифікація користувача на проксі провалилася</string>
+	<string name="redirect_loop_error">Забагато перенаправлень</string>
+	<string name="unsupported_auth_scheme_error">Ця схема автентифікації не підтримується (не є простою або дайджест)</string>
+	<string name="unsupported_scheme_error">Ця схема URI не підтримується</string>
+	<string name="io_error">Сервер не відповів. Спробуйте знов пізніше</string>
+
+	<!-- SubnetScannerActivity Strings -->
+	<string name="devices_found_na">Знайдено пристроїв: -</string>
+	<string name="devices_found">Знайдено пристроїв: <xliff:g id="amount" example="5">%d</xliff:g></string>
+	<string name="scan">Просканувати</string>
+	<string name="mac_na">MAC: Н/Д</string>
+	<string name="your_device">(Ваш пристрій)</string>
+	<string name="gateway">(Шлюз)</string>
+
+	<!-- WhoIsToolActivity Strings -->
+	<string name="field_too_short">Введена URL-адреса занадто коротка…</string>
+	<string name="enter_url">Введіть URL</string>
+	<string name="fetch">Знайти</string>
+	<string name="error_malformed_url">Помилка: Неправильний формат URL</string>
+	<string name="error_unknown_host">Помилка: Невідомий хост</string>
+	<string name="error_interrupted">Помилка: Перервано</string>
+	<string name="error_failed_to_execute">Помилка: Не вдалося виконати</string>
+	<string name="whois_result_output">Отримання Whois даних для URL: <xliff:g id="url" example="test.com">%s</xliff:g>\nIP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g>\n<xliff:g id="fetched_whois_data" example="...">%s</xliff:g><xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+</resources>

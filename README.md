@@ -1,5 +1,10 @@
 <h1 align="center">Wi-Fi Info</h1>
 
+<p align="center">A powerful network toolset packed into an Android app, which gathers and displays the information about the Wi-Fi network you are connected to!</p>
+
+---
+<br>
+
 <p align="center">
     <a href="https://github.com/TrueMLGPro/Wi-Fi_Info/releases/">
         <img src="https://img.shields.io/github/release/TrueMLGPro/Wi-Fi_Info.svg?style=for-the-badge" alt="GitHub latest release">
@@ -41,6 +46,9 @@
 <h2>Downloads</h2>
 
 <p align="center">
+    <a href="https://play.google.com/store/apps/details?id=com.truemlgpro.wifiinfo">
+        <img src="https://github.com/TrueMLGPro/Wi-Fi_Info/assets/38999995/7a699ba7-5c7e-4e9f-a65a-0a8d2c596ffb" alt="Play Store">
+    </a>
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.truemlgpro.wifiinfo">
         <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="IzzyOnDroid">
     </a>
@@ -50,48 +58,48 @@
 
 <h2>Features</h2>
 
-<p><strong><em>Shows all possible information about Wi-Fi network you are connected to.</em></strong></p>
+<p><em>Shows all possible information about Wi-Fi network you are connected to.</em></p>
 <ul>
     <li><strong>Public IP Address</strong></li>
-    <li><strong>SSID</strong></li>
-    <li><strong>BSSID</strong></li>
     <li><strong>IPv4 (Local)</strong></li>
     <li><strong>IPv6 (Local)</strong></li>
+    <li><strong>SSID</strong></li>
+    <li><strong>BSSID</strong></li>
     <li><strong>Gateway IP</strong></li>
+    <li><strong>Wi-Fi Standard (Android 11+)</strong></li>
+    <li><strong>Frequency</strong></li>
+    <li><strong>Network Channel</strong></li>
+    <li><strong>RSSI (in dBm and in percentage)</strong></li>
+    <li><strong>Estimated distance to Wi-Fi signal source</strong></li>
+    <li><strong>IP Lease Duration</strong></li>
+    <li><strong>Network Speed</strong></li>
+    <li><strong>Transmitted and Received data (since boot)</strong></li>
     <li><strong>DNS (1)</strong></li>
     <li><strong>DNS (2)</strong></li>
     <li><strong>Subnet Mask</strong></li>
+    <li><strong>Broadcast Address</strong></li>
     <li><strong>Network ID</strong></li>
     <li><strong>MAC Address</strong></li>
     <li><strong>Network Interface</strong></li>
     <li><strong>Loopback Address</strong></li>
-    <li><strong>Frequency</strong></li>
-    <li><strong>Network Channel (2.4 GHz &amp; 5 GHz)</strong></li>
-    <li><strong>RSSI (with percentage!)</strong></li>
-    <li><strong>Lease Duration</strong></li>
-    <li><strong>Network Speed</strong></li>
-    <li><strong>Transmit Link Speed</strong></li>
-    <li><strong>Receive Link Speed</strong></li>
-    <li><strong>WPA Supplicant State</strong></li>
-    <li><strong>Feature Support Detection</strong></li>
+    <li><strong>and more!</strong></li>
 </ul>
 
 <h2>Tools</h2>
 
 <ul>
-    <li><strong>URL to IP Converter</strong></li>
-    <li><strong>Cellular Data IP</strong></li>
-    <li><strong>Router Setup Tool</strong></li>
-    <li><strong>Ping Tool</strong></li>
-    <li><strong>LAN Devices Scanner</strong></li>
-    <li><strong>Port Scanner</strong></li>
-    <li><strong>Whois Tool</strong></li>
-    <li><strong>DNS Lookup Tool</strong></li>
+    <li><strong>Cellular Data IP</strong>: allows you to retrieve the IP address assigned to your mobile device when connected to a cellular network.</li>
+    <li><strong>Router Setup Tool</strong>: this tool makes configuring and managing your Wi-Fi router easier.</li>
+    <li><strong>Ping Tool</strong>: measures the round-trip time for network packets sent to a remote host.</li>
+    <li><strong>Subnet Scanner</strong>: scans the subnet to discover devices connected to your local network and displays info such as IP address and MAC address for each discovered device.</li>
+    <li><strong>Port Scanner</strong>: scans a URL or an IP address for open ports. Supports TCP and UDP scans.</li>
+    <li><strong>Whois Tool</strong>: provides info such as the domain registrar, registration date, expiration date, name servers, and contact information associated with the domain or IP by querying public WHOIS databases.</li>
+    <li><strong>DNS Lookup Tool</strong>: allows you to perform DNS lookups of URL or an IP address.</li>
 </ul>
 
 <h2>Contribute</h2>
 
-For contributor guidelines see <code><a href="CONTRIBUTING.md">CONTRIBUTING.md</a></code>
+For contributor guidelines, see <code><a href="CONTRIBUTING.md">CONTRIBUTING.md</a></code>
 
 <h2>Links</h2>
 

@@ -1,6 +1,5 @@
 package com.truemlgpro.wifiinfo;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -33,10 +33,11 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 import thecollectiveweb.com.tcwhois.TCWHOIS;
 
 public class WhoIsToolActivity extends AppCompatActivity {
-	private TextInputLayout input_layout;
-	private EditText edittext_main;
-	private TextView textview_who_is_results;
 	private TextView textview_nonetworkconn;
+	private ProgressBar who_is_progress_bar;
+	private TextInputLayout who_is_input_layout;
+	private EditText who_is_edit_text;
+	private TextView textview_who_is_results;
 	private Button fetch_whois_info_button;
 	private ScrollView who_is_scroll;
 
@@ -46,7 +47,6 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	private Menu toolbarWhoisMenu;
 
 	private Bundle whoIsBundle = new Bundle();
-
 	private static final String MSG_KEY = "WhoIsQuery";
 
 	private static final int STATE_SUCCESS = 0;
@@ -64,20 +64,21 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		new ThemeManager().initializeThemes(this, getApplicationContext());
+		ThemeManager.initializeThemes(this, getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.who_is_tool_activity);
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		input_layout = (TextInputLayout) findViewById(R.id.input_layout);
-		edittext_main = (EditText) findViewById(R.id.edittext_main);
+		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
+		who_is_progress_bar = (ProgressBar) findViewById(R.id.who_is_progress_bar);
+		who_is_input_layout = (TextInputLayout) findViewById(R.id.url_to_ip_input_layout);
+		who_is_edit_text = (EditText) findViewById(R.id.url_to_ip_edit_text);
 		fetch_whois_info_button = (Button) findViewById(R.id.fetch_whois_info_button);
 		textview_who_is_results = (TextView) findViewById(R.id.textview_who_is_results);
 		who_is_scroll = (ScrollView) findViewById(R.id.who_is_scroll);
-		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 
-		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		KeepScreenOnManager.init(getWindow(), getApplicationContext());
 
 		Calligrapher calligrapher = new Calligrapher(this);
 		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
@@ -105,19 +106,18 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	}
 
 	private boolean shouldShowError() {
-		int textLength = edittext_main.getText().length();
+		int textLength = who_is_edit_text.getText().length();
 		return textLength >= 0 && textLength < MIN_TEXT_LENGTH;
 	}
 
 	private void showError() {
-		input_layout.setError("Field is too short...");
+		who_is_input_layout.setError(getString(R.string.field_too_short));
 	}
 
 	private void hideError() {
-		input_layout.setError(EMPTY_STRING);
+		who_is_input_layout.setError(EMPTY_STRING);
 	}
 
-	@SuppressLint("HandlerLeak")
 	private final Handler msgHandler = new Handler(Looper.myLooper()) {
 		@Override
 		public void handleMessage(Message msg) {
@@ -128,15 +128,17 @@ public class WhoIsToolActivity extends AppCompatActivity {
 					appendResultsText(whoIsQuery);
 					break;
 				case STATE_ERROR_MALFORMED_URL:
-					appendResultsText("Error: Malformed URL");
+					appendResultsText(getString(R.string.error_malformed_url));
 					break;
 				case STATE_ERROR_UNKNOWN_HOST:
-					appendResultsText("Error: Unknown Host");
+					appendResultsText(getString(R.string.error_unknown_host));
 					break;
 				case STATE_RUNNABLE_STARTED:
+					runOnUiThread(() -> who_is_progress_bar.setVisibility(View.VISIBLE));
 					setEnabled(fetch_whois_info_button, false);
 					break;
 				case STATE_RUNNABLE_FINISHED:
+					runOnUiThread(() -> who_is_progress_bar.setVisibility(View.INVISIBLE));
 					setEnabled(fetch_whois_info_button, true);
 					break;
 			}
@@ -148,13 +150,11 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		public void run() {
 			msgHandler.sendEmptyMessage(STATE_RUNNABLE_STARTED);
 			try {
-				String url = edittext_main.getText().toString();
+				String url = who_is_edit_text.getText().toString();
 				String ip = URLandIPConverter.convertUrl("https://" + url);
 				String fetched_whois_data = getWhoIsInfo(url);
-				String output = "Getting Whois data for URL: " + url + "\n"
-						+ "IP: " + ip + "\n"
-						+ fetched_whois_data + "\n"
-						+ "----------------------------------------" + "\n";
+				String lineSeparator = "\n----------------------------\n";
+				String output = String.format(getString(R.string.whois_result_output), url, ip, fetched_whois_data, lineSeparator);
 				Message msg = msgHandler.obtainMessage(STATE_SUCCESS);
 				whoIsBundle.putString(MSG_KEY, output);
 				msg.setData(whoIsBundle);
@@ -175,18 +175,18 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	}
 
 	public String getWhoIsInfo(String url) {
-		String whois_data = "";
+		String whoisData = "";
 		try {
-			TCWHOIS whois_client = new TCWHOIS();
-			whois_data = whois_client.getTCWHOIS(url);
+			TCWHOIS whoisClient = new TCWHOIS();
+			whoisData = whoisClient.getTCWHOIS(url);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			appendResultsText("Error: Interrupted");
+			appendResultsText(getString(R.string.error_interrupted));
 		} catch (ExecutionException e) {
 			e.printStackTrace();
-			appendResultsText("Error: Failed to execute");
+			appendResultsText(getString(R.string.error_failed_to_execute));
 		}
-		return whois_data;
+		return whoisData;
 	}
 
 	private void setEnabled(final View view, final boolean enabled) {
@@ -197,28 +197,19 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		});
 	}
 
-	class NetworkConnectivityReceiver extends BroadcastReceiver
-	{
+	class NetworkConnectivityReceiver extends BroadcastReceiver {
 		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			checkNetworkConnectivity(false);
+		public void onReceive(Context context, Intent intent) {
+			checkNetworkConnectivity(true);
 		}
 	}
 
-	public void checkNetworkConnectivity(Boolean calledFromToolbarAction) {
+	public void checkNetworkConnectivity(Boolean shouldClearLog) {
 		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		NetworkInfo CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-		if (!calledFromToolbarAction) {
-			textview_who_is_results.setText("...\n");
-			edittext_main.setText("");
-		}
-
-		// WI-FI Connectivity Check
-
-		if (WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
+		if (WiFiCheck.isConnected() && !CellularCheck.isConnected()) { // Wi-Fi Connectivity Check
 			showWidgets();
 			if (toolbarWhoisMenu != null) {
 				if (!toolbarWhoisMenu.findItem(R.id.clear_whois_log).isEnabled()) {
@@ -227,20 +218,7 @@ public class WhoIsToolActivity extends AppCompatActivity {
 			}
 			wifi_connected = true;
 			cellular_connected = false;
-		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
-			if (toolbarWhoisMenu != null) {
-				if (toolbarWhoisMenu.findItem(R.id.clear_whois_log).isEnabled()) {
-					setToolbarItemEnabled(R.id.clear_whois_log, false);
-				}
-			}
-			hideWidgets();
-			wifi_connected = false;
-			cellular_connected = false;
-		}
-
-		// Cellular Connectivity Check
-
-		if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
+		} else if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) { // Cellular Connectivity Check
 			showWidgets();
 			if (toolbarWhoisMenu != null) {
 				if (!toolbarWhoisMenu.findItem(R.id.clear_whois_log).isEnabled()) {
@@ -249,7 +227,8 @@ public class WhoIsToolActivity extends AppCompatActivity {
 			}
 			wifi_connected = false;
 			cellular_connected = true;
-		} else if (!CellularCheck.isConnected() && !WiFiCheck.isConnected()) {
+		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
+			if (shouldClearLog) { textview_who_is_results.setText(""); }
 			if (toolbarWhoisMenu != null) {
 				if (toolbarWhoisMenu.findItem(R.id.clear_whois_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_whois_log, false);
@@ -264,41 +243,49 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	public void showWidgets() {
 		who_is_scroll.setVisibility(View.VISIBLE);
 		textview_who_is_results.setVisibility(View.VISIBLE);
-		input_layout.setVisibility(View.VISIBLE);
-		edittext_main.setVisibility(View.VISIBLE);
+		who_is_input_layout.setVisibility(View.VISIBLE);
+		who_is_edit_text.setVisibility(View.VISIBLE);
 		fetch_whois_info_button.setVisibility(View.VISIBLE);
+		who_is_progress_bar.setVisibility(View.INVISIBLE);
 		textview_nonetworkconn.setVisibility(View.GONE);
 	}
 
 	public void hideWidgets() {
 		who_is_scroll.setVisibility(View.GONE);
 		textview_who_is_results.setVisibility(View.GONE);
-		input_layout.setVisibility(View.GONE);
-		edittext_main.setVisibility(View.GONE);
+		who_is_input_layout.setVisibility(View.GONE);
+		who_is_edit_text.setVisibility(View.GONE);
 		fetch_whois_info_button.setVisibility(View.GONE);
+		who_is_progress_bar.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
 	}
 
 	private void appendResultsText(final String text) {
 		runOnUiThread(() -> {
 			textview_who_is_results.append(text + "\n");
-			who_is_scroll.post(() -> who_is_scroll.fullScroll(View.FOCUS_DOWN));
+			who_is_scroll.post(() -> {
+				View lastChild = who_is_scroll.getChildAt(who_is_scroll.getChildCount() - 1);
+				int bottom = lastChild.getBottom() + who_is_scroll.getPaddingBottom();
+				int sy = who_is_scroll.getScrollY();
+				int sh = who_is_scroll.getHeight();
+				int delta = bottom - (sy + sh);
+
+				who_is_scroll.smoothScrollBy(0, delta);
+			});
 		});
 	}
 
 	@Override
-	protected void onStart()
-	{
+	protected void onStart() {
 		super.onStart();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-		NetworkConnectivityReceiver = new WhoIsToolActivity.NetworkConnectivityReceiver();
+		NetworkConnectivityReceiver = new NetworkConnectivityReceiver();
 		registerReceiver(NetworkConnectivityReceiver, filter);
 	}
 
 	@Override
-	protected void onStop()
-	{
+	protected void onStop() {
 		super.onStop();
 		unregisterReceiver(NetworkConnectivityReceiver);
 	}
@@ -318,7 +305,7 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		toolbarWhoisMenu = menu;
-		checkNetworkConnectivity(true);
+		checkNetworkConnectivity(false);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -326,7 +313,7 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.clear_whois_log) {
-			textview_who_is_results.setText("...\n");
+			textview_who_is_results.setText("");
 		}
 		return true;
 	}

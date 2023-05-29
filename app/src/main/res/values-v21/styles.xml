@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
-		<item name="colorPrimary">#303030</item>
-		<item name="colorPrimaryDark">#303030</item>
-		<item name="colorAccent">#2087DF</item>
-		<item name="android:navigationBarColor">#303030</item>
-		<item name="android:statusBarColor">#303030</item>
+		<item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDarkTheme</item>
+		<item name="colorAccent">@color/accentColor</item>
+	    <item name="colorOnPrimary">@color/colorOnPrimaryDarkTheme</item>
+		<item name="android:navigationBarColor">@color/colorPrimaryDarkTheme</item>
+		<item name="android:statusBarColor">@color/colorPrimaryDarkTheme</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
-		<item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 		<item name="TextColor">@color/primaryTextColorDark</item>
 		<item name="TitleTextColor">@color/toolbarTitleColorDark</item>
 		<item name="SubtitleTextColor">@color/toolbarSubtitleColorDark</item>
@@ -23,24 +23,16 @@
 		<item name="FAB_MainTextColor">@color/fabMainDarkTextColor</item>
 		<item name="EmbedBackgroundColor">@color/embedBackgroundColorDark</item>
 		<item name="BorderColor">@color/borderColorDark</item>
-		<item name="IconIPColor">@drawable/ic_sync_light</item>
-		<item name="IconDevColor">@drawable/ic_info_light</item>
-		<item name="IconDiscordColor">@drawable/ic_discord_light</item>
-		<item name="IconSupportersColor">@drawable/ic_people_light</item>
-		<item name="IconToolsColor">@drawable/ic_tools_light</item>
-		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
-		<item name="IconPlusColor">@drawable/ic_plus_light</item>
-		<item name="ToolbarGithubIconColor">@drawable/ic_action_github_light</item>
 	</style>
 
 	<style name="AmoledDarkTheme" parent="Theme.AppCompat.NoActionBar">
-		<item name="colorPrimary">#1C1C1C</item>
-		<item name="colorPrimaryDark">#1C1C1C</item>
-		<item name="colorAccent">#2087DF</item>
-		<item name="android:navigationBarColor">#1C1C1C</item>
-		<item name="android:statusBarColor">#1C1C1C</item>
+		<item name="colorPrimary">@color/colorPrimaryDarkAmoledTheme</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDarkAmoledTheme</item>
+		<item name="colorAccent">@color/accentColor</item>
+		<item name="colorOnPrimary">@color/colorOnPrimaryDarkAmoledTheme</item>
+		<item name="android:navigationBarColor">@color/colorPrimaryDarkAmoledTheme</item>
+		<item name="android:statusBarColor">@color/colorPrimaryDarkAmoledTheme</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
-		<item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 		<item name="TextColor">@color/primaryTextColorDarkAmoled</item>
 		<item name="TitleTextColor">@color/toolbarTitleColorDarkAmoled</item>
 		<item name="SubtitleTextColor">@color/toolbarSubtitleColorDarkAmoled</item>
@@ -56,25 +48,18 @@
 		<item name="FAB_MainTextColor">@color/fabMainDarkAmoledTextColor</item>
 		<item name="EmbedBackgroundColor">@color/embedBackgroundColorDarkAmoled</item>
 		<item name="BorderColor">@color/borderColorDarkAmoled</item>
-		<item name="IconIPColor">@drawable/ic_sync_light</item>
-		<item name="IconDevColor">@drawable/ic_info_light</item>
-		<item name="IconDiscordColor">@drawable/ic_discord_light</item>
-		<item name="IconSupportersColor">@drawable/ic_people_light</item>
-		<item name="IconToolsColor">@drawable/ic_tools_light</item>
-		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
-		<item name="IconPlusColor">@drawable/ic_plus_light</item>
-		<item name="ToolbarGithubIconColor">@drawable/ic_action_github_light</item>
 	</style>
 
 	<style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
-		<item name="colorPrimary">#FAFAFA</item>
-		<item name="colorPrimaryDark">#FAFAFA</item>
-		<item name="colorAccent">#2087DF</item>
+		<item name="colorPrimary">@color/colorPrimaryLightTheme</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryLightTheme</item>
+		<item name="colorAccent">@color/accentColor</item>
+		<item name="colorOnPrimary">@color/colorOnPrimaryLightTheme</item>
+		<item name="android:colorButtonNormal">@color/disabledButtonColor</item>
 		<item name="android:navigationBarColor">#000000</item>
-		<item name="android:statusBarColor">#FAFAFA</item>
+		<item name="android:statusBarColor">@color/colorPrimaryLightTheme</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
 		<item name="android:windowLightStatusBar">true</item>
-		<item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 		<item name="TextColor">@color/primaryTextColorLight</item>
 		<item name="TitleTextColor">@color/toolbarTitleColorLight</item>
 		<item name="SubtitleTextColor">@color/toolbarSubtitleColorLight</item>
@@ -90,18 +75,6 @@
 		<item name="FAB_MainTextColor">@color/fabMainLightTextColor</item>
 		<item name="EmbedBackgroundColor">@color/embedBackgroundColorLight</item>
 		<item name="BorderColor">@color/borderColorLight</item>
-		<item name="IconIPColor">@drawable/ic_sync_dark</item>
-		<item name="IconDevColor">@drawable/ic_info_light</item>
-		<item name="IconDiscordColor">@drawable/ic_discord_light</item>
-		<item name="IconSupportersColor">@drawable/ic_people_light</item>
-		<item name="IconToolsColor">@drawable/ic_tools_light</item>
-		<item name="IconSettingsColor">@drawable/ic_settings_light</item>
-		<item name="IconPlusColor">@drawable/ic_plus_light</item>
-		<item name="ToolbarGithubIconColor">@drawable/ic_action_github_dark</item>
-	</style>
-
-	<style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:background">@drawable/rounded_shape</item>
 	</style>
 
 	<style name="TextColor" parent="@android:style/TextAppearance.Medium">
@@ -155,44 +128,12 @@
 	<style name="FAB_MainTextColor" parent="@android:style/TextAppearance.Medium">
 		<item name="menu_labels_textColor">?FAB_MainTextColor</item>
 	</style>
-	
+
 	<style name="EmbedBackgroundColor" parent="@android:style/TextAppearance.Medium">
 		<item name="android:background">?EmbedBackgroundColor</item>
 	</style>
 
 	<style name="BorderColor" parent="@android:style/TextAppearance.Medium">
 		<item name="android:background">?BorderColor</item>
-	</style>
-
-	<style name="IconIPColor" parent="@android:style/TextAppearance.Medium">
-		<item name="menu_icon">?IconIPColor</item>
-	</style>
-
-	<style name="IconDevColor" parent="@android:style/TextAppearance.Medium">
-		<item name="menu_icon">?IconDevColor</item>
-	</style>
-
-	<style name="IconDiscordColor" parent="@android:style/TextAppearance.Medium">
-		<item name="menu_icon">?IconDiscordColor</item>
-	</style>
-
-	<style name="IconSupportersColor" parent="@android:style/TextAppearance.Medium">
-		<item name="menu_icon">?IconSupportersColor</item>
-	</style>
-
-	<style name="IconToolsColor" parent="@android:style/TextAppearance.Medium">
-		<item name="menu_icon">?IconToolsColor</item>
-	</style>
-
-	<style name="IconSettingsColor" parent="@android:style/TextAppearance.Medium">
-		<item name="menu_icon">?IconSettingsColor</item>
-	</style>
-
-	<style name="IconPlusColor" parent="@android:style/TextAppearance.Medium">
-		<item name="menu_icon">?IconPlusColor</item>
-	</style>
-
-	<style name="ToolbarGithubIconColor" parent="@android:style/TextAppearance.Medium">
-		<item name="icon">?ToolbarGithubIconColor</item>
 	</style>
 </resources>
