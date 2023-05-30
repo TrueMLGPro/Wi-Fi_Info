@@ -47,7 +47,7 @@
 
 <p align="center">
     <a href="https://play.google.com/store/apps/details?id=com.truemlgpro.wifiinfo">
-        <img src="https://github.com/TrueMLGPro/Wi-Fi_Info/assets/38999995/7a699ba7-5c7e-4e9f-a65a-0a8d2c596ffb" alt="Play Store">
+        <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/38999995/241763872-7a699ba7-5c7e-4e9f-a65a-0a8d2c596ffb.png" alt="Play Store">
     </a>
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.truemlgpro.wifiinfo">
         <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="IzzyOnDroid">
