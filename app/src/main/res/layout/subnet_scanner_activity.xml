@@ -150,8 +150,8 @@
 
 		</LinearLayout>
 
-		<ListView
-			android:id="@+id/listview_subnet_devices"
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/recyclerview_subnet_devices"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_marginTop="8dp"

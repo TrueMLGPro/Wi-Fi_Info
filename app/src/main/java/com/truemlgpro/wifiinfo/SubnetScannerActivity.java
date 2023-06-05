@@ -13,10 +13,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,25 +22,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.stealthcopter.networktools.SubnetDevices;
 import com.stealthcopter.networktools.subnet.Device;
 
 import java.net.Inet4Address;
-import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
@@ -57,18 +52,16 @@ public class SubnetScannerActivity extends AppCompatActivity {
 	private TextInputLayout text_input_layout_threads;
 	private EditText edittext_timeout;
 	private EditText edittext_threads;
-	private ListView listview_subnet_devices;
+	private RecyclerView recyclerview_subnet_devices;
 
-	private ArrayList<String> devicesArrayList;
-	private ArrayAdapter<String> adapter;
+	private ArrayList<SubnetDevice> devicesArrayList;
+	private SubnetScannerAdapter recyclerAdapter;
 
 	private SubnetDevices subnetScanner;
 
 	private BroadcastReceiver NetworkConnectivityReceiver;
 	private ConnectivityManager connectivityManager;
 	private NetworkInfo wifiCheck;
-
-	private static Scanner sc;
 
 	private static Boolean wifi_connected;
 
@@ -94,11 +87,15 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		text_input_layout_threads = (TextInputLayout) findViewById(R.id.input_layout_threads_subnet_scanner);
 		edittext_timeout = (EditText) findViewById(R.id.edittext_timeout_subnet_scanner);
 		edittext_threads = (EditText) findViewById(R.id.edittext_threads_subnet_scanner);
-		listview_subnet_devices = (ListView) findViewById(R.id.listview_subnet_devices);
+		recyclerview_subnet_devices = (RecyclerView) findViewById(R.id.recyclerview_subnet_devices);
 
 		devicesArrayList = new ArrayList<>();
-		adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, devicesArrayList);
-		listview_subnet_devices.setAdapter(adapter);
+		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerview_subnet_devices.getContext(), linearLayoutManager.getOrientation());
+		recyclerview_subnet_devices.addItemDecoration(dividerItemDecoration);
+		recyclerview_subnet_devices.setLayoutManager(linearLayoutManager);
+		recyclerAdapter = new SubnetScannerAdapter(devicesArrayList);
+		recyclerview_subnet_devices.setAdapter(recyclerAdapter);
 
 		KeepScreenOnManager.init(getWindow(), getApplicationContext());
 
@@ -120,7 +117,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		subnet_scan_button.setOnClickListener(v -> {
 			startSubnetScanner();
 			devices_found_text.setText(getString(R.string.devices_found_na));
-			adapter.clear();
+			recyclerAdapter.clear();
 		});
 
 		subnet_scan_cancel_button.setOnClickListener(v -> {
@@ -138,6 +135,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 			for (NetworkInterface networkInterface : allNetworkInterfaces) {
 				if (!networkInterface.getName().equalsIgnoreCase("wlan0"))
 					continue;
+
 				List<InetAddress> allInetAddresses = Collections.list(networkInterface.getInetAddresses());
 				for (InetAddress inetAddr : allInetAddresses) {
 					if (!inetAddr.isLoopbackAddress() && inetAddr instanceof Inet4Address) {
@@ -198,26 +196,33 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		});
 	}
 
-	private void addDevicesToList(final String text) {
-		Comparator<String> ipComparator = (ip1, ip2) -> convertDiscoveredIPToLong(ip1).compareTo(convertDiscoveredIPToLong(ip2));
-		int index = Collections.binarySearch(devicesArrayList, text, ipComparator);
+	private void addDevicesToList(final String ip, final String mac, final String deviceType) {
+		SubnetDevice subnetDevice = new SubnetDevice(ip, mac, deviceType);
+		Comparator<SubnetDevice> ipComparator = (itemOne, itemNext) -> convertDiscoveredIPToLong(itemOne.getIP()).compareTo(convertDiscoveredIPToLong(itemNext.getIP()));
+		int index = Collections.binarySearch(devicesArrayList, subnetDevice, ipComparator);
+		int insertedItemPosition = (index < 0) ? (-index - 1) : index;
 
 		runOnUiThread(() -> {
-			devicesArrayList.add((index < 0) ? (-index - 1) : index, text);
-			adapter.notifyDataSetChanged();
+			devicesArrayList.add(insertedItemPosition, subnetDevice);
+			recyclerAdapter.notifyItemInserted(insertedItemPosition);
 		});
 	}
 
 	@NonNull
 	private static Long convertDiscoveredIPToLong(String ip) {
-		sc = new Scanner(ip).useDelimiter("\\.|\\W\\|(|<=\\|).*$");
+		String[] octets = ip.split("\\.");
 
-		return (sc.nextLong() << 24) + (sc.nextLong() << 16) + 
-			(sc.nextLong() << 8) + (sc.nextLong());
+		long octet1 = Long.parseLong(octets[0]);
+		long octet2 = Long.parseLong(octets[1]);
+		long octet3 = Long.parseLong(octets[2]);
+		long octet4 = Long.parseLong(octets[3]);
+
+		return (octet1 << 24) + (octet2 << 16) +
+			(octet3 << 8) + (octet4);
 	}
 
 	private void sortListByIP() {
-		Collections.sort(devicesArrayList, (ip1, ip2) -> convertDiscoveredIPToLong(ip1).compareTo(convertDiscoveredIPToLong(ip2)));
+		Collections.sort(devicesArrayList, (itemOne, itemNext) -> convertDiscoveredIPToLong(itemOne.getIP()).compareTo(convertDiscoveredIPToLong(itemNext.getIP())));
 	}
 
 	private void startSubnetScanner() {
@@ -243,21 +248,21 @@ public class SubnetScannerActivity extends AppCompatActivity {
 				if (wifi_connected) {
 					if (device.ip.equals(getWiFiLocalIPv4Address()) && !device.ip.equals(getGateway())) {
 						if (getMACAddress() == null || Build.VERSION.SDK_INT > 29) {
-							addDevicesToList(device.ip + " | " + getString(R.string.mac_na) + " " + getString(R.string.your_device));
+							addDevicesToList(device.ip, getString(R.string.mac_na), getString(R.string.your_device));
 						} else {
-							addDevicesToList(device.ip + " | " + String.format(getString(R.string.mac), getMACAddress() + " " + getString(R.string.your_device)));
+							addDevicesToList(device.ip, String.format(getString(R.string.mac), getMACAddress()), getString(R.string.your_device));
 						}
 					} else if (!device.ip.equals(getWiFiLocalIPv4Address()) && !device.ip.equals(getGateway())) {
 						if (device.mac == null) {
-							addDevicesToList(device.ip + " | " + getString(R.string.mac_na));
+							addDevicesToList(device.ip, getString(R.string.mac_na), "");
 						} else {
-							addDevicesToList(device.ip + " | " + String.format(getString(R.string.mac), device.mac.toUpperCase()));
+							addDevicesToList(device.ip, String.format(getString(R.string.mac), device.mac.toUpperCase()), "");
 						}
 					} else if (device.ip.equals(getGateway())) {
 						if (device.mac == null) {
-							addDevicesToList(device.ip + " | " + getString(R.string.mac_na) + " " + getString(R.string.gateway));
+							addDevicesToList(device.ip, getString(R.string.mac_na), getString(R.string.gateway));
 						} else {
-							addDevicesToList(device.ip + " | " + String.format(getString(R.string.mac), device.mac.toUpperCase()) + " " + getString(R.string.gateway));
+							addDevicesToList(device.ip, String.format(getString(R.string.mac), device.mac.toUpperCase()), getString(R.string.gateway));
 						}
 					}
 				}
@@ -272,7 +277,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 				runOnUiThread(() -> {
 					devices_found_text.setText(String.format(getString(R.string.devices_found), devicesFound.size()));
 					sortListByIP();
-					adapter.notifyDataSetChanged();
+					recyclerAdapter.notifyDataSetChanged();
 					subnet_scanner_progress_bar.setVisibility(View.INVISIBLE);
 				});
 				setEnabled(subnet_scan_button, true);
@@ -299,7 +304,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		} else {
 			local_ip_text.setText(getString(R.string.your_ip_na));
 			devices_found_text.setText(getString(R.string.devices_found_na));
-			adapter.clear();
+			recyclerAdapter.clear();
 			hideWidgets();
 			wifi_connected = false;
 		}
@@ -321,7 +326,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		subnet_scan_cancel_button.setVisibility(View.VISIBLE);
 		text_input_layout_timeout.setVisibility(View.VISIBLE);
 		text_input_layout_threads.setVisibility(View.VISIBLE);
-		listview_subnet_devices.setVisibility(View.VISIBLE);
+		recyclerview_subnet_devices.setVisibility(View.VISIBLE);
 		subnet_scanner_progress_bar.setVisibility(View.INVISIBLE);
 		textview_nonetworkconn.setVisibility(View.GONE);
 	}
@@ -333,7 +338,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		subnet_scan_cancel_button.setVisibility(View.GONE);
 		text_input_layout_timeout.setVisibility(View.GONE);
 		text_input_layout_threads.setVisibility(View.GONE);
-		listview_subnet_devices.setVisibility(View.GONE);
+		recyclerview_subnet_devices.setVisibility(View.GONE);
 		subnet_scanner_progress_bar.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
 	}
