@@ -31,7 +31,7 @@
 
 		<activity
 			android:name="com.truemlgpro.wifiinfo.MainActivity"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:theme="@style/SplashDark"
 			android:exported="true">
@@ -46,21 +46,21 @@
 	    <activity
 			android:name="com.truemlgpro.wifiinfo.SupportersActivity"
 			android:label="Supporters"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:parentActivityName=".SettingsActivity">
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.ToolsActivity"
 			android:label="Tools"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:parentActivityName=".MainActivity">
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.SettingsActivity"
 			android:label="Settings"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:parentActivityName=".MainActivity">
 			<meta-data
@@ -70,49 +70,49 @@
 		<activity
 			android:name="com.truemlgpro.wifiinfo.CellularDataIPActivity"
 			android:label="Cellular Data IP"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:parentActivityName=".ToolsActivity">
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.RouterSetupActivity"
 			android:label="Router Setup"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:parentActivityName=".ToolsActivity">
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.PingToolActivity"
 			android:label="Ping Tool"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:parentActivityName=".ToolsActivity">
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.SubnetScannerActivity"
 			android:label="Subnet Scanner"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:parentActivityName=".ToolsActivity">
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.PortScannerActivity"
 			android:label="Port Scanner"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:parentActivityName=".ToolsActivity">
 		</activity>
 		<activity
 			android:name="com.truemlgpro.wifiinfo.WhoIsToolActivity"
 			android:label="Whois Tool"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 			android:parentActivityName=".ToolsActivity">
 		</activity>
 	    <activity
 			android:name="com.truemlgpro.wifiinfo.DNSLookupActivity"
 			android:label="DNS Lookup"
-			android:screenOrientation="fullSensor"
+			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
 		    android:parentActivityName=".ToolsActivity">
 		</activity>
