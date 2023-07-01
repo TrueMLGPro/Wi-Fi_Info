@@ -1,7 +1,6 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.ui;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -54,9 +53,18 @@ import androidx.preference.PreferenceManager;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.truemlgpro.wifiinfo.services.ConnectionStateService;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.utils.LocaleManager;
+import com.truemlgpro.wifiinfo.services.NotificationService;
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.ThemeManager;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -71,7 +79,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Scanner;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
@@ -191,8 +198,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	private final String cardUpdateInterval = "1000";
 	public static final String appFont = "fonts/Gilroy-Semibold.ttf";
 	public static final String appLang = "default_lang";
-	private String publicIPFetched;
-	private boolean siteReachable = false;
 	private final double megabyte = 1024 * 1024;
 	private final double gigabyte = 1024 * 1024 * 1024;
 
@@ -672,67 +677,51 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		fab_update.setVisibility(View.GONE);
 	}
 
-	private String getPublicIPAddress() {
-		String publicIP = "";
-		try {
-			InputStream apiInputStream = new URL("https://api.ipify.org").openStream();
-			Scanner scanner = new Scanner(apiInputStream, "UTF-8").useDelimiter("\\A");
-			publicIP = scanner.next();
-			apiInputStream.close();
-			scanner.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return publicIP;
-	}
-
-	private boolean isReachable(String url) {
-		boolean reachable;
-		int response_code;
-
-		try {
-			URL siteURL = new URL(url);
-			HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setConnectTimeout(3000);
-			connection.connect();
-			response_code = connection.getResponseCode();
-			connection.disconnect();
-			reachable = response_code == 200;
-		} catch (Exception e) {
-			reachable = false;
-		}
-		return reachable;
-	}
-
-	@SuppressWarnings("deprecation")
-	class PublicIPRunnable implements Runnable {
-		@SuppressLint("StaticFieldLeak")
+	private class PublicIPAsyncTask extends AsyncTask<Void, Void, String> {
 		@Override
-		public void run() {
-			new AsyncTask<String, Void, Void>() {
-				@Override
-				protected Void doInBackground(String[] voids) {
-					String url = "https://api.ipify.org";
-					siteReachable = isReachable(url);
-					if (siteReachable) {
-						publicIPFetched = getPublicIPAddress();
-					} else {
-						publicIPFetched = getString(R.string.na);
+		protected void onPreExecute() {
+			super.onPreExecute();
+			fab_update.setEnabled(false);
+		}
+
+		@Override
+		protected String doInBackground(Void... params) {
+			HttpURLConnection urlConnection = null;
+			String ipAddress = null;
+			try {
+				URL url = new URL("https://public-ip-api.vercel.app/api/ip/");
+				urlConnection = (HttpURLConnection) url.openConnection();
+				urlConnection.setRequestMethod("GET");
+
+				int responseCode = urlConnection.getResponseCode();
+				if (responseCode == HttpURLConnection.HTTP_OK) {
+					StringBuilder responseBuilder = new StringBuilder();
+					InputStream inputStream = urlConnection.getInputStream();
+					try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+						String line;
+						while ((line = reader.readLine()) != null) {
+							responseBuilder.append(line);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-					return null;
+					ipAddress = responseBuilder.toString();
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (urlConnection != null)
+					urlConnection.disconnect();
+			}
+			return ipAddress;
+		}
 
-				@SuppressLint("SetTextI18n")
-				@Override
-				protected void onPostExecute(Void aVoid) {
-					super.onPostExecute(aVoid);
-					textview_public_ip.setText(String.format(getString(R.string.your_ip), publicIPFetched));
-				}
-			}.execute();
-
-			Handler handlerEnableFAB = new Handler(Looper.getMainLooper());
-			handlerEnableFAB.postDelayed(() -> fab_update.setEnabled(true), 5000);
+		@Override
+		protected void onPostExecute(String ipAddress) {
+			if (ipAddress == null)
+				ipAddress = getString(R.string.na);
+			textview_public_ip.setText(String.format(getString(R.string.your_ip), ipAddress));
+			new Handler(Looper.getMainLooper()).postDelayed(() -> fab_update.setEnabled(true), 5000);
 		}
 	}
 
@@ -1284,9 +1273,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		});
 
 		fab_update.setOnClickListener(v -> {
-			fab_update.setEnabled(false);
-			PublicIPRunnable runnableIP = new PublicIPRunnable();
-			new Thread(runnableIP).start();
+			new PublicIPAsyncTask().execute();
 		});
 	}
 

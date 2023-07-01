@@ -21,8 +21,8 @@ android {
 		applicationId "com.truemlgpro.wifiinfo"
 		minSdkVersion 21
 		targetSdkVersion 33
-		versionCode 1600
-		versionName "1.6"
+		versionCode 1610
+		versionName "1.6.1"
 	}
 	buildTypes {
 		release {
@@ -75,6 +75,7 @@ dependencies {
 
 	implementation 'com.github.TrueMLGPro:AndroidNetworkTools:76b8feabb6' // Fork of a Kotlin rewrite of stealthcopter/AndroidNetworkTools
 	implementation 'com.github.100rabhkr:TCWHOIS:master' // Minimum SDK version is 22, ignored in AndroidManifest.xml
+	implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
 	implementation 'org.minidns:minidns-hla:1.0.4'
 	implementation 'org.minidns:minidns-android21:1.0.4'
 

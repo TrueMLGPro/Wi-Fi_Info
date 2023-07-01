@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.services;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -18,6 +18,13 @@ import android.os.Looper;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+
+import com.truemlgpro.wifiinfo.receivers.ActionButtonReceiver;
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.receivers.ScreenStateReceiver;
+import com.truemlgpro.wifiinfo.ui.MainActivity;
+import com.truemlgpro.wifiinfo.ui.SettingsActivity;
+import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
 
 public class ConnectionStateService extends Service {
 	private BroadcastReceiver ConnectionStateReceiver;

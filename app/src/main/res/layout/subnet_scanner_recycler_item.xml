@@ -16,35 +16,78 @@
 			android:id="@+id/subnet_scanner_item_ip"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="14sp"
-			android:textColor="?attr/CardTextColor"
 			android:layout_alignParentStart="true"
 			android:layout_toStartOf="@id/subnet_scanner_item_device_type"
 			android:paddingTop="16dp"
 			android:paddingStart="8dp"
-			android:paddingEnd="8dp" />
+			android:paddingEnd="8dp"
+			android:textColor="?attr/CardTextColor"
+			android:textSize="16sp" />
 
 		<TextView
 			android:id="@+id/subnet_scanner_item_device_type"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="14sp"
+			android:layout_toStartOf="@id/subnet_scanner_item_device_ping"
+			android:layout_centerInParent="true"
+			android:paddingTop="16dp"
+			android:paddingStart="4dp"
+			android:paddingEnd="4dp"
 			android:textColor="?attr/CardTextColor"
+			android:textSize="14sp" />
+
+		<TextView
+			android:id="@+id/subnet_scanner_item_device_ping"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
 			android:layout_alignParentEnd="true"
 			android:paddingTop="16dp"
-			android:paddingStart="8dp"
-			android:paddingEnd="8dp" />
+			android:paddingStart="4dp"
+			android:paddingEnd="8dp"
+			android:textColor="?attr/CardTextColor"
+			android:textSize="14sp" />
 
 	</RelativeLayout>
 
-	<TextView
-		android:id="@+id/subnet_scanner_item_mac"
-		android:layout_width="wrap_content"
+	<RelativeLayout
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:textSize="14sp"
-		android:textColor="?attr/CardTextColor"
-		android:paddingBottom="16dp"
-		android:paddingStart="8dp"
-		android:paddingEnd="8dp" />
+		android:orientation="horizontal">
+
+		<TextView
+			android:id="@+id/subnet_scanner_item_mac"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentStart="true"
+			android:layout_alignParentEnd="true"
+			android:paddingBottom="16dp"
+			android:paddingStart="8dp"
+			android:paddingEnd="8dp"
+			android:textColor="?attr/CardTextColor"
+			android:textSize="14sp" />
+
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:id="@+id/subnet_scanner_item_relative_layout_vendor"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:visibility="gone">
+
+		<TextView
+			android:id="@+id/subnet_scanner_item_vendor"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentStart="true"
+			android:layout_alignParentEnd="true"
+			android:paddingBottom="16dp"
+			android:paddingStart="8dp"
+			android:paddingEnd="8dp"
+			android:textColor="?attr/CardTextColor"
+			android:textSize="14sp" />
+
+	</RelativeLayout>
 
 </LinearLayout>

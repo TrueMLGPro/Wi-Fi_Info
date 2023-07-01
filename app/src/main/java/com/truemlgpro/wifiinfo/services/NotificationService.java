@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.services;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -17,6 +17,12 @@ import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+
+import com.truemlgpro.wifiinfo.receivers.ActionButtonReceiver;
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.ui.MainActivity;
+import com.truemlgpro.wifiinfo.ui.SettingsActivity;
+import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;

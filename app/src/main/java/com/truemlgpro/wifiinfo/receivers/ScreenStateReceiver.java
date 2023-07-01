@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

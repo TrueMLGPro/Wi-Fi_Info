@@ -1,6 +1,5 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.ui;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,8 +20,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.ThemeManager;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -31,7 +38,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
@@ -43,9 +49,6 @@ public class CellularDataIPActivity extends AppCompatActivity {
 	private TextView textview_local_ipv4_cell;
 	private TextView textview_local_ipv6_cell;
 	private FloatingActionButton fab_update_ip;
-
-	private String publicIPFetched;
-	private boolean siteReachable = false;
 
 	private BroadcastReceiver CellularDataConnectivityReceiver;
 
@@ -84,71 +87,57 @@ public class CellularDataIPActivity extends AppCompatActivity {
 		});
 
 		fab_update_ip.setOnClickListener(v -> {
-			fab_update_ip.setEnabled(false);
-			PublicIPRunnable runnableIP = new PublicIPRunnable();
-			new Thread(runnableIP).start();
+			new PublicIPAsyncTask().execute();
 		});
 
 		checkCellularConnectivity();
 	}
 
-	private boolean isReachable(String url) {
-		boolean reachable;
-		int code;
-
-		try {
-			URL siteURL = new URL(url);
-			HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setConnectTimeout(3000);
-			connection.connect();
-			code = connection.getResponseCode();
-			connection.disconnect();
-			reachable = code == 200;
-		} catch (Exception e) {
-			reachable = false;
-		}
-		return reachable;
-	}
-
-	private String getPublicIPAddress() {
-		String publicIP = "";
-		try {
-			Scanner scanner = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A");
-			publicIP = scanner.next();
-			scanner.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return publicIP;
-	}
-
-	@SuppressWarnings("deprecation")
-	class PublicIPRunnable implements Runnable {
+	private class PublicIPAsyncTask extends AsyncTask<Void, Void, String> {
 		@Override
-		public void run() {
-			new AsyncTask<String, Void, Void>() {
-				@Override
-				protected Void doInBackground(String[] voids) {
-					String url = "https://api.ipify.org";
-					siteReachable = isReachable(url);
-					if (siteReachable) {
-						publicIPFetched = getPublicIPAddress();
-					} else {
-						publicIPFetched = getString(R.string.na);
+		protected void onPreExecute() {
+			super.onPreExecute();
+			fab_update_ip.setEnabled(false);
+		}
+
+		@Override
+		protected String doInBackground(Void... params) {
+			HttpURLConnection urlConnection = null;
+			String ipAddress = null;
+			try {
+				URL url = new URL("https://public-ip-api.vercel.app/api/ip/");
+				urlConnection = (HttpURLConnection) url.openConnection();
+				urlConnection.setRequestMethod("GET");
+
+				int responseCode = urlConnection.getResponseCode();
+				if (responseCode == HttpURLConnection.HTTP_OK) {
+					StringBuilder responseBuilder = new StringBuilder();
+					InputStream inputStream = urlConnection.getInputStream();
+					try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+						String line;
+						while ((line = reader.readLine()) != null) {
+							responseBuilder.append(line);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-					return null;
+					ipAddress = responseBuilder.toString();
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (urlConnection != null)
+					urlConnection.disconnect();
+			}
+			return ipAddress;
+		}
 
-				@Override
-				protected void onPostExecute(Void aVoid) {
-					super.onPostExecute(aVoid);
-					textview_public_ip_cell.setText(String.format(getString(R.string.your_ip), publicIPFetched));
-				}
-			}.execute();
-
-			Handler handlerEnableFAB = new Handler(Looper.getMainLooper());
-			handlerEnableFAB.postDelayed(() -> fab_update_ip.setEnabled(true), 5000);
+		@Override
+		protected void onPostExecute(String ipAddress) {
+			if (ipAddress == null)
+				ipAddress = getString(R.string.na);
+			textview_public_ip_cell.setText(String.format(getString(R.string.your_ip), ipAddress));
+			new Handler(Looper.getMainLooper()).postDelayed(() -> fab_update_ip.setEnabled(true), 5000);
 		}
 	}
 
@@ -159,24 +148,16 @@ public class CellularDataIPActivity extends AppCompatActivity {
 		}
 	}
 
-	private void showWidgets() {
-		cardview_ip.setVisibility(View.VISIBLE);
-		cardview_local_ip.setVisibility(View.VISIBLE);
-		textview_nocellconn.setVisibility(View.GONE);
+	private boolean isSimCardPresent(Context context) {
+		TelephonyManager tm = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+		return !(tm.getSimState() == TelephonyManager.SIM_STATE_ABSENT);
 	}
 
-	private void hideWidgets() {
-		cardview_ip.setVisibility(View.GONE);
-		cardview_local_ip.setVisibility(View.GONE);
-		textview_nocellconn.setVisibility(View.VISIBLE);
-	}
-
-	@SuppressLint("SetTextI18n")
 	private void checkCellularConnectivity() {
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo cellularCheck = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-		if (cellularCheck.isConnected()) {
+		if (isSimCardPresent(this) && Objects.nonNull(cellularCheck.isConnected())) {
 			showWidgets();
 			textview_local_ipv4_cell.setText(getCellularIPv4Address());
 			textview_local_ipv6_cell.setText(getCellularIPv6Address());
@@ -224,6 +205,18 @@ public class CellularDataIPActivity extends AppCompatActivity {
 			ex.printStackTrace();
 		}
 		return getString(R.string.na);
+	}
+
+	private void showWidgets() {
+		cardview_ip.setVisibility(View.VISIBLE);
+		cardview_local_ip.setVisibility(View.VISIBLE);
+		textview_nocellconn.setVisibility(View.GONE);
+	}
+
+	private void hideWidgets() {
+		cardview_ip.setVisibility(View.GONE);
+		cardview_local_ip.setVisibility(View.GONE);
+		textview_nocellconn.setVisibility(View.VISIBLE);
 	}
 
 	@Override

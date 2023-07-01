@@ -1,5 +1,6 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.ui;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +31,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.stealthcopter.networktools.SubnetDevices;
 import com.stealthcopter.networktools.subnet.Device;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.utils.OuiDatabaseHelper;
+import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.models.SubnetDevice;
+import com.truemlgpro.wifiinfo.adapters.SubnetScannerAdapter;
+import com.truemlgpro.wifiinfo.utils.ThemeManager;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -38,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
@@ -58,12 +68,15 @@ public class SubnetScannerActivity extends AppCompatActivity {
 	private SubnetScannerAdapter recyclerAdapter;
 
 	private SubnetDevices subnetScanner;
+	private OuiDatabaseHelper ouiDbHelper;
 
 	private BroadcastReceiver NetworkConnectivityReceiver;
 	private ConnectivityManager connectivityManager;
 	private NetworkInfo wifiCheck;
+	private NetworkInfo cellularCheck;
 
 	private static Boolean wifi_connected;
+	private static Boolean cellular_connected;
 
 	private int threads = 100;
 	private int timeout = 3000;
@@ -94,8 +107,10 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerview_subnet_devices.getContext(), linearLayoutManager.getOrientation());
 		recyclerview_subnet_devices.addItemDecoration(dividerItemDecoration);
 		recyclerview_subnet_devices.setLayoutManager(linearLayoutManager);
-		recyclerAdapter = new SubnetScannerAdapter(devicesArrayList);
+		recyclerAdapter = new SubnetScannerAdapter(devicesArrayList, this);
 		recyclerview_subnet_devices.setAdapter(recyclerAdapter);
+
+		ouiDbHelper = new OuiDatabaseHelper(this);
 
 		KeepScreenOnManager.init(getWindow(), getApplicationContext());
 
@@ -149,6 +164,23 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		return null;
 	}
 
+	private String getCellularLocalIPv4Address() {
+		try {
+			List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface networkInterface : allNetworkInterfaces) {
+				List<InetAddress> allInetAddresses = Collections.list(networkInterface.getInetAddresses());
+				for (InetAddress inetAddr : allInetAddresses) {
+					if (!inetAddr.isLoopbackAddress() && inetAddr instanceof Inet4Address) {
+						return inetAddr.getHostAddress();
+					}
+				}
+			}
+		} catch (SocketException ex) {
+			Log.e("getCellLocalIPv4", ex.toString());
+		}
+		return null;
+	}
+
 	private String getMACAddress() {
 		try {
 			List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -162,7 +194,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 				}
 
 				StringBuilder macAddressStringBuilder = new StringBuilder();
-				for (byte b : macBytes) {  
+				for (byte b : macBytes) {
 					macAddressStringBuilder.append(String.format("%02X:", b));
 				}
 
@@ -172,7 +204,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 
 				return macAddressStringBuilder.toString();
 			}
-		} catch (Exception e) {
+		} catch (SocketException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -196,8 +228,8 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		});
 	}
 
-	private void addDevicesToList(final String ip, final String mac, final String deviceType) {
-		SubnetDevice subnetDevice = new SubnetDevice(ip, mac, deviceType);
+	private void addDevicesToList(final String ip, final String mac, final String vendor, final String deviceType, final String devicePing) {
+		SubnetDevice subnetDevice = new SubnetDevice(ip, mac, vendor, deviceType, devicePing);
 		Comparator<SubnetDevice> ipComparator = (itemOne, itemNext) -> convertDiscoveredIPToLong(itemOne.getIP()).compareTo(convertDiscoveredIPToLong(itemNext.getIP()));
 		int index = Collections.binarySearch(devicesArrayList, subnetDevice, ipComparator);
 		int insertedItemPosition = (index < 0) ? (-index - 1) : index;
@@ -205,6 +237,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		runOnUiThread(() -> {
 			devicesArrayList.add(insertedItemPosition, subnetDevice);
 			recyclerAdapter.notifyItemInserted(insertedItemPosition);
+			recyclerview_subnet_devices.smoothScrollToPosition(devicesArrayList.size() - 1);
 		});
 	}
 
@@ -245,25 +278,74 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		subnetScanner = SubnetDevices.Companion.setDisableProcNetMethod(Build.VERSION.SDK_INT > 29).fromLocalAddress().setNoThreads(threads).setTimeOutMillis(timeout).findDevices(new SubnetDevices.OnSubnetDeviceFound() {
 			@Override
 			public void onDeviceFound(Device device) {
+				String device_ping = device.time + "ms";
 				if (wifi_connected) {
 					if (device.ip.equals(getWiFiLocalIPv4Address()) && !device.ip.equals(getGateway())) {
 						if (getMACAddress() == null || Build.VERSION.SDK_INT > 29) {
-							addDevicesToList(device.ip, getString(R.string.mac_na), getString(R.string.your_device));
+							addDevicesToList(
+									device.ip,
+									getString(R.string.na),
+									"",
+									getString(R.string.your_device),
+									device_ping);
 						} else {
-							addDevicesToList(device.ip, String.format(getString(R.string.mac), getMACAddress()), getString(R.string.your_device));
+							addDevicesToList(
+									device.ip,
+									getMACAddress(),
+									ouiDbHelper.getVendorFromMac(getMACAddress()),
+									getString(R.string.your_device),
+									device_ping);
 						}
 					} else if (!device.ip.equals(getWiFiLocalIPv4Address()) && !device.ip.equals(getGateway())) {
 						if (device.mac == null) {
-							addDevicesToList(device.ip, getString(R.string.mac_na), "");
+							addDevicesToList(
+									device.ip,
+									getString(R.string.na),
+									"",
+									"",
+									device_ping);
 						} else {
-							addDevicesToList(device.ip, String.format(getString(R.string.mac), device.mac.toUpperCase()), "");
+							addDevicesToList(
+									device.ip,
+									device.mac.toUpperCase(),
+									ouiDbHelper.getVendorFromMac(device.mac.toUpperCase()),
+									"",
+									device_ping);
 						}
 					} else if (device.ip.equals(getGateway())) {
 						if (device.mac == null) {
-							addDevicesToList(device.ip, getString(R.string.mac_na), getString(R.string.gateway));
+							addDevicesToList(
+									device.ip,
+									getString(R.string.na),
+									"",
+									getString(R.string.gateway),
+									device_ping);
 						} else {
-							addDevicesToList(device.ip, String.format(getString(R.string.mac), device.mac.toUpperCase()), getString(R.string.gateway));
+							addDevicesToList(
+									device.ip,
+									device.mac.toUpperCase(),
+									ouiDbHelper.getVendorFromMac(device.mac.toUpperCase()),
+									getString(R.string.gateway),
+									device_ping);
 						}
+					}
+				}
+
+				if (cellular_connected) {
+					if (device.ip.equals(getCellularLocalIPv4Address())) {
+						addDevicesToList(
+								device.ip,
+								getString(R.string.na),
+								"",
+								getString(R.string.your_device),
+								device_ping);
+					} else {
+						addDevicesToList(
+								device.ip,
+								getString(R.string.na),
+								"",
+								"",
+								device_ping);
 					}
 				}
 
@@ -272,16 +354,17 @@ public class SubnetScannerActivity extends AppCompatActivity {
 				});
 			}
 
+			@SuppressLint("NotifyDataSetChanged")
 			@Override
 			public void onFinished(final ArrayList<Device> devicesFound) {
+				setEnabled(subnet_scan_button, true);
+				setEnabled(subnet_scan_cancel_button, false);
 				runOnUiThread(() -> {
 					devices_found_text.setText(String.format(getString(R.string.devices_found), devicesFound.size()));
 					sortListByIP();
 					recyclerAdapter.notifyDataSetChanged();
 					subnet_scanner_progress_bar.setVisibility(View.INVISIBLE);
 				});
-				setEnabled(subnet_scan_button, true);
-				setEnabled(subnet_scan_cancel_button, false);
 			}
 		});
 	}
@@ -293,20 +376,33 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		}
 	}
 
+	private boolean isSimCardPresent(Context context) {
+		TelephonyManager tm = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+		return !(tm.getSimState() == TelephonyManager.SIM_STATE_ABSENT);
+	}
+
 	private void checkWiFiConnectivity() {
 		connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		wifiCheck = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		cellularCheck = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
 		if (wifiCheck.isConnected()) { // Wi-Fi Connectivity Check
 			showWidgets();
 			local_ip_text.setText(String.format(getString(R.string.your_ip), getWiFiLocalIPv4Address()));
 			wifi_connected = true;
+			cellular_connected = false;
+		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck.isConnected())) { // Cellular Connectivity Check
+			showWidgets();
+			local_ip_text.setText(String.format(getString(R.string.your_ip), getCellularLocalIPv4Address()));
+			wifi_connected = false;
+			cellular_connected = true;
 		} else {
 			local_ip_text.setText(getString(R.string.your_ip_na));
 			devices_found_text.setText(getString(R.string.devices_found_na));
 			recyclerAdapter.clear();
 			hideWidgets();
 			wifi_connected = false;
+			cellular_connected = false;
 		}
 	}
 

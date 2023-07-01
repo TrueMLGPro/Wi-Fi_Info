@@ -212,15 +212,14 @@
 
 		</LinearLayout>
 
-		<ListView
-			android:id="@+id/listview_open_ports"
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/recyclerview_open_ports"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_marginTop="8dp"
 			android:layout_marginStart="4dp"
 			android:layout_marginEnd="4dp"
 			android:layout_marginBottom="4dp"
-			android:transcriptMode="alwaysScroll"
 			android:textColor="?TextColor" />
 
 	</LinearLayout>

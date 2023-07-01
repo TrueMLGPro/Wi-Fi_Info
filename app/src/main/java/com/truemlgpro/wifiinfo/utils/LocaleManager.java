@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,6 +6,9 @@ import android.content.res.Resources;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.ConfigurationCompat;
 import androidx.core.os.LocaleListCompat;
+
+import com.truemlgpro.wifiinfo.ui.MainActivity;
+import com.truemlgpro.wifiinfo.ui.SettingsActivity;
 
 import java.util.Locale;
 

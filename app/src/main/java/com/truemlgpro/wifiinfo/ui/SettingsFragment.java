@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.ui;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import android.content.ClipData;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.truemlgpro.wifiinfo.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 	private PackageInfo pi;

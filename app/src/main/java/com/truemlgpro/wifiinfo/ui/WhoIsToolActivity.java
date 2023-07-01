@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +25,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.ThemeManager;
+import com.truemlgpro.wifiinfo.utils.URLandIPConverter;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
@@ -40,9 +47,6 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	private TextView textview_who_is_results;
 	private Button fetch_whois_info_button;
 	private ScrollView who_is_scroll;
-
-	public Boolean wifi_connected;
-	public Boolean cellular_connected;
 
 	private Menu toolbarWhoisMenu;
 
@@ -204,30 +208,31 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		}
 	}
 
+	private boolean isSimCardPresent(Context context) {
+		TelephonyManager tm = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+		return !(tm.getSimState() == TelephonyManager.SIM_STATE_ABSENT);
+	}
+
 	public void checkNetworkConnectivity(Boolean shouldClearLog) {
 		ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-		NetworkInfo WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		NetworkInfo CellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		NetworkInfo wifiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		NetworkInfo cellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-		if (WiFiCheck.isConnected() && !CellularCheck.isConnected()) { // Wi-Fi Connectivity Check
+		if (wifiCheck.isConnected()) { // Wi-Fi Connectivity Check
 			showWidgets();
 			if (toolbarWhoisMenu != null) {
 				if (!toolbarWhoisMenu.findItem(R.id.clear_whois_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_whois_log, true);
 				}
 			}
-			wifi_connected = true;
-			cellular_connected = false;
-		} else if (CellularCheck.isConnected() && !WiFiCheck.isConnected()) { // Cellular Connectivity Check
+		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck.isConnected())) { // Cellular Connectivity Check
 			showWidgets();
 			if (toolbarWhoisMenu != null) {
 				if (!toolbarWhoisMenu.findItem(R.id.clear_whois_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_whois_log, true);
 				}
 			}
-			wifi_connected = false;
-			cellular_connected = true;
-		} else if (!WiFiCheck.isConnected() && !CellularCheck.isConnected()) {
+		} else {
 			if (shouldClearLog) { textview_who_is_results.setText(""); }
 			if (toolbarWhoisMenu != null) {
 				if (toolbarWhoisMenu.findItem(R.id.clear_whois_log).isEnabled()) {
@@ -235,8 +240,6 @@ public class WhoIsToolActivity extends AppCompatActivity {
 				}
 			}
 			hideWidgets();
-			wifi_connected = false;
-			cellular_connected = false;
 		}
 	}
 

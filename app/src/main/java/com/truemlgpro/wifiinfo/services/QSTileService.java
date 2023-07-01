@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.services;
 
 import android.graphics.drawable.Icon;
 import android.net.ConnectivityManager;
@@ -12,7 +12,12 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.truemlgpro.wifiinfo.R;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -20,22 +25,19 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URL;
 import java.util.Enumeration;
-import java.util.Scanner;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class QSTileService extends TileService {
-	Tile qs_tile;
+	static Tile qs_tile;
 
 	NetworkInfo wifiCheck;
 	NetworkInfo cellularCheck;
 
-	String publicIPFetched;
-	boolean siteReachable = false;
 	boolean switchIP = true;
 
 	Icon wifiDefaultIcon;
-	Icon wifiSuccessIcon;
-	Icon wifiFailIcon;
+	static Icon wifiSuccessIcon;
+	static Icon wifiFailIcon;
 	Icon updateIcon;
 
 	@Override
@@ -89,7 +91,7 @@ public class QSTileService extends TileService {
 	}
 
 	private void showLocalIP() {
-		SystemClock.sleep(500);
+		SystemClock.sleep(250);
 		if (wifiCheck.isConnected() || cellularCheck.isConnected()) {
 			qs_tile.setLabel(getIPv4Address());
 			qs_tile.setIcon(wifiSuccessIcon);
@@ -102,12 +104,11 @@ public class QSTileService extends TileService {
 	}
 
 	private void showPublicIP() {
-		SystemClock.sleep(500);
+		SystemClock.sleep(250);
 		qs_tile.setState(Tile.STATE_ACTIVE);
 		qs_tile.updateTile();
 		if (wifiCheck.isConnected() || cellularCheck.isConnected()) {
-			PublicIPAsyncTask publicIPAsyncTask = new PublicIPAsyncTask();
-			publicIPAsyncTask.execute();
+			new PublicIPAsyncTask().execute();
 		} else {
 			qs_tile.setLabel("No Connection");
 			qs_tile.setIcon(wifiFailIcon);
@@ -133,62 +134,49 @@ public class QSTileService extends TileService {
 		return null;
 	}
 
-	private static String getPublicIPAddress() {
-		String publicIP = "";
-		try {
-			Scanner scanner = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A");
-			publicIP = scanner.next();
-			scanner.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return publicIP;
-	}
-
-	private static boolean isReachable(String url) {
-		boolean reachable;
-		int code;
-
-		try {
-			URL siteURL = new URL(url);
-			HttpURLConnection connection = (HttpURLConnection) siteURL.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setConnectTimeout(3000);
-			connection.connect();
-			code = connection.getResponseCode();
-			connection.disconnect();
-			reachable = code == 200;
-		} catch (Exception e) {
-			reachable = false;
-		}
-		return reachable;
-	}
-
-	class PublicIPAsyncTask extends AsyncTask<String, Void, Void> {
+	private static class PublicIPAsyncTask extends AsyncTask<Void, Void, String> {
 		@Override
-		protected Void doInBackground(String[] voids) {
-			String url = "https://api.ipify.org";
-			siteReachable = isReachable(url);
-			if (siteReachable) {
-				publicIPFetched = getPublicIPAddress();
-			} else {
-				publicIPFetched = "N/A";
+		protected String doInBackground(Void... params) {
+			HttpURLConnection urlConnection = null;
+			String ipAddress = null;
+			try {
+				URL url = new URL("https://public-ip-api.vercel.app/api/ip/");
+				urlConnection = (HttpURLConnection) url.openConnection();
+				urlConnection.setRequestMethod("GET");
+
+				int responseCode = urlConnection.getResponseCode();
+				if (responseCode == HttpURLConnection.HTTP_OK) {
+					StringBuilder responseBuilder = new StringBuilder();
+					InputStream inputStream = urlConnection.getInputStream();
+					try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+						String line;
+						while ((line = reader.readLine()) != null) {
+							responseBuilder.append(line);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					ipAddress = responseBuilder.toString();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (urlConnection != null)
+					urlConnection.disconnect();
 			}
-			return null;
+			return ipAddress;
 		}
 
 		@Override
-		protected void onPostExecute(Void aVoid) {
-			super.onPostExecute(aVoid);
-			if (siteReachable) {
-				qs_tile.setLabel(publicIPFetched);
-				qs_tile.setIcon(wifiSuccessIcon);
-				qs_tile.updateTile();
-			} else {
-				qs_tile.setLabel("No Connection");
+		protected void onPostExecute(String ipAddress) {
+			if (ipAddress == null) {
+				ipAddress = "No Connection";
 				qs_tile.setIcon(wifiFailIcon);
-				qs_tile.updateTile();
+			} else {
+				qs_tile.setIcon(wifiSuccessIcon);
 			}
+			qs_tile.setLabel(ipAddress);
+			qs_tile.updateTile();
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.ui;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -9,6 +9,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.ThemeManager;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 

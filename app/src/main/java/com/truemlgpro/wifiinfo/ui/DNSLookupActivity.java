@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.ThemeManager;
 
 import org.minidns.dnsserverlookup.android21.AndroidUsingLinkProperties;
 import org.minidns.hla.ResolverApi;
@@ -33,6 +38,7 @@ import org.minidns.record.Data;
 import org.minidns.record.Record;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Set;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
@@ -53,9 +59,6 @@ public class DNSLookupActivity extends AppCompatActivity {
 
 	private String url_ip;
 	private String dns_record_type;
-
-	public Boolean wifi_connected;
-	public Boolean cellular_connected;
 
 	String lineSeparator = "\n---------------------\n";
 
@@ -197,30 +200,31 @@ public class DNSLookupActivity extends AppCompatActivity {
 		}
 	}
 
+	private boolean isSimCardPresent(Context context) {
+		TelephonyManager tm = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+		return !(tm.getSimState() == TelephonyManager.SIM_STATE_ABSENT);
+	}
+
 	public void checkNetworkConnectivity(Boolean shouldClearLog) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo wifiCheck = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		NetworkInfo cellularCheck = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-		if (wifiCheck.isConnected() && !cellularCheck.isConnected()) { // Wi-Fi Connectivity Check
+		if (wifiCheck.isConnected()) { // Wi-Fi Connectivity Check
 			showWidgets();
 			if (toolbarDnsMenu != null) {
 				if (!toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_dns_log, true);
 				}
 			}
-			wifi_connected = true;
-			cellular_connected = false;
-		} else if (cellularCheck.isConnected() && !wifiCheck.isConnected()) { // Cellular Connectivity Check
+		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck.isConnected())) { // Cellular Connectivity Check
 			showWidgets();
 			if (toolbarDnsMenu != null) {
 				if (!toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
 					setToolbarItemEnabled(R.id.clear_dns_log, true);
 				}
 			}
-			wifi_connected = false;
-			cellular_connected = true;
-		} else if (!wifiCheck.isConnected() && !cellularCheck.isConnected()) {
+		} else {
 			if (shouldClearLog) { dns_lookup_textview.setText(""); }
 			if (toolbarDnsMenu != null) {
 				if (toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
@@ -228,8 +232,6 @@ public class DNSLookupActivity extends AppCompatActivity {
 				}
 			}
 			hideWidgets();
-			wifi_connected = false;
-			cellular_connected = false;
 		}
 	}
 

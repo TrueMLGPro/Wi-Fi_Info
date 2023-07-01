@@ -1,8 +1,12 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.truemlgpro.wifiinfo.services.ConnectionStateService;
+import com.truemlgpro.wifiinfo.services.NotificationService;
+import com.truemlgpro.wifiinfo.ui.MainActivity;
 
 public class ActionButtonReceiver extends BroadcastReceiver {
 	@Override

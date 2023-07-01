@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.utils;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;

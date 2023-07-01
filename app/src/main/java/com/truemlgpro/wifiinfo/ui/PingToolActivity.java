@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.ui;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -12,6 +12,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,10 +31,16 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.stealthcopter.networktools.Ping;
 import com.stealthcopter.networktools.ping.PingResult;
 import com.stealthcopter.networktools.ping.PingStats;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.ThemeManager;
+import com.truemlgpro.wifiinfo.utils.URLandIPConverter;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 import me.anwarshahriar.calligrapher.Calligrapher;
 
@@ -65,8 +72,8 @@ public class PingToolActivity extends AppCompatActivity {
 	private HandlerThread pingHandlerThread;
 	private Handler pingHandler;
 
-	public Boolean wifi_connected;
-	public Boolean cellular_connected;
+	private Boolean wifi_connected;
+	private Boolean cellular_connected;
 
 	private String url_ip = "";
 	private final String lineSeparator = "\n----------------------------\n";
@@ -136,8 +143,8 @@ public class PingToolActivity extends AppCompatActivity {
 	private void preparePinger() {
 		setEnabled(ping_button, false);
 		setEnabled(ping_button_cancel, true);
-		url_ip = edit_text_ping.getText().toString();
 
+		url_ip = edit_text_ping.getText().toString();
 		if (TextUtils.isEmpty(url_ip)) {
 			if (wifi_connected) {
 				url_ip = getGateway();
@@ -280,13 +287,18 @@ public class PingToolActivity extends AppCompatActivity {
 			checkNetworkConnectivity(true);
 		}
 	}
-	
+
+	private boolean isSimCardPresent(Context context) {
+		TelephonyManager tm = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+		return !(tm.getSimState() == TelephonyManager.SIM_STATE_ABSENT);
+	}
+
 	public void checkNetworkConnectivity(Boolean shouldClearLog) {
 		CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		wifiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		cellularCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-		if (wifiCheck.isConnected() && !cellularCheck.isConnected()) { // Wi-Fi Connectivity Check
+		if (wifiCheck.isConnected()) { // Wi-Fi Connectivity Check
 			showWidgets();
 			if (toolbarPingMenu != null) {
 				if (!toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
@@ -295,7 +307,7 @@ public class PingToolActivity extends AppCompatActivity {
 			}
 			wifi_connected = true;
 			cellular_connected = false;
-		} else if (cellularCheck.isConnected() && !wifiCheck.isConnected()) { // Cellular Connectivity Check
+		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck.isConnected())) { // Cellular Connectivity Check
 			showWidgets();
 			if (toolbarPingMenu != null) {
 				if (!toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
@@ -304,7 +316,7 @@ public class PingToolActivity extends AppCompatActivity {
 			}
 			wifi_connected = false;
 			cellular_connected = true;
-		} else if (!wifiCheck.isConnected() && !cellularCheck.isConnected()) {
+		} else {
 			if (shouldClearLog) { ping_text.setText(""); }
 			if (toolbarPingMenu != null) {
 				if (toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {

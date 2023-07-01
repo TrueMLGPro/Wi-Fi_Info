@@ -1,4 +1,4 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

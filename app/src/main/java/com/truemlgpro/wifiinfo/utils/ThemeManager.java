@@ -1,7 +1,11 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.utils;
 
 import android.app.Activity;
 import android.content.Context;
+
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.ui.MainActivity;
+import com.truemlgpro.wifiinfo.ui.SettingsActivity;
 
 /**
  * A helper class for managing themes

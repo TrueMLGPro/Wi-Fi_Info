@@ -1,7 +1,10 @@
-package com.truemlgpro.wifiinfo;
+package com.truemlgpro.wifiinfo.utils;
 
 import android.content.Context;
 import android.view.Window;
+
+import com.truemlgpro.wifiinfo.ui.MainActivity;
+import com.truemlgpro.wifiinfo.ui.SettingsActivity;
 
 /**
  * A helper class for managing KEEP_SCREEN_ON flags
