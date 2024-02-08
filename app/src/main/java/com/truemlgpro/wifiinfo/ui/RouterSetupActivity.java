@@ -31,14 +31,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
 import com.truemlgpro.wifiinfo.R;
-import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.FontManager;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.utils.LocaleManager;
 import com.truemlgpro.wifiinfo.utils.ThemeManager;
 
 import java.util.Objects;
-
-import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class RouterSetupActivity extends AppCompatActivity {
 	private Toolbar toolbar;
@@ -68,6 +67,7 @@ public class RouterSetupActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		ThemeManager.initializeThemes(this, getApplicationContext());
+		LocaleManager.initializeLocale(getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.router_setup_activity);
@@ -80,16 +80,14 @@ public class RouterSetupActivity extends AppCompatActivity {
 		progressBarLoading = (ProgressBar) findViewById(R.id.router_setup_progress_bar);
 
 		KeepScreenOnManager.init(getWindow(), getApplicationContext());
-
-		Calligrapher calligrapher = new Calligrapher(this);
-		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
-		calligrapher.setFont(this, font, true);
+		FontManager.init(this, getApplicationContext(), true);
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
+		actionbar.setTitle(getResources().getString(R.string.router_setup));
 
 		toolbar.setNavigationOnClickListener(v -> {
 			// Back button pressed
@@ -123,20 +121,25 @@ public class RouterSetupActivity extends AppCompatActivity {
 	}
 
 	public void showLoginDialog() {
-		alert.show();
+		if (!isFinishing()) {
+			alert.show();
+		}
 	}
 
 	@SuppressLint("SetJavaScriptEnabled")
 	public void loadWebview() {
-		String userAgent = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0";
+		String userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1";
 		WebSettings ws = webview_main.getSettings();
 		ws.setJavaScriptEnabled(true);
+		ws.setDomStorageEnabled(true);
 		ws.setSupportZoom(true);
 		ws.setBuiltInZoomControls(true);
 		ws.setDisplayZoomControls(false);
 		ws.setLoadWithOverviewMode(true);
 		ws.setUseWideViewPort(true);
 		ws.setUserAgentString(userAgent);
+		if (Build.VERSION.SDK_INT >= 33)
+			ws.setAlgorithmicDarkeningAllowed(true);
 		webview_main.loadUrl("http://" + getGatewayIP());
 		webview_main.setWebChromeClient(new WebChromeClient() {
 			@Override
@@ -205,42 +208,20 @@ public class RouterSetupActivity extends AppCompatActivity {
 	}
 
 	private void showErrorToast(Context mContext, int errorCode) {
-		String message = null;
-		switch (errorCode) {
-			case WebViewClient.ERROR_AUTHENTICATION:
-				message = getString(R.string.auth_error);
-				break;
-			case WebViewClient.ERROR_TIMEOUT:
-				message = getString(R.string.timeout_error);
-				break;
-			case WebViewClient.ERROR_TOO_MANY_REQUESTS:
-				message = getString(R.string.too_many_requests_error);
-				break;
-			case WebViewClient.ERROR_UNKNOWN:
-				message = getString(R.string.unknown_error);
-				break;
-			case WebViewClient.ERROR_CONNECT:
-				message = getString(R.string.connect_error);
-				break;
-			case WebViewClient.ERROR_HOST_LOOKUP:
-				message = getString(R.string.host_lookup_error);
-				break;
-			case WebViewClient.ERROR_PROXY_AUTHENTICATION:
-				message = getString(R.string.proxy_auth_error);
-				break;
-			case WebViewClient.ERROR_REDIRECT_LOOP:
-				message = getString(R.string.redirect_loop_error);
-				break;
-			case WebViewClient.ERROR_UNSUPPORTED_AUTH_SCHEME:
-				message = getString(R.string.unsupported_auth_scheme_error);
-				break;
-			case WebViewClient.ERROR_UNSUPPORTED_SCHEME:
-				message = getString(R.string.unsupported_scheme_error);
-				break;
-			case WebViewClient.ERROR_IO:
-				message = getString(R.string.io_error);
-				break;
-		}
+		String message = switch (errorCode) {
+			case WebViewClient.ERROR_AUTHENTICATION -> getString(R.string.auth_error);
+			case WebViewClient.ERROR_TIMEOUT -> getString(R.string.timeout_error);
+			case WebViewClient.ERROR_TOO_MANY_REQUESTS -> getString(R.string.too_many_requests_error);
+			case WebViewClient.ERROR_UNKNOWN -> getString(R.string.unknown_error);
+			case WebViewClient.ERROR_CONNECT -> getString(R.string.connect_error);
+			case WebViewClient.ERROR_HOST_LOOKUP -> getString(R.string.host_lookup_error);
+			case WebViewClient.ERROR_PROXY_AUTHENTICATION -> getString(R.string.proxy_auth_error);
+			case WebViewClient.ERROR_REDIRECT_LOOP -> getString(R.string.redirect_loop_error);
+			case WebViewClient.ERROR_UNSUPPORTED_AUTH_SCHEME -> getString(R.string.unsupported_auth_scheme_error);
+			case WebViewClient.ERROR_UNSUPPORTED_SCHEME -> getString(R.string.unsupported_scheme_error);
+			case WebViewClient.ERROR_IO -> getString(R.string.io_error);
+			default -> null;
+		};
 
 		if (message != null) {
 			Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
@@ -348,16 +329,12 @@ public class RouterSetupActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		switch (id) {
-			case (R.id.page_back):
-				webview_main.goBack();
-				break;
-			case (R.id.page_forward):
-				webview_main.goForward();
-				break;
-			case (R.id.page_refresh):
-				webview_main.reload();
-				break;
+		if (id == R.id.page_back) {
+			webview_main.goBack();
+		} else if (id == R.id.page_forward) {
+			webview_main.goForward();
+		} else if (id == R.id.page_refresh) {
+			webview_main.reload();
 		}
 		return true;
 	}
@@ -375,5 +352,18 @@ public class RouterSetupActivity extends AppCompatActivity {
 	protected void onStop() {
 		super.onStop();
 		unregisterReceiver(NetworkConnectivityReceiver);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (webview_main != null) {
+			webview_main.setWebViewClient(null);
+			webview_main.setWebChromeClient(null);
+			webview_main.clearHistory();
+			webview_main.clearCache(true);
+			webview_main.destroy();
+			webview_main = null;
+		}
 	}
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/port_scanner_item_root"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:orientation="vertical"
@@ -8,7 +9,6 @@
 	android:background="?android:attr/selectableItemBackground">
 
 	<RelativeLayout
-		android:id="@+id/port_scanner_item_root"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical">
@@ -16,8 +16,9 @@
 		<RelativeLayout
 			android:id="@+id/port_scanner_item_relative_layout_open_port"
 			android:layout_width="80dp"
-			android:layout_height="60dp"
+			android:layout_height="wrap_content"
 			android:orientation="vertical"
+			android:layout_alignBottom="@id/port_scanner_item_relative_layout_port_desc"
 			android:layout_alignParentStart="true"
 			android:layout_alignParentTop="true">
 
@@ -36,58 +37,51 @@
 		<RelativeLayout
 			android:id="@+id/port_scanner_item_relative_layout_port_desc"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignTop="@id/port_scanner_item_relative_layout_open_port"
-			android:layout_alignBottom="@id/port_scanner_item_relative_layout_open_port"
+			android:layout_height="60dp"
 			android:layout_alignParentEnd="true"
 			android:layout_toEndOf="@id/port_scanner_item_relative_layout_open_port"
 			android:orientation="horizontal">
 
 			<LinearLayout
 				android:id="@+id/port_scanner_item_linear_layout_port_desc"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="match_parent"
+				android:layout_toStartOf="@id/port_scanner_item_port_service_protocol"
 				android:orientation="vertical">
 
 				<TextView
 					android:id="@+id/port_scanner_item_port_service_name"
 					android:layout_width="wrap_content"
-					android:layout_height="30dp"
+					android:layout_height="0dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="16dp"
+					android:layout_weight="1"
 					android:textColor="?attr/CardTextColor"
 					android:textSize="14sp" />
 
 				<TextView
 					android:id="@+id/port_scanner_item_port_service_desc"
 					android:layout_width="wrap_content"
-					android:layout_height="30dp"
+					android:layout_height="0dp"
 					android:paddingEnd="16dp"
 					android:paddingBottom="8dp"
+					android:layout_weight="1"
+					android:ellipsize="end"
+					android:maxLines="1"
 					android:textColor="?attr/CardTextColor"
 					android:textSize="14sp" />
 
 			</LinearLayout>
 
-			<RelativeLayout
-				android:id="@+id/port_scanner_item_relative_layout_port_protocol"
+			<TextView
+				android:id="@+id/port_scanner_item_port_service_protocol"
 				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:orientation="vertical"
-				android:layout_toEndOf="@id/port_scanner_item_linear_layout_port_desc"
-				android:layout_alignParentEnd="true">
-
-				<TextView
-					android:id="@+id/port_scanner_item_port_service_protocol"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_centerVertical="true"
-					android:layout_alignParentEnd="true"
-					android:paddingEnd="16dp"
-					android:textColor="?attr/CardTextColor"
-					android:textSize="14sp" />
-
-			</RelativeLayout>
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_alignParentEnd="true"
+				android:paddingEnd="16dp"
+				android:textColor="?attr/CardTextColor"
+				android:textSize="14sp" />
 
 		</RelativeLayout>
 

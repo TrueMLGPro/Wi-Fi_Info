@@ -1,13 +1,13 @@
 package com.truemlgpro.wifiinfo.ui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
@@ -39,6 +39,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
@@ -53,11 +55,15 @@ import androidx.preference.PreferenceManager;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.truemlgpro.wifiinfo.R;
+import com.truemlgpro.wifiinfo.interfaces.PreferenceDefaults;
+import com.truemlgpro.wifiinfo.interfaces.PreferenceKeys;
 import com.truemlgpro.wifiinfo.services.ConnectionStateService;
+import com.truemlgpro.wifiinfo.services.NotificationService;
+import com.truemlgpro.wifiinfo.utils.AppClipboardManager;
+import com.truemlgpro.wifiinfo.utils.FontManager;
 import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
 import com.truemlgpro.wifiinfo.utils.LocaleManager;
-import com.truemlgpro.wifiinfo.services.NotificationService;
-import com.truemlgpro.wifiinfo.R;
 import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
 import com.truemlgpro.wifiinfo.utils.ThemeManager;
 
@@ -80,14 +86,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import me.anwarshahriar.calligrapher.Calligrapher;
-
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 	private Toolbar toolbar;
 	private Menu toolbarMenu;
 	private TextView textview_public_ip;
 	private TextView textview_ssid;
-	private TextView textview_hidden_ssid;
 	private TextView textview_bssid;
 	private TextView textview_ipv4;
 	private TextView textview_ipv6;
@@ -138,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 	// Strings for getAllNetworkInformation()
 	String info_ssid = "";
-	String info_hidden_ssid = "";
 	String info_bssid = "";
 	String info_ipv4 = "";
 	String info_ipv6 = "";
@@ -172,32 +174,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	String info_wpa3_sae_support = "";
 	String info_wpa3_suite_b_support = "";
 
-	private final int LocationPermissionCode = 123;
+	private final int LOCATION_PERMISSION_CODE = 123;
 
 	private ConnectivityManager connectivityManager;
 	private NetworkInfo WiFiCheck;
 	private DhcpInfo dhcpInfo;
 	private WifiInfo wifiInfo;
 	private WifiManager wifiManager;
-	private BroadcastReceiver WiFiConnectivityReceiver;
+	private BroadcastReceiver wifiConnectivityReceiver;
 	public static Boolean isServiceRunning = false;
-	public static final Boolean darkMode = true;
-	public static final Boolean amoledMode = false;
-	public static final Boolean keepScreenOn = true;
-	public static final Boolean startOnBoot = false;
-	public static final Boolean showNtfc = true;
-	public static final Boolean visualizeSigStrg = false;
-	public static final Boolean startStopSrvcScrnState = false;
-	public static final Boolean colorizeNtfc = false;
-	private final boolean neverShowGeoDialog = false;
-	private final boolean neverShowPermissionReqDialog = false;
-	private final String keyNeverShowGeoDialog = "NeverShowGeoDialog";
-	private final String keyNeverShowPermissionReqDialog = "NeverShowPermissionDialog";
 	private boolean isHandlerRunning = false;
-	public static final String ntfcUpdateInterval = "1000";
-	private final String cardUpdateInterval = "1000";
-	public static final String appFont = "fonts/Gilroy-Semibold.ttf";
-	public static final String appLang = "default_lang";
 	private final double megabyte = 1024 * 1024;
 	private final double gigabyte = 1024 * 1024 * 1024;
 
@@ -206,15 +192,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 	private int keyCardFreqFormatted = 1000;
 
-	private SharedPreferences.OnSharedPreferenceChangeListener sharedPrefChangeListener;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		/// Shared Preferences ///
 		ThemeManager.initializeThemes(this, getApplicationContext());
 		LocaleManager.initializeLocale(getApplicationContext());
-		initSharedPrefs();
+
+		/// Set default preferences ///
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
 		/// Splash Screen API ///
 		SplashScreen.installSplashScreen(this);
@@ -227,34 +212,33 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		initCopyableText();
 
 		/// Handler Init ///
-		keyCardFreqFormatted = Integer.parseInt(new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_CARD_FREQ, cardUpdateInterval));
+		keyCardFreqFormatted = Integer.parseInt(new SharedPreferencesManager(getApplicationContext()).retrieveString(PreferenceKeys.KEY_PREF_CARD_FREQ, PreferenceDefaults.CARD_UPDATE_INTERVAL));
 
 		/// Request permissions ///
 		if (Build.VERSION.SDK_INT >= 26) {
+			createNotificationChannels();
 			if (!isLocationPermissionGranted()) {
 				// If user didn't choose to hide the permission request dialog
-				if (!new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(keyNeverShowPermissionReqDialog, neverShowPermissionReqDialog)) {
+				if (!new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(PreferenceKeys.KEY_NEVER_SHOW_PERMISSION_REQ_DIALOG, PreferenceDefaults.NEVER_SHOW_PERMISSION_REQ_DIALOG)) {
 					requestPermissionsOnStart();
 				}
 			} else {
 				/// Notify if GPS is disabled ///
 				// If user didn't choose to hide the GPS request dialog
-				if (!new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(keyNeverShowGeoDialog, neverShowGeoDialog)) {
+				if (!new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(PreferenceKeys.KEY_NEVER_SHOW_GEO_DIALOG, PreferenceDefaults.NEVER_SHOW_GEO_DIALOG)) {
 					requestGPSFeature();
 				}
 			}
-		}
 
-		/// Services ///
-		initForegroundServices();
-
-		/// Create dynamic shortcuts ///
-		if (Build.VERSION.SDK_INT >= 26) {
+			/// Create dynamic shortcuts ///
 			createShortcuts();
 		}
 
 		/// Keep screen on ///
 		KeepScreenOnManager.init(getWindow(), getApplicationContext());
+
+		/// Services ///
+		initForegroundServices();
 
 		/// Initialize font and ActionBar ///
 		initFontAndActionbar();
@@ -262,18 +246,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		/// Set up FloatingActionMenu ///
 		fam.setClosedOnTouchOutside(true);
 
-		/// Set default preferences ///
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
 		/// Check Wi-Fi Connectivity ///
 		initConnectivityCheck();
 	}
 
 	private void initFontAndActionbar() {
-		Calligrapher calligrapher = new Calligrapher(this);
-		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, appFont);
-		calligrapher.setFont(this, font, true);
-
+		FontManager.init(this, getApplicationContext(), true);
 		setSupportActionBar(toolbar);
 		ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(false);
@@ -284,7 +262,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		toolbar = findViewById(R.id.toolbar);
 		textview_public_ip = findViewById(R.id.textview_public_ip);
 		textview_ssid = findViewById(R.id.textview_ssid_value);
-		textview_hidden_ssid = findViewById(R.id.textview_hidden_ssid_value);
 		textview_bssid = findViewById(R.id.textview_bssid_value);
 		textview_ipv4 = findViewById(R.id.textview_ipv4_value);
 		textview_ipv6 = findViewById(R.id.textview_ipv6_value);
@@ -385,7 +362,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		String dns2 = intToIp(dhcpInfo.dns2);
 		String subnetMask = getSubnetMask();
 		String broadcastAddr = getBroadcastAddr();
-		String networkId = String.valueOf(wifiInfo.getNetworkId());
 		// Apps cannot access MAC address on Android 11+
 		String macAddr;
 		if (Build.VERSION.SDK_INT > 29) {
@@ -394,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			macAddr = getMACAddress();
 		}
 		String networkInterface = getNetworkInterface();
+		String networkId = String.valueOf(wifiInfo.getNetworkId());
 		String loopbackAddr = String.valueOf(InetAddress.getLoopbackAddress());
 		String localhostAddr = getLocalhostAddress();
 		int leaseTime = dhcpInfo.leaseDuration;
@@ -407,13 +384,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			info_ssid = ssid.replaceAll("^\"|\"$", "");
 		}
 
-		if (wifiInfo.getHiddenSSID()) {
-			info_hidden_ssid = getString(R.string.yes);
-		} else {
-			info_hidden_ssid = getString(R.string.no);
-		}
-
-		if (bssid.contains("02:00:00:00:00:00")) {
+		if (bssid.equals("02:00:00:00:00:00")) {
 			info_bssid = getString(R.string.na);
 		} else {
 			info_bssid = bssid;
@@ -441,7 +412,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			info_broadcast_addr = broadcastAddr;
 		}
 
-		if (networkId.contains("-1")) {
+		if (networkId.equals("-1")) {
 			info_network_id = getString(R.string.na);
 		} else {
 			info_network_id = networkId;
@@ -530,7 +501,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 	private void updateTextviews() {
 		textview_ssid.setText(info_ssid);
-		textview_hidden_ssid.setText(info_hidden_ssid);
 		textview_bssid.setText(info_bssid);
 		textview_ipv4.setText(info_ipv4);
 		textview_ipv6.setText(info_ipv6);
@@ -655,8 +625,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 	private void showWidgets() {
 		textview_noconn.setVisibility(View.GONE);
-		cardview_1.setVisibility(View.VISIBLE);
 		cardview_ip.setVisibility(View.VISIBLE);
+		cardview_1.setVisibility(View.VISIBLE);
 		cardview_2.setVisibility(View.VISIBLE);
 		cardview_3.setVisibility(View.VISIBLE);
 		cardview_4.setVisibility(View.VISIBLE);
@@ -667,8 +637,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 	private void hideWidgets() {
 		textview_noconn.setVisibility(View.VISIBLE);
-		cardview_1.setVisibility(View.GONE);
 		cardview_ip.setVisibility(View.GONE);
+		cardview_1.setVisibility(View.GONE);
 		cardview_2.setVisibility(View.GONE);
 		cardview_3.setVisibility(View.GONE);
 		cardview_4.setVisibility(View.GONE);
@@ -733,18 +703,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 					continue;
 
 				byte[] macBytes = networkInterface.getHardwareAddress();
-				if (macBytes == null) {
+				if (macBytes == null)
 					return "";
-				}
 
 				StringBuilder macAddressStringBuilder = new StringBuilder();
-				for (byte b : macBytes) {
+				for (byte b : macBytes)
 					macAddressStringBuilder.append(String.format("%02X:", b));
-				}
 
-				if (macAddressStringBuilder.length() > 0) {
+				if (macAddressStringBuilder.length() > 0)
 					macAddressStringBuilder.deleteCharAt(macAddressStringBuilder.length() - 1);
-				}
 
 				return macAddressStringBuilder.toString();
 			}
@@ -755,9 +722,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	}
 
 	private String getGatewayIP() {
-		if (!WiFiCheck.isConnected()) {
+		if (!WiFiCheck.isConnected())
 			return "0.0.0.0";
-		}
 		wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
 		DhcpInfo dhcp = wifiManager.getDhcpInfo();
 		int gatewayIP = dhcp.gateway;
@@ -772,13 +738,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 					continue;
 				List<InetAddress> allInetAddresses = Collections.list(networkInterface.getInetAddresses());
 				for (InetAddress inetAddr : allInetAddresses) {
-					if (!inetAddr.isLoopbackAddress() && inetAddr instanceof Inet4Address) {
+					if (!inetAddr.isLoopbackAddress() && inetAddr instanceof Inet4Address)
 						return inetAddr.getHostAddress();
-					}
 				}
 			}
-		} catch (SocketException ex) {
-			Log.e("getIPv4Address()", ex.toString());
+		} catch (SocketException e) {
+			Log.e("getIPv4Address()", e.toString());
 		}
 		return null;
 	}
@@ -793,15 +758,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				for (InetAddress inetAddr : allInetAddresses) {
 					if (!inetAddr.isLoopbackAddress() && inetAddr instanceof Inet6Address) {
 						int index = String.valueOf(inetAddr).indexOf("%");
-						if (index != -1) {
+						if (index != -1)
 							return Objects.requireNonNull(inetAddr.getHostAddress()).substring(0, index-1);
-						}
 						return inetAddr.getHostAddress();
 					}
 				}
 			}
-		} catch (SocketException ex) {
-			Log.e("getIPv6Address()", ex.toString());
+		} catch (SocketException e) {
+			Log.e("getIPv6Address()", e.toString());
 		}
 		return null;
 	}
@@ -809,7 +773,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	private String getHostname() {
 		try {
 			InetAddress hostnameAddr = InetAddress.getByName(getGatewayIP());
-			return hostnameAddr.getHostName();
+			return hostnameAddr.getCanonicalHostName();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -819,31 +783,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	@RequiresApi(api = Build.VERSION_CODES.R)
 	private String getWifiStandard() {
 		int wifiStandard = wifiInfo.getWifiStandard();
-		String wifiStandardHumanReadable = getString(R.string.na);
-		switch (wifiStandard) {
-			case ScanResult.WIFI_STANDARD_LEGACY:
-				wifiStandardHumanReadable = "Wi-Fi 1/2/3 (802.11a/b/g)";
-				break;
-			case ScanResult.WIFI_STANDARD_11N:
-				wifiStandardHumanReadable = "Wi-Fi 4 (802.11n)";
-				break;
-			case ScanResult.WIFI_STANDARD_11AC:
-				wifiStandardHumanReadable = "Wi-Fi 5 (802.11ac)";
-				break;
-			case ScanResult.WIFI_STANDARD_11AX:
-				wifiStandardHumanReadable = "Wi-Fi 6 (802.11ax)";
-				break;
-			case ScanResult.WIFI_STANDARD_11AD:
-				wifiStandardHumanReadable = "WiGig (802.11ad)";
-				break;
-			case ScanResult.WIFI_STANDARD_11BE:
-				wifiStandardHumanReadable = "Wi-Fi 7 (802.11be)";
-				break;
-			case ScanResult.WIFI_STANDARD_UNKNOWN:
-				wifiStandardHumanReadable = getString(R.string.na);
-				break;
-		}
-		return wifiStandardHumanReadable;
+		return switch (wifiStandard) {
+			case ScanResult.WIFI_STANDARD_LEGACY -> "Wi-Fi 1/2/3 (802.11a/b/g)";
+			case ScanResult.WIFI_STANDARD_11N -> "Wi-Fi 4 (802.11n)";
+			case ScanResult.WIFI_STANDARD_11AC -> "Wi-Fi 5 (802.11ac)";
+			case ScanResult.WIFI_STANDARD_11AX -> "Wi-Fi 6 (802.11ax)";
+			case ScanResult.WIFI_STANDARD_11AD -> "WiGig (802.11ad)";
+			case ScanResult.WIFI_STANDARD_11BE -> "Wi-Fi 7 (802.11be)";
+			case ScanResult.WIFI_STANDARD_UNKNOWN -> getString(R.string.na);
+			default -> getString(R.string.na);
+		};
 	}
 
 	private String getNetworkInterface() {
@@ -870,36 +819,32 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 	private String getSubnetMask() {
 		try {
-			if (getIPv4Address() == null) {
+			if (getIPv4Address() == null)
 				return null;
-			}
 			InetAddress inetAddress = InetAddress.getByName(getIPv4Address());
 			NetworkInterface networkInterface = NetworkInterface.getByInetAddress(inetAddress);
 			for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
-				if (Patterns.IP_ADDRESS.matcher(String.valueOf(address.getAddress()).replaceFirst("/", "")).matches()) {
+				if (Patterns.IP_ADDRESS.matcher(String.valueOf(address.getAddress()).replaceFirst("/", "")).matches())
 					return netPrefixLengthToSubnetMask(address.getNetworkPrefixLength());
-				}
 			}
-		} catch (IOException ex) {
-			Log.e("getSubnetMask()", ex.toString());
+		} catch (IOException e) {
+			Log.e("getSubnetMask()", e.toString());
 		}
 		return null;
 	}
 
 	private String getBroadcastAddr() {
 		try {
-			if (getIPv4Address() == null) {
+			if (getIPv4Address() == null)
 				return null;
-			}
 			InetAddress inetAddress = InetAddress.getByName(String.valueOf(getIPv4Address()));
 			NetworkInterface networkInterface = NetworkInterface.getByInetAddress(inetAddress);
 			for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
-				if (Patterns.IP_ADDRESS.matcher(String.valueOf(address.getAddress()).replaceFirst("/", "")).matches()) {
+				if (Patterns.IP_ADDRESS.matcher(String.valueOf(address.getAddress()).replaceFirst("/", "")).matches())
 					return String.valueOf(address.getBroadcast()).replaceFirst("/", "");
-				}
 			}
-		} catch (IOException ex) {
-			Log.e("getBroadcastAddr()", ex.toString());
+		} catch (IOException e) {
+			Log.e("getBroadcastAddr()", e.toString());
 		}
 		return null;
 	}
@@ -945,22 +890,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 	}
 
-	private void copyToClipboard(String label, String text) {
-		ClipboardManager cbm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-		ClipData clip = ClipData.newPlainText(label, text);
-		cbm.setPrimaryClip(clip);
-		Toast.makeText(getBaseContext(), getString(R.string.copied_to_clipboard) + ": " + text, Toast.LENGTH_SHORT).show();
-	}
-
 	private boolean isLocationEnabled() {
 		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		return locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
 
-	private boolean hasPermissions(Context context, String... permissions) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-			for (String permission: permissions) {
-				if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+	private boolean hasPermissions(String... permissions) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && permissions != null) {
+			for (String permission : permissions) {
+				if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
 					return false;
 				}
 			}
@@ -989,7 +927,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 					}
 					dialog.cancel();
 				})
-				.setNeutralButton(getString(R.string.dont_show_again), (dialog, id) -> new SharedPreferencesManager(getApplicationContext()).storeBoolean(keyNeverShowGeoDialog, true));
+				.setNeutralButton(getString(R.string.dont_show_again), (dialog, id) -> new SharedPreferencesManager(getApplicationContext()).storeBoolean(PreferenceKeys.KEY_NEVER_SHOW_GEO_DIALOG, true));
 			if (Build.VERSION.SDK_INT == 26) {
 				builder.setMessage(getString(R.string.wifi_info_needs_location_api_26));
 			} else if (Build.VERSION.SDK_INT >= 27) {
@@ -1006,18 +944,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		builder.setTitle(getString(R.string.permission_required))
 			.setMessage(getString(R.string.location_permission_is_required_android_8_1_plus))
 			.setPositiveButton(getString(R.string.yes), (dialog, id) -> {
-				// Android 8.1 - Android 10
-				String[] ForegroundCoarseLocationPermission_API27 = {Manifest.permission.ACCESS_COARSE_LOCATION};
-				// Android 11+
-				String[] ForegroundFineLocationPermission_API30 = {Manifest.permission.ACCESS_FINE_LOCATION};
-				if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 30) {
-					ActivityCompat.requestPermissions(MainActivity.this, ForegroundCoarseLocationPermission_API27, LocationPermissionCode);
-				} else if (Build.VERSION.SDK_INT >= 30) {
-					ActivityCompat.requestPermissions(MainActivity.this, ForegroundFineLocationPermission_API30, LocationPermissionCode);
+				// Android 8.1 - Android 11
+				String[] foregroundCoarseLocationPermission_API27 = {Manifest.permission.ACCESS_COARSE_LOCATION};
+				// Android 12+
+				String[] foregroundFineLocationPermission_API30 = {Manifest.permission.ACCESS_FINE_LOCATION};
+				if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 31) {
+					ActivityCompat.requestPermissions(MainActivity.this, foregroundCoarseLocationPermission_API27, LOCATION_PERMISSION_CODE);
+				} else if (Build.VERSION.SDK_INT >= 31) {
+					ActivityCompat.requestPermissions(MainActivity.this, foregroundFineLocationPermission_API30, LOCATION_PERMISSION_CODE);
 				}
 			})
 			.setNegativeButton(getString(R.string.no_thanks), null)
-			.setNeutralButton(getString(R.string.dont_show_again), (dialog, id) -> new SharedPreferencesManager(getApplicationContext()).storeBoolean(keyNeverShowPermissionReqDialog, true))
+			.setNeutralButton(getString(R.string.dont_show_again), (dialog, id) -> new SharedPreferencesManager(getApplicationContext()).storeBoolean(PreferenceKeys.KEY_NEVER_SHOW_PERMISSION_REQ_DIALOG, true))
 			.setCancelable(false);
 		AlertDialog alert = builder.create();
 		alert.show();
@@ -1029,10 +967,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		boolean permissionGranted = false;
 		if (Build.VERSION.SDK_INT >= 27 && Build.VERSION.SDK_INT < 31) {
 			// Android 8.1 - Android 11
-			permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+			permissionGranted = hasPermissions(Manifest.permission.ACCESS_COARSE_LOCATION);
 		} else if (Build.VERSION.SDK_INT >= 31) {
 			// Android 12+
-			permissionGranted = hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION);
+			permissionGranted = hasPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
 		}
 		return permissionGranted;
 	}
@@ -1057,175 +995,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		shortcutManager.setDynamicShortcuts(Arrays.asList(githubShortcut, releasesShortcut));
 	}
 
-	private void initSharedPrefs() {
-		sharedPrefChangeListener = (prefs, key) -> {
-			if (key.equals(SettingsActivity.KEY_PREF_DARK_MODE_SWITCH)) {
-				new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_DARK_MODE_SWITCH, prefs.getBoolean(SettingsActivity.KEY_PREF_DARK_MODE_SWITCH, true));
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_AMOLED_MODE_CHECK)) {
-				new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_AMOLED_MODE_CHECK, prefs.getBoolean(SettingsActivity.KEY_PREF_AMOLED_MODE_CHECK, false));
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_BOOT_SWITCH)) {
-				new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, prefs.getBoolean(SettingsActivity.KEY_PREF_BOOT_SWITCH, false));
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_NTFC_SWITCH)) {
-				new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, prefs.getBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, true));
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_CLR_CHECK)) {
-				new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, prefs.getBoolean(SettingsActivity.KEY_PREF_CLR_CHECK, false));
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK)) {
-				new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, prefs.getBoolean(SettingsActivity.KEY_PREF_VIS_SIG_STRG_CHECK, false));
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK)) {
-				new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, prefs.getBoolean(SettingsActivity.KEY_PREF_STRT_STOP_SRVC_CHECK, false));
-				Intent restartConnectionStateService = new Intent(MainActivity.this, ConnectionStateService.class);
-				Intent restartNotificationService = new Intent(MainActivity.this, NotificationService.class);
-				if (ConnectionStateService.isNotificationServiceRunning) {
-					stopService(restartNotificationService);
-				}
-				if (ConnectionStateService.isConnectionStateServiceRunning) {
-					stopService(restartConnectionStateService);
-					if (Build.VERSION.SDK_INT < 26) {
-						startService(restartConnectionStateService);
-					} else {
-						startForegroundService(restartConnectionStateService);
-					}
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_NTFC_FREQ)) {
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("500")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, "500");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("1000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("2000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, "2000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("3000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, "3000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("4000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, "4000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("5000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, "5000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_NTFC_FREQ, "1000").equals("10000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_NTFC_FREQ, "10000");
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_CARD_FREQ)) {
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("500")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, "500");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("1000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("2000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, "2000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("3000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, "3000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("4000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, "4000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("5000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, "5000");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_CARD_FREQ, "1000").equals("10000")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_CARD_FREQ, "10000");
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_APP_FONT)) {
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Gilroy-Semibold.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/CircularStd-Bold.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/CircularStd-Bold.ttf");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Gilroy-Semibold.ttf").equals("fonts/Nunito-Bold.ttf")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_FONT, "fonts/Nunito-Bold.ttf");
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_APP_LANGUAGE)) {
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "default_lang").equals("default_lang")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "default_lang");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "default_lang").equals("en")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "en");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "default_lang").equals("fr")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "fr");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "default_lang").equals("de")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "de");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "default_lang").equals("pt")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "pt");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "default_lang").equals("ru")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "ru");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "default_lang").equals("es")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "es");
-				}
-
-				if (prefs.getString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "default_lang").equals("uk")) {
-					new SharedPreferencesManager(getApplicationContext()).storeString(SettingsActivity.KEY_PREF_APP_LANGUAGE, "uk");
-				}
-			}
-
-			if (key.equals(SettingsActivity.KEY_PREF_KEEP_SCREEN_ON_SWITCH)) {
-				new SharedPreferencesManager(getApplicationContext()).storeBoolean(SettingsActivity.KEY_PREF_KEEP_SCREEN_ON_SWITCH, prefs.getBoolean(SettingsActivity.KEY_PREF_KEEP_SCREEN_ON_SWITCH, true));
-			}
-		};
-
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		prefs.registerOnSharedPreferenceChangeListener(sharedPrefChangeListener);
-	}
-
 	private void initForegroundServices() {
-		boolean keyNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(SettingsActivity.KEY_PREF_NTFC_SWITCH, showNtfc);
+		boolean keyNtfc = new SharedPreferencesManager(getApplicationContext()).retrieveBoolean(PreferenceKeys.KEY_PREF_SHOW_NTFC, PreferenceDefaults.SHOW_NTFC);
 		if (keyNtfc) {
 			if (!isServiceRunning) {
-				Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
+				Intent connectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
 				if (Build.VERSION.SDK_INT < 26) {
-					startService(ConnectionStateServiceIntent);
+					startService(connectionStateServiceIntent);
 				} else {
-					startForegroundService(ConnectionStateServiceIntent);
+					startForegroundService(connectionStateServiceIntent);
 				}
 				isServiceRunning = true;
 			}
@@ -1234,14 +1012,47 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 				ConnectivityManager CM = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 				WiFiCheck = CM.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-				Intent ConnectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
-				Intent NotificationServiceIntent = new Intent(MainActivity.this, NotificationService.class);
+				Intent connectionStateServiceIntent = new Intent(MainActivity.this, ConnectionStateService.class);
+				Intent notificationServiceIntent = new Intent(MainActivity.this, NotificationService.class);
 
-				stopService(ConnectionStateServiceIntent);
-				isServiceRunning = false;
+				stopService(connectionStateServiceIntent);
 				if (WiFiCheck.isConnected()) {
-					stopService(NotificationServiceIntent);
+					stopService(notificationServiceIntent);
 				}
+				isServiceRunning = false;
+			}
+		}
+	}
+
+	@RequiresApi(Build.VERSION_CODES.O)
+	private void createNotificationChannels() {
+		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		// ConnectionStateService notification
+		String connStateNtfcChannelId = "connection_state_service";
+		CharSequence connStateNtfcChannelName = "Connection State Service";
+		NotificationChannel connStateNtfcChannel = new NotificationChannel(connStateNtfcChannelId, connStateNtfcChannelName, NotificationManager.IMPORTANCE_MIN);
+		connStateNtfcChannel.setDescription("Wi-Fi Info Connection Listener Service Notification");
+		connStateNtfcChannel.setShowBadge(false);
+		notificationManager.createNotificationChannel(connStateNtfcChannel);
+
+		// NotificationService notification
+		String mainNtfcChannelId = "wifi_info";
+		CharSequence mainNtfcChannelName = "Notification Service";
+		NotificationChannel mainNtfcChannel = new NotificationChannel(mainNtfcChannelId, mainNtfcChannelName, NotificationManager.IMPORTANCE_LOW);
+		mainNtfcChannel.setDescription("Main Wi-Fi Info Notification");
+		mainNtfcChannel.setShowBadge(false);
+		notificationManager.createNotificationChannel(mainNtfcChannel);
+
+		if (Build.VERSION.SDK_INT >= 33) {
+			String[] postNotificationsPermission = {Manifest.permission.POST_NOTIFICATIONS};
+			ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+				if (isGranted) {
+					initForegroundServices();
+				}
+			});
+
+			if (!hasPermissions(postNotificationsPermission)) {
+				requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
 			}
 		}
 	}
@@ -1267,192 +1078,184 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 		fab_settings.setOnClickListener(v -> {
 			Intent intent_settings = new Intent(MainActivity.this, SettingsActivity.class);
-			intent_settings.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent_settings);
 			fam.close(true);
 		});
 
-		fab_update.setOnClickListener(v -> {
-			new PublicIPAsyncTask().execute();
-		});
+		fab_update.setOnClickListener(v -> new PublicIPAsyncTask().execute());
 	}
 
 	private void initCopyableText() {
 		textview_public_ip.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.public_ip_address), textview_public_ip.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.public_ip_address), textview_public_ip.getText().toString());
 			return true;
 		});
 
 		textview_ssid.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.ssid), textview_ssid.getText().toString());
-			return true;
-		});
-
-		textview_hidden_ssid.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.hidden_ssid), textview_hidden_ssid.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.ssid), textview_ssid.getText().toString());
 			return true;
 		});
 
 		textview_bssid.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.bssid), textview_bssid.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.bssid), textview_bssid.getText().toString());
 			return true;
 		});
 
 		textview_ipv4.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.ipv4), textview_ipv4.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.ipv4), textview_ipv4.getText().toString());
 			return true;
 		});
 
 		textview_ipv6.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.ipv6), textview_ipv6.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.ipv6), textview_ipv6.getText().toString());
 			return true;
 		});
 
 		textview_gateway_ip.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.gateway_ip), textview_gateway_ip.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.gateway_ip), textview_gateway_ip.getText().toString());
 			return true;
 		});
 
 		textview_hostname.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.hostname), textview_hostname.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.hostname), textview_hostname.getText().toString());
 			return true;
 		});
 
 		textview_wifi_standard.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.wifi_standard), textview_wifi_standard.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.wifi_standard), textview_wifi_standard.getText().toString());
 			return true;
 		});
 
 		textview_frequency.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.frequency), textview_frequency.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.frequency), textview_frequency.getText().toString());
 			return true;
 		});
 
 		textview_network_channel.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.network_channel), textview_network_channel.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.network_channel), textview_network_channel.getText().toString());
 			return true;
 		});
 
 		textview_rssi.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.rssi_signal_strength), textview_rssi.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.rssi_signal_strength), textview_rssi.getText().toString());
 			return true;
 		});
 
 		textview_distance.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.distance), textview_distance.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.distance), textview_distance.getText().toString());
 			return true;
 		});
 
 		textview_lease_duration.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.ip_lease_duration), textview_lease_duration.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.ip_lease_duration), textview_lease_duration.getText().toString());
 			return true;
 		});
 
 		if (Build.VERSION.SDK_INT >= 29) {
 			textview_network_speed.setOnLongClickListener(v -> {
-				copyToClipboard(getString(R.string.network_speed), textview_network_speed.getText().toString());
+				AppClipboardManager.copyToClipboard(this, getString(R.string.network_speed), textview_network_speed.getText().toString());
 				return true;
 			});
 		} else {
 			textview_network_speed_legacy.setOnLongClickListener(v -> {
-				copyToClipboard(getString(R.string.network_speed), textview_network_speed_legacy.getText().toString());
+				AppClipboardManager.copyToClipboard(this, getString(R.string.network_speed), textview_network_speed_legacy.getText().toString());
 				return true;
 			});
 		}
 
 		textview_transmitted_data.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.transmitted_mbs_gbs), textview_transmitted_data.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.transmitted_mbs_gbs), textview_transmitted_data.getText().toString());
 			return true;
 		});
 
 		textview_received_data.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.received_mbs_gbs), textview_received_data.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.received_mbs_gbs), textview_received_data.getText().toString());
 			return true;
 		});
 
 		textview_dns1.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.dns_1), textview_dns1.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.dns_1), textview_dns1.getText().toString());
 			return true;
 		});
 
 		textview_dns2.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.dns_2), textview_dns2.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.dns_2), textview_dns2.getText().toString());
 			return true;
 		});
 
 		textview_subnet_mask.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.subnet_mask), textview_subnet_mask.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.subnet_mask), textview_subnet_mask.getText().toString());
 			return true;
 		});
 
 		textview_broadcast_address.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.broadcast_address), textview_broadcast_address.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.broadcast_address), textview_broadcast_address.getText().toString());
 			return true;
 		});
 
 		textview_network_id.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.network_id), textview_network_id.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.network_id), textview_network_id.getText().toString());
 			return true;
 		});
 
 		textview_mac_address.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.mac_address), textview_mac_address.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.mac_address), textview_mac_address.getText().toString());
 			return true;
 		});
 
 		textview_network_interface.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.network_interface), textview_network_interface.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.network_interface), textview_network_interface.getText().toString());
 			return true;
 		});
 
 		textview_loopback_address.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.loopback_address), textview_loopback_address.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.loopback_address), textview_loopback_address.getText().toString());
 			return true;
 		});
 
 		textview_localhost.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.localhost_address), textview_localhost.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.localhost_address), textview_localhost.getText().toString());
 			return true;
 		});
 
 		textview_wpa_supplicant_state.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.wpa_supplicant_state), textview_wpa_supplicant_state.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.wpa_supplicant_state), textview_wpa_supplicant_state.getText().toString());
 			return true;
 		});
 
 		textview_5ghz_support.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string._5ghz_band_support), textview_5ghz_support.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string._5ghz_band_support), textview_5ghz_support.getText().toString());
 			return true;
 		});
 
 		textview_6ghz_support.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string._6ghz_band_support), textview_6ghz_support.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string._6ghz_band_support), textview_6ghz_support.getText().toString());
 			return true;
 		});
 
 		textview_60ghz_support.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string._60ghz_band_support), textview_60ghz_support.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string._60ghz_band_support), textview_60ghz_support.getText().toString());
 			return true;
 		});
 
 		textview_wifi_direct_support.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.wifi_direct_support), textview_wifi_direct_support.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.wifi_direct_support), textview_wifi_direct_support.getText().toString());
 			return true;
 		});
 
 		textview_tdls_support.setOnLongClickListener(v -> {
-			copyToClipboard(getString(R.string.tdls_support), textview_tdls_support.getText().toString());
+			AppClipboardManager.copyToClipboard(this, getString(R.string.tdls_support), textview_tdls_support.getText().toString());
 			return true;
 		});
 
 		if (Build.VERSION.SDK_INT >= 29) {
 			textview_wpa3_sae_support.setOnLongClickListener(v -> {
-				copyToClipboard(getString(R.string.wpa3_sae_support), textview_wpa3_sae_support.getText().toString());
+				AppClipboardManager.copyToClipboard(this, getString(R.string.wpa3_sae_support), textview_wpa3_sae_support.getText().toString());
 				return true;
 			});
 
 			textview_wpa3_suite_b_support.setOnLongClickListener(v -> {
-				copyToClipboard(getString(R.string.wpa3_suite_b_support), textview_wpa3_suite_b_support.getText().toString());
+				AppClipboardManager.copyToClipboard(this, getString(R.string.wpa3_suite_b_support), textview_wpa3_suite_b_support.getText().toString());
 				return true;
 			});
 		}
@@ -1460,13 +1263,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 	private void copyAllTextviews() {
 		StringBuilder strB = new StringBuilder();
-		strB.append(getString(R.string.ssid) + ": " + info_ssid).append("\n").append(getString(R.string.hidden_ssid) + ": " + info_hidden_ssid).append("\n")
-			.append(getString(R.string.bssid) + ": " + info_bssid).append("\n").append(getString(R.string.ipv4) + ": " + info_ipv4).append("\n")
-			.append(getString(R.string.ipv6) + ": " + info_ipv6).append("\n").append(getString(R.string.gateway_ip) + ": " + info_gateway_ip).append("\n")
-			.append(getString(R.string.hostname) + ": " + info_hostname).append("\n").append(getString(R.string.wifi_standard) + ": " + info_wifi_standard).append("\n")
-			.append(getString(R.string.frequency) + ": " + info_frequency).append("\n").append(getString(R.string.network_channel) + ": " + info_network_channel).append("\n")
-			.append(getString(R.string.rssi_signal_strength) + ": " + info_rssi).append("\n").append(getString(R.string.distance) + ": " + info_distance).append("\n")
-			.append(getString(R.string.ip_lease_duration) + ": " + info_lease_time).append("\n");
+		strB.append(getString(R.string.ssid) + ": " + info_ssid).append("\n").append(getString(R.string.bssid) + ": " + info_bssid).append("\n")
+			.append(getString(R.string.ipv4) + ": " + info_ipv4).append("\n").append(getString(R.string.ipv6) + ": " + info_ipv6).append("\n")
+			.append(getString(R.string.gateway_ip) + ": " + info_gateway_ip).append("\n").append(getString(R.string.hostname) + ": " + info_hostname).append("\n")
+			.append(getString(R.string.wifi_standard) + ": " + info_wifi_standard).append("\n").append(getString(R.string.frequency) + ": " + info_frequency).append("\n")
+			.append(getString(R.string.network_channel) + ": " + info_network_channel).append("\n").append(getString(R.string.rssi_signal_strength) + ": " + info_rssi).append("\n")
+			.append(getString(R.string.distance) + ": " + info_distance).append("\n").append(getString(R.string.ip_lease_duration) + ": " + info_lease_time).append("\n");
 		if (Build.VERSION.SDK_INT >= 29) {
 			strB.append(getString(R.string.network_speed) + ": " + info_network_speed).append("\n");
 		} else {
@@ -1482,13 +1284,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 			.append(getString(R.string._60ghz_band_support) + ": " + info_60ghz_support).append("\n").append(getString(R.string.wifi_direct_support) + ": " + info_p2p_support).append("\n")
 			.append(getString(R.string.tdls_support) + ": " + info_tdls_support).append("\n").append(getString(R.string.wpa3_sae_support) + ": " + info_wpa3_sae_support).append("\n")
 			.append(getString(R.string.wpa3_suite_b_support) + ": " + info_wpa3_suite_b_support);
-		copyToClipboard("all_info_text", String.valueOf(strB));
+		AppClipboardManager.copyToClipboard(this, "all_info_text", String.valueOf(strB));
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		unregisterReceiver(WiFiConnectivityReceiver);
+		unregisterReceiver(wifiConnectivityReceiver);
 	}
 
 	@Override
@@ -1496,8 +1298,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		super.onResume();
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-		WiFiConnectivityReceiver = new WiFiConnectivityReceiver();
-		registerReceiver(WiFiConnectivityReceiver, filter);
+		wifiConnectivityReceiver = new WiFiConnectivityReceiver();
+		registerReceiver(wifiConnectivityReceiver, filter);
 	}
 
 	@Override
@@ -1519,17 +1321,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		prefs.unregisterOnSharedPreferenceChangeListener(sharedPrefChangeListener);
-	}
-
-	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		if (Build.VERSION.SDK_INT >= 30) {
-			if (requestCode == LocationPermissionCode) {
+			if (requestCode == LOCATION_PERMISSION_CODE) {
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 					builder.setTitle(getString(R.string.background_location_permission))
@@ -1551,6 +1346,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 		}
 	}
 
+	@SuppressLint("MissingSuperCall")
 	@Override
 	public void onBackPressed() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);

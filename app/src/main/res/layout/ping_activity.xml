@@ -151,7 +151,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:text="@string/start"
-					android:textColor="#FFFFFF"
+					android:textColor="?attr/ButtonTextColor"
 					android:layout_marginEnd="2dp"
 					android:layout_weight="1" />
 
@@ -161,7 +161,7 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:text="@android:string/cancel"
-					android:textColor="#FFFFFF"
+					android:textColor="?attr/ButtonTextColor"
 					android:enabled="false"
 					android:layout_marginStart="2dp"
 					android:layout_weight="1" />

@@ -48,7 +48,6 @@
 	<string name="local_ip_address">Локальный IP-адрес</string>
 
 	<string name="ssid_bssid_etc">SSID, BSSID и т.д.</string>
-	<string name="hidden_ssid">Скрытый SSID</string>
 	<string name="gateway_ip">Шлюз</string>
 	<string name="hostname">Имя хоста</string>
 	<string name="wifi_standard">Стандарт Wi-Fi</string>
@@ -200,11 +199,11 @@
 	<string name="ttl_field_empty">Поле TTL не может быть пустым</string>
 	<string name="ttl_not_integer">Значение TTL не является целым числом</string>
 	<string name="ttl_lower_than_1">Значение TTL не может быть меньше 1</string>
-	<string name="packets_amount_not_defined">Не удалось выполнить пинг. Количество пакетов не определено</string>
-	<string name="packets_not_integer">Не удалось выполнить пинг, так как значение <xliff:g id="packet_amount" example="3.14">%s</xliff:g> не является целым числом</string>
-	<string name="packets_lower_than_1">Не удалось выполнить пинг хоста <xliff:g id="packet_amount" example="-1">%s</xliff:g> раз</string>
+	<string name="packet_amount_not_defined">Не удалось выполнить пинг. Количество пакетов не определено</string>
+	<string name="packet_amount_not_integer">Не удалось выполнить пинг, так как значение <xliff:g id="packet_amount" example="3.14">%s</xliff:g> не является целым числом</string>
+	<string name="packet_amount_lower_than_1">Не удалось выполнить пинг хоста <xliff:g id="packet_amount" example="-1">%s</xliff:g> раз</string>
 
-	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Ответ от <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> мс, TTL = <xliff:g id="ttl" example="30">%d</xliff:g></string>
+	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Ответ от <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> мс</string>
 	<string name="connection_timeout"><xliff:g id="packet_num" example="1">%d</xliff:g> - Время ожидания истекло</string>
 	<string name="ping_packet_stats"><xliff:g id="packets_sent" example="5">%d</xliff:g> пакетов отправлено, <xliff:g id="packets_received" example="5">%d</xliff:g> получено, <xliff:g id="packets_lost" example="0">%d</xliff:g> потеряно, <xliff:g id="packet_loss" example="0.00">%.2f</xliff:g>%% пакетов потеряно</string>
 	<string name="min_avg_max_latency_stats">Минимальное / Среднее / Максимальное время задержки:\n<xliff:g id="min_latency" example="13.5">%.2f</xliff:g> / <xliff:g id="avg_latency" example="32.0">%.2f</xliff:g> / <xliff:g id="max_latency" example="50.5">%.2f</xliff:g> мс</string>

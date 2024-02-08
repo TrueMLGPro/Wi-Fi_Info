@@ -1,6 +1,5 @@
 package com.truemlgpro.wifiinfo.ui;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,18 +30,15 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.stealthcopter.networktools.Ping;
 import com.stealthcopter.networktools.ping.PingResult;
 import com.stealthcopter.networktools.ping.PingStats;
-import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
 import com.truemlgpro.wifiinfo.R;
-import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.FontManager;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.utils.LocaleManager;
 import com.truemlgpro.wifiinfo.utils.ThemeManager;
 import com.truemlgpro.wifiinfo.utils.URLandIPConverter;
 
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
 import java.util.Objects;
-
-import me.anwarshahriar.calligrapher.Calligrapher;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PingToolActivity extends AppCompatActivity {
 	private TextView textview_nonetworkconn;
@@ -79,10 +75,19 @@ public class PingToolActivity extends AppCompatActivity {
 	private final String lineSeparator = "\n----------------------------\n";
 	private int sentPackets = 0;
 
+	private String ping_timeout_string = "";
+	private String ping_ttl_string = "";
+	private String ping_times_string = "";
+
+	private final String DEFAULT_TIMEOUT = "3000";
+	private final String DEFAULT_TTL = "30";
+	private final String DEFAULT_PACKETS = "5";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		ThemeManager.initializeThemes(this, getApplicationContext());
+		LocaleManager.initializeLocale(getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ping_activity);
@@ -91,12 +96,12 @@ public class PingToolActivity extends AppCompatActivity {
 		textview_nonetworkconn = (TextView) findViewById(R.id.textview_nonetworkconn);
 		ping_progress_bar = (ProgressBar) findViewById(R.id.ping_progress_bar);
 		text_input_layout_ping = (TextInputLayout) findViewById(R.id.input_layout_ping);
-		edit_text_ping = (EditText) findViewById(R.id.edit_text_ping);
 		text_input_layout_timeout = (TextInputLayout) findViewById(R.id.input_layout_timeout);
-		edit_text_timeout = (EditText) findViewById(R.id.edit_text_timeout);
 		text_input_layout_ttl = (TextInputLayout) findViewById(R.id.input_layout_ttl);
-		edit_text_ttl = (EditText) findViewById(R.id.edit_text_ttl);
 		text_input_layout_times = (TextInputLayout) findViewById(R.id.input_layout_times);
+		edit_text_ping = (EditText) findViewById(R.id.edit_text_ping);
+		edit_text_timeout = (EditText) findViewById(R.id.edit_text_timeout);
+		edit_text_ttl = (EditText) findViewById(R.id.edit_text_ttl);
 		edit_text_times = (EditText) findViewById(R.id.edit_text_times);
 		ping_button = (Button) findViewById(R.id.ping_button);
 		ping_button_cancel = (Button) findViewById(R.id.ping_button_cancel);
@@ -104,16 +109,14 @@ public class PingToolActivity extends AppCompatActivity {
 		ping_text = (TextView) findViewById(R.id.ping_textview);
 
 		KeepScreenOnManager.init(getWindow(), getApplicationContext());
-
-		Calligrapher calligrapher = new Calligrapher(this);
-		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
-		calligrapher.setFont(this, font, true);
+		FontManager.init(this, getApplicationContext(), true);
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
+		actionbar.setTitle(getResources().getString(R.string.ping_tool));
 
 		toolbar.setNavigationOnClickListener(v -> {
 			// Back button pressed
@@ -139,10 +142,56 @@ public class PingToolActivity extends AppCompatActivity {
 		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
 	}
 
-	@SuppressLint("SetTextI18n")
+	private void validateField(EditText editText, String input, String defaultValue) {
+		if (TextUtils.isEmpty(input)) {
+			if (editText.equals(edit_text_timeout)) {
+				setInputToDefault(editText, defaultValue, getString(R.string.timeout_field_empty));
+				ping_timeout_string = defaultValue;
+			} else if (editText.equals(edit_text_ttl)) {
+				setInputToDefault(editText, defaultValue, getString(R.string.ttl_field_empty));
+				ping_ttl_string = defaultValue;
+			} else if (editText.equals(edit_text_times)) {
+				setInputToDefault(editText, defaultValue, getString(R.string.packet_amount_not_defined));
+				ping_times_string = defaultValue;
+			}
+		} else if (!isStringInt(input)) {
+			if (editText.equals(edit_text_timeout)) {
+				setInputToDefault(editText, defaultValue, getString(R.string.timeout_not_integer));
+				ping_timeout_string = defaultValue;
+			} else if (editText.equals(edit_text_ttl)) {
+				setInputToDefault(editText, defaultValue, getString(R.string.ttl_not_integer));
+				ping_ttl_string = defaultValue;
+			} else if (editText.equals(edit_text_times)) {
+				setInputToDefault(editText, defaultValue, String.format(getString(R.string.packet_amount_not_integer), input));
+				ping_times_string = defaultValue;
+			}
+		} else if (Integer.parseInt(input) < 1) {
+			if (editText.equals(edit_text_timeout)) {
+				setInputToDefault(editText, defaultValue, getString(R.string.timeout_lower_than_1_ms));
+				ping_timeout_string = defaultValue;
+			} else if (editText.equals(edit_text_ttl)) {
+				setInputToDefault(editText, defaultValue, getString(R.string.ttl_lower_than_1));
+				ping_ttl_string = defaultValue;
+			} else if (editText.equals(edit_text_times)) {
+				setInputToDefault(editText, defaultValue, String.format(getString(R.string.packet_amount_lower_than_1), input));
+				ping_times_string = defaultValue;
+			}
+		}
+	}
+
+	private void setInputToDefault(EditText editText, String defaultStr, String errorMessage) {
+		appendResultsText(errorMessage);
+		appendResultsText(getString(R.string.resetting));
+		appendResultsText(lineSeparator);
+		editText.setText(defaultStr);
+	}
+
 	private void preparePinger() {
-		setEnabled(ping_button, false);
-		setEnabled(ping_button_cancel, true);
+		ping_timeout_string = edit_text_timeout.getText().toString();
+		ping_ttl_string = edit_text_ttl.getText().toString();
+		ping_times_string = edit_text_times.getText().toString();
+
+		disableViews();
 
 		url_ip = edit_text_ping.getText().toString();
 		if (TextUtils.isEmpty(url_ip)) {
@@ -154,102 +203,56 @@ public class PingToolActivity extends AppCompatActivity {
 			edit_text_ping.setText(url_ip);
 		}
 
-		if (TextUtils.isEmpty(edit_text_timeout.getText().toString())) {
-			appendResultsText(getString(R.string.timeout_field_empty));
-			appendResultsText(getString(R.string.resetting));
-			edit_text_timeout.setText("3000");
-		}
+		validateField(edit_text_timeout, ping_timeout_string, DEFAULT_TIMEOUT);
+		validateField(edit_text_ttl, ping_ttl_string, DEFAULT_TTL);
+		validateField(edit_text_times, ping_times_string, DEFAULT_PACKETS);
 
-		if (!isStringInt(edit_text_timeout.getText().toString())) {
-			appendResultsText(getString(R.string.timeout_not_integer));
-			appendResultsText(getString(R.string.resetting));
-			edit_text_timeout.setText("3000");
-		}
+		int ping_timeout = Integer.parseInt(ping_timeout_string);
+		int ping_ttl = Integer.parseInt(ping_ttl_string);
+		int ping_times = Integer.parseInt(ping_times_string);
 
-		if (Integer.parseInt(edit_text_timeout.getText().toString()) < 1) {
-			appendResultsText(getString(R.string.timeout_lower_than_1_ms));
-			appendResultsText(getString(R.string.resetting));
-			edit_text_timeout.setText("3000");
-		}
-
-		if (TextUtils.isEmpty(edit_text_ttl.getText().toString())) {
-			appendResultsText(getString(R.string.ttl_field_empty));
-			appendResultsText(getString(R.string.resetting));
-			edit_text_ttl.setText("30");
-		}
-
-		if (!isStringInt(edit_text_ttl.getText().toString())) {
-			appendResultsText(getString(R.string.ttl_not_integer));
-			appendResultsText(getString(R.string.resetting));
-			edit_text_ttl.setText("30");
-		}
-
-		if (Integer.parseInt(edit_text_ttl.getText().toString()) < 1) {
-			appendResultsText(getString(R.string.ttl_lower_than_1));
-			appendResultsText(getString(R.string.resetting));
-			edit_text_ttl.setText("30");
-		}
-
-		if (TextUtils.isEmpty(edit_text_times.getText().toString())) {
-			appendResultsText(getString(R.string.packets_amount_not_defined));
-			appendResultsText(getString(R.string.resetting));
-			edit_text_times.setText("5");
-		}
-
-		if (!isStringInt(edit_text_times.getText().toString())) {
-			appendResultsText(getString(R.string.packets_not_integer, edit_text_times.getText().toString()));
-			appendResultsText(getString(R.string.resetting));
-			edit_text_times.setText("5");
-		}
-
-		if (Integer.parseInt(edit_text_times.getText().toString()) < 1) {
-			appendResultsText(getString(R.string.packets_lower_than_1, edit_text_times.getText().toString()));
-			appendResultsText(getString(R.string.resetting));
-			edit_text_times.setText("5");
-		}
-
-		int ping_timeout = Integer.parseInt(edit_text_timeout.getText().toString());
-		int ping_ttl = Integer.parseInt(edit_text_ttl.getText().toString());
-		int ping_times = Integer.parseInt(edit_text_times.getText().toString());
-
-		pingHandlerThread = new HandlerThread("BackgroundPingHandlerThread", android.os.Process.THREAD_PRIORITY_BACKGROUND);
+		pingHandlerThread = new HandlerThread("PingBackgroundHandlerThread", android.os.Process.THREAD_PRIORITY_BACKGROUND);
 		pingHandlerThread.start();
 		pingHandler = new Handler(pingHandlerThread.getLooper());
 
 		pingHandler.post(() -> {
 			try {
-				String pingHostAddress = URLandIPConverter.convertUrl("https://" + url_ip);
-				InetAddress inetAddress = InetAddress.getByName(url_ip);
-				String pingHostname = inetAddress.getHostName();
-				appendResultsText(String.format(getString(R.string.ping_log_ip), pingHostAddress));
-				appendResultsText(String.format(getString(R.string.ping_log_hostname), pingHostname));
-			} catch (UnknownHostException | MalformedURLException e) {
+				AtomicReference<String> pingHostAddress = new AtomicReference<>("");
+				AtomicReference<String> pingHostname = new AtomicReference<>("");
+				URLandIPConverter.convertUrlToIp(url_ip, result -> {
+					pingHostAddress.set(result);
+					appendResultsText(String.format(getString(R.string.ping_log_ip), pingHostAddress.get()));
+				});
+
+				URLandIPConverter.convertIpToUrl(url_ip, result -> {
+					pingHostname.set(result);
+					appendResultsText(String.format(getString(R.string.ping_log_hostname), pingHostname.get()));
+					appendResultsText(getString(R.string.time_to_live_ttl) + ": " + ping_ttl);
+					startPinger(url_ip, ping_timeout, ping_ttl, ping_times);
+				});
+			} catch (Exception e) {
 				e.printStackTrace();
-				setEnabled(ping_button, true);
-				setEnabled(ping_button_cancel, false);
+				enableViews();
 				appendResultsText(lineSeparator);
 			}
 		});
-		startPinger(url_ip, ping_timeout, ping_ttl, ping_times);
 	}
 
 	private void startPinger(String url_ip, int timeout, int ttl, int times) {
 		runOnUiThread(() -> ping_progress_bar.setVisibility(View.VISIBLE));
 		pinger = Ping.Companion.onAddress(url_ip).setTimeOutMillis(timeout).setDelayMillis(500).setTimeToLive(ttl).setTimes(times).doPing(new Ping.PingListener() {
 			final long startTime = System.currentTimeMillis();
-			@SuppressLint("DefaultLocale")
 			@Override
 			public void onResult(PingResult pingResult) {
 				sentPackets++;
 				if (pingResult.isReachable()) {
 					appendResultsText(String.format(getString(R.string.ping_successful_response),
-							sentPackets, pingResult.getAddress(), pingResult.getTimeTaken(), ttl));
+							sentPackets, pingResult.getAddress(), pingResult.getTimeTaken()));
 				} else {
 					appendResultsText(String.format(getString(R.string.connection_timeout), sentPackets));
 				}
 			}
 
-			@SuppressLint("DefaultLocale")
 			@Override
 			public void onFinished(PingStats pingStats) {
 				long endTime = System.currentTimeMillis();
@@ -265,18 +268,17 @@ public class PingToolActivity extends AppCompatActivity {
 				appendResultsText(lineSeparator);
 				sentPackets = 0;
 				runOnUiThread(() -> ping_progress_bar.setVisibility(View.INVISIBLE));
-				setEnabled(ping_button, true);
-				setEnabled(ping_button_cancel, false);
+				enableViews();
 			}
 
 			@Override
 			public void onError(Exception e) {
 				e.printStackTrace();
 				appendResultsText(e.getMessage());
+				appendResultsText(lineSeparator);
 				sentPackets = 0;
 				runOnUiThread(() -> ping_progress_bar.setVisibility(View.INVISIBLE));
-				setEnabled(ping_button, true);
-				setEnabled(ping_button_cancel, false);
+				enableViews();
 			}
 		});
 	}
@@ -307,7 +309,7 @@ public class PingToolActivity extends AppCompatActivity {
 			}
 			wifi_connected = true;
 			cellular_connected = false;
-		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck.isConnected())) { // Cellular Connectivity Check
+		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck) && cellularCheck.isConnected()) { // Cellular Connectivity Check
 			showWidgets();
 			if (toolbarPingMenu != null) {
 				if (!toolbarPingMenu.findItem(R.id.clear_ping_log).isEnabled()) {
@@ -361,6 +363,16 @@ public class PingToolActivity extends AppCompatActivity {
 				view.setEnabled(enabled);
 			}
 		});
+	}
+
+	private void enableViews() {
+		setEnabled(ping_button, true);
+		setEnabled(ping_button_cancel, false);
+	}
+
+	private void disableViews() {
+		setEnabled(ping_button, false);
+		setEnabled(ping_button_cancel, true);
 	}
 
 	private void appendResultsText(final String text) {

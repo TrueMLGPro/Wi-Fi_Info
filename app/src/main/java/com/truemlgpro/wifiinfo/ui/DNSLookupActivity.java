@@ -26,9 +26,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
 import com.truemlgpro.wifiinfo.R;
-import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.FontManager;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.utils.LocaleManager;
 import com.truemlgpro.wifiinfo.utils.ThemeManager;
 
 import org.minidns.dnsserverlookup.android21.AndroidUsingLinkProperties;
@@ -40,8 +41,6 @@ import org.minidns.record.Record;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Set;
-
-import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class DNSLookupActivity extends AppCompatActivity {
 	private TextView textview_nonetworkconn;
@@ -60,12 +59,13 @@ public class DNSLookupActivity extends AppCompatActivity {
 	private String url_ip;
 	private String dns_record_type;
 
-	String lineSeparator = "\n---------------------\n";
+	final String lineSeparator = "\n---------------------\n";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		ThemeManager.initializeThemes(this, getApplicationContext());
+		LocaleManager.initializeLocale(getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dns_lookup_activity);
@@ -81,16 +81,14 @@ public class DNSLookupActivity extends AppCompatActivity {
 		dns_lookup_textview = (TextView) findViewById(R.id.dns_lookup_textview);
 
 		KeepScreenOnManager.init(getWindow(), getApplicationContext());
-
-		Calligrapher calligrapher = new Calligrapher(this);
-		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
-		calligrapher.setFont(this, font, true);
+		FontManager.init(this, getApplicationContext(), true);
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
+		actionbar.setTitle(getResources().getString(R.string.dns_lookup));
 
 		toolbar.setNavigationOnClickListener(v -> {
 			// Back button pressed
@@ -126,6 +124,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			setEnabled(get_dns_info_button, false);
+			setEnabled(edit_text_dns, false);
 			dns_lookup_progress_bar.setVisibility(View.VISIBLE);
 		}
 
@@ -165,17 +164,10 @@ public class DNSLookupActivity extends AppCompatActivity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			setEnabled(get_dns_info_button, true);
+			setEnabled(edit_text_dns, true);
 			dns_lookup_progress_bar.setVisibility(View.INVISIBLE);
 			appendResultsText(result);
 		}
-	}
-
-	private void setEnabled(final View view, final boolean enabled) {
-		runOnUiThread(() -> {
-			if (view != null) {
-				view.setEnabled(enabled);
-			}
-		});
 	}
 
 	private void appendResultsText(final String text) {
@@ -217,7 +209,7 @@ public class DNSLookupActivity extends AppCompatActivity {
 					setToolbarItemEnabled(R.id.clear_dns_log, true);
 				}
 			}
-		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck.isConnected())) { // Cellular Connectivity Check
+		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck) && cellularCheck.isConnected()) { // Cellular Connectivity Check
 			showWidgets();
 			if (toolbarDnsMenu != null) {
 				if (!toolbarDnsMenu.findItem(R.id.clear_dns_log).isEnabled()) {
@@ -253,6 +245,14 @@ public class DNSLookupActivity extends AppCompatActivity {
 		dns_lookup_results_scroll.setVisibility(View.GONE);
 		dns_lookup_progress_bar.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
+	}
+
+	private void setEnabled(final View view, final boolean enabled) {
+		runOnUiThread(() -> {
+			if (view != null) {
+				view.setEnabled(enabled);
+			}
+		});
 	}
 
 	@Override

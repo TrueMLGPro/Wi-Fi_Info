@@ -1,6 +1,7 @@
 package com.truemlgpro.wifiinfo.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,25 +33,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.stealthcopter.networktools.SubnetDevices;
 import com.stealthcopter.networktools.subnet.Device;
-import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
 import com.truemlgpro.wifiinfo.R;
-import com.truemlgpro.wifiinfo.utils.OuiDatabaseHelper;
-import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
-import com.truemlgpro.wifiinfo.models.SubnetDevice;
 import com.truemlgpro.wifiinfo.adapters.SubnetScannerAdapter;
+import com.truemlgpro.wifiinfo.models.SubnetDevice;
+import com.truemlgpro.wifiinfo.utils.FontManager;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.utils.LocaleManager;
+import com.truemlgpro.wifiinfo.utils.OUIDatabaseHelper;
 import com.truemlgpro.wifiinfo.utils.ThemeManager;
 
+import java.lang.ref.WeakReference;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import me.anwarshahriar.calligrapher.Calligrapher;
+import jcifs.CIFSContext;
+import jcifs.CIFSException;
+import jcifs.NetbiosAddress;
+import jcifs.config.PropertyConfiguration;
+import jcifs.context.BaseContext;
 
 public class SubnetScannerActivity extends AppCompatActivity {
 	private TextView textview_nonetworkconn;
@@ -65,10 +76,10 @@ public class SubnetScannerActivity extends AppCompatActivity {
 	private RecyclerView recyclerview_subnet_devices;
 
 	private ArrayList<SubnetDevice> devicesArrayList;
-	private SubnetScannerAdapter recyclerAdapter;
+	private static SubnetScannerAdapter recyclerAdapter;
 
 	private SubnetDevices subnetScanner;
-	private OuiDatabaseHelper ouiDbHelper;
+	private OUIDatabaseHelper ouiDbHelper;
 
 	private BroadcastReceiver NetworkConnectivityReceiver;
 	private ConnectivityManager connectivityManager;
@@ -78,13 +89,14 @@ public class SubnetScannerActivity extends AppCompatActivity {
 	private static Boolean wifi_connected;
 	private static Boolean cellular_connected;
 
-	private int threads = 100;
+	private int threads = 256;
 	private int timeout = 3000;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		ThemeManager.initializeThemes(this, getApplicationContext());
+		LocaleManager.initializeLocale(getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.subnet_scanner_activity);
@@ -110,19 +122,17 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		recyclerAdapter = new SubnetScannerAdapter(devicesArrayList, this);
 		recyclerview_subnet_devices.setAdapter(recyclerAdapter);
 
-		ouiDbHelper = new OuiDatabaseHelper(this);
+		ouiDbHelper = new OUIDatabaseHelper(this);
 
 		KeepScreenOnManager.init(getWindow(), getApplicationContext());
-
-		Calligrapher calligrapher = new Calligrapher(this);
-		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
-		calligrapher.setFont(this, font, true);
+		FontManager.init(this, getApplicationContext(), true);
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
+		actionbar.setTitle(getResources().getString(R.string.subnet_scanner));
 
 		toolbar.setNavigationOnClickListener(v -> {
 			// Back button pressed
@@ -158,8 +168,8 @@ public class SubnetScannerActivity extends AppCompatActivity {
 					}
 				}
 			}
-		} catch (SocketException ex) {
-			Log.e("getWiFiLocalIPv4", ex.toString());
+		} catch (SocketException e) {
+			Log.e("getWiFiLocalIPv4", e.toString());
 		}
 		return null;
 	}
@@ -175,8 +185,8 @@ public class SubnetScannerActivity extends AppCompatActivity {
 					}
 				}
 			}
-		} catch (SocketException ex) {
-			Log.e("getCellLocalIPv4", ex.toString());
+		} catch (SocketException e) {
+			Log.e("getCellLocalIPv4", e.toString());
 		}
 		return null;
 	}
@@ -220,16 +230,55 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		return String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff), (ip >> 16 & 0xff), (ip >> 24 & 0xff));
 	}
 
-	private void setEnabled(final View view, final boolean enabled) {
-		runOnUiThread(() -> {
-			if (view != null) {
-				view.setEnabled(enabled);
+	private static class NetBiosScanner {
+		private final WeakReference<Context> contextRef;
+
+		public NetBiosScanner(Context context) {
+			this.contextRef = new WeakReference<>(context);
+		}
+
+		public void performThreadedNetBiosLookup(String ipAddress) {
+			ExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+			scheduler.submit(() -> {
+				try {
+					String netBiosName = getNetBiosName(ipAddress);
+					if (netBiosName != null && !netBiosName.isEmpty()) {
+						Activity activity = (Activity) contextRef.get();
+						if (activity != null) {
+							activity.runOnUiThread(() -> recyclerAdapter.updateNetBiosName(ipAddress, netBiosName));
+						}
+					}
+				} finally {
+					scheduler.shutdownNow();
+				}
+			});
+		}
+
+		// Should run in a non-UI thread
+		@WorkerThread
+		protected String getNetBiosName(String ipAddress) {
+			String deviceNamePrimary = "";
+			try {
+				CIFSContext cifsContext = new BaseContext(new PropertyConfiguration(System.getProperties())).withGuestCrendentials();
+				NetbiosAddress[] netBiosDeviceAddresses = cifsContext.getNameServiceClient().getNbtAllByAddress(ipAddress);
+				for (NetbiosAddress addr : netBiosDeviceAddresses) {
+					if (!addr.isGroupAddress(cifsContext)) {
+						deviceNamePrimary = String.valueOf(addr.getName())
+								.replaceAll("<[0-9A-Fa-f]+>", "");
+						break;
+					}
+				}
+			} catch (UnknownHostException | CIFSException e) {
+				deviceNamePrimary = "";
 			}
-		});
+			return deviceNamePrimary;
+		}
 	}
 
-	private void addDevicesToList(final String ip, final String mac, final String vendor, final String deviceType, final String devicePing) {
-		SubnetDevice subnetDevice = new SubnetDevice(ip, mac, vendor, deviceType, devicePing);
+	private void addDevicesToList(
+			final String ip, final String mac, final String vendor,
+			final String deviceName, final String deviceType, final String devicePing) {
+		SubnetDevice subnetDevice = new SubnetDevice(ip, mac, vendor, deviceName, deviceType, devicePing);
 		Comparator<SubnetDevice> ipComparator = (itemOne, itemNext) -> convertDiscoveredIPToLong(itemOne.getIP()).compareTo(convertDiscoveredIPToLong(itemNext.getIP()));
 		int index = Collections.binarySearch(devicesArrayList, subnetDevice, ipComparator);
 		int insertedItemPosition = (index < 0) ? (-index - 1) : index;
@@ -259,26 +308,29 @@ public class SubnetScannerActivity extends AppCompatActivity {
 	}
 
 	private void startSubnetScanner() {
-		setEnabled(subnet_scan_button, false);
-		setEnabled(subnet_scan_cancel_button, true);
+		String threads_string = edittext_threads.getText().toString();
+		String timeout_string = edittext_timeout.getText().toString();
 
-		if (TextUtils.isEmpty(edittext_threads.getText().toString()) || !isStringInt(edittext_threads.getText().toString()) || threads <= 0) {
-			edittext_threads.setText("256");
+		disableViews();
+
+		if (TextUtils.isEmpty(threads_string) || !isStringInt(threads_string) || threads <= 0) {
+			threads_string = "256";
+			edittext_threads.setText(threads_string);
 		}
+		threads = Integer.parseInt(threads_string);
 
-		if (TextUtils.isEmpty(edittext_timeout.getText().toString()) || !isStringInt(edittext_timeout.getText().toString()) || timeout <= 0) {
-			edittext_timeout.setText("3000");
+		if (TextUtils.isEmpty(timeout_string) || !isStringInt(timeout_string) || timeout <= 0) {
+			timeout_string = "3000";
+			edittext_timeout.setText(timeout_string);
 		}
-
-		threads = Integer.parseInt(edittext_threads.getText().toString());
-		timeout = Integer.parseInt(edittext_timeout.getText().toString());
+		timeout = Integer.parseInt(timeout_string);
 
 		runOnUiThread(() -> subnet_scanner_progress_bar.setVisibility(View.VISIBLE));
 
 		subnetScanner = SubnetDevices.Companion.setDisableProcNetMethod(Build.VERSION.SDK_INT > 29).fromLocalAddress().setNoThreads(threads).setTimeOutMillis(timeout).findDevices(new SubnetDevices.OnSubnetDeviceFound() {
 			@Override
 			public void onDeviceFound(Device device) {
-				String device_ping = device.time + "ms";
+				String devicePing = device.time + "ms";
 				if (wifi_connected) {
 					if (device.ip.equals(getWiFiLocalIPv4Address()) && !device.ip.equals(getGateway())) {
 						if (getMACAddress() == null || Build.VERSION.SDK_INT > 29) {
@@ -286,15 +338,17 @@ public class SubnetScannerActivity extends AppCompatActivity {
 									device.ip,
 									getString(R.string.na),
 									"",
+									Build.MANUFACTURER + " " + Build.MODEL,
 									getString(R.string.your_device),
-									device_ping);
+									devicePing);
 						} else {
 							addDevicesToList(
 									device.ip,
 									getMACAddress(),
 									ouiDbHelper.getVendorFromMac(getMACAddress()),
+									Build.MANUFACTURER + " " + Build.MODEL,
 									getString(R.string.your_device),
-									device_ping);
+									devicePing);
 						}
 					} else if (!device.ip.equals(getWiFiLocalIPv4Address()) && !device.ip.equals(getGateway())) {
 						if (device.mac == null) {
@@ -303,14 +357,16 @@ public class SubnetScannerActivity extends AppCompatActivity {
 									getString(R.string.na),
 									"",
 									"",
-									device_ping);
+									"",
+									devicePing);
 						} else {
 							addDevicesToList(
 									device.ip,
-									device.mac.toUpperCase(),
-									ouiDbHelper.getVendorFromMac(device.mac.toUpperCase()),
+									device.mac,
+									ouiDbHelper.getVendorFromMac(device.mac),
 									"",
-									device_ping);
+									"",
+									devicePing);
 						}
 					} else if (device.ip.equals(getGateway())) {
 						if (device.mac == null) {
@@ -318,15 +374,17 @@ public class SubnetScannerActivity extends AppCompatActivity {
 									device.ip,
 									getString(R.string.na),
 									"",
+									"",
 									getString(R.string.gateway),
-									device_ping);
+									devicePing);
 						} else {
 							addDevicesToList(
 									device.ip,
-									device.mac.toUpperCase(),
-									ouiDbHelper.getVendorFromMac(device.mac.toUpperCase()),
+									device.mac,
+									ouiDbHelper.getVendorFromMac(device.mac),
+									"",
 									getString(R.string.gateway),
-									device_ping);
+									devicePing);
 						}
 					}
 				}
@@ -337,28 +395,36 @@ public class SubnetScannerActivity extends AppCompatActivity {
 								device.ip,
 								getString(R.string.na),
 								"",
+								Build.MANUFACTURER + " " + Build.MODEL,
 								getString(R.string.your_device),
-								device_ping);
+								devicePing);
 					} else {
 						addDevicesToList(
 								device.ip,
 								getString(R.string.na),
 								"",
 								"",
-								device_ping);
+								"",
+								devicePing);
 					}
 				}
 
-				runOnUiThread(() -> {
-					devices_found_text.setText(String.format(getString(R.string.devices_found), devicesArrayList.size()));
-				});
+				runOnUiThread(() -> devices_found_text.setText(String.format(getString(R.string.devices_found), devicesArrayList.size())));
 			}
 
 			@SuppressLint("NotifyDataSetChanged")
 			@Override
 			public void onFinished(final ArrayList<Device> devicesFound) {
-				setEnabled(subnet_scan_button, true);
-				setEnabled(subnet_scan_cancel_button, false);
+				enableViews();
+
+				if (wifi_connected && !cellular_connected) {
+					for (Device device : devicesFound) {
+						if (!device.ip.equals(getWiFiLocalIPv4Address())) {
+							new NetBiosScanner(SubnetScannerActivity.this).performThreadedNetBiosLookup(device.ip);
+						}
+					}
+				}
+
 				runOnUiThread(() -> {
 					devices_found_text.setText(String.format(getString(R.string.devices_found), devicesFound.size()));
 					sortListByIP();
@@ -391,7 +457,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 			local_ip_text.setText(String.format(getString(R.string.your_ip), getWiFiLocalIPv4Address()));
 			wifi_connected = true;
 			cellular_connected = false;
-		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck.isConnected())) { // Cellular Connectivity Check
+		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck) && cellularCheck.isConnected()) { // Cellular Connectivity Check
 			showWidgets();
 			local_ip_text.setText(String.format(getString(R.string.your_ip), getCellularLocalIPv4Address()));
 			wifi_connected = false;
@@ -439,6 +505,24 @@ public class SubnetScannerActivity extends AppCompatActivity {
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
 	}
 
+	private void setEnabled(final View view, final boolean enabled) {
+		runOnUiThread(() -> {
+			if (view != null) {
+				view.setEnabled(enabled);
+			}
+		});
+	}
+
+	private void enableViews() {
+		setEnabled(subnet_scan_button, true);
+		setEnabled(subnet_scan_cancel_button, false);
+	}
+
+	private void disableViews() {
+		setEnabled(subnet_scan_button, false);
+		setEnabled(subnet_scan_cancel_button, true);
+	}
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -455,5 +539,11 @@ public class SubnetScannerActivity extends AppCompatActivity {
 			subnetScanner.cancel();
 		}
 		unregisterReceiver(NetworkConnectivityReceiver);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		recyclerview_subnet_devices.setAdapter(null);
 	}
 }

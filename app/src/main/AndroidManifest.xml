@@ -4,7 +4,7 @@
 
 	<uses-sdk
 		android:minSdkVersion="21"
-		android:targetSdkVersion="33"
+		android:targetSdkVersion="34"
 		tools:overrideLibrary="thecollectiveweb.com.tcwhois"
 		tools:ignore="GradleOverrides" />
 
@@ -15,16 +15,19 @@
 	<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 	<application
+		android:name=".App"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:theme="@style/DarkTheme"
 		android:largeHeap="true"
 		android:usesCleartextTraffic="true"
-		tools:targetApi="tiramisu"
-		android:localeConfig="@xml/locale_config">
+		android:localeConfig="@xml/locale_config"
+		tools:targetApi="tiramisu">
 
 		<meta-data android:name="android.webkit.WebView.MetricsOptOut"
 			android:value="true" />
@@ -33,7 +36,7 @@
 			android:name="com.truemlgpro.wifiinfo.ui.MainActivity"
 			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:theme="@style/SplashDark"
+			android:theme="@style/Theme.App.Starting"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -128,12 +131,18 @@
 
 		<service
 			android:name=".services.ConnectionStateService"
-			android:enabled="true">
+			android:enabled="true"
+			android:foregroundServiceType="specialUse">
+			<property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+				android:value="This service listens to the state of the Wi-Fi connection and manages the lifecycle of the NotificationService based on the changes of this state. When the user disconnects from a Wi-Fi network, this service stops the NotificationService to avoid unnecessary battery drain. Likewise, when the user reconnects to a Wi-Fi network, this service restarts the NotificationService." />
 		</service>
 
 		<service
 			android:name=".services.NotificationService"
-			android:enabled="true">
+			android:enabled="true"
+			android:foregroundServiceType="specialUse">
+			<property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+				android:value="This service provides real-time updates of the current Wi-Fi connection information such as SSID, BSSID, RSSI, etc., even when the application is not running or is in the background." />
 		</service>
 
 		<service

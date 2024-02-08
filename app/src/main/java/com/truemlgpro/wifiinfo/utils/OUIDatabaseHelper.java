@@ -7,13 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-public class OuiDatabaseHelper extends SQLiteAssetHelper {
+public class OUIDatabaseHelper extends SQLiteAssetHelper {
 	private static final String DATABASE_NAME = "oui.db";
 	private static final String TABLE_NAME = "oui";
 	private static final String COLUMN_MAC = "mac";
 	private static final String COLUMN_VENDOR = "vendor";
 
-	public OuiDatabaseHelper(Context context) {
+	public OUIDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, 1);
 	}
 

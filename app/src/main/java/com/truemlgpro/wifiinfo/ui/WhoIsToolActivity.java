@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,18 +26,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
 import com.truemlgpro.wifiinfo.R;
-import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.FontManager;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.utils.LocaleManager;
 import com.truemlgpro.wifiinfo.utils.ThemeManager;
 import com.truemlgpro.wifiinfo.utils.URLandIPConverter;
 
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
 
-import me.anwarshahriar.calligrapher.Calligrapher;
 import thecollectiveweb.com.tcwhois.TCWHOIS;
 
 public class WhoIsToolActivity extends AppCompatActivity {
@@ -60,15 +60,13 @@ public class WhoIsToolActivity extends AppCompatActivity {
 	private static final int STATE_RUNNABLE_STARTED = 11;
 	private static final int STATE_RUNNABLE_FINISHED = 12;
 
-	private static final int MIN_TEXT_LENGTH = 4;
-	private static final String EMPTY_STRING = "";
-
 	private BroadcastReceiver NetworkConnectivityReceiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		ThemeManager.initializeThemes(this, getApplicationContext());
+		LocaleManager.initializeLocale(getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.who_is_tool_activity);
@@ -83,16 +81,14 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		who_is_scroll = (ScrollView) findViewById(R.id.who_is_scroll);
 
 		KeepScreenOnManager.init(getWindow(), getApplicationContext());
-
-		Calligrapher calligrapher = new Calligrapher(this);
-		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
-		calligrapher.setFont(this, font, true);
+		FontManager.init(this, getApplicationContext(), true);
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
+		actionbar.setTitle(getResources().getString(R.string.whois_tool));
 
 		toolbar.setNavigationOnClickListener(v -> {
 			// Back button pressed
@@ -100,51 +96,36 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		});
 
 		fetch_whois_info_button.setOnClickListener(v -> {
-			if (!shouldShowError()) {
-				startWhoIsThread();
-				hideError();
-			} else {
-				showError();
+			String whois_url_ip = who_is_edit_text.getText().toString();
+			if (TextUtils.isEmpty(whois_url_ip)) {
+				whois_url_ip = "google.com";
+				who_is_edit_text.setText(whois_url_ip);
 			}
+			startWhoIsThread();
 		});
-	}
-
-	private boolean shouldShowError() {
-		int textLength = who_is_edit_text.getText().length();
-		return textLength >= 0 && textLength < MIN_TEXT_LENGTH;
-	}
-
-	private void showError() {
-		who_is_input_layout.setError(getString(R.string.field_too_short));
-	}
-
-	private void hideError() {
-		who_is_input_layout.setError(EMPTY_STRING);
 	}
 
 	private final Handler msgHandler = new Handler(Looper.myLooper()) {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-				case STATE_SUCCESS:
+				case STATE_SUCCESS -> {
 					whoIsBundle = msg.getData();
 					String whoIsQuery = whoIsBundle.getString(MSG_KEY);
 					appendResultsText(whoIsQuery);
-					break;
-				case STATE_ERROR_MALFORMED_URL:
-					appendResultsText(getString(R.string.error_malformed_url));
-					break;
-				case STATE_ERROR_UNKNOWN_HOST:
-					appendResultsText(getString(R.string.error_unknown_host));
-					break;
-				case STATE_RUNNABLE_STARTED:
+				}
+				case STATE_ERROR_MALFORMED_URL ->
+						appendResultsText(getString(R.string.error_malformed_url));
+				case STATE_ERROR_UNKNOWN_HOST ->
+						appendResultsText(getString(R.string.error_unknown_host));
+				case STATE_RUNNABLE_STARTED -> {
 					runOnUiThread(() -> who_is_progress_bar.setVisibility(View.VISIBLE));
 					setEnabled(fetch_whois_info_button, false);
-					break;
-				case STATE_RUNNABLE_FINISHED:
+				}
+				case STATE_RUNNABLE_FINISHED -> {
 					runOnUiThread(() -> who_is_progress_bar.setVisibility(View.INVISIBLE));
 					setEnabled(fetch_whois_info_button, true);
-					break;
+				}
 			}
 		}
 	};
@@ -153,23 +134,19 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		@Override
 		public void run() {
 			msgHandler.sendEmptyMessage(STATE_RUNNABLE_STARTED);
-			try {
-				String url = who_is_edit_text.getText().toString();
-				String ip = URLandIPConverter.convertUrl("https://" + url);
-				String fetched_whois_data = getWhoIsInfo(url);
-				String lineSeparator = "\n----------------------------\n";
-				String output = String.format(getString(R.string.whois_result_output), url, ip, fetched_whois_data, lineSeparator);
-				Message msg = msgHandler.obtainMessage(STATE_SUCCESS);
-				whoIsBundle.putString(MSG_KEY, output);
-				msg.setData(whoIsBundle);
-				msgHandler.sendMessage(msg);
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-				msgHandler.sendEmptyMessage(STATE_ERROR_MALFORMED_URL);
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-				msgHandler.sendEmptyMessage(STATE_ERROR_UNKNOWN_HOST);
-			}
+
+			String url = who_is_edit_text.getText().toString();
+			AtomicReference<String> ip = new AtomicReference<>("");
+			URLandIPConverter.convertUrlToIp(url, ip::set);
+			String fetched_whois_data = getWhoIsInfo(url);
+
+			String lineSeparator = "\n----------------------------\n";
+			String output = String.format(getString(R.string.whois_result_output), url, ip, fetched_whois_data, lineSeparator);
+
+			Message msg = msgHandler.obtainMessage(STATE_SUCCESS);
+			whoIsBundle.putString(MSG_KEY, output);
+			msg.setData(whoIsBundle);
+			msgHandler.sendMessage(msg);
 			msgHandler.sendEmptyMessage(STATE_RUNNABLE_FINISHED);
 		}
 	};
@@ -191,14 +168,6 @@ public class WhoIsToolActivity extends AppCompatActivity {
 			appendResultsText(getString(R.string.error_failed_to_execute));
 		}
 		return whoisData;
-	}
-
-	private void setEnabled(final View view, final boolean enabled) {
-		runOnUiThread(() -> {
-			if (view != null) {
-				view.setEnabled(enabled);
-			}
-		});
 	}
 
 	class NetworkConnectivityReceiver extends BroadcastReceiver {
@@ -225,7 +194,7 @@ public class WhoIsToolActivity extends AppCompatActivity {
 					setToolbarItemEnabled(R.id.clear_whois_log, true);
 				}
 			}
-		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck.isConnected())) { // Cellular Connectivity Check
+		} else if (isSimCardPresent(this) && Objects.nonNull(cellularCheck) && cellularCheck.isConnected()) { // Cellular Connectivity Check
 			showWidgets();
 			if (toolbarWhoisMenu != null) {
 				if (!toolbarWhoisMenu.findItem(R.id.clear_whois_log).isEnabled()) {
@@ -261,6 +230,14 @@ public class WhoIsToolActivity extends AppCompatActivity {
 		fetch_whois_info_button.setVisibility(View.GONE);
 		who_is_progress_bar.setVisibility(View.GONE);
 		textview_nonetworkconn.setVisibility(View.VISIBLE);
+	}
+
+	private void setEnabled(final View view, final boolean enabled) {
+		runOnUiThread(() -> {
+			if (view != null) {
+				view.setEnabled(enabled);
+			}
+		});
 	}
 
 	private void appendResultsText(final String text) {

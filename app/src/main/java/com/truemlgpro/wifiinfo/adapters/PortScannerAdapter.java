@@ -21,10 +21,10 @@ public class PortScannerAdapter extends RecyclerView.Adapter<PortScannerAdapter.
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
-		public TextView textview_open_port;
-		public TextView textview_port_service_name;
-		public TextView textview_port_service_desc;
-		public TextView textview_port_service_protocol;
+		public final TextView textview_open_port;
+		public final TextView textview_port_service_name;
+		public final TextView textview_port_service_desc;
+		public final TextView textview_port_service_protocol;
 
 		public ViewHolder(View itemView) {
 			super(itemView);
@@ -45,10 +45,10 @@ public class PortScannerAdapter extends RecyclerView.Adapter<PortScannerAdapter.
 	@Override
 	public void onBindViewHolder(@NonNull PortScannerAdapter.ViewHolder holder, int position) {
 		DiscoveredPort discoveredPort = discoveredPortsArrayList.get(position);
-		holder.textview_open_port.setText(discoveredPort.getOpenPort());
-		holder.textview_port_service_name.setText(discoveredPort.getPortServiceName());
-		holder.textview_port_service_desc.setText(discoveredPort.getPortServiceDescription());
-		holder.textview_port_service_protocol.setText(discoveredPort.getPortServiceProtocol());
+		holder.textview_open_port.setText(discoveredPort.openPort());
+		holder.textview_port_service_name.setText(discoveredPort.portServiceName());
+		holder.textview_port_service_desc.setText(discoveredPort.portServiceDescription());
+		holder.textview_port_service_protocol.setText(discoveredPort.portServiceProtocol());
 	}
 
 	@Override

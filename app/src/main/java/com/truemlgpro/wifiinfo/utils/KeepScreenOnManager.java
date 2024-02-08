@@ -3,20 +3,20 @@ package com.truemlgpro.wifiinfo.utils;
 import android.content.Context;
 import android.view.Window;
 
-import com.truemlgpro.wifiinfo.ui.MainActivity;
-import com.truemlgpro.wifiinfo.ui.SettingsActivity;
+import com.truemlgpro.wifiinfo.interfaces.PreferenceDefaults;
+import com.truemlgpro.wifiinfo.interfaces.PreferenceKeys;
 
 /**
  * A helper class for managing KEEP_SCREEN_ON flags
  */
 public class KeepScreenOnManager {
 	/**
-	 * Sets or resets the activity window FLAG_KEEP_SCREEN_ON flag depending on SharedPreference value
+	 * Sets or resets the activity window FLAG_KEEP_SCREEN_ON flag depending on the SharedPreference value
 	 * @param activityWindow a window to pass using getWindow() on Activity
-	 * @param appContext a context to pass, has to be an Application Context
+	 * @param appContext a context to pass, has to be an App Context
 	 */
 	public static void init(Window activityWindow, Context appContext) {
-		boolean keyKeepScreenOn = new SharedPreferencesManager(appContext).retrieveBoolean(SettingsActivity.KEY_PREF_KEEP_SCREEN_ON_SWITCH, MainActivity.keepScreenOn);
+		boolean keyKeepScreenOn = new SharedPreferencesManager(appContext).retrieveBoolean(PreferenceKeys.KEY_PREF_KEEP_SCREEN_ON, PreferenceDefaults.KEEP_SCREEN_ON);
 
 		if (keyKeepScreenOn) {
 			keepScreenOn(activityWindow);

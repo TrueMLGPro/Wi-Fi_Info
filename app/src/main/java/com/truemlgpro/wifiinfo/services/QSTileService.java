@@ -28,17 +28,17 @@ import java.util.Enumeration;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class QSTileService extends TileService {
-	static Tile qs_tile;
+	private static Tile qs_tile;
 
-	NetworkInfo wifiCheck;
-	NetworkInfo cellularCheck;
+	private NetworkInfo wifiCheck;
+	private NetworkInfo cellularCheck;
 
-	boolean switchIP = true;
+	private boolean switchIP = true;
 
-	Icon wifiDefaultIcon;
-	static Icon wifiSuccessIcon;
-	static Icon wifiFailIcon;
-	Icon updateIcon;
+	private static Icon wifiSuccessIcon;
+	private static Icon wifiFailIcon;
+	private Icon wifiDefaultIcon;
+	private Icon updateIcon;
 
 	@Override
 	public void onStartListening() {
@@ -56,6 +56,7 @@ public class QSTileService extends TileService {
 	@Override
 	public void onStopListening() {
 		super.onStopListening();
+		qs_tile = null;
 		wifiDefaultIcon = null;
 		wifiSuccessIcon = null;
 		wifiFailIcon = null;
@@ -128,8 +129,8 @@ public class QSTileService extends TileService {
 					}
 				}
 			}
-		} catch (SocketException ex) {
-			Log.e("getIPv4Address()", ex.toString());
+		} catch (SocketException e) {
+			Log.e("getIPv4Address()", e.toString());
 		}
 		return null;
 	}

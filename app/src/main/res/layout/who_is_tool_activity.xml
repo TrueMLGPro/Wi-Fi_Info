@@ -52,15 +52,13 @@
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
 			android:gravity="center"
-			android:orientation="vertical"
-			android:paddingBottom="4dp">
+			android:orientation="vertical">
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/url_to_ip_input_layout"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:hint="@string/enter_url"
-				app:errorEnabled="true">
+				android:hint="@string/enter_url">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:id="@+id/url_to_ip_edit_text"
@@ -76,8 +74,10 @@
 				android:id="@+id/fetch_whois_info_button"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp"
+				android:layout_marginBottom="4dp"
 				android:text="@string/fetch"
-				android:textColor="#FFFFFF"
+				android:textColor="?attr/ButtonTextColor"
 				style="@style/Widget.AppCompat.Button.Colored" />
 
 		</LinearLayout>

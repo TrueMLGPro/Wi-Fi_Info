@@ -91,7 +91,7 @@
 				android:layout_marginEnd="2dp"
 				android:layout_weight="1"
 				android:text="@string/start"
-				android:textColor="#FFFFFF" />
+				android:textColor="?attr/ButtonTextColor" />
 
 			<Spinner
 				android:id="@+id/spinner_dns_record_types"

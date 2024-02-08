@@ -41,7 +41,7 @@
 	<!-- Light theme colors -->
 	<color name="colorPrimaryLightTheme">#FAFAFA</color>
 	<color name="colorOnPrimaryLightTheme">#000000</color>
-	<color name="disabledButtonColor">#555555</color> <!-- To increase contrast on light background -->
+	<color name="disabledButtonColor">#D0D0D0</color> <!-- To increase contrast on light background -->
 	<color name="primaryTextColorLight">#000000</color>
 	<color name="cardTextColorLight">#000000</color>
 	<color name="cardHeaderBackgroundLight">#F4F4F4</color>

@@ -3,6 +3,7 @@
 	<attr name="TextColor" format="reference|color" />
 	<attr name="TitleTextColor" format="reference|color" />
 	<attr name="SubtitleTextColor" format="reference|color" />
+	<attr name="ButtonTextColor" format="reference|color" />
 	<attr name="CardTextColor" format="reference|color" />
 	<attr name="BackgroundColor" format="reference|color" />
 	<attr name="CardHeaderBackgroundColor" format="reference|color" />

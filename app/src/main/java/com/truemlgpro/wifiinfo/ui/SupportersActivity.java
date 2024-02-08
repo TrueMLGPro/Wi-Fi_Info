@@ -10,12 +10,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
 import com.truemlgpro.wifiinfo.R;
-import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.FontManager;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.utils.LocaleManager;
 import com.truemlgpro.wifiinfo.utils.ThemeManager;
-
-import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class SupportersActivity extends AppCompatActivity {
 	private TextView pab_text;
@@ -28,17 +27,17 @@ public class SupportersActivity extends AppCompatActivity {
 	private TextView artem_text;
 	private TextView terrin_text;
 	private TextView torneix_text;
+	private TextView ognjen28a_text;
 	private TextView killbayne_text;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		ThemeManager.initializeThemes(this, getApplicationContext());
+		LocaleManager.initializeLocale(getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.supporters_activity);
-
-		KeepScreenOnManager.init(getWindow(), getApplicationContext());
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		pab_text = (TextView) findViewById(R.id.pab_text);
@@ -51,17 +50,18 @@ public class SupportersActivity extends AppCompatActivity {
 		artem_text = (TextView) findViewById(R.id.artem_text);
 		terrin_text = (TextView) findViewById(R.id.terrin_text);
 		torneix_text = (TextView) findViewById(R.id.torneix_text);
+		ognjen28a_text = (TextView) findViewById(R.id.ognjen28a_text);
 		killbayne_text = (TextView) findViewById(R.id.killbayne_text);
 
-		Calligrapher calligrapher = new Calligrapher(this);
-		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
-		calligrapher.setFont(this, font, true);
+		KeepScreenOnManager.init(getWindow(), getApplicationContext());
+		FontManager.init(this, getApplicationContext(), true);
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
+		actionbar.setTitle(getResources().getString(R.string.supporters));
 
 		toolbar.setNavigationOnClickListener(v -> {
 			// Back button pressed
@@ -82,6 +82,7 @@ public class SupportersActivity extends AppCompatActivity {
 		artem_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_artem)));
 		terrin_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_terrin_tin)));
 		torneix_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_torneix)));
+		ognjen28a_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_ognjen28a)));
 		killbayne_text.setOnClickListener(v -> copyToClipboard(getString(R.string.supporter_killbayne)));
 	}
 

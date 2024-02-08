@@ -294,34 +294,6 @@
 							android:layout_marginTop="16dp">
 
 							<TextView
-								android:id="@+id/textview_hidden_ssid_name"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_alignParentStart="true"
-								android:layout_toStartOf="@id/textview_hidden_ssid_value"
-								android:textSize="14sp"
-								android:textColor="?attr/CardTextColor"
-								android:text="@string/hidden_ssid" />
-
-							<TextView
-								android:id="@+id/textview_hidden_ssid_value"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_alignParentEnd="true"
-								android:text="@string/na"
-								android:textColor="?attr/CardTextColor"
-								android:textSize="14sp"
-								android:textStyle="bold" />
-
-						</RelativeLayout>
-
-						<RelativeLayout
-							android:layout_width="match_parent"
-							android:layout_height="match_parent"
-							android:orientation="horizontal"
-							android:layout_marginTop="16dp">
-
-							<TextView
 								android:id="@+id/textview_bssid_name"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
@@ -904,34 +876,6 @@
 							android:layout_marginTop="16dp">
 
 							<TextView
-								android:id="@+id/textview_network_id_name"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_alignParentStart="true"
-								android:layout_toStartOf="@id/textview_network_id_value"
-								android:textSize="14sp"
-								android:textColor="?attr/CardTextColor"
-								android:text="@string/network_id" />
-
-							<TextView
-								android:id="@+id/textview_network_id_value"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_alignParentEnd="true"
-								android:text="@string/na"
-								android:textColor="?attr/CardTextColor"
-								android:textSize="14sp"
-								android:textStyle="bold" />
-
-						</RelativeLayout>
-
-						<RelativeLayout
-							android:layout_width="match_parent"
-							android:layout_height="match_parent"
-							android:orientation="horizontal"
-							android:layout_marginTop="16dp">
-
-							<TextView
 								android:id="@+id/textview_mac_address_name"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
@@ -971,6 +915,34 @@
 
 							<TextView
 								android:id="@+id/textview_network_interface_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textColor="?attr/CardTextColor"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<TextView
+								android:id="@+id/textview_network_id_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_network_id_value"
+								android:textSize="14sp"
+								android:textColor="?attr/CardTextColor"
+								android:text="@string/network_id" />
+
+							<TextView
+								android:id="@+id/textview_network_id_value"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_alignParentEnd="true"

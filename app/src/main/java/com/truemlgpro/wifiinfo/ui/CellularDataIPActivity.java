@@ -20,9 +20,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import com.github.clans.fab.FloatingActionButton;
-import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
 import com.truemlgpro.wifiinfo.R;
-import com.truemlgpro.wifiinfo.utils.SharedPreferencesManager;
+import com.truemlgpro.wifiinfo.utils.AppClipboardManager;
+import com.truemlgpro.wifiinfo.utils.FontManager;
+import com.truemlgpro.wifiinfo.utils.KeepScreenOnManager;
+import com.truemlgpro.wifiinfo.utils.LocaleManager;
 import com.truemlgpro.wifiinfo.utils.ThemeManager;
 
 import java.io.BufferedReader;
@@ -39,8 +41,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import me.anwarshahriar.calligrapher.Calligrapher;
-
 public class CellularDataIPActivity extends AppCompatActivity {
 	private TextView textview_nocellconn;
 	private CardView cardview_ip;
@@ -56,6 +56,7 @@ public class CellularDataIPActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		ThemeManager.initializeThemes(this, getApplicationContext());
+		LocaleManager.initializeLocale(getApplicationContext());
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cellular_data_ip_activity);
@@ -70,25 +71,22 @@ public class CellularDataIPActivity extends AppCompatActivity {
 		fab_update_ip = (FloatingActionButton) findViewById(R.id.fab_update_ip);
 
 		KeepScreenOnManager.init(getWindow(), getApplicationContext());
-
-		Calligrapher calligrapher = new Calligrapher(this);
-		String font = new SharedPreferencesManager(getApplicationContext()).retrieveString(SettingsActivity.KEY_PREF_APP_FONT, MainActivity.appFont);
-		calligrapher.setFont(this, font, true);
+		FontManager.init(this, getApplicationContext(), true);
+		initCopyableText();
 
 		setSupportActionBar(toolbar);
 		final ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 		actionbar.setDisplayShowHomeEnabled(true);
 		actionbar.setElevation(20);
+		actionbar.setTitle(getResources().getString(R.string.cellular_data_ip));
 
 		toolbar.setNavigationOnClickListener(v -> {
 			// Back button pressed
 			finish();
 		});
 
-		fab_update_ip.setOnClickListener(v -> {
-			new PublicIPAsyncTask().execute();
-		});
+		fab_update_ip.setOnClickListener(v -> new PublicIPAsyncTask().execute());
 
 		checkCellularConnectivity();
 	}
@@ -157,7 +155,7 @@ public class CellularDataIPActivity extends AppCompatActivity {
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		NetworkInfo cellularCheck = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-		if (isSimCardPresent(this) && Objects.nonNull(cellularCheck.isConnected())) {
+		if (isSimCardPresent(this) && Objects.nonNull(cellularCheck) && cellularCheck.isConnected()) {
 			showWidgets();
 			textview_local_ipv4_cell.setText(getCellularIPv4Address());
 			textview_local_ipv6_cell.setText(getCellularIPv6Address());
@@ -180,8 +178,8 @@ public class CellularDataIPActivity extends AppCompatActivity {
 					}
 				}
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return getString(R.string.na);
 	}
@@ -201,10 +199,27 @@ public class CellularDataIPActivity extends AppCompatActivity {
 					}
 				}
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return getString(R.string.na);
+	}
+
+	private void initCopyableText() {
+		textview_public_ip_cell.setOnLongClickListener(v -> {
+			AppClipboardManager.copyToClipboard(this, getString(R.string.public_ip_address), textview_public_ip_cell.getText().toString());
+			return true;
+		});
+
+		textview_local_ipv4_cell.setOnLongClickListener(v -> {
+			AppClipboardManager.copyToClipboard(this, getString(R.string.ipv4), textview_local_ipv4_cell.getText().toString());
+			return true;
+		});
+
+		textview_local_ipv6_cell.setOnLongClickListener(v -> {
+			AppClipboardManager.copyToClipboard(this, getString(R.string.ipv6), textview_local_ipv6_cell.getText().toString());
+			return true;
+		});
 	}
 
 	private void showWidgets() {
