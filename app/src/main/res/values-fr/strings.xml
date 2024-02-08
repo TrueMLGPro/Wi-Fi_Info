@@ -48,7 +48,6 @@
 	<string name="local_ip_address">Adresse IP locale</string>
 
 	<string name="ssid_bssid_etc">SSID, BSSID, etc.</string>
-	<string name="hidden_ssid">SSID Caché</string>
 	<string name="gateway_ip">IP Passerelle</string>
 	<string name="hostname">Nom d\'hôte</string>
 	<string name="wifi_standard">Norme Wi-Fi</string>
@@ -199,10 +198,10 @@
 	<string name="ttl_field_empty">Le champ texte TTL ne peut pas être vide</string>
 	<string name="ttl_not_integer">La valeur du TTL n\'est pas un entier</string>
 	<string name="ttl_lower_than_1">La valeur du TTL ne peut pas être inférieure à 1</string>
-	<string name="packets_amount_not_defined">Il n\'est pas possible d\'envoyer un ping à l\'hôte. La quantité de paquets n\'est pas définie</string>
-	<string name="packets_not_integer">Impossible d\'envoyer un ping à l\'hôte car <xliff:g id="packet_amount" example="3.14">%s</xliff:g> n\'est pas un entier</string>
-	<string name="packets_lower_than_1">Impossible d\'envoyer un ping à l\'hôte <xliff:g id="packet_amount" example="-1">%s</xliff:g> fois</string>
-	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Réponse de <xliff:g id="host" example="google.com/216.58.208.206">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> ms, TTL = <xliff:g id="ttl" example="30">%d</xliff:g></string>
+	<string name="packet_amount_not_defined">Il n\'est pas possible d\'envoyer un ping à l\'hôte. La quantité de paquets n\'est pas définie</string>
+	<string name="packet_amount_not_integer">Impossible d\'envoyer un ping à l\'hôte car <xliff:g id="packet_amount" example="3.14">%s</xliff:g> n\'est pas un entier</string>
+	<string name="packet_amount_lower_than_1">Impossible d\'envoyer un ping à l\'hôte <xliff:g id="packet_amount" example="-1">%s</xliff:g> fois</string>
+	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Réponse de <xliff:g id="host" example="google.com/216.58.208.206">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> ms</string>
 	<string name="connection_timeout"><xliff:g id="packet_num" example="1">%d</xliff:g> - Délai de connexion</string>
 	<string name="ping_packet_stats"><xliff:g id="packets_sent" example="5">%d</xliff:g> paquets envoyés, <xliff:g id="packets_received" example="5">%d</xliff:g> reçus, <xliff:g id="packets_lost" example="0">%d</xliff:g> perdus, <xliff:g id="packet_loss" example="0.00">%.2f</xliff:g>%% perte de paquets</string>
 	<string name="min_avg_max_latency_stats">Latence min / moy / max:\n<xliff:g id="min_latency" example="13.5">%.2f</xliff:g> / <xliff:g id="avg_latency" example="32">%.2f</xliff:g> / <xliff:g id="max_latency" example="50.5">%.2f</xliff:g> ms</string>

@@ -48,7 +48,6 @@
 	<string name="local_ip_address">Lokale IP-Adresse</string>
 
 	<string name="ssid_bssid_etc">SSID, BSSID, usw.</string>
-	<string name="hidden_ssid">Versteckte SSID</string>
 	<string name="gateway_ip">Gateway-IP</string>
 	<string name="hostname">Hostname</string>
 	<string name="wifi_standard">Wi-Fi-Standard</string>
@@ -200,10 +199,10 @@
 	<string name="ttl_field_empty">TTL-Textfeld darf nicht leer sein</string>
 	<string name="ttl_not_integer">TTL-Wert ist keine Ganzzahl</string>
 	<string name="ttl_lower_than_1">TTL-Wert kann nicht kleiner als 1 sein</string>
-	<string name="packets_amount_not_defined">Host kann nicht gepingt werden. Paketmenge ist nicht definiert</string>
-	<string name="packets_not_integer">Host kann nicht gepingt werden, da <xliff:g id="packet_amount" example="3.14">%s</xliff:g> keine Ganzzahl ist</string>
-	<string name="packets_lower_than_1">Host kann nicht <xliff:g id="packet_amount" example="-1">%s</xliff:g> mal gepingt werden</string>
-	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Antwort von <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> ms, TTL = <xliff:g id="ttl" example="30">%d</xliff:g></string>
+	<string name="packet_amount_not_defined">Host kann nicht gepingt werden. Paketmenge ist nicht definiert</string>
+	<string name="packet_amount_not_integer">Host kann nicht gepingt werden, da <xliff:g id="packet_amount" example="3.14">%s</xliff:g> keine Ganzzahl ist</string>
+	<string name="packet_amount_lower_than_1">Host kann nicht <xliff:g id="packet_amount" example="-1">%s</xliff:g> mal gepingt werden</string>
+	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Antwort von <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> ms</string>
 	<string name="connection_timeout"><xliff:g id="packet_num" example="1">%d</xliff:g> - Verbindungszeitüberschreitung</string>
 	<string name="ping_packet_stats"><xliff:g id="packets_sent" example="5">%d</xliff:g> Pakete gesendet, <xliff:g id="packets_received" example="5">%d</xliff:g> empfangen, <xliff:g id="packets_lost" example="0">%d</xliff:g> verloren, <xliff:g id="packet_loss" example="0.00">%.2f</xliff:g>%% Paketverlust</string>
 	<string name="min_avg_max_latency_stats">Min / Durchschn. / Max Latenz:\n<xliff:g id="min_latency" example="13.5">%.2f</xliff:g> / <xliff:g id="avg_latency" example="32.0">%.2f</xliff:g> / <xliff:g id="max_latency" example="50.5">%.2f</xliff:g> ms</string>

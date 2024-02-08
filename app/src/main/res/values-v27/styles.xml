@@ -5,12 +5,15 @@
 		<item name="colorPrimaryDark">@color/colorPrimaryDarkTheme</item>
 		<item name="colorAccent">@color/accentColor</item>
 	    <item name="colorOnPrimary">@color/colorOnPrimaryDarkTheme</item>
-		<item name="android:navigationBarColor">#303030</item>
-		<item name="android:statusBarColor">#303030</item>
+		<item name="android:navigationBarColor">@color/colorPrimaryDarkTheme</item>
+		<item name="android:statusBarColor">@color/colorPrimaryDarkTheme</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+	    <item name="android:windowNoTitle">true</item>
+	    <item name="windowActionBar">false</item>
 		<item name="TextColor">@color/primaryTextColorDark</item>
 		<item name="TitleTextColor">@color/toolbarTitleColorDark</item>
 		<item name="SubtitleTextColor">@color/toolbarSubtitleColorDark</item>
+	    <item name="ButtonTextColor">@android:color/white</item>
 		<item name="CardTextColor">@color/cardTextColorDark</item>
 		<item name="BackgroundColor">@color/backgroundColorDark</item>
 		<item name="CardHeaderBackgroundColor">@color/cardHeaderBackgroundDark</item>
@@ -33,9 +36,12 @@
 		<item name="android:navigationBarColor">@color/colorPrimaryDarkAmoledTheme</item>
 		<item name="android:statusBarColor">@color/colorPrimaryDarkAmoledTheme</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="android:windowNoTitle">true</item>
+		<item name="windowActionBar">false</item>
 		<item name="TextColor">@color/primaryTextColorDarkAmoled</item>
 		<item name="TitleTextColor">@color/toolbarTitleColorDarkAmoled</item>
 		<item name="SubtitleTextColor">@color/toolbarSubtitleColorDarkAmoled</item>
+		<item name="ButtonTextColor">@android:color/white</item>
 		<item name="CardTextColor">@color/cardTextColorDarkAmoled</item>
 		<item name="BackgroundColor">@color/backgroundColorDarkAmoled</item>
 		<item name="CardHeaderBackgroundColor">@color/cardHeaderBackgroundDarkAmoled</item>
@@ -61,9 +67,13 @@
 		<item name="android:statusBarColor">@color/colorPrimaryLightTheme</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
 		<item name="android:windowLightStatusBar">true</item>
+		<item name="android:windowNoTitle">true</item>
+		<item name="windowActionBar">false</item>
+		<item name="buttonStyle">@style/Widget.AppCompat.Button.Colored.Custom</item>
 		<item name="TextColor">@color/primaryTextColorLight</item>
 		<item name="TitleTextColor">@color/toolbarTitleColorLight</item>
 		<item name="SubtitleTextColor">@color/toolbarSubtitleColorLight</item>
+		<item name="ButtonTextColor">@color/button_state_text_colors</item>
 		<item name="CardTextColor">@color/cardTextColorLight</item>
 		<item name="BackgroundColor">@color/backgroundColorLight</item>
 		<item name="CardHeaderBackgroundColor">@color/cardHeaderBackgroundLight</item>
@@ -76,65 +86,5 @@
 		<item name="FAB_MainTextColor">@color/fabMainLightTextColor</item>
 		<item name="EmbedBackgroundColor">@color/embedBackgroundColorLight</item>
 		<item name="BorderColor">@color/borderColorLight</item>
-	</style>
-
-	<style name="TextColor" parent="@android:style/TextAppearance.Medium">
-		<item name="android:textColor">?TextColor</item>
-	</style>
-
-	<style name="TitleTextColor" parent="@android:style/TextAppearance.Medium">
-		<item name="titleTextColor">?TitleTextColor</item>
-	</style>
-
-	<style name="SubtitleTextColor" parent="@android:style/TextAppearance.Medium">
-		<item name="subtitleTextColor">?SubtitleTextColor</item>
-	</style>
-
-	<style name="CardTextColor" parent="@android:style/TextAppearance.Medium">
-		<item name="android:textColor">?CardTextColor</item>
-	</style>
-
-	<style name="BackgroundColor" parent="@android:style/TextAppearance.Medium">
-		<item name="android:background">?BackgroundColor</item>
-	</style>
-
-	<style name="CardHeaderBackgroundColor" parent="@android:style/TextAppearance.Medium">
-		<item name="android:background">?CardHeaderBackgroundColor</item>
-	</style>
-
-	<style name="CardBackgroundColor" parent="@android:style/TextAppearance.Medium">
-		<item name="cardBackgroundColor">?CardBackgroundColor</item>
-	</style>
-
-	<style name="FAB_IPColorEnabled" parent="@android:style/TextAppearance.Medium">
-		<item name="fab_colorNormal">?FAB_IPColorEnabled</item>
-	</style>
-
-	<style name="FAB_IPColorDisabled" parent="@android:style/TextAppearance.Medium">
-		<item name="fab_colorDisabled">?FAB_IPColorDisabled</item>
-	</style>
-
-	<style name="FAB_MainColorEnabled" parent="@android:style/TextAppearance.Medium">
-		<item name="fab_colorNormal">?FAB_MainColorEnabled</item>
-	</style>
-
-	<style name="FAB_MainColorDisabled" parent="@android:style/TextAppearance.Medium">
-		<item name="fab_colorDisabled">?FAB_MainColorDisabled</item>
-	</style>
-
-	<style name="FAB_MainColorRipple" parent="@android:style/TextAppearance.Medium">
-		<item name="fab_colorRipple">?FAB_MainColorRipple</item>
-	</style>
-
-	<style name="FAB_MainTextColor" parent="@android:style/TextAppearance.Medium">
-		<item name="menu_labels_textColor">?FAB_MainTextColor</item>
-	</style>
-	
-	<style name="EmbedBackgroundColor" parent="@android:style/TextAppearance.Medium">
-		<item name="android:background">?EmbedBackgroundColor</item>
-	</style>
-
-	<style name="BorderColor" parent="@android:style/TextAppearance.Medium">
-		<item name="android:background">?BorderColor</item>
 	</style>
 </resources>

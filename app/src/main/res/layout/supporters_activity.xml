@@ -27,21 +27,10 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
-			<TextView
-				android:id="@+id/supporters_textview"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp"
-				android:textSize="32sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporters" />
-
 			<com.mikhaellopez.circularimageview.CircularImageView
 				android:id="@+id/pab_pfp"
 				android:layout_width="64dp"
 				android:layout_height="64dp"
-				android:layout_below="@+id/supporters_textview"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="16dp"
 				app:civ_border_color="?attr/BorderColor"
@@ -57,7 +46,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/pab_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/supporter_pab" />
@@ -68,7 +57,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/pab_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="18sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/patron_diamond_tier" />
@@ -101,7 +90,7 @@
 				android:layout_height="64dp"
 				android:layout_below="@+id/pab_idea"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="20dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
@@ -115,7 +104,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/anyx_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/supporter_anyx" />
@@ -126,7 +115,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/anyx_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/app_tester" />
@@ -159,7 +148,7 @@
 				android:layout_height="64dp"
 				android:layout_below="@+id/anyx_idea"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="20dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
@@ -173,7 +162,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/andrew_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/supporter_andrebtw" />
@@ -184,7 +173,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/andrew_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/app_tester" />
@@ -217,13 +206,13 @@
 				android:layout_height="64dp"
 				android:layout_below="@+id/andrew_idea"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="20dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
 				app:civ_shadow_radius="4dp"
 				app:civ_shadow_color="#151515"
-				android:src="@drawable/asfi_rouge" />
+				android:src="@drawable/rouge" />
 
 			<TextView
 				android:id="@+id/rouge_text"
@@ -231,7 +220,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/rouge_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/supporter_air_conditioner" />
@@ -242,10 +231,10 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/rouge_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
+				android:text="@string/app_tester" /> <!-- TODO -->
 
 			<TextView
 				android:id="@+id/rouge_contributor"
@@ -275,7 +264,7 @@
 				android:layout_height="64dp"
 				android:layout_below="@+id/rouge_idea"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="20dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
@@ -289,7 +278,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/madcodez_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/supporter_madcodez" />
@@ -300,7 +289,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/madcodez_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/app_tester" />
@@ -333,13 +322,13 @@
 				android:layout_height="64dp"
 				android:layout_below="@+id/madcodez_idea"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="20dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
 				app:civ_shadow_color="#151515"
 				app:civ_shadow_radius="4dp"
-				android:src="@drawable/asfi_rouge" />
+				android:src="@drawable/asfi" />
 
 			<TextView
 				android:id="@+id/asfi_text"
@@ -347,7 +336,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/asfi_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/supporter_asfi" />
@@ -358,7 +347,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/asfi_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/app_tester" />
@@ -380,7 +369,7 @@
 				android:layout_height="64dp"
 				android:layout_below="@+id/asfi_idea"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="20dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
@@ -394,7 +383,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/akebi_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textColor="?attr/TextColor"
 				android:textSize="24sp" 
 				android:text="@string/supporter_akebi" />
@@ -405,7 +394,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/akebi_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/app_tester" />
@@ -427,7 +416,7 @@
 				android:layout_height="64dp"
 				android:layout_below="@+id/akebi_idea"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="20dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
@@ -441,7 +430,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/artem_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/supporter_artem" />
@@ -452,7 +441,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/artem_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/app_tester" />
@@ -474,7 +463,7 @@
 				android:layout_height="64dp"
 				android:layout_below="@+id/artem_idea"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="20dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
@@ -488,7 +477,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/terrin_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/supporter_terrin_tin" />
@@ -499,7 +488,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/terrin_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/app_tester" />
@@ -521,7 +510,7 @@
 				android:layout_height="64dp"
 				android:layout_below="@+id/terrin_idea"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp" 
+				android:layout_marginTop="20dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
@@ -535,7 +524,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/torneix_pfp"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textSize="24sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/supporter_torneix" />
@@ -546,7 +535,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/torneix_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/app_tester" />
@@ -563,12 +552,59 @@
 				android:text="@string/idea_provider" />
 
 			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/killbayne_pfp"
+				android:id="@+id/ognjen28a_pfp"
 				android:layout_width="64dp"
 				android:layout_height="64dp"
 				android:layout_below="@+id/torneix_idea"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="20dp"
+				app:civ_border_color="?attr/BorderColor"
+				app:civ_border_width="1dp"
+				app:civ_shadow="true"
+				app:civ_shadow_radius="4dp"
+				app:civ_shadow_color="#151515"
+				android:src="@drawable/ognjen28a" />
+
+			<TextView
+				android:id="@+id/ognjen28a_text"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/ognjen28a_pfp"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="4dp"
+				android:textSize="24sp"
+				android:textColor="?attr/TextColor"
+				android:text="@string/supporter_ognjen28a" />
+
+			<TextView
+				android:id="@+id/ognjen28a_tester"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/ognjen28a_text"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="12dp"
+				android:textSize="16sp"
+				android:textColor="?attr/TextColor"
+				android:text="@string/app_tester" />
+
+			<TextView
+				android:id="@+id/ognjen28a_idea"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/ognjen28a_tester"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="8dp"
+				android:textSize="16sp"
+				android:textColor="?attr/TextColor"
+				android:text="@string/idea_provider" />
+
+			<com.mikhaellopez.circularimageview.CircularImageView
+				android:id="@+id/killbayne_pfp"
+				android:layout_width="64dp"
+				android:layout_height="64dp"
+				android:layout_below="@+id/ognjen28a_idea"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="20dp"
 				app:civ_border_color="?attr/BorderColor"
 				app:civ_border_width="1dp"
 				app:civ_shadow="true"
@@ -583,7 +619,7 @@
 				android:layout_below="@+id/killbayne_pfp"
 				android:layout_centerHorizontal="true"
 				android:layout_gravity="center"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="4dp"
 				android:textSize="24sp" 
 				android:textColor="?attr/TextColor"
 				android:text="@string/supporter_killbayne" />
@@ -594,7 +630,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/killbayne_text"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
+				android:layout_marginTop="12dp"
 				android:textSize="16sp"
 				android:textColor="?attr/TextColor"
 				android:text="@string/app_tester" />

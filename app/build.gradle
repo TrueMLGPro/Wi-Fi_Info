@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
 	namespace "com.truemlgpro.wifiinfo"
-	compileSdk 33
-	buildToolsVersion '33.0.2'
+	compileSdk 34
+	buildToolsVersion = '34.0.0'
 
 	signingConfigs {
 		release {
@@ -14,15 +14,15 @@ android {
 		}
 	}
 	compileOptions {
-		sourceCompatibility 1.8
-		targetCompatibility 1.8
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
 	}
 	defaultConfig {
 		applicationId "com.truemlgpro.wifiinfo"
 		minSdkVersion 21
-		targetSdkVersion 33
-		versionCode 1600
-		versionName "1.6"
+		targetSdkVersion 34
+		versionCode 1610
+		versionName "1.6.1"
 	}
 	buildTypes {
 		release {
@@ -47,9 +47,9 @@ android {
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 	}
-	applicationVariants.all { variant ->
-		variant.outputs.all {
-			outputFileName = "${APP_NAME}_${defaultConfig.versionName}_${variant.buildType.name}.apk"
+	applicationVariants.configureEach { variant ->
+		variant.outputs.configureEach {
+			outputFileName = "${APP_NAME}_v${defaultConfig.versionName}_${variant.buildType.name}.apk"
 		}
 	}
 	lint {
@@ -62,10 +62,11 @@ android {
 }
 
 dependencies {
-	implementation 'androidx.appcompat:appcompat:1.7.0-alpha01'
-	implementation 'com.google.android.material:material:1.9.0'
+	implementation 'androidx.appcompat:appcompat:1.7.0-alpha03'
+	implementation 'com.google.android.material:material:1.11.0'
 	implementation 'androidx.cardview:cardview:1.0.0'
-	implementation 'androidx.preference:preference:1.2.0'
+	implementation "androidx.recyclerview:recyclerview:1.3.2"
+	implementation 'androidx.preference:preference:1.2.1'
 	implementation 'androidx.core:core-splashscreen:1.0.1'
 
 	implementation 'com.github.AnwarShahriar:Calligrapher:master'
@@ -73,8 +74,11 @@ dependencies {
 	implementation 'com.github.sougata-chatterjee:FloatingActionButton:1.7.1'
 
 	implementation 'com.github.TrueMLGPro:AndroidNetworkTools:76b8feabb6' // Fork of a Kotlin rewrite of stealthcopter/AndroidNetworkTools
-	implementation 'com.github.100rabhkr:TCWHOIS:master' // Minimum SDK version is 22, ignored in AndroidManifest.xml
-	implementation 'org.minidns:minidns-hla:1.0.4'
+	implementation 'com.github.100rabhkr:TCWHOIS:master' // Whois lookups (minimum SDK version is 22, ignored in AndroidManifest.xml)
+	implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1' // Helper for working with databases located in assets folder
+//	implementation 'org.fourthline.cling:cling-core:2.1.2' // Library for locating UPnP devices on the local network; for 1.6.2
+	implementation 'eu.agno3.jcifs:jcifs-ng:2.1.9' // Library used for locating NetBIOS devices on the local network
+	implementation 'org.minidns:minidns-hla:1.0.4' // DNS lookups
 	implementation 'org.minidns:minidns-android21:1.0.4'
 
 	implementation fileTree(dir: 'libs', include: ['*.jar'])

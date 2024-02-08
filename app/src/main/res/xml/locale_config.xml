@@ -15,6 +15,9 @@
 	<!-- Russian -->
 	<locale android:name="ru" />
 
+	<!-- Serbian -->
+	<locale android:name="sr" />
+
 	<!-- Spanish -->
 	<locale android:name="es" />
 

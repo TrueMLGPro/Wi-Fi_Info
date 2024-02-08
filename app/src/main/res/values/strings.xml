@@ -53,7 +53,6 @@
 	<string name="ssid_bssid_etc">SSID, BSSID, etc.</string>
 	<string name="ssid" translatable="false">SSID</string>
 	<string name="bssid" translatable="false">BSSID</string>
-	<string name="hidden_ssid">Hidden SSID</string>
 	<string name="gateway_ip">Gateway IP</string>
 	<string name="hostname">Hostname</string>
 	<string name="wifi_standard">Wi-Fi Standard</string>
@@ -187,16 +186,17 @@
 	<string name="product_name">Product Name</string>
 
 	<!-- SupporterActivity Strigns -->
-	<string name="supporter_pab" translatable="false">Pab#2631</string>
-	<string name="supporter_anyx" translatable="false">Anyx#1040</string>
-	<string name="supporter_andrebtw" translatable="false">andrebtw.#3452</string>
+	<string name="supporter_pab" translatable="false">arandompab</string>
+	<string name="supporter_anyx" translatable="false">a.n.y.x</string>
+	<string name="supporter_andrebtw" translatable="false">andrebtw.</string>
 	<string name="supporter_air_conditioner" translatable="false">air conditioner#7639</string>
-	<string name="supporter_madcodez" translatable="false">madcodez#1517</string>
-	<string name="supporter_asfi" translatable="false">asfi#4034</string>
-	<string name="supporter_akebi" translatable="false">Akebi#7204</string>
+	<string name="supporter_madcodez" translatable="false">yedope</string>
+	<string name="supporter_asfi" translatable="false">asfikul</string>
+	<string name="supporter_akebi" translatable="false">akebi_</string>
 	<string name="supporter_artem" translatable="false">Apтем#8524</string>
-	<string name="supporter_terrin_tin" translatable="false">Terrin Tin#5462</string>
-	<string name="supporter_torneix" translatable="false">balkan bro#7593</string>
+	<string name="supporter_terrin_tin" translatable="false">terrintin</string>
+	<string name="supporter_torneix" translatable="false">torneix</string>
+	<string name="supporter_ognjen28a" translatable="false">ognjen28a</string>
 	<string name="supporter_killbayne" translatable="false">Killbayne#2294</string>
 
 	<!-- Tool Strings -->
@@ -226,10 +226,10 @@
 	<string name="ttl_field_empty">TTL text field cannot be empty</string>
 	<string name="ttl_not_integer">TTL value is not an integer</string>
 	<string name="ttl_lower_than_1">TTL value cannot be lower than 1</string>
-	<string name="packets_amount_not_defined">Unable to ping the host. Packet amount is not defined</string>
-	<string name="packets_not_integer">Unable to ping the host since <xliff:g id="packet_amount" example="3.14">%s</xliff:g> is not an integer</string>
-	<string name="packets_lower_than_1">Unable to ping the host <xliff:g id="packet_amount" example="-1">%s</xliff:g> times</string>
-	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Response from <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> ms, TTL = <xliff:g id="ttl" example="30">%d</xliff:g></string>
+	<string name="packet_amount_not_defined">Unable to ping the host. Packet amount is not defined</string>
+	<string name="packet_amount_not_integer">Unable to ping the host since <xliff:g id="packet_amount" example="3.14">%s</xliff:g> is not an integer</string>
+	<string name="packet_amount_lower_than_1">Unable to ping the host <xliff:g id="packet_amount" example="-1">%s</xliff:g> times</string>
+	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Response from <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> ms</string>
 	<string name="connection_timeout"><xliff:g id="packet_num" example="1">%d</xliff:g> - Connection timeout</string>
 	<string name="ping_packet_stats"><xliff:g id="packets_sent" example="5">%d</xliff:g> packets sent, <xliff:g id="packets_received" example="5">%d</xliff:g> received, <xliff:g id="packets_lost" example="0">%d</xliff:g> lost, <xliff:g id="packet_loss" example="0.00">%.2f</xliff:g>%% packet loss</string>
 	<string name="min_avg_max_latency_stats">Min / Avg / Max Latency:\n<xliff:g id="min_latency" example="13.5">%.2f</xliff:g> / <xliff:g id="avg_latency" example="32.0">%.2f</xliff:g> / <xliff:g id="max_latency" example="50.5">%.2f</xliff:g> ms</string>

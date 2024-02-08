@@ -1,0 +1,3 @@
+🚀 What's New
+Introducing improved Port & Subnet scanners, reimagined Settings, bug fixes, and much more!
+Full changelog: https://github.com/TrueMLGPro/Wi-Fi_Info/releases/tag/v.1.6.1_stable

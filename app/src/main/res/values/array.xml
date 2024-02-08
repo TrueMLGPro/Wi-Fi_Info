@@ -53,6 +53,7 @@
 		<item>German</item>
 		<item>Portuguese</item>
 		<item>Russian</item>
+		<item>Serbian</item>
 		<item>Spanish</item>
 		<item>Ukrainian</item>
 	</string-array>
@@ -63,6 +64,7 @@
 		<item>de</item>
 		<item>pt</item>
 		<item>ru</item>
+		<item>sr</item>
 		<item>es</item>
 		<item>uk</item>
 	</string-array>
@@ -73,27 +75,12 @@
 	<string-array name="dns_record_types">
 		<item>A</item>
 		<item>AAAA</item>
-		<item>AFSDB</item>
-		<item>APL</item>
-		<item>CAA</item>
-		<item>CDNSKEY</item>
-		<item>CDS</item>
-		<item>CERT</item>
 		<item>CNAME</item>
-		<item>CSYNC</item>
-		<item>DHCID</item>
 		<item>DLV</item>
 		<item>DNAME</item>
 		<item>DNSKEY</item>
 		<item>DS</item>
-		<item>HINFO</item>
-		<item>HIP</item>
-		<item>IPSECKEY</item>
-		<item>KEY</item>
-		<item>KX</item>
-		<item>LOC</item>
 		<item>MX</item>
-		<item>NAPTR</item>
 		<item>NS</item>
 		<item>NSEC</item>
 		<item>NSEC3</item>
@@ -101,16 +88,9 @@
 		<item>OPENPGPKEY</item>
 		<item>PTR</item>
 		<item>RRSIG</item>
-		<item>RP</item>
-		<item>SIG</item>
 		<item>SOA</item>
 		<item>SRV</item>
-		<item>SSHFP</item>
-		<item>TA</item>
-		<item>TKEY</item>
 		<item>TLSA</item>
-		<item>TSIG</item>
 		<item>TXT</item>
-		<item>URI</item>
 	</string-array>
 </resources>

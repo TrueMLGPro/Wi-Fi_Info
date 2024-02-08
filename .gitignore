@@ -1,5 +1,7 @@
-.gradle
-.idea
+.gradle/
+.idea/
+.stignore
+.stfolder/
 build/
 app/build/
 app/release/

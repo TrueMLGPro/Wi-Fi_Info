@@ -134,7 +134,7 @@
 				android:layout_weight="1"
 				android:layout_marginEnd="2dp"
 				android:text="@string/scan"
-				android:textColor="#FFFFFF"
+				android:textColor="?attr/ButtonTextColor"
 				style="@style/Widget.AppCompat.Button.Colored" />
 
 			<Button
@@ -144,22 +144,21 @@
 				android:layout_weight="1"
 				android:layout_marginStart="2dp"
 				android:text="@android:string/cancel"
-				android:textColor="#FFFFFF"
+				android:textColor="?attr/ButtonTextColor"
 				android:enabled="false"
 				style="@style/Widget.AppCompat.Button.Colored" />
 
 		</LinearLayout>
 
-		<ListView
-			android:id="@+id/listview_subnet_devices"
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/recyclerview_subnet_devices"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_marginTop="8dp"
 			android:layout_marginStart="4dp"
 			android:layout_marginEnd="4dp"
 			android:layout_marginBottom="4dp"
-			android:textColor="?TextColor"
-			android:transcriptMode="alwaysScroll" />
+			android:textColor="?TextColor" />
 
 	</LinearLayout>
 

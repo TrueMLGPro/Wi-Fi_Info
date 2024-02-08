@@ -113,7 +113,7 @@
 			<intent
 				android:action="android.intent.action.VIEW"
 				android:targetPackage="com.truemlgpro.wifiinfo"
-				android:targetClass="com.truemlgpro.wifiinfo.SupportersActivity" />
+				android:targetClass="com.truemlgpro.wifiinfo.ui.SupportersActivity" />
 		</androidx.preference.Preference>
 		<androidx.preference.Preference
 			android:key="discord_pref"

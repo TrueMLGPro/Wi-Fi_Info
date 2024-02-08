@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+	<string name="shortcut_main_short">Почни</string>
+	<string name="shortcut_main_long">Започни главну активност</string>
+	<string name="shortcut_disabled">Пречица није доступна</string>
+
+	<!-- Dynamic Shortcut Strings -->
+	<string name="github_repo">GitHub Repo</string>
+	<string name="open_github_repository">Отвори GitHub репозиторијум</string>
+	<string name="releases">Издања</string>
+	<string name="open_github_releases">Отвори GitHub издања</string>
+
+	<!-- MainActivity Strings -->
+	<string name="permission_required">Потребна је дозвола!</string>
+	<string name="location_permission_is_required_android_8_1_plus">На уређајима који користе Андроид 8.1+, дозвола за локацију је потреба да би се видео SSID, BSSID и ИД мреже</string>
+	<string name="enable_location_to_show_ssid_bssid">Укључите локацију да би сте видели SSID и BSSID од мреже на коју сте повезани</string>
+	<string name="enable_location_to_show_ssid_bssid_net_id">Укључите локацију да би сте видели SSID, BSSID и ИД мреже од мреже на коју сте повезани</string>
+	<string name="ssid_bssid_not_displayed">SSID и BSSID од ове мреже се неће приказативати</string>
+	<string name="ssid_bssid_net_id_not_displayed">SSID, BSSID и ИД мреже од ове мреже се неће приказативати</string>
+	<string name="location_is_disabled">Локација је искључена</string>
+	<string name="wifi_info_needs_location_api_26">Wi-FI Info-у је потребна локација да би приказао SSID (име мреже) и BSSID (име MAC адресе) на Андроид 8\n\nКликните Укључи (Enable) да би сте дозволили Wi-Fi Info да прикаже SSID и BSSID</string>
+	<string name="wifi_info_needs_location_api_27">Wi-FI Info-у је потребна локација да би приказао SSID (име мреже), BSSID (име MAC адресе) и ИД мреже на Андроид 8\n\nКликните Укључи (Enable) да би сте дозволили Wi-Fi Info да прикаже SSID, BSSID и ИД мреже</string>
+
+	<string name="copied_to_clipboard">Ископирано</string>
+	<string name="background_location_permission">Дозвола за локацију у позадини (Опционално)</string>
+	<string name="due_to_the_changes_in_android_11">Због промена у Андроид 11+, требаћете да одете у Подешавања и да га сами укључите\nКада је дозвола за локацију у позадини дата, моћи ћете да видите SSID, BSSID и ИД Мреже у обавештењу чак и када затворите апликацију</string>
+	<string name="go_to_permissions_and_location">Одите у Дозволе -> Локација</string>
+	<string name="select_allow_all_the_time">Изаберите ,,Увек дозволи"</string>
+
+	<string name="na">N/A</string>
+	<!-- Dialog Strings -->
+	<string name="no">Не</string>
+	<string name="yes">Да</string>
+	<string name="enable">Дозволи</string>
+	<string name="dont_show_again">Не приказуј опет</string>
+	<string name="no_thanks">Не хвала</string>
+	<string name="are_you_sure">Да ли сте сигурни?</string>
+	<string name="do_you_want_to_exit">Да ли желите да изађете?</string>
+	<string name="exit">Изађи</string>
+
+	<!-- Widget Strings -->
+	<string name="no_wifi_connection">Нема Wi-Fi конекције</string>
+	<string name="no_connection">Нема конекције</string>
+	<string name="public_ip_address">Јавна IP адреса</string>
+	<string name="your_ip">Ваш IP: <xliff:g id="ip" example="192.168.0.1">%s</xliff:g></string>
+	<string name="your_ip_na">Ваш IP: N/A</string>
+
+	<string name="local_ip_address">Локална IP адреса</string>
+
+	<string name="ssid_bssid_etc">SSID, BSSID, итд.</string>
+	<string name="gateway_ip">Gateway IP</string>
+	<string name="hostname">Име хоста</string>
+	<string name="wifi_standard">Wi-Fi Стандард</string>
+
+	<string name="frequency_channel_etc">Фреквенција, канал, итд.</string>
+	<string name="frequency">Фреквенција</string>
+	<string name="network_channel">Канал мреже</string>
+	<!-- RSSI string in NotificationService -->
+	<string name="rssi_signal_strength">RSSI (Јачина сигнала)</string>
+	<string name="distance">Даљина</string>
+	<string name="ip_lease_duration">IP дужина закупа</string>
+	<string name="network_speed">Брзина мреже (↓ / ↑)</string>
+	<string name="transmitted_mbs_gbs">Преношени MBови/GBови</string>
+	<string name="received_mbs_gbs">Примљени MBови/GBови</string>
+
+	<string name="dns_subnet_mask_etc">DNS, Subnet Mask, итд.</string>
+	<string name="subnet_mask">Subnet Mask</string>
+	<string name="broadcast_address">Адреса за емитовање</string>
+	<string name="network_id">ИД мреже</string>
+	<string name="mac_address">MAC адреса</string>
+	<string name="network_interface">Интерфејс мреже</string>
+	<string name="loopback_address">Loopback адреса</string>
+	<string name="localhost_address">Localhost адреса</string>
+
+	<string name="wpa_supplicant_state">WPA Supplicant State</string>
+
+	<string name="feature_support">Подршка за функције</string>
+	<string name="_5ghz_band_support">5 GHz Бенд подршка</string>
+	<string name="_6ghz_band_support">6 GHz Бенд подршка</string>
+	<string name="_60ghz_band_support">60 GHz Бенд подршка</string>
+	<string name="wifi_direct_support">Wi-Fi Директна подршка</string>
+	<string name="tdls_support">TDLS подршка</string>
+	<string name="wpa3_sae_support">WPA3 SAE подршка</string>
+	<string name="wpa3_suite_b_support">WPA3 Suite B подршка</string>
+
+	<!-- FAB Strings -->
+	<string name="tools">Алатке</string>
+	<string name="settings">Подешавања</string>
+
+	<!-- Toolbar Menu Strings -->
+	<string name="toolbar_copy_all_network_info">Ископирај сву информацију мреже</string>
+	<string name="toolbar_clear_dns_lookup_log">Обриши DNS Lookup Log</string>
+	<string name="toolbar_clear_ping_log">Обриши Ping Log</string>
+	<string name="toolbar_clear_whois_tool_log">Обриши Whois Tool Log</string>
+
+	<!-- Data -->
+	<string name="megabyte">MB</string>
+	<string name="gigabyte">GB</string>
+
+	<!-- ConnectionStateService Strings -->
+	<string name="connection_status_online">Статус конекције - Офлајн</string>
+	<string name="connection_status_offline">Статус конекције - Онлајн</string>
+	<string name="stop_service">Stop Service</string>
+
+	<!-- NotificationService Strings -->
+	<string name="local_ip">Локални IP</string>
+	<string name="stop_services">Заустави услуге</string>
+	<string name="notification_settings">Подењавање обавештења</string>
+
+	<!-- SupportersActivity Strings -->
+	<string name="patron_diamond_tier">• Донатор - Дијамантски ниво (5$)</string>
+	<string name="app_tester">• Тестер апликације</string>
+	<string name="idea_provider">• Давач идеја</string>
+	<string name="contributor">• Доприносач</string>
+
+	<!-- ToolsActivity Strings -->
+	<string name="cellular_data_ip">IP за мобилне податке</string>
+	<string name="router_setup">Подешавања рутера</string>
+	<string name="ping_tool">Алатка за пинговање</string>
+	<string name="subnet_scanner">Скенер Subnetа</string>
+	<string name="port_scanner">Скенер портова</string>
+	<string name="whois_tool">Whois алатка</string>
+	<string name="dns_lookup">DNS претраживање</string>
+
+	<!-- SettingsActivity Strings -->
+	<string name="_500_ms_interval">500 милисекунде</string>
+	<string name="_1_s_interval">1 секунда</string>
+	<string name="_2_s_interval">2 секунде</string>
+	<string name="_3_s_interval">3 секунде</string>
+	<string name="_4_s_interval">4 секунде</string>
+	<string name="_5_s_interval">5 секунде</string>
+	<string name="_10_s_interval">10 секунде</string>
+
+	<string name="general_category">Уопштено</string>
+	<string name="dark_theme">Тамна тема</string>
+	<string name="dark_theme_summary">Укључи или искључи тамну тему</string>
+	<string name="amoled_theme">АМОЛЕД тема</string>
+	<string name="amoled_theme_summary">Укључи или искључи АМОЛЕД тему</string>
+	<string name="language">Језик</string>
+	<string name="ui_font">Фонт UIa</string>
+	<string name="keep_screen_on">Држи екран будним</string>
+	<string name="keep_screen_on_summary">Држи екран будним док је апликација отворена</string>
+	<string name="card_update_interval">Интервал ажурирања Карте</string>
+
+	<string name="boot_category">Паљење</string>
+	<string name="start_on_boot">Започни кад се уређај упали</string>
+	<string name="start_on_boot_summary">Започни сервисе за обавештења кад се уређај упали</string>
+
+	<string name="notification_category">Обавештење</string>
+	<string name="show_notification">Прикажи Обавештење</string>
+	<string name="show_notification_summary">Прикажи информације мреже у обавештењу</string>
+	<string name="notification_update_interval">Интервал ажурирања обавештења</string>
+	<string name="colorize_notification">Обоји Обавештење</string>
+	<string name="colorize_notification_summary">Напуни позадину обавештења са тамнијом/светлијом бојом</string>
+	<string name="visualize_signal_strength">Визуализуј јачину </string>
+	<string name="visualize_signal_strength_summary">Обоји Обавештење у зависности од јачине сигнала</string>
+	<string name="show_hide_notification">Прикажи / сакриј Обавештење</string>
+	<string name="show_hide_notification_summary">Заустави сервис нотификације када искључите ектран и рестартуј када га укључите опет</string>
+
+	<string name="about_category">О овоме</string>
+	<string name="app_version">Верзија апликације</string>
+	<string name="supporters">Помоћници</string>
+	<string name="supporters_summary">Погледајте листу људи који су помогли да овај пројекат буде екстра</string>
+	<string name="discord_server">Discord Сервер</string>
+	<string name="discord_server_summary">Уђите у сервер, причајте о новим ажурирањима, предлажите нове ствари…</string>
+	<string name="source_code">Сорс код</string>
+	<string name="source_code_summary">Погледајте сорс код на GitHub</string>
+	<string name="report_bugs">Пријавите багове</string>
+	<string name="report_bugs_summary">Пријавите баг помоћу GitHub Грешке</string>
+	<string name="privacy_policy">Правила о приватности</string>
+	<string name="privacy_policy_summary">Погледајте наша правила о приватности о сигурности ваших података</string>
+
+	<string name="debug_category">Дебаг</string>
+	<string name="android_version">Андроид верзија</string>
+	<string name="sdk_version_code">Код верзије од SDK</string>
+	<string name="device_model">Модел уређаја</string>
+	<string name="product_name">Име уређаја</string>
+
+	<!-- Tool Strings -->
+	<string name="enter_ip_or_url">Упишите IP или URL</string>
+	<string name="threads">Нити</string>
+	<string name="timeout_ms">Тајм аут (ms)</string>
+
+	<!-- CellularDataIPActivity Strings -->
+	<string name="no_cellular_connection">Без телефонске конекције</string>
+
+	<!-- DNSLookupActivity & PingToolActivity Strings -->
+	<string name="start">Start</string>
+	<string name="record_type_not_supported">Тип рекорда <xliff:g id="record_type" example="NSEC">%s</xliff:g> није подржан <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_failed_exception">Грешка у Lookup-у за претраживања типа рекорда <xliff:g id="record_type" example="NSEC">%s</xliff:g> | Порука грешке: <xliff:g id="record_type" example="ERROR">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_failed_response">Грешка у Lookup-у за претраживања типа рекорда <xliff:g id="record_type" example="NSEC">%s</xliff:g> | Код одговора: <xliff:g id="response_code" example="503">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_lookup_no_records">Ниједан рекорд није доступан за овај тип рекорда <xliff:g id="record_type" example="NSEC">%s</xliff:g> <xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+	<string name="dns_record_type">DNS тип рекорда -\u0020</string>
+
+	<string name="packets">Пакети</string>
+	<string name="timeout_field_empty">Тајм аут поље за текст не може бити празно</string>
+	<string name="resetting">Ресетовање…</string>
+	<string name="timeout_not_integer">Вредност тајм аута не може бити интегер</string>
+	<string name="timeout_lower_than_1_ms">Вредност тајм аута не може бити мањи од 1 ms</string>
+	<string name="ttl_field_empty">TTL поље за текст не може бити празно</string>
+	<string name="ttl_not_integer">TTL вредност не може бити интегер</string>
+	<string name="ttl_lower_than_1">TTL вредност не може бити мањи од 1</string>
+	<string name="packet_amount_not_defined">Неуспешно пинговање хоста. Износ пакета није дефинисан</string>
+	<string name="packet_amount_not_integer">Неуспешно пинговање хоста јер <xliff:g id="packet_amount" example="3.14">%s</xliff:g> није интегер</string>
+	<string name="packet_amount_lower_than_1">Неуспешно пинговање хоста <xliff:g id="packet_amount" example="-1">%s</xliff:g> пута</string>
+	<string name="ping_successful_response"><xliff:g id="packet_num" example="1">%d</xliff:g> - Одговор од <xliff:g id="host" example="test.com/67.225.146.248">%s</xliff:g> - <xliff:g id="latency" example="51.35">%.2f</xliff:g> ms</string>
+	<string name="connection_timeout"><xliff:g id="packet_num" example="1">%d</xliff:g> - Тајм аут конекције</string>
+	<string name="ping_packet_stats"><xliff:g id="packets_sent" example="5">%d</xliff:g> пакета послато, <xliff:g id="packets_received" example="5">%d</xliff:g> примљено, <xliff:g id="packets_lost" example="0">%d</xliff:g> изгубљеноt, <xliff:g id="packet_loss" example="0.00">%.2f</xliff:g>%% изгубљено пакета</string>
+	<string name="min_avg_max_latency_stats">Минимум / Средње / Максимално одложивање:\n<xliff:g id="min_latency" example="13.5">%.2f</xliff:g> / <xliff:g id="avg_latency" example="32.0">%.2f</xliff:g> / <xliff:g id="max_latency" example="50.5">%.2f</xliff:g> ms</string>
+	<string name="total_ping_time">Укупно време: <xliff:g id="total_time" example="15250">%d</xliff:g> ms</string>
+	<string name="ping_log_ip">IP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g></string>
+	<string name="ping_log_hostname">Hostname: <xliff:g id="url" example="test.com">%s</xliff:g></string>
+
+	<!-- PortScannerActivity Strings -->
+	<string name="ports">Портови</string>
+	<string name="ports_open_none">Отворени портови: -</string>
+	<string name="ports_open_amount">Отворени портови: <xliff:g id="ports_open" example="10">%d</xliff:g></string>
+	<string name="ports_closed_none">Портови затворени: -</string>
+	<string name="ports_closed_amount">Портови затворени: <xliff:g id="ports_closed" example="10">%d</xliff:g></string>
+
+	<!-- RouterSetupActivity Strings -->
+	<string name="router_login_ip">Логин рутера — <xliff:g id="ip" example="192.168.0.1">%s</xliff:g></string>
+	<string name="use_web_interface">Користи Веб интерфејс</string>
+	<string name="login">Логин</string>
+	<string name="password">Шифра</string>
+	<string name="page_back">Назад</string>
+	<string name="page_forward">Напред</string>
+	<string name="page_refresh">Освежи</string>
+	<string name="auth_error">Аутеризација корисника на сервер је била неуспешна</string>
+	<string name="timeout_error">Тајм аут конекције, пробајте опет касније</string>
+	<string name="too_many_requests_error">Превише захтева током овог учитавања</string>
+	<string name="unknown_error">Непозната грешка</string>
+	<string name="connect_error">Неуспешно повезивање на сервер</string>
+	<string name="host_lookup_error">Сервер или прокси претраживање је било Неуспешно</string>
+	<string name="proxy_auth_error">Аутентикација корисника неуспешно на прокси</string>
+	<string name="redirect_loop_error">Превише преусмеравања</string>
+	<string name="unsupported_auth_scheme_error">Неподржана схема аутентикације (Not basic or digest)</string>
+	<string name="unsupported_scheme_error">Неподржана УРИ схема</string>
+	<string name="io_error">Сервер није одговорио, пробајте опет касније</string>
+
+	<!-- SubnetScannerActivity Strings -->
+	<string name="devices_found_na">Пронађено уређаја: -</string>
+	<string name="devices_found">Пронађено уређаја: <xliff:g id="amount" example="5">%d</xliff:g></string>
+	<string name="scan">Скенирај</string>
+	<string name="mac_na">MAC: N/A</string>
+	<string name="your_device">(Ваш уређај)</string>
+	<string name="gateway">(Gateway)</string>
+
+	<!-- WhoIsToolActivity Strings -->
+	<string name="field_too_short">Укуцан URL је прекратак…</string>
+	<string name="enter_url">Унесите URL</string>
+	<string name="fetch">Добаци</string>
+	<string name="error_malformed_url">Грешка: деформисан URL</string>
+	<string name="error_unknown_host">Грешла: Непознат хост</string>
+	<string name="error_interrupted">Грешка: Прекинут</string>
+	<string name="error_failed_to_execute">Грешка: Неуспешно извршивање</string>
+	<string name="whois_result_output">Узимање Whois информација за URL: <xliff:g id="url" example="test.com">%s</xliff:g>\nIP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g>\n<xliff:g id="fetched_whois_data" example="...">%s</xliff:g><xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+</resources>
