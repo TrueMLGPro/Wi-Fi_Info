@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/content_frame"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appbarlayout_ssl"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:liftOnScroll="false">
+
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="?attr/actionBarSize"
+			app:layout_scrollFlags="noScroll"
+			app:title="@string/ssl_certificate_viewer" />
+
+	</com.google.android.material.appbar.AppBarLayout>
+
+	<com.google.android.material.textview.MaterialTextView
+		android:id="@+id/textview_nonetworkconn"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_margin="16dp"
+		android:gravity="center"
+		android:textSize="24sp"
+		android:includeFontPadding="false"
+		app:fontFamily="@font/rubik"
+		app:fontVariationSettings="'wght' 800"
+		android:textStyle="italic"
+		android:visibility="gone"
+		android:text="@string/no_connection"/>
+
+	<com.google.android.material.progressindicator.LinearProgressIndicator
+		android:id="@+id/progress"
+		style="@style/Widget.Material3.LinearProgressIndicator"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:indeterminate="true"
+		android:visibility="invisible"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+	<LinearLayout
+		android:id="@+id/linear_layout_root_ssl"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:animateLayoutChanges="true"
+		android:orientation="vertical"
+		android:padding="8dp"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:animateLayoutChanges="true"
+			android:orientation="vertical">
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:id="@+id/row_host"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp">
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/input_layout_host"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:hint="@string/enter_url"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toStartOf="@id/btn_advanced"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent">
+
+					<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/input_host"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:imeOptions="actionGo"
+						android:inputType="textUri"
+						android:singleLine="true" />
+
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/btn_advanced"
+					style="@style/Widget.Material3.Button.TextButton"
+					android:layout_width="48dp"
+					android:layout_height="48dp"
+					android:minWidth="0dp"
+					android:minHeight="0dp"
+					android:padding="0dp"
+					android:gravity="center"
+					android:text=""
+					android:contentDescription="@string/toggle_advanced_options"
+					app:icon="@drawable/arrow_drop_down_24px"
+					app:iconSize="24dp"
+					app:iconPadding="0dp"
+					app:iconTint="?attr/colorOnSurface"
+					app:iconGravity="textStart"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="@id/input_layout_host"
+					app:layout_constraintBottom_toBottomOf="@id/input_layout_host" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+			<LinearLayout
+				android:id="@+id/group_advanced"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp"
+				android:orientation="vertical"
+				android:visibility="gone">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:baselineAligned="false">
+
+					<com.google.android.material.textfield.TextInputLayout
+						android:id="@+id/input_layout_port"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:hint="@string/port">
+
+						<com.google.android.material.textfield.TextInputEditText
+							android:id="@+id/input_port"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:imeOptions="actionGo"
+							android:inputType="number"
+							android:singleLine="true"
+							android:text="443" />
+
+					</com.google.android.material.textfield.TextInputLayout>
+
+					<com.google.android.material.textfield.TextInputLayout
+						android:id="@+id/input_layout_timeout"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_marginStart="4dp"
+						android:layout_weight="1"
+						android:hint="@string/timeout_ms">
+
+						<com.google.android.material.textfield.TextInputEditText
+							android:id="@+id/input_timeout"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:imeOptions="actionGo"
+							android:inputType="number"
+							android:singleLine="true"
+							android:text="10000" />
+
+					</com.google.android.material.textfield.TextInputLayout>
+
+				</LinearLayout>
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/input_layout_sni"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="4dp"
+					android:hint="@string/sni_host_optional">
+
+					<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/input_sni"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:imeOptions="actionGo"
+						android:inputType="textUri"
+						android:singleLine="true" />
+
+				</com.google.android.material.textfield.TextInputLayout>
+
+			</LinearLayout>
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btn_fetch"
+				style="@style/Widget.Material3.Button"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:text="@string/fetch" />
+
+		</LinearLayout>
+
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/cardview_cert_results"
+			style="?attr/materialCardViewOutlinedStyle"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_marginTop="8dp"
+			android:layout_weight="1"
+			android:animateLayoutChanges="true"
+			app:cardCornerRadius="8dp"
+			app:cardElevation="4dp">
+
+			<ScrollView
+				android:id="@+id/cert_results_scroll"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:padding="16dp"
+				android:background="?attr/colorSurfaceContainer">
+
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/txtResult"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:lineSpacingExtra="2dp"
+					android:textSize="14sp"
+					android:typeface="monospace"
+					android:textIsSelectable="true"
+					tools:text="SSL Certificate Info" />
+
+			</ScrollView>
+
+		</com.google.android.material.card.MaterialCardView>
+
+	</LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

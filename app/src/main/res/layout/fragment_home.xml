@@ -1,0 +1,1397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarlayout_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:liftOnScroll="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_scrollFlags="noScroll"
+            app:title="@string/app_name" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textview_noconn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:fontFamily="@font/rubik"
+        android:textStyle="italic"
+        app:fontVariationSettings="'wght' 800"
+        android:includeFontPadding="false"
+        android:text="@string/no_wifi_connection" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appbarlayout_main"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_cards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:padding="16dp"
+            android:orientation="vertical"
+            android:clipToPadding="false">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/header1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textview_header1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="18sp"
+                            app:fontFamily="@font/rubik"
+                            app:fontVariationSettings="'wght' 500"
+                            android:includeFontPadding="false"
+                            android:text="@string/public_ip_address" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textview_public_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="18sp"
+                        android:text="@string/your_ip_na" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_update_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:src="@drawable/reload_24px"
+                        style="?attr/floatingActionButtonSmallStyle" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_ip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/header_ip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textview_header_ip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="18sp"
+                            app:fontFamily="@font/rubik"
+                            app:fontVariationSettings="'wght' 500"
+                            android:includeFontPadding="false"
+                            android:text="@string/local_ip_address" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_textviews_ip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_ipv4_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_ipv4_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/ipv4" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_ipv4_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_ipv6_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_ipv6_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/ipv6" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_ipv6_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/header2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textview_header2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="18sp"
+                            app:fontFamily="@font/rubik"
+                            app:fontVariationSettings="'wght' 500"
+                            android:includeFontPadding="false"
+                            android:text="@string/ssid_bssid_etc" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_textviews2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_ssid_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_ssid_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/ssid" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_ssid_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_bssid_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_bssid_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/bssid" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_bssid_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_gateway_ip_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_gateway_ip_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/gateway_ip" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_gateway_ip_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_hostname_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_hostname_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/hostname" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_hostname_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/relativelayout_wifi_standard"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_wifi_standard_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_wifi_standard_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/wifi_standard" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_wifi_standard_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/header3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textview_header3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="18sp"
+                            app:fontFamily="@font/rubik"
+                            app:fontVariationSettings="'wght' 500"
+                            android:includeFontPadding="false"
+                            android:text="@string/frequency_channel_etc" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_textviews3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_gravity="center"
+                        android:gravity="start"
+                        android:baselineAligned="false">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_frequency_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_frequency_value"
+                                android:text="@string/frequency"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_frequency_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_network_channel_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_network_channel_value"
+                                android:text="@string/network_channel"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_network_channel_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_rssi_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_rssi_value"
+                                android:text="@string/rssi_signal_strength"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_rssi_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_distance_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_distance_value"
+                                android:text="@string/distance"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_distance_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_ip_lease_duration_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_ip_lease_duration_value"
+                                android:text="@string/ip_lease_duration"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_ip_lease_duration_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/relativelayout_network_speed"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_network_speed_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_network_speed_value"
+                                android:text="@string/network_speed"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_network_speed_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/relativelayout_network_speed_legacy"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_network_speed_legacy_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_network_speed_legacy_value"
+                                android:text="@string/network_speed"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_network_speed_legacy_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_transmitted_data_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_transmitted_data_value"
+                                android:text="@string/transmitted_mbs_gbs"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_transmitted_data_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_received_data_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_received_data_value"
+                                android:text="@string/received_mbs_gbs"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_received_data_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/header4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textview_header4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="18sp"
+                            app:fontFamily="@font/rubik"
+                            app:fontVariationSettings="'wght' 500"
+                            android:includeFontPadding="false"
+                            android:text="@string/dns_subnet_mask_etc" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_textviews4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_dns1_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_dns1_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/dns_1" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_dns1_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_dns2_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_dns2_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/dns_2" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_dns2_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_subnet_mask_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_subnet_mask_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/subnet_mask" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_subnet_mask_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_broadcast_address_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_broadcast_address_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/broadcast_address" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_broadcast_address_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_mac_address_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_mac_address_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/mac_address" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_mac_address_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_network_interface_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_network_interface_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/network_interface" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_network_interface_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_network_id_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_network_id_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/network_id" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_network_id_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_loopback_address_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_loopback_address_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/loopback_address" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_loopback_address_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_localhost_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_localhost_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/localhost_address" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_localhost_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/header5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textview_header5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="18sp"
+                            app:fontFamily="@font/rubik"
+                            app:fontVariationSettings="'wght' 500"
+                            android:includeFontPadding="false"
+                            android:text="@string/wpa_supplicant_state" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_textviews5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_gravity="center"
+                        android:baselineAligned="false">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            tools:ignore="UselessParent">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_wpa_supplicant_state_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_wpa_supplicant_state_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/wpa_supplicant_state" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_wpa_supplicant_state_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/header6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="start">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textview_header6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="18sp"
+                            app:fontFamily="@font/rubik"
+                            app:fontVariationSettings="'wght' 500"
+                            android:includeFontPadding="false"
+                            android:text="@string/feature_support" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_textviews6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_gravity="center"
+                        android:gravity="start">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_5ghz_support"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_5ghz_support_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/_5ghz_band_support" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_5ghz_support_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_6ghz_support"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_6ghz_support_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/_6ghz_band_support" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_6ghz_support_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_60ghz_support"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_60ghz_support_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/_60ghz_band_support" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_60ghz_support_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_wifi_direct_support"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_wifi_direct_support_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/wifi_direct_support" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_wifi_direct_support_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_tdls_support"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_tdls_support_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/tdls_support" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_tdls_support_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_wpa3_sae_support"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_wpa3_sae_support_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/wpa3_sae_support" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_wpa3_sae_support_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_wpa3_suite_b_support"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_toStartOf="@id/textview_wpa3_suite_b_support_value"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:text="@string/wpa3_suite_b_support" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/textview_wpa3_suite_b_support_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:text="@string/na"
+                                android:textColor="?attr/colorOnSurface"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

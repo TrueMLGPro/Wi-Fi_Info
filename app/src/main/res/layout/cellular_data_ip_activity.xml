@@ -1,209 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="?attr/BackgroundColor">
+	android:layout_height="match_parent">
 
-	<androidx.appcompat.widget.Toolbar
-		android:id="@+id/toolbar"
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appbarlayout_cellular"
 		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
-		android:background="?attr/colorPrimary"
-		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor" />
+		android:layout_height="wrap_content"
+		app:liftOnScroll="true">
+
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="?attr/actionBarSize"
+			app:layout_scrollFlags="noScroll"
+			app:title="@string/cellular_data_ip" />
+
+	</com.google.android.material.appbar.AppBarLayout>
 	
-	<TextView
+	<com.google.android.material.textview.MaterialTextView
 		android:id="@+id/textview_noconn"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="16dp"
-		android:textSize="18sp"
-		android:textColor="?TextColor"
+		android:textSize="24sp"
+		android:gravity="center"
 		android:layout_gravity="center"
 		android:layout_centerInParent="true"
 		android:visibility="gone"
+		app:fontFamily="@font/rubik"
+		android:textStyle="italic"
+		app:fontVariationSettings="'wght' 800"
+		android:includeFontPadding="false"
 		android:text="@string/no_cellular_connection" />
 
-	<LinearLayout
+	<androidx.core.widget.NestedScrollView
+		android:id="@+id/scroll_view"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_below="@+id/toolbar"
-		android:animateLayoutChanges="true"
-		android:padding="16dp"
-		android:orientation="vertical">
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/appbarlayout_main"
+		android:fillViewport="true"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<androidx.cardview.widget.CardView
-			android:id="@+id/cardview_ip"
+		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
-			app:cardCornerRadius="8dp"
-			app:cardBackgroundColor="?CardBackgroundColor">
+			android:layout_height="match_parent"
+			android:layout_below="@+id/appbarlayout_main"
+			android:animateLayoutChanges="true"
+			android:padding="16dp"
+			android:orientation="vertical"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-			<LinearLayout
-				android:id="@+id/linear_layout_ip"
+			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/cardview_ip"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				android:layout_gravity="center"
-				android:gravity="center">
+				android:layout_gravity="center_horizontal"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
 				<LinearLayout
-					android:id="@+id/header_ip"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:gravity="start"
-					android:background="?attr/CardHeaderBackgroundColor">
-
-					<TextView
-						android:id="@+id/textview_header_ip"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_margin="8dp"
-						android:textSize="12sp"
-						android:textColor="?attr/TextColor"
-						android:text="@string/public_ip_address" />
-
-				</LinearLayout>
-
-				<TextView
-					android:id="@+id/textview_public_ip_cell"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="16dp"
-					android:layout_marginBottom="16dp"
-					android:textSize="18sp"
-					android:textColor="?attr/CardTextColor"
-					android:text="@string/your_ip_na" />
-
-				<com.github.clans.fab.FloatingActionButton
-					xmlns:fab="http://schemas.android.com/apk/res-auto"
-					android:id="@+id/fab_update_ip"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="16dp"
-					android:src="@drawable/reload_24px"
-					fab:fab_colorNormal="?FAB_IPColorEnabled"
-					fab:fab_colorPressed="?FAB_IPColorEnabled"
-					fab:fab_colorDisabled="?FAB_IPColorDisabled"
-					fab:fab_colorRipple="#30FFFFFF"
-					fab:fab_size="mini" />
-
-			</LinearLayout>
-
-		</androidx.cardview.widget.CardView>
-
-		<androidx.cardview.widget.CardView
-			android:id="@+id/cardview_local_ip"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:layout_marginTop="16dp"
-			app:cardCornerRadius="8dp"
-			app:cardBackgroundColor="?CardBackgroundColor">
-
-			<LinearLayout
-				android:id="@+id/linear_layout_local_ip"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				android:layout_gravity="center"
-				android:gravity="center">
-
-				<LinearLayout
-					android:id="@+id/header_local_ip"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:gravity="start"
-					android:background="?attr/CardHeaderBackgroundColor">
-
-					<TextView
-						android:id="@+id/textview_header_local_ip"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_margin="8dp"
-						android:textSize="12sp"
-						android:textColor="?attr/TextColor"
-						android:text="@string/local_ip_address" />
-
-				</LinearLayout>
-
-				<LinearLayout
-					android:id="@+id/linear_layout_textviews_ip"
+					android:id="@+id/linear_layout_ip"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
-					android:padding="16dp"
 					android:layout_gravity="center"
-					android:baselineAligned="false">
+					android:gravity="center">
 
-					<RelativeLayout
+					<LinearLayout
+						android:id="@+id/header_ip"
 						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:orientation="horizontal">
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						android:gravity="start">
 
-						<TextView
-							android:id="@+id/textview_local_ipv4_cell_name"
+						<com.google.android.material.textview.MaterialTextView
+							android:id="@+id/textview_header_ip"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:layout_alignParentStart="true"
-							android:layout_toStartOf="@id/textview_local_ipv4_cell_value"
-							android:textSize="14sp"
-							android:textColor="?attr/CardTextColor"
-							android:text="@string/ipv4" />
+							android:layout_margin="16dp"
+							android:textSize="18sp"
+							app:fontFamily="@font/rubik"
+							app:fontVariationSettings="'wght' 500"
+							android:includeFontPadding="false"
+							android:text="@string/public_ip_address" />
 
-						<TextView
-							android:id="@+id/textview_local_ipv4_cell_value"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_alignParentEnd="true"
-							android:text="@string/na"
-							android:textColor="?attr/CardTextColor"
-							android:textSize="14sp"
-							android:textStyle="bold" />
+						<com.google.android.material.divider.MaterialDivider
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content" />
 
-					</RelativeLayout>
+					</LinearLayout>
 
-					<RelativeLayout
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:orientation="horizontal"
-						android:layout_marginTop="16dp">
+					<com.google.android.material.textview.MaterialTextView
+						android:id="@+id/textview_public_ip_cell"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="16dp"
+						android:layout_marginBottom="16dp"
+						android:textSize="18sp"
+						android:text="@string/your_ip_na" />
 
-						<TextView
-							android:id="@+id/textview_local_ipv6_cell_name"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_alignParentStart="true"
-							android:layout_toStartOf="@id/textview_local_ipv6_cell_value"
-							android:textSize="14sp"
-							android:textColor="?attr/CardTextColor"
-							android:text="@string/ipv6" />
-
-						<TextView
-							android:id="@+id/textview_local_ipv6_cell_value"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_alignParentEnd="true"
-							android:text="@string/na"
-							android:textColor="?attr/CardTextColor"
-							android:textSize="14sp"
-							android:textStyle="bold" />
-
-					</RelativeLayout>
+					<com.google.android.material.floatingactionbutton.FloatingActionButton
+						android:id="@+id/fab_update_ip"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="16dp"
+						android:src="@drawable/reload_24px"
+						style="?attr/floatingActionButtonSmallStyle" />
 
 				</LinearLayout>
 
-			</LinearLayout>
-			
-		</androidx.cardview.widget.CardView>
-		
-	</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
 
-</RelativeLayout>
+			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/cardview_local_ip"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
+
+				<LinearLayout
+					android:id="@+id/linear_layout_local_ip"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:layout_gravity="center"
+					android:gravity="center">
+
+					<LinearLayout
+						android:id="@+id/header_local_ip"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						android:gravity="start">
+
+						<com.google.android.material.textview.MaterialTextView
+							android:id="@+id/textview_header_local_ip"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_margin="16dp"
+							android:textSize="18sp"
+							app:fontFamily="@font/rubik"
+							app:fontVariationSettings="'wght' 500"
+							android:includeFontPadding="false"
+							android:text="@string/local_ip_address" />
+
+						<com.google.android.material.divider.MaterialDivider
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content" />
+
+					</LinearLayout>
+
+					<LinearLayout
+						android:id="@+id/linear_layout_textviews_ip"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						android:padding="16dp"
+						android:layout_gravity="center"
+						android:baselineAligned="false">
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/textview_local_ipv4_cell_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_local_ipv4_cell_value"
+								android:textSize="14sp"
+								android:text="@string/ipv4" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/textview_local_ipv4_cell_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal"
+							android:layout_marginTop="16dp">
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/textview_local_ipv6_cell_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentStart="true"
+								android:layout_toStartOf="@id/textview_local_ipv6_cell_value"
+								android:textSize="14sp"
+								android:text="@string/ipv6" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/textview_local_ipv6_cell_value"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentEnd="true"
+								android:text="@string/na"
+								android:textSize="14sp"
+								android:textStyle="bold" />
+
+						</RelativeLayout>
+
+					</LinearLayout>
+
+				</LinearLayout>
+
+			</com.google.android.material.card.MaterialCardView>
+
+		</LinearLayout>
+	</androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

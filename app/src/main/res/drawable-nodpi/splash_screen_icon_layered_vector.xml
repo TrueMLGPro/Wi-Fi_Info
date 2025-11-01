@@ -8,7 +8,7 @@
 		</shape>
 	</item>
 
-	<!-- Your product logo - 144dp color version of your app icon -->
+	<!-- 144dp color version of the app icon -->
 	<item
 		android:top="24dp"
 		android:bottom="24dp"

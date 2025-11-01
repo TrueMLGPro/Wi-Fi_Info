@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.truemlgpro.wifiinfo.ui.fragments.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.truemlgpro.wifiinfo.ui.fragments.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_supportersActivity"
+            app:destination="@id/supportersActivity"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/toolsFragment"
+        android:name="com.truemlgpro.wifiinfo.ui.fragments.ToolsFragment"
+        android:label="ToolsFragment" >
+        <action
+            android:id="@+id/action_toolsFragment_to_cellularDataIPActivity"
+            app:destination="@id/cellularDataIPActivity" />
+        <action
+            android:id="@+id/action_toolsFragment_to_DNSLookupActivity"
+            app:destination="@id/DNSLookupActivity" />
+        <action
+            android:id="@+id/action_toolsFragment_to_pingToolActivity"
+            app:destination="@id/pingToolActivity" />
+        <action
+            android:id="@+id/action_toolsFragment_to_portScannerActivity"
+            app:destination="@id/portScannerActivity" />
+        <action
+            android:id="@+id/action_toolsFragment_to_routerSetupActivity"
+            app:destination="@id/routerSetupActivity" />
+        <action
+            android:id="@+id/action_toolsFragment_to_subnetScannerActivity"
+            app:destination="@id/subnetScannerActivity" />
+        <action
+            android:id="@+id/action_toolsFragment_to_whoIsToolActivity"
+            app:destination="@id/whoIsToolActivity" />
+        <action
+            android:id="@+id/action_toolsFragment_to_sslCertificateViewerActivity"
+            app:destination="@id/sslCertificateViewerActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/cellularDataIPActivity"
+        android:name="com.truemlgpro.wifiinfo.ui.activities.CellularDataIPActivity"
+        android:label="CellularDataIPActivity" />
+    <activity
+        android:id="@+id/DNSLookupActivity"
+        android:name="com.truemlgpro.wifiinfo.ui.activities.DNSLookupActivity"
+        android:label="DNSLookupActivity" />
+    <activity
+        android:id="@+id/pingToolActivity"
+        android:name="com.truemlgpro.wifiinfo.ui.activities.PingToolActivity"
+        android:label="PingToolActivity" />
+    <activity
+        android:id="@+id/portScannerActivity"
+        android:name="com.truemlgpro.wifiinfo.ui.activities.PortScannerActivity"
+        android:label="PortScannerActivity" />
+    <activity
+        android:id="@+id/routerSetupActivity"
+        android:name="com.truemlgpro.wifiinfo.ui.activities.RouterSetupActivity"
+        android:label="RouterSetupActivity" />
+    <activity
+        android:id="@+id/subnetScannerActivity"
+        android:name="com.truemlgpro.wifiinfo.ui.activities.SubnetScannerActivity"
+        android:label="SubnetScannerActivity" />
+    <activity
+        android:id="@+id/supportersActivity"
+        android:name="com.truemlgpro.wifiinfo.ui.activities.SupportersActivity"
+        android:label="SupportersActivity" />
+    <activity
+        android:id="@+id/whoIsToolActivity"
+        android:name="com.truemlgpro.wifiinfo.ui.activities.WhoIsToolActivity"
+        android:label="WhoIsToolActivity" />
+    <activity
+        android:id="@+id/sslCertificateViewerActivity"
+        android:name="com.truemlgpro.wifiinfo.ui.activities.SslCertificateViewerActivity"
+        android:label="SslCertificateViewerActivity" />
+</navigation>

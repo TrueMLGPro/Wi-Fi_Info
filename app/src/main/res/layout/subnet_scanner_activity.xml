@@ -1,51 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="?attr/BackgroundColor">
+	android:layout_height="match_parent">
 
-	<androidx.appcompat.widget.Toolbar
-		android:id="@+id/toolbar"
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appbarlayout_subnet"
 		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
-		android:background="?attr/colorPrimary"
-		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor" />
+		android:layout_height="wrap_content"
+		app:liftOnScroll="false">
 
-	<TextView
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="?attr/actionBarSize"
+			app:layout_scrollFlags="noScroll"
+			app:title="@string/subnet_scanner" />
+
+		<com.google.android.material.progressindicator.LinearProgressIndicator
+			android:id="@+id/subnet_scanner_progress_bar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:indeterminate="false"
+			android:visibility="invisible"
+			style="@style/Widget.Material3.LinearProgressIndicator" />
+
+	</com.google.android.material.appbar.AppBarLayout>
+
+	<com.google.android.material.textview.MaterialTextView
 		android:id="@+id/textview_nonetworkconn"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_margin="16dp"
-		android:textSize="18sp"
-		android:textColor="?TextColor"
 		android:layout_gravity="center"
-		android:layout_centerInParent="true"
+		android:layout_margin="16dp"
+		android:gravity="center"
+		android:textSize="24sp"
+		android:includeFontPadding="false"
+		app:fontFamily="@font/rubik"
+		app:fontVariationSettings="'wght' 800"
+		android:textStyle="italic"
 		android:visibility="gone"
-		android:text="@string/no_wifi_connection" />
-
-	<ProgressBar
-		android:id="@+id/subnet_scanner_progress_bar"
-		style="?android:attr/progressBarStyleHorizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="-7dp"
-		android:layout_marginBottom="-7dp"
-		android:layout_below="@+id/toolbar"
-		android:indeterminate="true"
-		android:visibility="invisible" />
+		android:text="@string/no_connection" />
 
 	<LinearLayout
+		android:id="@+id/linear_layout_subnet_root"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_below="@+id/toolbar"
+		android:layout_below="@+id/appbarlayout_main"
 		android:animateLayoutChanges="true"
 		android:padding="8dp"
-		android:orientation="vertical">
+		android:orientation="vertical"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 		<LinearLayout
 			android:layout_width="match_parent"
@@ -53,30 +60,35 @@
 			android:gravity="center"
 			android:orientation="vertical">
 
-			<TextView
+			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/local_ip_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="8dp"
 				android:layout_marginBottom="8dp"
-				android:text="@string/na"
-				android:textColor="?TextColor"
-				android:textSize="20sp" />
+				android:text="@string/your_ip_na"
+				android:textSize="20sp"
+				app:fontFamily="@font/rubik"
+				app:fontVariationSettings="'wght' 500"
+				android:includeFontPadding="false" />
 
-			<TextView
+			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/devices_found_text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="8dp"
 				android:text="@string/devices_found_na"
-				android:textColor="?TextColor"
-				android:textSize="20sp" />
+				android:textSize="20sp"
+				app:fontFamily="@font/rubik"
+				app:fontVariationSettings="'wght' 500"
+				android:includeFontPadding="false" />
 
 		</LinearLayout>
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_marginBottom="8dp"
 			android:orientation="horizontal"
 			android:gravity="center"
 			android:baselineAligned="false">
@@ -127,26 +139,24 @@
 			android:orientation="horizontal"
 			android:gravity="center">
 
-			<Button
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/subnet_scan_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:layout_marginEnd="2dp"
 				android:text="@string/scan"
-				android:textColor="?attr/ButtonTextColor"
-				style="@style/Widget.AppCompat.Button.Colored" />
+				style="@style/Widget.Material3.Button" />
 
-			<Button
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/subnet_scan_cancel_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:layout_marginStart="2dp"
 				android:text="@android:string/cancel"
-				android:textColor="?attr/ButtonTextColor"
 				android:enabled="false"
-				style="@style/Widget.AppCompat.Button.Colored" />
+				style="@style/Widget.Material3.Button" />
 
 		</LinearLayout>
 
@@ -157,10 +167,9 @@
 			android:layout_marginTop="8dp"
 			android:layout_marginStart="4dp"
 			android:layout_marginEnd="4dp"
-			android:layout_marginBottom="4dp"
-			android:textColor="?TextColor" />
+			android:layout_marginBottom="4dp" />
 
 	</LinearLayout>
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -1,173 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto">
-	<androidx.preference.PreferenceCategory android:title="@string/general_category">
-		<androidx.preference.SwitchPreference
-			android:defaultValue="true"
-			android:key="theme_switch"
-			android:title="@string/dark_theme"
-			android:summary="@string/dark_theme_summary"
-			android:icon="@drawable/dark_mode_24px" />
-		<androidx.preference.CheckBoxPreference
-			android:defaultValue="false"
-			android:key="amoled_theme_checkbox"
-			android:dependency="theme_switch"
-			android:title="@string/amoled_theme"
-			android:summary="@string/amoled_theme_summary"
-			android:icon="@drawable/amoled_mode_24px" />
-		<androidx.preference.ListPreference
-			android:defaultValue="default_lang"
-			android:key="app_language_list"
-			android:title="@string/language"
-			android:icon="@drawable/internet_language_24px"
-			app:useSimpleSummaryProvider="true"
-			android:negativeButtonText="Ok"
-			android:entries="@array/app_language_entries"
-			android:entryValues="@array/app_language_values" />
-		<androidx.preference.ListPreference
-			android:defaultValue="fonts/Gilroy-Semibold.ttf"
-			android:key="app_font_list"
-			android:title="@string/ui_font"
-			android:icon="@drawable/text_fields_24px"
-			app:useSimpleSummaryProvider="true"
-			android:negativeButtonText="Ok"
-			android:entries="@array/app_font_entries"
-			android:entryValues="@array/app_font_values" />
-		<androidx.preference.CheckBoxPreference
-			android:defaultValue="true"
-			android:key="keep_screen_on_checkbox"
-			android:title="@string/keep_screen_on"
-			android:summary="@string/keep_screen_on_summary"
-			android:icon="@drawable/brightness_high_24px" />
-		<androidx.preference.ListPreference
-			android:defaultValue="1000"
-			android:key="card_update_freq"
-			android:title="@string/card_update_interval"
-			android:icon="@drawable/timer_24px"
-			app:useSimpleSummaryProvider="true"
-			android:negativeButtonText="Ok"
-			android:entries="@array/card_update_freq_entries"
-			android:entryValues="@array/card_update_freq_values" />
-	</androidx.preference.PreferenceCategory>
-	<androidx.preference.PreferenceCategory android:title="@string/boot_category">
-		<androidx.preference.SwitchPreference
-			android:defaultValue="false"
-			android:key="boot_switch"
-			android:title="@string/start_on_boot"
-			android:summary="@string/start_on_boot_summary"
-			android:icon="@drawable/power_settings_new_24px" />
-	</androidx.preference.PreferenceCategory>
-	<androidx.preference.PreferenceCategory
-		android:key="notification_pref_category"
-		android:title="@string/notification_category"
-		app:initialExpandedChildrenCount="2">
-		<androidx.preference.SwitchPreference
-			android:defaultValue="true"
-			android:key="notification_switch"
-			android:title="@string/show_notification"
-			android:summary="@string/show_notification_summary"
-			android:icon="@drawable/notifications_24px" />
-		<androidx.preference.ListPreference
-			android:defaultValue="1000"
-			android:key="notification_update_freq"
-			android:dependency="notification_switch"
-			android:title="@string/notification_update_interval"
-			android:icon="@drawable/timer_24px"
-			app:useSimpleSummaryProvider="true"
-			android:negativeButtonText="Ok"
-			android:entries="@array/ntfc_update_freq_entries"
-			android:entryValues="@array/ntfc_update_freq_values" />
-		<androidx.preference.CheckBoxPreference
-			android:defaultValue="false"
-			android:key="colorize_ntfc_checkbox"
-			android:dependency="notification_switch"
-			android:title="@string/colorize_notification"
-			android:summary="@string/colorize_notification_summary"
-			android:icon="@drawable/format_color_fill_24px"
-			app:isPreferenceVisible="false" />
-		<androidx.preference.CheckBoxPreference
-			android:defaultValue="false"
-			android:key="visualize_signal_strength_ntfc_checkbox"
-			android:dependency="notification_switch"
-			android:title="@string/visualize_signal_strength"
-			android:summary="@string/visualize_signal_strength_summary"
-			android:icon="@drawable/format_paint_24px" />
-		<androidx.preference.CheckBoxPreference
-			android:defaultValue="false"
-			android:key="start_stop_service_screen_state_ntfc_checkbox"
-			android:dependency="notification_switch"
-			android:title="@string/show_hide_notification"
-			android:summary="@string/show_hide_notification_summary"
-			android:icon="@drawable/aod_24px" />
-	</androidx.preference.PreferenceCategory>
-	<androidx.preference.PreferenceCategory android:title="@string/about_category">
-		<androidx.preference.Preference
-			android:key="app_version_pref"
-			android:title="@string/app_version"
-			android:icon="@drawable/info_24px" />
-		<androidx.preference.Preference
-			android:key="supporters_pref"
-			android:title="@string/supporters"
-			android:summary="@string/supporters_summary"
-			android:icon="@drawable/supporters_24px">
-			<intent
-				android:action="android.intent.action.VIEW"
-				android:targetPackage="com.truemlgpro.wifiinfo"
-				android:targetClass="com.truemlgpro.wifiinfo.ui.SupportersActivity" />
-		</androidx.preference.Preference>
-		<androidx.preference.Preference
-			android:key="discord_pref"
-			android:title="@string/discord_server"
-			android:summary="@string/discord_server_summary"
-			android:icon="@drawable/discord_24px">
-			<intent
-				android:action="android.intent.action.VIEW"
-				android:data="https://discord.gg/qxE2DFr" />
-		</androidx.preference.Preference>
-		<androidx.preference.Preference
-			android:key="source_code_pref"
-			android:title="@string/source_code"
-			android:summary="@string/source_code_summary"
-			android:icon="@drawable/code_24px">
-			<intent
-				android:action="android.intent.action.VIEW"
-				android:data="https://github.com/TrueMLGPro/Wi-Fi_Info" />
-		</androidx.preference.Preference>
-		<androidx.preference.Preference
-			android:key="bug_tracker_pref"
-			android:title="@string/report_bugs"
-			android:summary="@string/report_bugs_summary"
-			android:icon="@drawable/contact_support_24px">
-			<intent
-				android:action="android.intent.action.VIEW"
-				android:data="https://github.com/TrueMLGPro/Wi-Fi_Info/issues/new/choose" />
-		</androidx.preference.Preference>
-		<androidx.preference.Preference
-			android:key="privacy_policy_pref"
-			android:title="@string/privacy_policy"
-			android:summary="@string/privacy_policy_summary"
-			android:icon="@drawable/policy_24px">
-			<intent
-				android:action="android.intent.action.VIEW"
-				android:data="https://truemlgpro.github.io/wifi_info/privacy" />
-		</androidx.preference.Preference>
-	</androidx.preference.PreferenceCategory>
-	<androidx.preference.PreferenceCategory android:title="@string/debug_category">
-		<androidx.preference.Preference
-			android:key="android_version_pref"
-			android:title="@string/android_version"
-			android:icon="@drawable/android_24px" />
-		<androidx.preference.Preference
-			android:key="sdk_version_code_pref"
-			android:title="@string/sdk_version_code"
-			android:icon="@drawable/code_blocks_24px" />
-		<androidx.preference.Preference
-			android:key="device_model_pref"
-			android:title="@string/device_model"
-			android:icon="@drawable/devices_24px" />
-		<androidx.preference.Preference
-			android:key="product_name_pref"
-			android:title="@string/product_name"
-			android:icon="@drawable/device_info_24px" />
-	</androidx.preference.PreferenceCategory>
-</androidx.preference.PreferenceScreen>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="Theme">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="theme_switch"
+            android:title="@string/dark_theme"
+            android:summary="@string/dark_theme_summary"
+            android:icon="@drawable/settings_dark_mode_24px" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="amoled_theme_checkbox"
+            android:title="@string/amoled_theme"
+            android:summary="@string/amoled_theme_summary"
+            android:icon="@drawable/settings_amoled_mode_24px" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="monet_theme_switch"
+            android:title="@string/material_you_theme"
+            android:summary="@string/material_you_monet_theme_desc"
+            android:icon="@drawable/palette_24px" />
+        <ListPreference
+            android:defaultValue="filled_card_style"
+            android:key="card_style_amoled_list"
+            android:title="@string/card_style_amoled_theme"
+            android:icon="@drawable/settings_border_style_24px"
+            app:useSimpleSummaryProvider="true"
+            android:entries="@array/amoled_card_style_entries"
+            android:entryValues="@array/amoled_card_style_values" />
+        <ListPreference
+            android:defaultValue="disabled_contrast_overlay"
+            android:key="theme_contrast_variant_list"
+            android:title="@string/theme_contrast"
+            android:icon="@drawable/settings_contrast_24px"
+            app:useSimpleSummaryProvider="true"
+            android:entries="@array/theme_contrast_variant_entries"
+            android:entryValues="@array/theme_contrast_variant_values" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/general_category">
+        <ListPreference
+            android:defaultValue="default_lang"
+            android:key="app_language_list"
+            android:title="@string/language"
+            android:icon="@drawable/settings_internet_language_24px"
+            app:useSimpleSummaryProvider="true"
+            android:entries="@array/app_language_entries"
+            android:entryValues="@array/app_language_values" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="keep_screen_on_checkbox"
+            android:title="@string/keep_screen_on"
+            android:summary="@string/keep_screen_on_summary"
+            android:icon="@drawable/settings_brightness_high_24px" />
+        <ListPreference
+            android:defaultValue="1000"
+            android:key="card_update_freq"
+            android:title="@string/card_update_interval"
+            android:icon="@drawable/timer_24px"
+            app:useSimpleSummaryProvider="true"
+            android:entries="@array/card_update_freq_entries"
+            android:entryValues="@array/card_update_freq_values" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/boot_category">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="boot_switch"
+            android:title="@string/start_on_boot"
+            android:summary="@string/start_on_boot_summary"
+            android:icon="@drawable/power_settings_new_24px" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/notification_category"
+        android:key="notification_pref_category"
+        app:initialExpandedChildrenCount="2">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="notification_switch"
+            android:title="@string/show_notification"
+            android:summary="@string/show_notification_summary"
+            android:icon="@drawable/notifications_24px" />
+        <ListPreference
+            android:defaultValue="1000"
+            android:key="notification_update_freq"
+            android:title="@string/notification_update_interval"
+            android:icon="@drawable/timer_24px"
+            app:useSimpleSummaryProvider="true"
+            android:entries="@array/ntfc_update_freq_entries"
+            android:entryValues="@array/ntfc_update_freq_values" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="colorize_ntfc_checkbox"
+            android:title="@string/colorize_notification"
+            android:summary="@string/colorize_notification_summary"
+            android:icon="@drawable/settings_format_color_fill_24px"
+            app:isPreferenceVisible="false" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="visualize_signal_strength_ntfc_checkbox"
+            android:title="@string/visualize_signal_strength"
+            android:summary="@string/visualize_signal_strength_summary"
+            android:icon="@drawable/settings_format_paint_24px" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="start_stop_service_screen_state_ntfc_checkbox"
+            android:title="@string/show_hide_notification"
+            android:summary="@string/show_hide_notification_summary"
+            android:icon="@drawable/settings_aod_24px" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/about_category">
+        <Preference
+            android:key="app_version_pref"
+            android:title="@string/app_version"
+            android:icon="@drawable/settings_info_24px" />
+        <Preference
+            android:key="supporters_pref"
+            android:title="@string/supporters"
+            android:summary="@string/supporters_summary"
+            android:icon="@drawable/supporters_24px">
+            <intent
+                android:targetPackage="@string/application_id"
+                android:targetClass="com.truemlgpro.wifiinfo.ui.activities.SupportersActivity" />
+        </Preference>
+        <Preference
+            android:key="discord_pref"
+            android:title="@string/discord_server"
+            android:summary="@string/discord_server_summary"
+            android:icon="@drawable/settings_discord_24px">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://discord.gg/qxE2DFr" />
+        </Preference>
+        <Preference
+            android:key="source_code_pref"
+            android:title="@string/source_code"
+            android:summary="@string/source_code_summary"
+            android:icon="@drawable/settings_code_24px">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/TrueMLGPro/Wi-Fi_Info" />
+        </Preference>
+        <Preference
+            android:key="bug_tracker_pref"
+            android:title="@string/report_bugs"
+            android:summary="@string/report_bugs_summary"
+            android:icon="@drawable/settings_contact_support_24px">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/TrueMLGPro/Wi-Fi_Info/issues/new/choose" />
+        </Preference>
+        <Preference
+            android:key="privacy_policy_pref"
+            android:title="@string/privacy_policy"
+            android:summary="@string/privacy_policy_summary"
+            android:icon="@drawable/policy_24px">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://truemlgpro.github.io/wifi_info/privacy" />
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/debug_category">
+        <Preference
+            android:key="android_version_pref"
+            android:title="@string/android_version"
+            android:icon="@drawable/settings_android_24px" />
+        <Preference
+            android:key="sdk_version_code_pref"
+            android:title="@string/sdk_version_code"
+            android:icon="@drawable/settings_code_blocks_24px" />
+        <Preference
+            android:key="device_model_pref"
+            android:title="@string/device_model"
+            android:icon="@drawable/settings_devices_24px" />
+        <Preference
+            android:key="product_name_pref"
+            android:title="@string/product_name"
+            android:icon="@drawable/settings_device_info_24px" />
+    </PreferenceCategory>
+</PreferenceScreen>

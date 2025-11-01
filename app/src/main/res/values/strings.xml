@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 	<string name="app_name" translatable="false">Wi-Fi Info</string>
+	<string name="application_id" translatable="false">@string/application_id_gradle</string>
 	<string name="shortcut_main_short">Start</string>
 	<string name="shortcut_main_long">Start the main activity</string>
 	<string name="shortcut_disabled">Shortcut is not available</string>
@@ -116,12 +117,6 @@
 	<string name="stop_services">Stop Services</string>
 	<string name="notification_settings">Notification Settings</string>
 
-	<!-- SupportersActivity Strings -->
-	<string name="patron_diamond_tier">• Patron - Diamond Tier (5$)</string>
-	<string name="app_tester">• App Tester</string>
-	<string name="idea_provider">• Idea Provider</string>
-	<string name="contributor">• Contributor</string>
-
 	<!-- ToolsActivity Strings -->
 	<string name="cellular_data_ip">Cellular Data IP</string>
 	<string name="router_setup">Router Setup</string>
@@ -139,6 +134,7 @@
 	<string name="_4_s_interval">4 seconds</string>
 	<string name="_5_s_interval">5 seconds</string>
 	<string name="_10_s_interval">10 seconds</string>
+	<string name="_30_s_interval">30 seconds</string>
 
 	<string name="general_category">General</string>
 	<string name="dark_theme">Dark Theme</string>
@@ -186,6 +182,10 @@
 	<string name="product_name">Product Name</string>
 
 	<!-- SupporterActivity Strigns -->
+	<string name="patron_diamond_tier">Patron - Diamond Tier (5$)</string>
+	<string name="app_tester">App Tester</string>
+	<string name="idea_provider">Idea Provider</string>
+	<string name="contributor">Contributor</string>
 	<string name="supporter_pab" translatable="false">arandompab</string>
 	<string name="supporter_anyx" translatable="false">a.n.y.x</string>
 	<string name="supporter_andrebtw" translatable="false">andrebtw.</string>
@@ -193,11 +193,19 @@
 	<string name="supporter_madcodez" translatable="false">yedope</string>
 	<string name="supporter_asfi" translatable="false">asfikul</string>
 	<string name="supporter_akebi" translatable="false">akebi_</string>
-	<string name="supporter_artem" translatable="false">Apтем#8524</string>
+	<string name="supporter_artem" translatable="false">slime_whoscrabby</string>
 	<string name="supporter_terrin_tin" translatable="false">terrintin</string>
 	<string name="supporter_torneix" translatable="false">torneix</string>
-	<string name="supporter_ognjen28a" translatable="false">ognjen28a</string>
-	<string name="supporter_killbayne" translatable="false">Killbayne#2294</string>
+	<string name="supporter_spimbili" translatable="false">spimbili</string>
+	<string name="supporter_killbayne" translatable="false">killbayner</string>
+
+	<!-- Device Details Activity -->
+	<string name="ip_fmt" translatable="false">IP: %1$s</string>
+	<string name="mac_fmt" translatable="false">MAC: %1$s</string>
+	<string name="vendor_fmt">Vendor: %1$s</string>
+	<string name="ping_fmt">Ping: %1$s</string>
+	<string name="type_fmt">Type: %1$s</string>
+	<string name="netbios_fmt">Name: %1$s</string>
 
 	<!-- Tool Strings -->
 	<string name="enter_ip_or_url">Enter IP or URL</string>
@@ -282,4 +290,42 @@
 	<string name="error_interrupted">Error: Interrupted</string>
 	<string name="error_failed_to_execute">Error: Failed to execute</string>
 	<string name="whois_result_output">Getting Whois data for URL: <xliff:g id="url" example="test.com">%s</xliff:g>\nIP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g>\n<xliff:g id="fetched_whois_data" example="...">%s</xliff:g><xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+
+	<!-- 2.0 -->
+	<string name="general_info">General Info</string>
+	<string name="netbios_services">NetBIOS Services</string>
+	<string name="upnp_services">UPnP Services</string>
+	<string name="nsd_bonjour_services">NSD (Bonjour) Services</string>
+	<string name="ssl_certificate_viewer">SSL Certificate Viewer</string>
+	<string name="home">Home</string>
+	<string name="toggle_advanced_options">Toggle advanced options</string>
+	<string name="host">Host</string>
+	<string name="port">Port</string>
+	<string name="sni_host_optional">SNI Host (optional)</string>
+	<string name="material_you_theme">Material You Theme</string>
+	<string name="material_you_monet_theme_desc">Enable or disable Material You (Monet) theme</string>
+	<string name="card_style_amoled_theme">Card Style (AMOLED Theme)</string>
+	<string name="theme_contrast">Theme Contrast</string>
+	<string name="device_details_mac_suffix" translatable="false">" • MAC: "</string>
+	<string name="device_details_workgroup_domain">"Workgroup/Domain: "</string>
+	<string name="device_details_netbios_group_tag">" [Group]"</string>
+	<string name="device_details_netbios_unique_tag">" [Unique]"</string>
+	<string name="device_details_upnp_friendly_name">Friendly Name</string>
+	<string name="device_details_upnp_manufacturer">Manufacturer</string>
+	<string name="device_details_upnp_model">Model</string>
+	<string name="device_details_upnp_device_type">Device Type</string>
+	<string name="device_details_upnp_server">Server</string>
+	<string name="device_details_upnp_st" translatable="false">ST</string>
+	<string name="device_details_upnp_usn" translatable="false">USN</string>
+	<string name="device_details_upnp_location">Location</string>
+	<string name="subnet_scanner_scan_stage">Scan</string>
+	<string name="crash_activity_sorry_for_the_inconvenience">An unexpected error occurred.\nSorry for the inconvenience.</string>
+	<string name="crash_activity_restart_app">Restart app</string>
+	<string name="crash_activity_close_app">Close app</string>
+	<string name="device_info">Device Info</string>
+	<string name="settings_card_style_filled">Filled</string>
+	<string name="settings_card_style_outlined">Outlined</string>
+	<string name="settings_theme_contrast_disabled">Disabled</string>
+	<string name="settings_theme_contrast_medium">Medium Contrast</string>
+	<string name="settings_theme_contrast_high">High Contrast</string>
 </resources>

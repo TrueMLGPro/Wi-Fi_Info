@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.truemlgpro.wifiinfo.R;
 import com.truemlgpro.wifiinfo.models.SubnetDevice;
-import com.truemlgpro.wifiinfo.utils.ThemeManager;
+import com.truemlgpro.wifiinfo.utils.ui.ThemeManager;
 
 import java.util.ArrayList;
 
@@ -27,6 +27,12 @@ public class SubnetScannerAdapter extends RecyclerView.Adapter<SubnetScannerAdap
 		this.subnetDevicesArrayList = subnetDevicesArrayList;
 		this.context = context;
 	}
+
+	public interface OnItemClickListener {
+		void onItemClick(SubnetDevice item);
+	}
+	private OnItemClickListener itemClickListener;
+	public void setOnItemClickListener(OnItemClickListener l) { this.itemClickListener = l; }
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		public final RelativeLayout relative_layout_vendor;
@@ -66,7 +72,18 @@ public class SubnetScannerAdapter extends RecyclerView.Adapter<SubnetScannerAdap
 		String deviceType = subnetDevice.getDeviceType();
 		String pingTimeString = subnetDevice.getDevicePingTime();
 
+		holder.itemView.setOnClickListener(v -> {
+			if (itemClickListener != null) itemClickListener.onItemClick(subnetDevice);
+		});
+
 		boolean darkTheme = ThemeManager.isDarkTheme(context.getApplicationContext());
+
+		holder.relative_layout_vendor.setVisibility(View.GONE);
+		holder.textview_mac.setPadding(dpToPixels(8), dpToPixels(4), dpToPixels(8), dpToPixels(16));
+		holder.textview_device_name.setPadding(dpToPixels(8), dpToPixels(4), dpToPixels(8), dpToPixels(16));
+		holder.textview_mac.setText(context.getString(R.string.na));
+		holder.textview_vendor.setText("");
+		holder.textview_device_name.setText("");
 
 		SpannableStringBuilder ipAddressStyled = new SpannableStringBuilder(ipAddress);
 		int lastDotIndex = ipAddress.lastIndexOf(".");
@@ -104,6 +121,7 @@ public class SubnetScannerAdapter extends RecyclerView.Adapter<SubnetScannerAdap
 			} else if (deviceType != null && !deviceType.equals(context.getString(R.string.your_device))) {
 				holder.textview_mac.setText(context.getString(R.string.na));
 			}
+			holder.textview_device_name.setText("");
 		}
 		holder.textview_device_type.setText(deviceType);
 		holder.textview_device_ping.setText(pingTimeString);
@@ -126,21 +144,6 @@ public class SubnetScannerAdapter extends RecyclerView.Adapter<SubnetScannerAdap
 				holder.textview_device_ping.setTextColor(Color.RED);
 			} else {
 				holder.textview_device_ping.setTextColor(Color.parseColor("#C22517"));
-			}
-		}
-	}
-
-	public void updateNetBiosName(String ipAddress, String netBiosName) {
-		for (int i = 0; i < subnetDevicesArrayList.size(); i++) {
-			SubnetDevice subnetDevice = subnetDevicesArrayList.get(i);
-			if (subnetDevice.getIP().equals(ipAddress)) {
-				if (netBiosName != null && !netBiosName.isEmpty()) {
-					if (!subnetDevice.getDeviceType().equals(context.getString(R.string.your_device))) {
-						subnetDevice.setDeviceName(netBiosName);
-						notifyItemChanged(i);
-						break;
-					}
-				}
 			}
 		}
 	}

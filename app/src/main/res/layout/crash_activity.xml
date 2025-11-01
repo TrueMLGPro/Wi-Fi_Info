@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/content_root_crash"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:padding="16dp"
+		android:clipToPadding="false">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<ImageView
+				android:id="@+id/customactivityoncrash_error_activity_image"
+				android:layout_width="48dp"
+				android:layout_height="48dp"
+				android:contentDescription="@null"
+                android:src="@drawable/wifi_fail_24px"
+                app:tint="?attr/colorPrimary" />
+
+			<com.google.android.material.textview.MaterialTextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:text="@string/crash_activity_sorry_for_the_inconvenience"
+				android:textSize="24sp"
+				android:textStyle="bold" />
+
+		</LinearLayout>
+
+		<com.google.android.material.card.MaterialCardView
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_marginTop="16dp"
+			android:layout_weight="1"
+			style="?attr/materialCardViewOutlinedStyle"
+			app:cardCornerRadius="8dp"
+			app:cardElevation="4dp">
+
+			<ScrollView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:padding="16dp"
+				android:background="?attr/colorSurfaceContainer">
+
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/error_details"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:lineSpacingExtra="2dp"
+					android:textSize="14sp"
+					android:typeface="monospace"
+					android:textIsSelectable="true"
+					tools:text="Oh no! An error has occurred!\nThis is bad!" />
+
+			</ScrollView>
+
+		</com.google.android.material.card.MaterialCardView>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp">
+
+			<View
+				android:id="@+id/center_anchor"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_centerHorizontal="true" />
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/restart_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentStart="true"
+				android:layout_toStartOf="@id/center_anchor"
+				android:layout_marginEnd="4dp"
+				android:text="@string/crash_activity_close_app" />
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/copy_logs_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentEnd="true"
+				android:layout_toEndOf="@id/center_anchor"
+				android:layout_alignTop="@id/restart_button"
+				android:layout_alignBottom="@id/restart_button"
+				android:layout_marginStart="4dp"
+				android:text="@android:string/copy" />
+
+		</RelativeLayout>
+
+	</LinearLayout>
+
+</RelativeLayout>
