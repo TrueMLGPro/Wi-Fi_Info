@@ -1,0 +1,9 @@
+🚀 What's New
+- Material Design 3 is here (including the Material You theme)!
+- Even more options for theming: improved AMOLED theme (Lite and Full), theme contrast overlays!
+- Improved language changing feature!
+- Improved tools!
+- New tool - SSL Certificate Viewer!
+- and a lot more!
+
+Full changelog: https://github.com/TrueMLGPro/Wi-Fi_Info/releases/tag/v2.0_stable

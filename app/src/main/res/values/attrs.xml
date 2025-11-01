@@ -16,4 +16,5 @@
 	<attr name="FAB_MainTextColor" format="reference|color" />
 	<attr name="EmbedBackgroundColor" format="reference|color" />
 	<attr name="BorderColor" format="reference|color" />
+	<attr name="colorSurfaceContainer" format="reference|color" />
 </resources>

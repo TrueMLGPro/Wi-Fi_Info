@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string-array name="amoled_card_style_entries">
+		<item>@string/settings_card_style_filled</item>
+		<item>@string/settings_card_style_outlined</item>
+	</string-array>
+	<string-array name="amoled_card_style_values">
+		<item>filled_card_style</item>
+		<item>outlined_card_style</item>
+	</string-array>
+	<string-array name="theme_contrast_variant_entries">
+		<item>@string/settings_theme_contrast_disabled</item>
+		<item>@string/settings_theme_contrast_medium</item>
+		<item>@string/settings_theme_contrast_high</item>
+	</string-array>
+	<string-array name="theme_contrast_variant_values">
+		<item>disabled_contrast_overlay</item>
+		<item>medium_contrast_overlay</item>
+		<item>high_contrast_overlay</item>
+	</string-array>
 	<string-array name="ntfc_update_freq_entries">
 		<item>@string/_500_ms_interval</item>
 		<item>@string/_1_s_interval</item>
@@ -8,6 +26,7 @@
 		<item>@string/_4_s_interval</item>
 		<item>@string/_5_s_interval</item>
 		<item>@string/_10_s_interval</item>
+		<item>@string/_30_s_interval</item>
 	</string-array>
 	<string-array name="ntfc_update_freq_values">
 		<item>500</item>
@@ -17,6 +36,7 @@
 		<item>4000</item>
 		<item>5000</item>
 		<item>10000</item>
+		<item>30000</item>
 	</string-array>
 	<string-array name="card_update_freq_entries">
 		<item>@string/_500_ms_interval</item>
@@ -26,6 +46,7 @@
 		<item>@string/_4_s_interval</item>
 		<item>@string/_5_s_interval</item>
 		<item>@string/_10_s_interval</item>
+		<item>@string/_30_s_interval</item>
 	</string-array>
 	<string-array name="card_update_freq_values">
 		<item>500</item>
@@ -35,16 +56,7 @@
 		<item>4000</item>
 		<item>5000</item>
 		<item>10000</item>
-	</string-array>
-	<string-array name="app_font_entries">
-		<item>Gilroy</item>
-		<item>Circular Std</item>
-		<item>Nunito</item>
-	</string-array>
-	<string-array name="app_font_values">
-		<item>fonts/Gilroy-Semibold.ttf</item>
-		<item>fonts/CircularStd-Bold.ttf</item>
-		<item>fonts/Nunito-Bold.ttf</item>
+		<item>30000</item>
 	</string-array>
 	<string-array name="app_language_entries">
 		<item>System Default</item>

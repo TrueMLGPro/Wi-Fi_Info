@@ -5,5 +5,6 @@
 build/
 app/build/
 app/release/
+app/internalPlayStore/
 local.properties
 gradle.properties

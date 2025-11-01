@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/wifi_24px"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/toolsFragment"
+        android:icon="@drawable/tools_24px"
+        android:title="@string/tools" />
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/settings_24px"
+        android:title="@string/settings" />
+</menu>

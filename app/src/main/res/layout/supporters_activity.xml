@@ -1,654 +1,1159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="?attr/BackgroundColor">
+	android:layout_height="match_parent">
 
-	<androidx.appcompat.widget.Toolbar
-		android:id="@+id/toolbar"
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appbarlayout_supporters"
 		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
-		android:background="?attr/colorPrimary"
-		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor" />
+		android:layout_height="wrap_content"
+		app:liftOnScroll="true">
 
-	<ScrollView
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="?attr/actionBarSize"
+			app:layout_scrollFlags="noScroll"
+			app:title="@string/supporters" />
+
+	</com.google.android.material.appbar.AppBarLayout>
+
+	<androidx.core.widget.NestedScrollView
 		android:id="@+id/scrollView"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_below="@+id/toolbar"
-		android:fillViewport="true">
+		android:fillViewport="true"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<RelativeLayout
+		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:padding="16dp"
+			android:clipToPadding="false">
 
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/pab_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_centerHorizontal="true"
+			<!-- Pab -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/pab_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/pab" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/pab_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_pab" />
+
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+android:layout_height="match_parent"
+android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/pab_patron"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/patron_diamond_tier" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/pab_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/pab_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+
+							</LinearLayout>
+
+						</LinearLayout>
+
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Anyx -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
 				android:layout_marginTop="16dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_radius="4dp"
-				app:civ_shadow_color="#151515"
-				android:src="@drawable/pab" />
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<TextView
-				android:id="@+id/pab_text"
-				android:layout_width="wrap_content"
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/anyx_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/anyx" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/anyx_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_anyx" />
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+android:layout_height="match_parent"
+android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/anyx_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/anyx_contributor"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/contributor" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/anyx_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Andrew -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/pab_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_pab" />
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<TextView
-				android:id="@+id/pab_patron"
-				android:layout_width="wrap_content"
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/andrew_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/andrebtw" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/andrew_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_andrebtw" />
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+								android:layout_height="match_parent"
+								android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/andrew_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/andrew_contributor"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/contributor" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/andrew_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Rouge -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/pab_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="18sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/patron_diamond_tier" />
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<TextView
-				android:id="@+id/pab_tester"
-				android:layout_width="wrap_content"
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/rouge_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/rouge" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/rouge_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_air_conditioner" />
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+								android:layout_height="match_parent"
+								android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/rouge_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/rouge_contributor"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/contributor" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/rouge_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Madcodez -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/pab_patron"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<TextView
-				android:id="@+id/pab_idea"
-				android:layout_width="wrap_content"
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/madcodez_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/madcodez" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/madcodez_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_madcodez" />
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+android:layout_height="match_parent"
+android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/madcodez_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/madcodez_contributor"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/contributor" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/madcodez_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Asfi -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/pab_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/anyx_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/pab_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4dp"
-				android:src="@drawable/anyx" />
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
 
-			<TextView
-				android:id="@+id/anyx_text"
-				android:layout_width="wrap_content"
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/asfi_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/asfi" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/asfi_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_asfi" />
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+android:layout_height="match_parent"
+android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/asfi_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/asfi_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Akebi -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/anyx_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_anyx" />
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<TextView
-				android:id="@+id/anyx_tester"
-				android:layout_width="wrap_content"
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/akebi_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/akebi" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/akebi_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_akebi" />
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+android:layout_height="match_parent"
+android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/akebi_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/akebi_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Artem -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/anyx_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<TextView
-				android:id="@+id/anyx_contributor"
-				android:layout_width="wrap_content"
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/artem_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/artem" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/artem_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_artem" />
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+android:layout_height="match_parent"
+android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/artem_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/artem_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Terrin -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/anyx_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/contributor" />
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<TextView
-				android:id="@+id/anyx_idea"
-				android:layout_width="wrap_content"
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/terrin_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/terrin_tin" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/terrin_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_terrin_tin" />
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+android:layout_height="match_parent"
+android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/terrin_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/terrin_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Torneix -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/anyx_contributor"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/andrew_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/anyx_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4dp"
-				android:src="@drawable/andrebtw" />
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
 
-			<TextView
-				android:id="@+id/andrew_text"
-				android:layout_width="wrap_content"
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/torneix_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/torneix" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/torneix_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_torneix" />
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+android:layout_height="match_parent"
+android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/torneix_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/torneix_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Ognjen28a -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/andrew_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_andrebtw" />
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<TextView
-				android:id="@+id/andrew_tester"
-				android:layout_width="wrap_content"
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/ognjen28a_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/ognjen28a" />
+
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/ognjen28a_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_spimbili" />
+						</LinearLayout>
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:layout_width="100dp"
+android:layout_height="match_parent"
+android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
+
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/ognjen28a_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
+
+								<com.google.android.material.chip.Chip
+									android:id="@+id/ognjen28a_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
+
+			<!-- Killbayne -->
+			<com.google.android.material.card.MaterialCardView
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@+id/andrew_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
+				android:layout_marginTop="16dp"
+				app:cardBackgroundColor="?attr/colorSurface"
+				app:cardCornerRadius="16dp"
+				app:cardElevation="8dp">
 
-			<TextView
-				android:id="@+id/andrew_contributor"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/andrew_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/contributor" />
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp"
+					android:gravity="center_horizontal">
 
-			<TextView
-				android:id="@+id/andrew_idea"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/andrew_contributor"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						tools:ignore="UselessParent">
 
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/rouge_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/andrew_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_radius="4dp"
-				app:civ_shadow_color="#151515"
-				android:src="@drawable/rouge" />
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
 
-			<TextView
-				android:id="@+id/rouge_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/rouge_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_air_conditioner" />
+							<com.google.android.material.imageview.ShapeableImageView
+								android:id="@+id/killbayne_pfp"
+								android:layout_width="100dp"
+								android:layout_height="100dp"
+								android:padding="1dp"
+								app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large"
+								app:strokeColor="?attr/colorPrimary"
+								app:strokeWidth="2dp"
+								android:src="@drawable/killbayne" />
 
-			<TextView
-				android:id="@+id/rouge_tester"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/rouge_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" /> <!-- TODO -->
+							<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/killbayne_text"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginStart="16dp"
+								android:layout_gravity="center"
+								android:textSize="24sp"
+								android:textColor="?attr/colorOnPrimaryContainer"
+								app:fontFamily="@font/rubik"
+								android:textStyle="italic"
+								app:fontVariationSettings="'wght' 800"
+								android:includeFontPadding="false"
+								android:text="@string/supporter_killbayne" />
+						</LinearLayout>
 
-			<TextView
-				android:id="@+id/rouge_contributor"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/rouge_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/contributor" />
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="horizontal">
 
-			<TextView
-				android:id="@+id/rouge_idea"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/rouge_contributor"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
+							<ImageView
+								android:layout_width="100dp"
+android:layout_height="match_parent"
+android:minHeight="150dp"
+								android:rotation="90"
+								android:src="@drawable/squiggly_line" />
 
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/madcodez_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/rouge_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_radius="4dp"
-				app:civ_shadow_color="#151515"
-				android:src="@drawable/madcodez" />
+							<LinearLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:orientation="vertical"
+								android:paddingStart="16dp"
+								android:gravity="center_vertical">
 
-			<TextView
-				android:id="@+id/madcodez_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/madcodez_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_madcodez" />
+								<com.google.android.material.chip.Chip
+									android:id="@+id/killbayne_tester"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/app_tester" />
 
-			<TextView
-				android:id="@+id/madcodez_tester"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/madcodez_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
+								<com.google.android.material.chip.Chip
+									android:id="@+id/killbayne_idea"
+									style="@style/Widget.Material3.Chip.Assist"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:text="@string/idea_provider" />
+							</LinearLayout>
+						</LinearLayout>
+					</LinearLayout>
+				</LinearLayout>
+			</com.google.android.material.card.MaterialCardView>
 
-			<TextView
-				android:id="@+id/madcodez_contributor"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/madcodez_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/contributor" />
-
-			<TextView
-				android:id="@+id/madcodez_idea"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/madcodez_contributor"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
-
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/asfi_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/madcodez_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4dp"
-				android:src="@drawable/asfi" />
-
-			<TextView
-				android:id="@+id/asfi_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/asfi_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_asfi" />
-
-			<TextView
-				android:id="@+id/asfi_tester"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/asfi_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
-
-			<TextView
-				android:id="@+id/asfi_idea"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/asfi_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
-
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/akebi_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/asfi_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4dp"
-				android:src="@drawable/akebi" />
-
-			<TextView
-				android:id="@+id/akebi_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/akebi_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textColor="?attr/TextColor"
-				android:textSize="24sp" 
-				android:text="@string/supporter_akebi" />
-
-			<TextView
-				android:id="@+id/akebi_tester"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/akebi_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
-
-			<TextView
-				android:id="@+id/akebi_idea"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/akebi_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
-
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/artem_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/akebi_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4dp"
-				android:src="@drawable/artem" />
-
-			<TextView
-				android:id="@+id/artem_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/artem_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_artem" />
-
-			<TextView
-				android:id="@+id/artem_tester"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/artem_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
-
-			<TextView
-				android:id="@+id/artem_idea"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/artem_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
-
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/terrin_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/artem_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_radius="4dp"
-				app:civ_shadow_color="#151515"
-				android:src="@drawable/terrin_tin" />
-
-			<TextView
-				android:id="@+id/terrin_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/terrin_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_terrin_tin" />
-
-			<TextView
-				android:id="@+id/terrin_tester"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/terrin_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
-
-			<TextView
-				android:id="@+id/terrin_idea"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/terrin_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
-
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/torneix_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/terrin_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_radius="4dp"
-				app:civ_shadow_color="#151515"
-				android:src="@drawable/torneix" />
-
-			<TextView
-				android:id="@+id/torneix_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/torneix_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_torneix" />
-
-			<TextView
-				android:id="@+id/torneix_tester"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/torneix_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
-
-			<TextView
-				android:id="@+id/torneix_idea"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/torneix_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
-
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/ognjen28a_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/torneix_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_radius="4dp"
-				app:civ_shadow_color="#151515"
-				android:src="@drawable/ognjen28a" />
-
-			<TextView
-				android:id="@+id/ognjen28a_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/ognjen28a_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_ognjen28a" />
-
-			<TextView
-				android:id="@+id/ognjen28a_tester"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/ognjen28a_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
-
-			<TextView
-				android:id="@+id/ognjen28a_idea"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/ognjen28a_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
-
-			<com.mikhaellopez.circularimageview.CircularImageView
-				android:id="@+id/killbayne_pfp"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:layout_below="@+id/ognjen28a_idea"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="20dp"
-				app:civ_border_color="?attr/BorderColor"
-				app:civ_border_width="1dp"
-				app:civ_shadow="true"
-				app:civ_shadow_color="#151515"
-				app:civ_shadow_radius="4dp"
-				android:src="@drawable/killbayne" />
-
-			<TextView
-				android:id="@+id/killbayne_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/killbayne_pfp"
-				android:layout_centerHorizontal="true"
-				android:layout_gravity="center"
-				android:layout_marginTop="4dp"
-				android:textSize="24sp" 
-				android:textColor="?attr/TextColor"
-				android:text="@string/supporter_killbayne" />
-
-			<TextView
-				android:id="@+id/killbayne_tester"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/killbayne_text"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="12dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/app_tester" />
-
-			<TextView
-				android:id="@+id/killbayne_idea"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/killbayne_tester"
-				android:layout_centerHorizontal="true"
-				android:layout_marginTop="8dp"
-				android:layout_marginBottom="16dp"
-				android:textSize="16sp"
-				android:textColor="?attr/TextColor"
-				android:text="@string/idea_provider" />
-
-		</RelativeLayout>
-
-	</ScrollView>
-
-</RelativeLayout>
+		</LinearLayout>
+	</androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

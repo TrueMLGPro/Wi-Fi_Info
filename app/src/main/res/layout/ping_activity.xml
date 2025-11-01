@@ -1,83 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="?attr/BackgroundColor">
+	android:layout_height="match_parent">
 
-	<androidx.appcompat.widget.Toolbar
-		android:id="@+id/toolbar"
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appbarlayout_ping"
 		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
-		android:background="?attr/colorPrimary"
-		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor" />
+		android:layout_height="wrap_content"
+		app:liftOnScroll="false">
 
-	<TextView
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="?attr/actionBarSize"
+			app:layout_scrollFlags="noScroll"
+			app:title="@string/ping_tool" />
+
+	</com.google.android.material.appbar.AppBarLayout>
+
+	<com.google.android.material.textview.MaterialTextView
 		android:id="@+id/textview_nonetworkconn"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="16dp"
-		android:textSize="18sp"
-		android:textColor="?TextColor"
+		android:textSize="24sp"
+		android:gravity="center"
 		android:layout_gravity="center"
 		android:layout_centerInParent="true"
 		android:visibility="gone"
+		app:fontFamily="@font/rubik"
+		android:textStyle="italic"
+		app:fontVariationSettings="'wght' 800"
+		android:includeFontPadding="false"
 		android:text="@string/no_connection" />
 
-	<ProgressBar
+	<com.google.android.material.progressindicator.LinearProgressIndicator
 		android:id="@+id/ping_progress_bar"
-		style="?android:attr/progressBarStyleHorizontal"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="-7dp"
-		android:layout_marginBottom="-7dp"
-		android:layout_below="@+id/toolbar"
+		android:layout_below="@+id/appbarlayout_main"
 		android:indeterminate="true"
-		android:visibility="invisible" />
+		android:visibility="invisible"
+		style="@style/Widget.Material3.LinearProgressIndicator"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 	<LinearLayout
+		android:id="@+id/linear_layout_root_ping"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_below="@+id/toolbar"
+		android:layout_below="@+id/appbarlayout_main"
 		android:animateLayoutChanges="true"
 		android:padding="8dp"
-		android:orientation="vertical">
+		android:orientation="vertical"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
 			android:orientation="vertical"
-			android:gravity="center">
+			android:gravity="center"
+			android:animateLayoutChanges="true">
 
-			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/input_layout_ping"
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:id="@+id/row_host"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:hint="@string/enter_ip_or_url">
+				android:layout_marginTop="4dp">
 
-				<com.google.android.material.textfield.TextInputEditText
-					android:id="@+id/edit_text_ping"
-					android:layout_width="match_parent"
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/input_layout_ping"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:layout_gravity="center_horizontal"
-					android:inputType="text"
-					android:singleLine="true"
-					android:imeOptions="actionGo" />
+					android:layout_marginEnd="4dp"
+					android:hint="@string/enter_ip_or_url"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toStartOf="@id/btn_advanced"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent">
 
-			</com.google.android.material.textfield.TextInputLayout>
+					<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/edit_text_ping"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:inputType="text"
+						android:singleLine="true"
+						android:imeOptions="actionGo" />
+
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/btn_advanced"
+					style="@style/Widget.Material3.Button.TextButton"
+					android:layout_width="48dp"
+					android:layout_height="48dp"
+					android:minWidth="0dp"
+					android:minHeight="0dp"
+					android:padding="0dp"
+					android:text=""
+					android:gravity="center"
+					android:contentDescription="@string/toggle_advanced_options"
+					app:icon="@drawable/arrow_drop_down_24px"
+					app:iconSize="24dp"
+					app:iconPadding="0dp"
+					app:iconTint="?attr/colorOnSurface"
+					app:iconGravity="textStart"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="@id/input_layout_ping"
+					app:layout_constraintBottom_toBottomOf="@id/input_layout_ping" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
 
 			<LinearLayout
+				android:id="@+id/group_advanced"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
 				android:orientation="horizontal"
 				android:gravity="center_horizontal"
 				android:baselineAligned="false"
-				android:layout_marginTop="8dp">
+				android:visibility="gone">
 
 				<com.google.android.material.textfield.TextInputLayout
 					android:id="@+id/input_layout_timeout"
@@ -94,7 +140,6 @@
 						android:singleLine="true"
 						android:imeOptions="actionGo"
 						android:text="3000" />
-
 				</com.google.android.material.textfield.TextInputLayout>
 
 				<com.google.android.material.textfield.TextInputLayout
@@ -114,7 +159,6 @@
 						android:inputType="numberDecimal"
 						android:singleLine="true"
 						android:text="30" />
-
 				</com.google.android.material.textfield.TextInputLayout>
 
 				<com.google.android.material.textfield.TextInputLayout
@@ -142,55 +186,57 @@
 				android:layout_height="wrap_content"
 				android:orientation="horizontal"
 				android:gravity="center_horizontal"
-				android:paddingTop="4dp"
-				android:paddingBottom="4dp">
+				android:paddingTop="8dp">
 
-				<Button
+				<com.google.android.material.button.MaterialButton
 					android:id="@+id/ping_button"
-					style="@style/Widget.AppCompat.Button.Colored"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:text="@string/start"
-					android:textColor="?attr/ButtonTextColor"
 					android:layout_marginEnd="2dp"
-					android:layout_weight="1" />
+					android:layout_weight="1"
+					style="@style/Widget.Material3.Button" />
 
-				<Button
+				<com.google.android.material.button.MaterialButton
 					android:id="@+id/ping_button_cancel"
-					style="@style/Widget.AppCompat.Button.Colored"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:text="@android:string/cancel"
-					android:textColor="?attr/ButtonTextColor"
 					android:enabled="false"
 					android:layout_marginStart="2dp"
-					android:layout_weight="1" />
-
+					android:layout_weight="1"
+					style="@style/Widget.Material3.Button" />
 			</LinearLayout>
-
 		</LinearLayout>
 
-		<ScrollView
-			android:id="@+id/ping_scroll"
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/ping_cardview"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
+			android:layout_height="0dp"
 			android:layout_marginTop="8dp"
-			android:layout_marginStart="4dp"
-			android:layout_marginEnd="4dp"
-			android:layout_marginBottom="4dp"
-			android:background="?EmbedBackgroundColor"
-			android:padding="8dp">
+			android:layout_weight="1"
+			style="?attr/materialCardViewOutlinedStyle"
+			app:cardCornerRadius="8dp"
+			app:cardElevation="4dp">
 
-			<TextView
-				android:id="@+id/ping_textview"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textColor="?TextColor"
-				android:textIsSelectable="true" />
+			<ScrollView
+				android:id="@+id/ping_results_scroll"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:padding="16dp"
+				android:background="?attr/colorSurfaceContainer">
 
-		</ScrollView>
-
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/ping_results_textview"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:lineSpacingExtra="2dp"
+					android:textSize="14sp"
+					android:typeface="monospace"
+					android:textIsSelectable="true"
+					tools:text="Ping Log" />
+			</ScrollView>
+		</com.google.android.material.card.MaterialCardView>
 	</LinearLayout>
 
-</RelativeLayout>
-
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

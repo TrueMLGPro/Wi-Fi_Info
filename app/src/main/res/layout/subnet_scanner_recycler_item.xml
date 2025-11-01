@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/subnet_scanner_item_root"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
@@ -29,8 +30,8 @@
 				android:paddingStart="8dp"
 				android:paddingTop="16dp"
 				android:paddingEnd="8dp"
-				android:textColor="?attr/CardTextColor"
-				android:textSize="16sp" />
+				android:textSize="16sp"
+				tools:text="192.168.0.1" />
 
 			<TextView
 				android:id="@+id/subnet_scanner_item_device_type"
@@ -41,8 +42,9 @@
 				android:paddingStart="4dp"
 				android:paddingTop="16dp"
 				android:paddingEnd="4dp"
-				android:textColor="?attr/CardTextColor"
-				android:textSize="14sp" />
+				android:textSize="14sp"
+				android:textStyle="bold"
+				tools:text="(Your Device)" />
 
 			<TextView
 				android:id="@+id/subnet_scanner_item_device_ping"
@@ -53,8 +55,9 @@
 				android:paddingStart="4dp"
 				android:paddingTop="16dp"
 				android:paddingEnd="8dp"
-				android:textColor="?attr/CardTextColor"
-				android:textSize="14sp" />
+				android:textSize="14sp"
+				tools:text="100 ms"
+				tools:textColor="#11B828"/>
 
 		</RelativeLayout>
 
@@ -72,8 +75,8 @@
 				android:paddingStart="8dp"
 				android:paddingEnd="8dp"
 				android:paddingBottom="16dp"
-				android:textColor="?attr/CardTextColor"
-				android:textSize="14sp" />
+				android:textSize="14sp"
+				tools:text="AA:BB:CC:DD:EE:FF" />
 
 			<TextView
 				android:id="@+id/subnet_scanner_item_device_name"
@@ -84,8 +87,8 @@
 				android:paddingStart="8dp"
 				android:paddingEnd="8dp"
 				android:paddingBottom="16dp"
-				android:textColor="?attr/CardTextColor"
-				android:textSize="14sp" />
+				android:textSize="14sp"
+				tools:text="Device Name" />
 
 		</RelativeLayout>
 
@@ -105,28 +108,27 @@
 				android:paddingStart="8dp"
 				android:paddingEnd="8dp"
 				android:paddingBottom="16dp"
-				android:textColor="?attr/CardTextColor"
 				android:textSize="14sp" />
 
 		</RelativeLayout>
 
 	</LinearLayout>
 
-<!--	<LinearLayout-->
-<!--		android:id="@+id/subnet_scanner_item_relative_layout_arrow_right"-->
-<!--		android:layout_width="wrap_content"-->
-<!--		android:layout_height="match_parent"-->
-<!--		android:orientation="vertical"-->
-<!--		android:gravity="center">-->
+	<LinearLayout
+		android:id="@+id/subnet_scanner_item_relative_layout_arrow_right"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:gravity="center">
 
-<!--		<ImageView-->
-<!--			android:layout_width="wrap_content"-->
-<!--			android:layout_height="wrap_content"-->
-<!--			android:paddingStart="8dp"-->
-<!--			android:paddingEnd="8dp"-->
-<!--			android:src="@drawable/chevron_right_24px"-->
-<!--			tools:ignore="ContentDescription" />-->
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingStart="2dp"
+			android:paddingEnd="2dp"
+			android:src="@drawable/chevron_right_24px"
+			tools:ignore="ContentDescription" />
 
-<!--	</LinearLayout>-->
+	</LinearLayout>
 
 </LinearLayout>

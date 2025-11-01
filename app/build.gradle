@@ -1,9 +1,28 @@
-apply plugin: 'com.android.application'
+import org.gradle.api.services.BuildService
+import org.gradle.api.services.BuildServiceParameters
+
+import java.text.SimpleDateFormat
+
+plugins {
+	id "com.android.application"
+	id "com.starter.easylauncher" version "6.4.1"
+}
+
+ext {
+	APP_NAME = "Wi-Fi_Info"
+}
+
+abstract class BuildTsService implements BuildService<BuildServiceParameters.None> {
+	final String ts = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date())
+}
+def tsProvider = gradle.sharedServices
+		.registerIfAbsent("buildTimestamp", BuildTsService) { }
+		.map { it.ts }
 
 android {
 	namespace "com.truemlgpro.wifiinfo"
-	compileSdk 34
-	buildToolsVersion = '34.0.0'
+	compileSdk 36
+	buildToolsVersion = '35.0.0'
 
 	signingConfigs {
 		release {
@@ -13,6 +32,10 @@ android {
 			keyPassword KEY_PASSWORD
 		}
 	}
+	dependenciesInfo {
+		includeInApk = false
+		includeInBundle = true
+	}
 	compileOptions {
 		sourceCompatibility JavaVersion.VERSION_17
 		targetCompatibility JavaVersion.VERSION_17
@@ -20,12 +43,17 @@ android {
 	defaultConfig {
 		applicationId "com.truemlgpro.wifiinfo"
 		minSdkVersion 21
-		targetSdkVersion 34
-		versionCode 1610
-		versionName "1.6.1"
+		targetSdkVersion 36
+		versionCode 20000
+		versionName "2.0"
+		vectorDrawables.useSupportLibrary = true
 	}
 	buildTypes {
+		def timestamp = tsProvider.get()
 		release {
+			manifestPlaceholders = [appName: "Wi-Fi Info"]
+			resValue 'string', 'application_id_gradle', android.defaultConfig.applicationId
+			resValue 'string', 'app_name', "Wi-Fi Info"
 			debuggable false
 			minifyEnabled true
 			shrinkResources true
@@ -33,53 +61,113 @@ android {
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 		debug {
-			versionNameSuffix "_dev"
+			manifestPlaceholders = [appName: "Wi-Fi Info Dev"]
+			applicationIdSuffix ".dev"
+			versionNameSuffix "_dev_${timestamp}"
+			resValue 'string', 'application_id_gradle', android.defaultConfig.applicationId + applicationIdSuffix
+			resValue 'string', 'app_name', "Wi-Fi Info Dev"
 			debuggable true
 			signingConfig signingConfigs.debug
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 		minifiedDebug {
-			versionNameSuffix "_dev_minified"
+			manifestPlaceholders = [appName: "Wi-Fi Info Dev Mini"]
+			applicationIdSuffix ".dev_mini"
+			versionNameSuffix "_dev_minified_${timestamp}"
+			resValue 'string', 'application_id_gradle', android.defaultConfig.applicationId + applicationIdSuffix
+			resValue 'string', 'app_name', "Wi-Fi Info Dev Mini"
 			debuggable true
 			minifyEnabled true
 			shrinkResources true
 			signingConfig signingConfigs.debug
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
-	}
-	applicationVariants.configureEach { variant ->
-		variant.outputs.configureEach {
-			outputFileName = "${APP_NAME}_v${defaultConfig.versionName}_${variant.buildType.name}.apk"
+		internalPlayStore {
+			manifestPlaceholders = [appName: "Wi-Fi Info Dev GP"]
+			// applicationIdSuffix ".dev_gp"
+			versionNameSuffix "_dev_gp_${timestamp}"
+			resValue 'string', 'application_id_gradle', android.defaultConfig.applicationId
+			resValue 'string', 'app_name', "Wi-Fi Info Dev GP"
+			debuggable false
+			minifyEnabled true
+			shrinkResources true
+			signingConfig signingConfigs.release
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
+	}
+	easylauncher {
+		buildTypes {
+			register("debug") {
+				filters = [
+					chromeLike(
+							label: "Dev",
+							overlayHeight: 0.35,
+							textSizeRatio: 0.125
+					)
+				]
+			}
+			register("minifiedDebug") {
+				filters = [
+					chromeLike(
+							label: "Dev Mini",
+							overlayHeight: 0.35,
+							textSizeRatio: 0.125
+					)
+				]
+			}
+			register("internalPlayStore") {
+				filters = [
+					chromeLike(
+							label: "Dev GP",
+							overlayHeight: 0.35,
+							textSizeRatio: 0.125
+					)
+				]
+			}
+		}
+	}
+	packaging {
+		resources.pickFirsts.add('META-INF/versions/9/OSGI-INF/MANIFEST.MF') // Fix for the BouncyCastle dep MANIFEST.MF duplicate error on build
 	}
 	lint {
 		abortOnError false
 		checkReleaseBuilds false
 	}
-	ext {
-		APP_NAME = "Wi-Fi_Info"
+}
+
+androidComponents {
+	onVariants(selector().all()) { v ->
+		def ts = tsProvider.get()
+		def baseP = "${APP_NAME}_v${android.defaultConfig.versionName}_${v.buildType}_${ts}"
+
+		v.outputs.each { out ->
+			out.outputFileName.set(baseP + ".apk")
+		}
 	}
 }
 
 dependencies {
-	implementation 'androidx.appcompat:appcompat:1.7.0-alpha03'
-	implementation 'com.google.android.material:material:1.11.0'
-	implementation 'androidx.cardview:cardview:1.0.0'
-	implementation "androidx.recyclerview:recyclerview:1.3.2"
+	def nav_version = '2.9.5'
+
+	implementation 'androidx.appcompat:appcompat:1.7.1'
+	implementation 'com.google.android.material:material:1.13.0'
+	implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
+	implementation 'androidx.recyclerview:recyclerview:1.4.0'
 	implementation 'androidx.preference:preference:1.2.1'
-	implementation 'androidx.core:core-splashscreen:1.0.1'
+	implementation 'androidx.core:core:1.17.0'
+	implementation 'androidx.core:core-splashscreen:1.2.0-rc01'
 
-	implementation 'com.github.AnwarShahriar:Calligrapher:master'
-	implementation 'com.mikhaellopez:circularimageview:4.3.1'
-	implementation 'com.github.sougata-chatterjee:FloatingActionButton:1.7.1'
+	implementation 'androidx.fragment:fragment:1.8.9'
+	implementation "androidx.navigation:navigation-fragment:$nav_version"
+	implementation "androidx.navigation:navigation-ui:$nav_version"
 
-	implementation 'com.github.TrueMLGPro:AndroidNetworkTools:76b8feabb6' // Fork of a Kotlin rewrite of stealthcopter/AndroidNetworkTools
-	implementation 'com.github.100rabhkr:TCWHOIS:master' // Whois lookups (minimum SDK version is 22, ignored in AndroidManifest.xml)
+	implementation 'cat.ereza:customactivityoncrash:2.4.0'
+
+	implementation 'com.github.TrueMLGPro.AndroidNetworkTools:library:2ec122cf06' // Fork of a Kotlin rewrite of stealthcopter/AndroidNetworkTools
+	implementation 'com.github.100rabhkr:TCWHOIS:d598231068' // Whois lookups (minimum SDK version is 22, ignored in AndroidManifest.xml)
+	implementation 'org.minidns:minidns-hla:1.1.1' // DNS lookups
+	implementation 'org.minidns:minidns-android21:1.0.5'
 	implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1' // Helper for working with databases located in assets folder
-//	implementation 'org.fourthline.cling:cling-core:2.1.2' // Library for locating UPnP devices on the local network; for 1.6.2
-	implementation 'eu.agno3.jcifs:jcifs-ng:2.1.9' // Library used for locating NetBIOS devices on the local network
-	implementation 'org.minidns:minidns-hla:1.0.4' // DNS lookups
-	implementation 'org.minidns:minidns-android21:1.0.4'
 
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 }

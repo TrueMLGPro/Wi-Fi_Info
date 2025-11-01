@@ -1,59 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="?attr/BackgroundColor">
+	android:layout_height="match_parent">
 
-	<androidx.appcompat.widget.Toolbar
-		android:id="@+id/toolbar"
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appbarlayout_dns"
 		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
-		android:background="?attr/colorPrimary"
-		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor" />
+		android:layout_height="wrap_content"
+		app:liftOnScroll="false">
 
-	<TextView
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="?attr/actionBarSize"
+			app:layout_scrollFlags="noScroll"
+			app:title="@string/dns_lookup" />
+
+	</com.google.android.material.appbar.AppBarLayout>
+
+	<com.google.android.material.textview.MaterialTextView
 		android:id="@+id/textview_nonetworkconn"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="16dp"
-		android:textSize="18sp"
-		android:textColor="?TextColor"
+		android:textSize="24sp"
+		android:gravity="center"
 		android:layout_gravity="center"
 		android:layout_centerInParent="true"
 		android:visibility="gone"
+		app:fontFamily="@font/rubik"
+		android:textStyle="italic"
+		app:fontVariationSettings="'wght' 800"
+		android:includeFontPadding="false"
 		android:text="@string/no_connection" />
 
-	<ProgressBar
+	<com.google.android.material.progressindicator.LinearProgressIndicator
 		android:id="@+id/dns_lookup_progress_bar"
-		style="?android:attr/progressBarStyleHorizontal"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="-7dp"
-		android:layout_marginBottom="-7dp"
-		android:layout_below="@+id/toolbar"
+		android:layout_below="@+id/appbarlayout_dns"
 		android:indeterminate="true"
-		android:visibility="invisible" />
+		android:visibility="invisible"
+		style="@style/Widget.Material3.LinearProgressIndicator"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 	<LinearLayout
+		android:id="@+id/linear_layout_root_dns"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_below="@+id/toolbar"
 		android:animateLayoutChanges="true"
 		android:padding="8dp"
-		android:orientation="vertical">
+		android:orientation="vertical"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:baselineAligned="false"
-			android:layout_marginTop="8dp"
 			android:gravity="center"
-			android:orientation="horizontal">
+			android:orientation="horizontal"
+			android:layout_marginTop="4dp">
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/input_layout_dns"
@@ -80,18 +91,16 @@
 			android:layout_height="wrap_content"
 			android:gravity="center_horizontal"
 			android:orientation="horizontal"
-			android:paddingTop="4dp"
-			android:paddingBottom="4dp">
+			android:paddingTop="8dp">
 
-			<Button
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/get_dns_info_button"
-				style="@style/Widget.AppCompat.Button.Colored"
+				style="@style/Widget.Material3.Button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="2dp"
 				android:layout_weight="1"
-				android:text="@string/start"
-				android:textColor="?attr/ButtonTextColor" />
+				android:text="@string/start" />
 
 			<Spinner
 				android:id="@+id/spinner_dns_record_types"
@@ -103,26 +112,37 @@
 
 		</LinearLayout>
 
-		<ScrollView
-			android:id="@+id/dns_lookup_results_scroll"
+		<com.google.android.material.card.MaterialCardView
+			android:id="@+id/dns_lookup_cardview"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
+			android:layout_height="0dp"
 			android:layout_marginTop="8dp"
-			android:layout_marginStart="4dp"
-			android:layout_marginEnd="4dp"
-			android:layout_marginBottom="4dp"
-			android:background="?EmbedBackgroundColor"
-			android:padding="8dp">
+			android:layout_weight="1"
+			style="?attr/materialCardViewOutlinedStyle"
+			app:cardCornerRadius="8dp"
+			app:cardElevation="4dp">
 
-			<TextView
-				android:id="@+id/dns_lookup_textview"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textColor="?TextColor"
-				android:textIsSelectable="true" />
+			<ScrollView
+				android:id="@+id/dns_lookup_results_scroll"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:padding="16dp"
+				android:background="?attr/colorSurfaceContainer">
 
-		</ScrollView>
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/dns_lookup_results_textview"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:lineSpacingExtra="2dp"
+					android:textSize="14sp"
+					android:typeface="monospace"
+					android:textIsSelectable="true"
+					tools:text="DNS Info" />
+
+			</ScrollView>
+
+		</com.google.android.material.card.MaterialCardView>
 
 	</LinearLayout>
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

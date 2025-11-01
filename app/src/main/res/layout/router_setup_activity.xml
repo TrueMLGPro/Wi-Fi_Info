@@ -6,16 +6,23 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	android:background="?attr/BackgroundColor">
+	android:animateLayoutChanges="true">
 
-	<androidx.appcompat.widget.Toolbar
-		android:id="@+id/toolbar"
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appbarlayout_router"
 		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
-		android:background="?attr/colorPrimary"
-		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor" />
+		android:layout_height="wrap_content"
+		app:liftOnScroll="false">
+
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="?attr/actionBarSize"
+			app:layout_scrollFlags="noScroll"
+			app:title="@string/router_setup" />
+
+	</com.google.android.material.appbar.AppBarLayout>
 
 	<LinearLayout
 		android:id="@+id/textview_nonetworkconn_container"
@@ -28,26 +35,30 @@
 			android:id="@+id/textview_nonetworkconn"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textSize="18sp"
-			android:textColor="?TextColor"
+			android:layout_margin="16dp"
+			android:gravity="center"
+			android:textSize="24sp"
 			android:visibility="gone"
+			app:fontFamily="@font/rubik"
+			android:textStyle="italic"
+			app:fontVariationSettings="'wght' 800"
+			android:includeFontPadding="false"
+			android:textAlignment="center"
 			android:text="@string/no_wifi_connection" />
 
 	</LinearLayout>
 
-	<ProgressBar
+	<com.google.android.material.progressindicator.LinearProgressIndicator
 		android:id="@+id/router_setup_progress_bar"
-		style="?android:attr/progressBarStyleHorizontal"
 		android:layout_width="match_parent"
-		android:layout_height="4dp"
-		android:layout_gravity="top"
-		android:visibility="gone" />
+		android:layout_height="wrap_content"
+		android:visibility="gone"
+		style="@style/Widget.Material3.LinearProgressIndicator" />
 
 	<LinearLayout
 		android:id="@+id/webview_container"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:animateLayoutChanges="true"
 		android:gravity="center"
 		android:orientation="vertical">
 

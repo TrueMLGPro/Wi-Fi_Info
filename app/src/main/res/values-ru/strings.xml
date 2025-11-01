@@ -107,10 +107,10 @@
 	<string name="notification_settings">Настройки уведомлений</string>
 
 	<!-- SupportersActivity Strings -->
-	<string name="patron_diamond_tier">• Patron – Алмаз (5$)</string>
-	<string name="app_tester">• Тестировщик приложения</string>
-	<string name="idea_provider">• Поставщик идей</string>
-	<string name="contributor">• Участник проекта</string>
+	<string name="patron_diamond_tier">Patron – Алмаз (5$)</string>
+	<string name="app_tester">Тестировщик приложения</string>
+	<string name="idea_provider">Поставщик идей</string>
+	<string name="contributor">Участник проекта</string>
 
 	<!-- ToolsActivity Strings -->
 	<string name="cellular_data_ip">IP-адрес мобильного интернета</string>
@@ -255,4 +255,41 @@
 	<string name="error_interrupted">Ошибка: Прервано</string>
 	<string name="error_failed_to_execute">Ошибка: Не удалось выполнить</string>
 	<string name="whois_result_output">Получение данных Whois для URL: <xliff:g id="url" example="test.com">%s</xliff:g>\nIP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g>\n<xliff:g id="fetched_whois_data" example="...">%s</xliff:g><xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+    <string name="general_info">Общая информация</string>
+	<string name="netbios_services">Службы NetBIOS</string>
+	<string name="upnp_services">Службы UPnP</string>
+	<string name="nsd_bonjour_services">Службы NSD (Bonjour)</string>
+	<string name="ssl_certificate_viewer">Просмотр SSL-сертификатов</string>
+	<string name="home">Главная</string>
+	<string name="toggle_advanced_options">Включить расширенные настройки</string>
+	<string name="host">Хост</string>
+	<string name="port">Порт</string>
+	<string name="sni_host_optional">Хост SNI (опционально)</string>
+	<string name="material_you_theme">Тема Material You</string>
+	<string name="material_you_monet_theme_desc">Включить или выключить тему Material You (Monet)</string>
+	<string name="card_style_amoled_theme">Стиль карточек (тема AMOLED)</string>
+	<string name="theme_contrast">Контраст темы</string>
+	<string name="device_details_workgroup_domain">"Рабочая группа/домен: "</string>
+	<string name="device_details_netbios_group_tag">" [Группа]"</string>
+	<string name="device_details_netbios_unique_tag">" [Уникальный]"</string>
+	<string name="device_details_upnp_friendly_name">Дружественное название</string>
+	<string name="device_details_upnp_manufacturer">Производитель</string>
+	<string name="device_details_upnp_model">Модель</string>
+	<string name="device_details_upnp_device_type">Тип устройства</string>
+	<string name="device_details_upnp_server">Сервер</string>
+	<string name="device_details_upnp_location">Расположение</string>
+	<string name="subnet_scanner_scan_stage">Сканирование</string>
+	<string name="crash_activity_sorry_for_the_inconvenience">Произошла непредвиденная ошибка. Приносим извинения за неудобства.</string>
+	<string name="crash_activity_restart_app">Перезапустить приложение</string>
+	<string name="crash_activity_close_app">Закрыть приложение</string>
+	<string name="device_info">Информация об устройстве</string>
+	<string name="settings_card_style_filled">Заполненный</string>
+	<string name="settings_card_style_outlined">Обведённый</string>
+	<string name="settings_theme_contrast_disabled">Выключено</string>
+	<string name="settings_theme_contrast_medium">Средняя контрастность</string>
+	<string name="settings_theme_contrast_high">Высокая контрастность</string>
+	<string name="netbios_fmt">Название: %1$s</string>
+	<string name="vendor_fmt">Производитель: %1$s</string>
+	<string name="ping_fmt">Ping: %1$s</string>
+	<string name="type_fmt">Тип: %1$s</string>
 </resources>

@@ -6,24 +6,24 @@ import android.content.Intent;
 
 import com.truemlgpro.wifiinfo.services.ConnectionStateService;
 import com.truemlgpro.wifiinfo.services.NotificationService;
-import com.truemlgpro.wifiinfo.ui.MainActivity;
+import com.truemlgpro.wifiinfo.ui.activities.MainActivity;
 
 public class ActionButtonReceiver extends BroadcastReceiver {
-	@Override
-	public void onReceive(Context context, Intent intent)
-	{
-		if (intent.getAction() != null) {
-			if (intent.getAction().equals("ACTION_STOP")) {
-				NotificationService.shouldPostAnUpdate = false;
-				context.stopService(new Intent(context, NotificationService.class));
-				context.stopService(new Intent(context, ConnectionStateService.class));
-				MainActivity.isServiceRunning = false;
-			}
+	public static final String ACTION_STOP = "ACTION_STOP";
+	public static final String ACTION_STOP_CONN_STATE_SERVICE = "ACTION_STOP_CONN_STATE_SERVICE";
 
-			if (intent.getAction().equals("ACTION_STOP_CONN_STATE_SERVICE")) {
-				context.stopService(new Intent(context, ConnectionStateService.class));
-				MainActivity.isServiceRunning = false;
-			}
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		final String action = intent != null ? intent.getAction() : null;
+
+		if (ACTION_STOP.equals(action)) {
+			NotificationService.shouldPostAnUpdate = false;
+			context.stopService(new Intent(context, NotificationService.class));
+			context.stopService(new Intent(context, ConnectionStateService.class));
+			MainActivity.isServiceRunning = false;
+		} else if (ACTION_STOP_CONN_STATE_SERVICE.equals(action)) {
+			context.stopService(new Intent(context, ConnectionStateService.class));
+			MainActivity.isServiceRunning = false;
 		}
 	}
 }

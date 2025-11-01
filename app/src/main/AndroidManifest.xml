@@ -4,7 +4,7 @@
 
 	<uses-sdk
 		android:minSdkVersion="21"
-		android:targetSdkVersion="34"
+		android:targetSdkVersion="36"
 		tools:overrideLibrary="thecollectiveweb.com.tcwhois"
 		tools:ignore="GradleOverrides" />
 
@@ -22,21 +22,22 @@
 	<application
 		android:name=".App"
 		android:icon="@mipmap/ic_launcher"
-		android:label="@string/app_name"
-		android:theme="@style/DarkTheme"
+		android:label="${appName}"
+		android:theme="@style/Theme.App.Starting"
 		android:largeHeap="true"
+		android:hardwareAccelerated="true"
 		android:usesCleartextTraffic="true"
 		android:localeConfig="@xml/locale_config"
-		tools:targetApi="tiramisu">
+		tools:targetApi="tiramisu"
+		tools:replace="android:label">
 
 		<meta-data android:name="android.webkit.WebView.MetricsOptOut"
 			android:value="true" />
 
 		<activity
-			android:name="com.truemlgpro.wifiinfo.ui.MainActivity"
+			android:name="com.truemlgpro.wifiinfo.ui.activities.MainActivity"
 			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:theme="@style/Theme.App.Starting"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -47,77 +48,91 @@
 			</intent-filter>
 		</activity>
 	    <activity
-			android:name="com.truemlgpro.wifiinfo.ui.SupportersActivity"
-			android:label="Supporters"
+			android:name="com.truemlgpro.wifiinfo.ui.activities.SupportersActivity"
+			android:label="@string/supporters"
 			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:parentActivityName=".ui.SettingsActivity">
+			android:parentActivityName=".ui.activities.MainActivity">
 		</activity>
 		<activity
-			android:name="com.truemlgpro.wifiinfo.ui.ToolsActivity"
-			android:label="Tools"
+			android:name="com.truemlgpro.wifiinfo.ui.activities.CellularDataIPActivity"
+			android:label="@string/cellular_data_ip"
 			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:parentActivityName=".ui.MainActivity">
+			android:parentActivityName=".ui.activities.MainActivity">
 		</activity>
 		<activity
-			android:name="com.truemlgpro.wifiinfo.ui.SettingsActivity"
-			android:label="Settings"
+			android:name="com.truemlgpro.wifiinfo.ui.activities.RouterSetupActivity"
+			android:label="@string/router_setup"
 			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:parentActivityName=".ui.MainActivity">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.truemlgpro.wifiinfo.ui.MainActivity" />
+			android:parentActivityName=".ui.activities.MainActivity">
 		</activity>
 		<activity
-			android:name="com.truemlgpro.wifiinfo.ui.CellularDataIPActivity"
-			android:label="Cellular Data IP"
+			android:name="com.truemlgpro.wifiinfo.ui.activities.PingToolActivity"
+			android:label="@string/ping_tool"
 			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:parentActivityName=".ui.ToolsActivity">
+			android:parentActivityName=".ui.activities.MainActivity">
 		</activity>
 		<activity
-			android:name="com.truemlgpro.wifiinfo.ui.RouterSetupActivity"
-			android:label="Router Setup"
+			android:name="com.truemlgpro.wifiinfo.ui.activities.SubnetScannerActivity"
+			android:label="@string/subnet_scanner"
 			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:parentActivityName=".ui.ToolsActivity">
+			android:parentActivityName=".ui.activities.MainActivity">
 		</activity>
 		<activity
-			android:name="com.truemlgpro.wifiinfo.ui.PingToolActivity"
-			android:label="Ping Tool"
+			android:name="com.truemlgpro.wifiinfo.ui.activities.PortScannerActivity"
+			android:label="@string/port_scanner"
 			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:parentActivityName=".ui.ToolsActivity">
+			android:parentActivityName=".ui.activities.MainActivity">
 		</activity>
 		<activity
-			android:name="com.truemlgpro.wifiinfo.ui.SubnetScannerActivity"
-			android:label="Subnet Scanner"
+			android:name="com.truemlgpro.wifiinfo.ui.activities.WhoIsToolActivity"
+			android:label="@string/whois_tool"
 			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:parentActivityName=".ui.ToolsActivity">
-		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.ui.PortScannerActivity"
-			android:label="Port Scanner"
-			android:screenOrientation="unspecified"
-			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:parentActivityName=".ui.ToolsActivity">
-		</activity>
-		<activity
-			android:name="com.truemlgpro.wifiinfo.ui.WhoIsToolActivity"
-			android:label="Whois Tool"
-			android:screenOrientation="unspecified"
-			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-			android:parentActivityName=".ui.ToolsActivity">
+			android:parentActivityName=".ui.activities.MainActivity">
 		</activity>
 	    <activity
-			android:name="com.truemlgpro.wifiinfo.ui.DNSLookupActivity"
-			android:label="DNS Lookup"
+			android:name="com.truemlgpro.wifiinfo.ui.activities.DNSLookupActivity"
+			android:label="@string/dns_lookup"
 			android:screenOrientation="unspecified"
 			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
-		    android:parentActivityName=".ui.ToolsActivity">
+		    android:parentActivityName=".ui.activities.MainActivity">
+		</activity>
+		<!-- TODO: TRANSLATE THIS -->
+		<activity
+			android:name="com.truemlgpro.wifiinfo.ui.activities.SslCertificateViewerActivity"
+			android:label="@string/ssl_certificate_viewer"
+			android:screenOrientation="unspecified"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".ui.activities.MainActivity">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.ui.activities.DeviceDetailsActivity"
+			android:label="Device Info"
+			android:screenOrientation="unspecified"
+			android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+			android:parentActivityName=".ui.activities.SubnetScannerActivity">
+		</activity>
+		<activity
+			android:name="com.truemlgpro.wifiinfo.ui.transition.ThemeRevealActivity"
+			android:exported="false"
+			android:theme="@style/Theme.TransparentOverlay"
+			android:excludeFromRecents="true"
+			android:finishOnTaskLaunch="true"
+			android:configChanges="uiMode|locale|layoutDirection|fontScale|orientation|screenSize|screenLayout|density" />
+		<activity
+			android:name="com.truemlgpro.wifiinfo.ui.activities.CrashActivity"
+            android:label="Oops!"
+			android:process=":error_activity"
+			android:exported="false">
+			<intent-filter>
+				<action android:name="cat.ereza.customactivityoncrash.ERROR" />
+			</intent-filter>
 		</activity>
 
 		<service

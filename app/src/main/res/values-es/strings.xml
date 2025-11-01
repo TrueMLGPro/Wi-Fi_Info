@@ -107,10 +107,10 @@
 	<string name="notification_settings">Configuración de notificaciones</string>
 
 	<!-- SupportersActivity Strings -->
-	<string name="patron_diamond_tier">• Patrocinador - Nivel Diamante (5$)</string>
-	<string name="app_tester">• Probador de aplicaciones</string>
-	<string name="idea_provider">• Proveedor de ideas</string>
-	<string name="contributor">• Colaborador</string>
+	<string name="patron_diamond_tier">Patrocinador - Nivel Diamante (5$)</string>
+	<string name="app_tester">Probador de aplicaciones</string>
+	<string name="idea_provider">Proveedor de ideas</string>
+	<string name="contributor">Colaborador</string>
 
 	<!-- ToolsActivity Strings -->
 	<string name="cellular_data_ip">Dirección IP de datos móviles</string>
@@ -129,6 +129,7 @@
 	<string name="_4_s_interval">4 segundos</string>
 	<string name="_5_s_interval">5 segundos</string>
 	<string name="_10_s_interval">10 segundos</string>
+	<string name="_30_s_interval">30 segundos</string>
 
 	<string name="general_category">General</string>
 	<string name="dark_theme">Tema oscuro</string>
@@ -254,4 +255,42 @@
 	<string name="error_interrupted">Error: Interrumpido</string>
 	<string name="error_failed_to_execute">Error: Fallo al ejecutar</string>
 	<string name="whois_result_output">Obteniendo datos de Whois para la URL: <xliff:g id="url" example="test.com">%s</xliff:g>\nIP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g>\n<xliff:g id="fetched_whois_data" example="...">%s</xliff:g><xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+
+	<string name="general_info">Información general</string>
+	<string name="netbios_services">Servicios NetBIOS</string>
+	<string name="upnp_services">Servicios UPnP</string>
+	<string name="nsd_bonjour_services">Servicios NSD (Bonjour)</string>
+	<string name="ssl_certificate_viewer">Visor de certificados SSL</string>
+	<string name="home">Casa</string>
+	<string name="toggle_advanced_options">Alternar opciones avanzadas</string>
+	<string name="host">Anfitrión</string>
+	<string name="port">Puerto</string>
+	<string name="sni_host_optional">Host SNI (opcional)</string>
+	<string name="material_you_theme">Tema Material You</string>
+	<string name="material_you_monet_theme_desc">Activar o desactivar el tema Material You (Monet)</string>
+	<string name="card_style_amoled_theme">Estilo de tarjeta (tema AMOLED)</string>
+	<string name="theme_contrast">Contraste del tema</string>
+	<string name="device_details_workgroup_domain">"Grupo de trabajo/Dominio: "</string>
+	<string name="device_details_netbios_group_tag">" [Grupo]"</string>
+	<string name="device_details_netbios_unique_tag">" [Único]"</string>
+	<string name="device_details_upnp_friendly_name">Nombre descriptivo</string>
+	<string name="device_details_upnp_manufacturer">Fabricante</string>
+	<string name="device_details_upnp_model">Modelo</string>
+	<string name="device_details_upnp_device_type">Tipo de dispositivo</string>
+	<string name="device_details_upnp_server">Servidor</string>
+	<string name="device_details_upnp_location">Ubicación</string>
+	<string name="subnet_scanner_scan_stage">Escanear</string>
+	<string name="crash_activity_sorry_for_the_inconvenience">Se ha producido un error inesperado.\nDisculpa las molestias.</string>
+	<string name="crash_activity_restart_app">Reiniciar la aplicación</string>
+	<string name="crash_activity_close_app">Cerrar aplicación</string>
+	<string name="device_info">Información del dispositivo</string>
+	<string name="settings_card_style_filled">Relleno</string>
+	<string name="settings_card_style_outlined">Esbozado</string>
+	<string name="settings_theme_contrast_disabled">Discapacitado</string>
+	<string name="settings_theme_contrast_medium">Contraste medio</string>
+	<string name="settings_theme_contrast_high">Alto contraste</string>
+	<string name="netbios_fmt">Nombre: %1$s</string>
+	<string name="vendor_fmt">Proveedor: %1$s</string>
+	<string name="ping_fmt">Ping: %1$s</string>
+	<string name="type_fmt">Tipo: %1$s</string>
 </resources>

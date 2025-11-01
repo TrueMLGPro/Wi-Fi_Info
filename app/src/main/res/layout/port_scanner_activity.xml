@@ -1,126 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/content_frame"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="?attr/BackgroundColor">
+	android:layout_height="match_parent">
 
-	<androidx.appcompat.widget.Toolbar
-		android:id="@+id/toolbar"
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appbarlayout_portscan"
 		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
-		android:background="?attr/colorPrimary"
-		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-		app:titleTextColor="?attr/TitleTextColor"
-		app:subtitleTextColor="?attr/SubtitleTextColor" />
+		android:layout_height="wrap_content"
+		app:liftOnScroll="false">
 
-	<TextView
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minHeight="?attr/actionBarSize"
+			app:layout_scrollFlags="noScroll"
+			app:title="@string/port_scanner" />
+
+	</com.google.android.material.appbar.AppBarLayout>
+
+	<com.google.android.material.textview.MaterialTextView
 		android:id="@+id/textview_nonetworkconn"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="16dp"
-		android:textSize="18sp"
-		android:textColor="?TextColor"
+		android:textSize="24sp"
+		android:gravity="center"
 		android:layout_gravity="center"
 		android:layout_centerInParent="true"
 		android:visibility="gone"
+		app:fontFamily="@font/rubik"
+		android:textStyle="italic"
+		app:fontVariationSettings="'wght' 800"
+		android:includeFontPadding="false"
 		android:text="@string/no_connection" />
 
-	<ProgressBar
+	<com.google.android.material.progressindicator.LinearProgressIndicator
 		android:id="@+id/port_scanner_progress_bar"
-		style="?android:attr/progressBarStyleHorizontal"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="-7dp"
-		android:layout_marginBottom="-7dp"
-		android:layout_below="@+id/toolbar"
+		android:layout_below="@+id/appbarlayout_main"
 		android:indeterminate="true"
-		android:visibility="invisible" />
+		android:visibility="invisible"
+		style="@style/Widget.Material3.LinearProgressIndicator"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 	<LinearLayout
+		android:id="@+id/linear_layout_root_ports"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_below="@+id/toolbar"
 		android:animateLayoutChanges="true"
+		android:orientation="vertical"
 		android:padding="8dp"
-		android:orientation="vertical">
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:id="@+id/row_host"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="4dp">
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/input_layout_ip"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="4dp"
+				android:hint="@string/enter_ip_or_url"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/btn_advanced"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/edittext_ip"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:imeOptions="actionGo"
+					android:singleLine="true" />
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btn_advanced"
+				style="@style/Widget.Material3.Button.TextButton"
+				android:layout_width="48dp"
+				android:layout_height="48dp"
+				android:contentDescription="@string/toggle_advanced_options"
+				app:icon="@drawable/arrow_drop_down_24px"
+				app:iconGravity="textStart"
+				app:iconPadding="0dp"
+				app:iconSize="24dp"
+				app:iconTint="?attr/colorOnSurface"
+				app:layout_constraintBottom_toBottomOf="@id/input_layout_ip"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="@id/input_layout_ip" />
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
 
 		<LinearLayout
+			android:id="@+id/group_advanced"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
 			android:orientation="vertical"
-			android:gravity="center">
+			android:visibility="gone">
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/input_layout_ports"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="@string/ports">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/edittext_ports"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:imeOptions="actionGo"
+					android:singleLine="true"
+					android:text="1-65535" />
+
+			</com.google.android.material.textfield.TextInputLayout>
 
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:gravity="center"
-				android:baselineAligned="false">
-
-				<com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/input_layout_ip"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:layout_marginEnd="4dp"
-					android:hint="@string/enter_ip_or_url">
-
-					<com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/edittext_ip"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:singleLine="true"
-						android:imeOptions="actionGo" />
-
-				</com.google.android.material.textfield.TextInputLayout>
-
-				<com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/input_layout_ports"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:layout_marginStart="4dp"
-					android:hint="@string/ports">
-
-					<com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/edittext_ports"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:singleLine="true"
-						android:imeOptions="actionGo"
-						android:text="1-65535" />
-
-				</com.google.android.material.textfield.TextInputLayout>
-
-			</LinearLayout>
-
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:gravity="center">
+				android:layout_marginTop="8dp"
+				android:baselineAligned="false"
+				android:orientation="horizontal">
 
 				<com.google.android.material.textfield.TextInputLayout
 					android:id="@+id/input_layout_threads"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:layout_marginTop="4dp"
-					android:layout_marginBottom="4dp"
 					android:layout_marginEnd="4dp"
+					android:layout_weight="1"
 					android:hint="@string/threads">
 
 					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/edittext_threads"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:singleLine="true"
 						android:imeOptions="actionGo"
 						android:inputType="numberDecimal"
+						android:singleLine="true"
 						android:text="64" />
 
 				</com.google.android.material.textfield.TextInputLayout>
@@ -129,58 +153,9 @@
 					android:id="@+id/spinner_packet_types"
 					android:layout_width="0dp"
 					android:layout_height="match_parent"
-					android:layout_weight="1"
-					android:layout_marginTop="4dp"
-					android:layout_marginBottom="4dp"
 					android:layout_marginStart="4dp"
+					android:layout_weight="1"
 					android:entries="@array/packet_types" />
-
-			</LinearLayout>
-
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:gravity="center"
-				android:baselineAligned="false">
-
-				<LinearLayout
-					android:layout_width="0dp"
-					android:layout_height="match_parent"
-					android:orientation="horizontal"
-					android:gravity="center"
-					android:paddingTop="4dp"
-					android:paddingBottom="4dp"
-					android:layout_weight="1">
-
-					<TextView
-						android:id="@+id/ports_open_text"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textSize="14sp"
-						android:textColor="?TextColor"
-						android:text="@string/ports_open_none" />
-
-				</LinearLayout>
-
-				<LinearLayout
-					android:layout_width="0dp"
-					android:layout_height="match_parent"
-					android:orientation="horizontal"
-					android:gravity="center"
-					android:paddingTop="4dp"
-					android:paddingBottom="4dp"
-					android:layout_weight="1">
-
-					<TextView
-						android:id="@+id/ports_closed_text"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textSize="14sp"
-						android:textColor="?TextColor"
-						android:text="@string/ports_closed_none" />
-
-				</LinearLayout>
 
 			</LinearLayout>
 
@@ -189,26 +164,78 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="horizontal">
+			android:orientation="horizontal"
+			android:paddingTop="8dp">
 
-			<Button
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/port_scan_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginEnd="2dp"
 				android:layout_weight="1"
 				android:text="@string/scan"
-				android:textColor="?attr/ButtonTextColor"
-				style="@style/Widget.AppCompat.Button.Colored" />
+				style="@style/Widget.Material3.Button" />
 
-			<Button
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/port_scan_stop_button"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginStart="2dp"
 				android:layout_weight="1"
 				android:enabled="false"
 				android:text="@android:string/cancel"
-				android:textColor="?attr/ButtonTextColor"
-				style="@style/Widget.AppCompat.Button.Colored" />
+				style="@style/Widget.Material3.Button" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center"
+			android:baselineAligned="false">
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:orientation="horizontal"
+				android:gravity="center"
+				android:paddingTop="4dp"
+				android:paddingBottom="4dp"
+				android:layout_weight="1">
+
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/ports_open_text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="14sp"
+					app:fontFamily="@font/rubik"
+					app:fontVariationSettings="'wght' 500"
+					android:includeFontPadding="false"
+					android:text="@string/ports_open_none" />
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:orientation="horizontal"
+				android:gravity="center"
+				android:paddingTop="4dp"
+				android:paddingBottom="4dp"
+				android:layout_weight="1">
+
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/ports_closed_text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="14sp"
+					app:fontFamily="@font/rubik"
+					app:fontVariationSettings="'wght' 500"
+					android:includeFontPadding="false"
+					android:text="@string/ports_closed_none" />
+
+			</LinearLayout>
 
 		</LinearLayout>
 
@@ -219,10 +246,9 @@
 			android:layout_marginTop="8dp"
 			android:layout_marginStart="4dp"
 			android:layout_marginEnd="4dp"
-			android:layout_marginBottom="4dp"
-			android:textColor="?TextColor" />
+			android:layout_marginBottom="4dp" />
 
 	</LinearLayout>
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 

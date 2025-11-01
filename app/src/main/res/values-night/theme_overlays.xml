@@ -1,0 +1,4 @@
+<resources>
+    <style name="ThemeOverlay.App.Dark.Night.MediumContrast" parent="ThemeOverlay.App.Dark.MediumContrast" />
+    <style name="ThemeOverlay.App.Dark.Night.HighContrast" parent="ThemeOverlay.App.Dark.HighContrast" />
+</resources>

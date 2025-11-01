@@ -55,8 +55,6 @@
 	<string name="frequency_channel_etc">Частота, канал тощо</string>
 	<string name="frequency">Частота</string>
 	<string name="network_channel">Канал мережі</string>
-	<!-- RSSI string in NotificationService -->
-	<!-- END -->
 	<string name="rssi_signal_strength">RSSI (Сила сигналу)</string>
 	<string name="distance">Відстань</string>
 	<string name="ip_lease_duration">Тривалість аренди IP</string>
@@ -109,10 +107,10 @@
 	<string name="notification_settings">Налаштування сповіщення</string>
 
 	<!-- SupportersActivity Strings -->
-	<string name="patron_diamond_tier">• Patron - Алмаз (5$)</string>
-	<string name="app_tester">• Тестувальник додатку</string>
-	<string name="idea_provider">• Висуватель ідей</string>
-	<string name="contributor">• Помічник</string>
+	<string name="patron_diamond_tier">Patron - Алмаз (5$)</string>
+	<string name="app_tester">Тестувальник додатку</string>
+	<string name="idea_provider">Висуватель ідей</string>
+	<string name="contributor">Помічник</string>
 
 	<!-- ToolsActivity Strings -->
 	<string name="cellular_data_ip">IP мобільного інтернету</string>
@@ -131,6 +129,7 @@
 	<string name="_4_s_interval">4 секунди</string>
 	<string name="_5_s_interval">5 секунд</string>
 	<string name="_10_s_interval">10 секунд</string>
+    <string name="_30_s_interval">30 секунд</string>
 
 	<string name="general_category">Загальні</string>
 	<string name="dark_theme">Темна тема</string>
@@ -256,4 +255,42 @@
 	<string name="error_interrupted">Помилка: Перервано</string>
 	<string name="error_failed_to_execute">Помилка: Не вдалося виконати</string>
 	<string name="whois_result_output">Отримання Whois даних для URL: <xliff:g id="url" example="test.com">%s</xliff:g>\nIP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g>\n<xliff:g id="fetched_whois_data" example="...">%s</xliff:g><xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+
+	<string name="general_info">Загальна інформація</string>
+	<string name="netbios_services">NetBIOS Сервіси</string>
+	<string name="upnp_services">UPnP Сервіси</string>
+	<string name="nsd_bonjour_services">NSD (Bonjour) Сервіси</string>
+	<string name="ssl_certificate_viewer">Перегляд Сертифікату SSL</string>
+	<string name="home">Домашня сторінка</string>
+	<string name="toggle_advanced_options">Відкрити розширені налаштування</string>
+	<string name="host">Хост</string>
+	<string name="port">Порт</string>
+	<string name="sni_host_optional">Хост SNI (необов\'язково)</string>
+	<string name="crash_activity_sorry_for_the_inconvenience">Сталася несподівана помилка.\\nВибачте за незручності.</string>
+	<string name="crash_activity_restart_app">Перезавантажити додаток</string>
+	<string name="material_you_theme">Тема Material You</string>
+	<string name="material_you_monet_theme_desc">Увімкнути або вимкнути тему Material You (Monet)</string>
+	<string name="card_style_amoled_theme">Стиль карток (тема AMOLED)</string>
+	<string name="theme_contrast">Контраст теми</string>
+	<string name="device_details_workgroup_domain">"Робоча група/домен: "</string>
+	<string name="device_details_netbios_group_tag">" [Група]"</string>
+	<string name="device_details_netbios_unique_tag">" [Унікальний]"</string>
+	<string name="device_details_upnp_friendly_name">Дружня назва</string>
+	<string name="device_details_upnp_manufacturer">Виробник</string>
+	<string name="device_details_upnp_model">Модель</string>
+	<string name="device_details_upnp_device_type">Тип пристрою</string>
+	<string name="device_details_upnp_server">Сервер</string>
+	<string name="device_details_upnp_location">Розташування</string>
+	<string name="subnet_scanner_scan_stage">Сканувати</string>
+	<string name="crash_activity_close_app">Закрити додаток</string>
+	<string name="device_info">Інформація про пристрій</string>
+	<string name="settings_card_style_filled">Заповнений</string>
+	<string name="settings_card_style_outlined">Обведений</string>
+	<string name="settings_theme_contrast_disabled">Вимкнено</string>
+	<string name="settings_theme_contrast_medium">Середня контрастність</string>
+	<string name="settings_theme_contrast_high">Висока контрастність</string>
+	<string name="netbios_fmt">Назва: %1$s</string>
+	<string name="vendor_fmt">Вендор: %1$s</string>
+	<string name="ping_fmt">Пінг: %1$s</string>
+	<string name="type_fmt">Тип: %1$s</string>
 </resources>

@@ -108,10 +108,10 @@
 	<string name="notification_settings">Подењавање обавештења</string>
 
 	<!-- SupportersActivity Strings -->
-	<string name="patron_diamond_tier">• Донатор - Дијамантски ниво (5$)</string>
-	<string name="app_tester">• Тестер апликације</string>
-	<string name="idea_provider">• Давач идеја</string>
-	<string name="contributor">• Доприносач</string>
+	<string name="patron_diamond_tier">Донатор - Дијамантски ниво (5$)</string>
+	<string name="app_tester">Тестер апликације</string>
+	<string name="idea_provider">Давач идеја</string>
+	<string name="contributor">Доприносач</string>
 
 	<!-- ToolsActivity Strings -->
 	<string name="cellular_data_ip">IP за мобилне податке</string>
@@ -130,6 +130,7 @@
 	<string name="_4_s_interval">4 секунде</string>
 	<string name="_5_s_interval">5 секунде</string>
 	<string name="_10_s_interval">10 секунде</string>
+	<string name="_30_s_interval">30 секунде</string>
 
 	<string name="general_category">Уопштено</string>
 	<string name="dark_theme">Тамна тема</string>
@@ -175,6 +176,12 @@
 	<string name="sdk_version_code">Код верзије од SDK</string>
 	<string name="device_model">Модел уређаја</string>
 	<string name="product_name">Име уређаја</string>
+
+	<!-- Device Details Activity -->
+	<string name="netbios_fmt">Име: %1$s</string>
+	<string name="vendor_fmt">Доносилац: %1$s</string>
+	<string name="ping_fmt">Пинг: %1$s</string>
+	<string name="type_fmt">Тип: %1$s</string>
 
 	<!-- Tool Strings -->
 	<string name="enter_ip_or_url">Упишите IP или URL</string>
@@ -255,4 +262,39 @@
 	<string name="error_interrupted">Грешка: Прекинут</string>
 	<string name="error_failed_to_execute">Грешка: Неуспешно извршивање</string>
 	<string name="whois_result_output">Узимање Whois информација за URL: <xliff:g id="url" example="test.com">%s</xliff:g>\nIP: <xliff:g id="ip" example="67.225.146.248">%s</xliff:g>\n<xliff:g id="fetched_whois_data" example="...">%s</xliff:g><xliff:g id="line_sep" example="--------">%s</xliff:g></string>
+
+	<!-- 2.0 -->
+	<string name="general_info">Опште Информације</string>
+	<string name="netbios_services">NetBIOS Сервиси</string>
+	<string name="upnp_services">UPnP Сервиси</string>
+	<string name="nsd_bonjour_services">NSD (Bonjour) Сервиси</string>
+	<string name="ssl_certificate_viewer">SSL Приказивач Сертификата</string>
+	<string name="home">Главно</string>
+	<string name="toggle_advanced_options">Преклопи додатна подешавања</string>
+	<string name="host">Домаћин</string>
+	<string name="port">Порт</string>
+	<string name="sni_host_optional">SNI Домаћин (опционално)</string>
+	<string name="crash_activity_restart_app">Рестартуј Апликацију</string>
+	<string name="material_you_theme">Material You тема</string>
+	<string name="material_you_monet_theme_desc">Омогућите или онемогућите тему Material You (Monet)</string>
+	<string name="card_style_amoled_theme">Стил картице (AMOLED тема)</string>
+	<string name="theme_contrast">Контраст теме</string>
+	<string name="device_details_workgroup_domain">"Радна група/домен: "</string>
+	<string name="device_details_netbios_group_tag">" [Group]"</string>
+	<string name="device_details_netbios_unique_tag">" [Јединствено]"</string>
+	<string name="device_details_upnp_friendly_name">Пријатељско име</string>
+	<string name="device_details_upnp_manufacturer">Произвођач</string>
+	<string name="device_details_upnp_model">Модел</string>
+	<string name="device_details_upnp_device_type">Device Type</string>
+	<string name="device_details_upnp_server">Server</string>
+	<string name="device_details_upnp_location">Локација</string>
+	<string name="subnet_scanner_scan_stage">Скенирање</string>
+	<string name="crash_activity_sorry_for_the_inconvenience">Дошло је до неочекиване грешке.\\nИзвињавамо се због непријатности.</string>
+	<string name="crash_activity_close_app">Затвори апликацију</string>
+	<string name="device_info">Информације о уређају</string>
+	<string name="settings_card_style_filled">Попуњено</string>
+	<string name="settings_card_style_outlined">Оцртано</string>
+	<string name="settings_theme_contrast_disabled">Disabled</string>
+	<string name="settings_theme_contrast_medium">Средњи контраст</string>
+	<string name="settings_theme_contrast_high">Висок контраст</string>
 </resources>
