@@ -60,10 +60,12 @@ A powerful network toolset packed into an Android app, which gathers and display
 
 <table style="width:100%;overflow-x:auto;">
   <tr>
-    <td><img src="https://github.com/TrueMLGPro/Wi-Fi_Info/assets/38999995/66d3310b-255b-4952-aa32-9b24b69abd1f" width="300"></td>
-    <td><img src="https://github.com/TrueMLGPro/Wi-Fi_Info/assets/38999995/b71da31b-659b-4e63-b461-461a3c434c7d" width="300"></td>
-    <td><img src="https://github.com/TrueMLGPro/Wi-Fi_Info/assets/38999995/84a1f58e-cbea-4b77-9e0e-89895067f35f" width="300"></td>
-    <td><img src="https://github.com/TrueMLGPro/Wi-Fi_Info/assets/38999995/a77fab82-8dc9-4d4c-9619-2f6e14fc1489" width="300"></td>
+    <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="Screenshot 1" width="300"/></td>
+    <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="Screenshot 2" width="300"/></td>
+  </tr>
+  <tr>
+    <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" alt="Screenshot 3" width="300"/></td>
+    <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" alt="Screenshot 4" width="300"/></td>
   </tr>
 </table>
 
