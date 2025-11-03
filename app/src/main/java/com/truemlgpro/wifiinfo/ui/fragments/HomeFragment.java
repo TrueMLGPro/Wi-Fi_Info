@@ -162,7 +162,7 @@ public class HomeFragment extends Fragment {
 	private Handler infoHandler;
 
 	private Handler mainHandler;
-	private final Runnable doCheck = () -> checkWiFiConnectivity(false);
+	private final Runnable doCheck = () -> checkWiFiConnectivity(true);
 
 	private int keyCardFreqFormatted = 1000;
 	private boolean wifiConnected = false;
@@ -184,7 +184,7 @@ public class HomeFragment extends Fragment {
 		fab_update.setOnClickListener(v -> fetchPublicIp());
 		initCopyableText(requireContext().getApplicationContext());
 
-		checkWiFiConnectivity(false);
+		checkWiFiConnectivity(true);
 		return view;
 	}
 
@@ -333,10 +333,9 @@ public class HomeFragment extends Fragment {
 	private void requestGPSFeature() {
 		final Context context = requireContext();
 
-		// 1. Get the LocationManager and check if GPS is already enabled
 		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		if (locationManager != null && locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			return; // GPS is already on
+			return;
 		}
 
 		MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
@@ -374,7 +373,8 @@ public class HomeFragment extends Fragment {
 	private void getAllNetworkInformation() {
 		final Activity activity = getActivity();
 		if (activity != null) {
-			wifiManager = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+			final Context appContext = activity.getApplicationContext();
+			wifiManager = (WifiManager) appContext.getSystemService(Context.WIFI_SERVICE);
 			if (wifiManager == null) return;
 			wifiInfo = wifiManager.getConnectionInfo();
 			if (wifiInfo == null) return;
@@ -384,23 +384,23 @@ public class HomeFragment extends Fragment {
 			String bssid = wifiInfo.getBSSID() != null ? wifiInfo.getBSSID().toUpperCase() : activity.getString(R.string.na);
 			String ipv4 = NetworkUtils.getIPv4Address("wlan0");
 			String ipv6 = NetworkUtils.getIPv6Address("wlan0");
-			String gatewayIp = NetworkUtils.getGatewayIP(activity.getApplicationContext());
-			String hostname = NetworkUtils.getHostname(activity.getApplicationContext());
+			String gatewayIp = NetworkUtils.getGatewayIP(appContext);
+			String hostname = NetworkUtils.getHostname(appContext);
 			String wifiStandard = "";
 			if (Build.VERSION.SDK_INT >= 30) {
-				wifiStandard = NetworkUtils.getWifiStandard(activity.getApplicationContext());
+				wifiStandard = NetworkUtils.getWifiStandard(appContext);
 			}
 			int freq = wifiInfo.getFrequency();
 			String networkChannel = String.valueOf(NetworkUtils.convertFrequencyToChannel(freq));
 			int rssi = wifiInfo.getRssi();
 			int rssiConverted = WifiManager.calculateSignalLevel(rssi, 101);
-			String distanceFromRssiRounded = String.format("~%.1fm", NetworkUtils.convertFreqRssiToDistance(freq, rssi));
+			String distanceFromRssiRounded = String.format(Locale.US, "~%.1fm", NetworkUtils.convertFreqRssiToDistance(freq, rssi));
 			int networkSpeed = 0;
-			int TXLinkSpd = 0;
-			int RXLinkSpd = 0;
+			int txLinkSpeed = 0;
+			int rxLinkSpeed = 0;
 			if (Build.VERSION.SDK_INT >= 29) {
-				TXLinkSpd = wifiInfo.getTxLinkSpeedMbps();
-				RXLinkSpd = wifiInfo.getRxLinkSpeedMbps();
+				txLinkSpeed = wifiInfo.getTxLinkSpeedMbps();
+				rxLinkSpeed = wifiInfo.getRxLinkSpeedMbps();
 			} else {
 				networkSpeed = wifiInfo.getLinkSpeed();
 			}
@@ -422,7 +422,7 @@ public class HomeFragment extends Fragment {
 			String dns2 = dhcpInfo != null ? NetworkUtils.intToIp(dhcpInfo.dns2) : activity.getString(R.string.na);
 			String subnetMask = NetworkUtils.getSubnetMask();
 			String broadcastAddr = NetworkUtils.getBroadcastAddr();
-			String macAddr = Build.VERSION.SDK_INT > 29 ? activity.getString(R.string.na) : NetworkUtils.getMacAddress();
+			String macAddr = Build.VERSION.SDK_INT > 29 ? activity.getString(R.string.na) : NetworkUtils.getMacAddress(appContext);
 			String networkInterface = NetworkUtils.getNetworkInterface();
 			String networkId = String.valueOf(wifiInfo.getNetworkId());
 			String loopbackAddr = String.valueOf(InetAddress.getLoopbackAddress());
@@ -443,9 +443,9 @@ public class HomeFragment extends Fragment {
 			info_dns2 = dns2;
 			info_subnet_mask = subnetMask != null ? subnetMask : activity.getString(R.string.na);
 			info_broadcast_addr = broadcastAddr != null ? broadcastAddr : activity.getString(R.string.na);
-			info_network_id = !"-1".equals(networkId) ? networkId : activity.getString(R.string.na);
+			info_network_id = !networkId.equals("-1") ? networkId : activity.getString(R.string.na);
 			info_mac_addr = macAddr;
-			info_network_interface = networkInterface;
+			info_network_interface = networkInterface != null ? networkInterface : activity.getString(R.string.na);
 			info_loopback_addr = loopbackAddr;
 			info_localhost_addr = localhostAddr;
 			info_frequency = freq + "MHz";
@@ -457,7 +457,7 @@ public class HomeFragment extends Fragment {
 			else if (leaseTime >= 3600) info_lease_time = leaseTime + "s (" + leaseTimeHours + "h)";
 			else info_lease_time = leaseTime + "s (" + leaseTimeMinutes + "m)";
 
-			if (Build.VERSION.SDK_INT >= 29) info_network_speed = RXLinkSpd + " / " + TXLinkSpd + " Mbps";
+			if (Build.VERSION.SDK_INT >= 29) info_network_speed = rxLinkSpeed + " / " + txLinkSpeed + " Mbps";
 			info_network_speed_legacy = networkSpeed + " / " + networkSpeed + " Mbps";
 			info_transmitted_data = wifiTXMegabytesStr + " " + activity.getString(R.string.megabyte) + " (" + wifiTXGigabytesStr + " " + activity.getString(R.string.gigabyte) + ")";
 			info_received_data = wifiRXMegabytesStr + " " + activity.getString(R.string.megabyte) + " (" + wifiRXGigabytesStr + " " + activity.getString(R.string.gigabyte) + ")";
@@ -529,17 +529,6 @@ public class HomeFragment extends Fragment {
 		}
 	}
 
-	private void startInfoHandlerThread() {
-		infoHandlerThread = new HandlerThread("BackgroundInfoHandlerThread", android.os.Process.THREAD_PRIORITY_BACKGROUND);
-		infoHandlerThread.start();
-	}
-
-	private void startInfoHandler() {
-		infoHandler = new Handler(infoHandlerThread.getLooper());
-		infoHandler.post(infoRunnable);
-		isHandlerRunning = true;
-	}
-
 	private final Runnable infoRunnable = new Runnable() {
 		@Override
 		public void run() {
@@ -550,6 +539,17 @@ public class HomeFragment extends Fragment {
 			infoHandler.postDelayed(this, keyCardFreqFormatted);
 		}
 	};
+
+	private void startInfoHandlerThread() {
+		infoHandlerThread = new HandlerThread("BackgroundInfoHandlerThread", android.os.Process.THREAD_PRIORITY_BACKGROUND);
+		infoHandlerThread.start();
+	}
+
+	private void startInfoHandler() {
+		infoHandler = new Handler(infoHandlerThread.getLooper());
+		infoHandler.post(infoRunnable);
+		isHandlerRunning = true;
+	}
 
 	private void stopInfoHandlerThread() {
 		if (infoHandlerThread != null) {
@@ -610,7 +610,6 @@ public class HomeFragment extends Fragment {
 		};
 
 		NetworkRequest request = new NetworkRequest.Builder()
-				// Transport-only; no capability filter so we get unvalidated states too
 				.addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
 				.build();
 
@@ -639,7 +638,7 @@ public class HomeFragment extends Fragment {
 		mainHandler.postDelayed(doCheck, 100);
 	}
 
-	public void checkWiFiConnectivity(Boolean shouldStartHandlerThread) {
+	public void checkWiFiConnectivity(boolean shouldStartHandlerThread) {
 		if (!isAdded()) return;
 		wifiConnected = isWifiConnected();
 		if (wifiConnected) {
@@ -662,7 +661,7 @@ public class HomeFragment extends Fragment {
 						if (MainActivity.areInitialPermissionsHandled()) {
 							requestGPSFeature();
 						} else {
-							// Reset the flag if permissions aren't handled yet
+							// Permissions aren't handled yet
 							isGpsDialogShowingOrPending = false;
 						}
 					}, 1000);
@@ -754,10 +753,12 @@ public class HomeFragment extends Fragment {
 			AppClipboardManager.copyToClipboard(appContext, getString(R.string.hostname), textview_hostname.getText().toString());
 			return true;
 		});
-		textview_wifi_standard.setOnLongClickListener(v -> {
-			AppClipboardManager.copyToClipboard(appContext, getString(R.string.wifi_standard), textview_wifi_standard.getText().toString());
-			return true;
-		});
+		if (Build.VERSION.SDK_INT >= 30) {
+			textview_wifi_standard.setOnLongClickListener(v -> {
+				AppClipboardManager.copyToClipboard(appContext, getString(R.string.wifi_standard), textview_wifi_standard.getText().toString());
+				return true;
+			});
+		}
 		textview_frequency.setOnLongClickListener(v -> {
 			AppClipboardManager.copyToClipboard(appContext, getString(R.string.frequency), textview_frequency.getText().toString());
 			return true;
@@ -895,6 +896,7 @@ public class HomeFragment extends Fragment {
 					.append(act.getString(R.string.dns_1) + ": " + info_dns1).append("\n")
 					.append(act.getString(R.string.dns_2) + ": " + info_dns2).append("\n")
 					.append(act.getString(R.string.subnet_mask) + ": " + info_subnet_mask).append("\n")
+					.append(act.getString(R.string.broadcast_address) + ": " + info_broadcast_addr).append("\n")
 					.append(act.getString(R.string.network_id) + ": " + info_network_id).append("\n")
 					.append(act.getString(R.string.mac_address) + ": " + info_mac_addr).append("\n")
 					.append(act.getString(R.string.network_interface) + ": " + info_network_interface).append("\n")

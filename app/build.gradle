@@ -22,7 +22,7 @@ def tsProvider = gradle.sharedServices
 android {
 	namespace "com.truemlgpro.wifiinfo"
 	compileSdk 36
-	buildToolsVersion = '35.0.0'
+	buildToolsVersion = '36.1.0'
 
 	signingConfigs {
 		release {
@@ -44,8 +44,8 @@ android {
 		applicationId "com.truemlgpro.wifiinfo"
 		minSdkVersion 21
 		targetSdkVersion 36
-		versionCode 20000
-		versionName "2.0"
+		versionCode 20100
+		versionName "2.0.1"
 		vectorDrawables.useSupportLibrary = true
 	}
 	buildTypes {

@@ -227,7 +227,7 @@ public class SubnetScannerActivity extends AppCompatActivity {
 			if (ip.equals(localWifiIp) && !ip.equals(gatewayIp)) {
 				type = getString(R.string.your_device);
 				if (Build.VERSION.SDK_INT <= 29) {
-					String localMac = NetworkUtils.getMacAddress();
+					String localMac = NetworkUtils.getMacAddress(getApplicationContext());
 					mac = localMac;
 					vendor = ouiDbHelper.getVendorFromMac(localMac);
 				}

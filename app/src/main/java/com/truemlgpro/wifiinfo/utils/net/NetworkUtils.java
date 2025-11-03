@@ -17,6 +17,8 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.Patterns;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.truemlgpro.wifiinfo.R;
@@ -86,8 +88,6 @@ public class NetworkUtils {
 			try {
 				InetAddress inetAddress = InetAddress.getByName(ip);
 				result = inetAddress.getHostName();
-			} catch (UnknownHostException e) {
-				result = "Error resolving hostname.";
 			} catch (Exception e) {
 				result = "Error resolving hostname.";
 			}
@@ -100,7 +100,8 @@ public class NetworkUtils {
 		MAIN.post(() -> callback.onConversionResult(result));
 	}
 
-	public static String getMacAddress() {
+	@NonNull
+	public static String getMacAddress(Context context) {
 		try {
 			List<NetworkInterface> allNetworkInterfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
 			for (NetworkInterface networkInterface : allNetworkInterfaces) {
@@ -109,7 +110,7 @@ public class NetworkUtils {
 
 				byte[] macBytes = networkInterface.getHardwareAddress();
 				if (macBytes == null)
-					return "";
+					return context.getString(R.string.na);
 
 				StringBuilder macAddressStringBuilder = new StringBuilder();
 				for (byte b : macBytes)
@@ -123,9 +124,10 @@ public class NetworkUtils {
 		} catch (Exception e) {
 			Log.e("getMacAddress", e.toString());
 		}
-		return "";
+		return context.getString(R.string.na);
 	}
 
+	@Nullable
 	public static String getIPv4Address(String... prefInterfaceNames) {
 		try {
 			Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
@@ -160,6 +162,7 @@ public class NetworkUtils {
 		return null;
 	}
 
+	@Nullable
 	public static String getIPv6Address(String... prefInterfaceNames) {
 		try {
 			Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
@@ -200,7 +203,8 @@ public class NetworkUtils {
 		return null;
 	}
 
-	public static String getGatewayIP(Context context) {
+	@NonNull
+	public static String getGatewayIP(@NonNull Context context) {
 		connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo wifiCheck = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		if (!wifiCheck.isConnected())
@@ -211,18 +215,18 @@ public class NetworkUtils {
 		return intToIp(gatewayIP);
 	}
 
-	public static String getHostname(Context context) {
+	public static String getHostname(@NonNull Context context) {
 		try {
 			InetAddress hostnameAddr = InetAddress.getByName(getGatewayIP(context));
 			return hostnameAddr.getCanonicalHostName();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return context.getString(R.string.na);
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.R)
-	public static String getWifiStandard(Context context) {
+	public static String getWifiStandard(@NonNull Context context) {
 		WifiManager mainWifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wifiInfo = mainWifi.getConnectionInfo();
 		int wifiStandard = wifiInfo.getWifiStandard();
@@ -238,6 +242,7 @@ public class NetworkUtils {
 		};
 	}
 
+	@Nullable
 	public static String getNetworkInterface() {
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		if (activeNetworkInfo != null) {

@@ -17,7 +17,7 @@ import com.truemlgpro.wifiinfo.utils.net.NetworkUtils;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class QSTileService extends TileService {
 	private Tile qs_tile;
-	private boolean switchIP = true;
+	private boolean switchIP = false;
 
 	private Icon wifiSuccessIcon;
 	private Icon wifiFailIcon;

@@ -17,3 +17,5 @@
 #}
 
 -dontwarn org.slf4j.impl.StaticLoggerBinder
+-keep class jcifs.** { *; }
+-dontwarn jcifs.**
